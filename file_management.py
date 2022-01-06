@@ -1,0 +1,83 @@
+import os
+from bs4 import BeautifulSoup
+from matplotlib.backends.backend_pdf import PdfPages
+import imageio
+import matplotlib.pyplot as plt
+import pandas as pd
+
+script_dir = os.getcwd() #path.dirname(os.path.abspath(__file__)) #<-- absolute dir the script is in
+
+def _get_path(file_name):
+    if file_name.startswith('cells_'):
+        child_dir = 'braintracer\\cellfinder'
+    elif file_name.startswith('atlas'):
+        child_dir = 'braintracer'
+    elif file_name.startswith('reg_'):
+        child_dir = 'braintracer\\downsampled_data'
+    elif file_name.startswith('structures'):
+        child_dir = 'braintracer'
+    else:
+        print('Unexpected file name. Braintracer takes files beginning cell_classification_, registered_atlas_, downsampled_, and structures.csv.')
+        return None
+    return os.path.join(script_dir, child_dir+'\\'+file_name)
+
+# opens xml files from napari containing cell points
+def open_file(name): # open files
+    all_X, all_Y, all_Z = [], [], []
+    neg_X, neg_Y, neg_Z = [], [], []
+    pos_X, pos_Y, pos_Z = [], [], []
+    file_path = _get_path(name)
+    ext = name.split('.')[-1]
+    if ext == 'xml':
+        # may be cellfinder output or ground truth # TODO: add throw for opening ground truth dir
+        with open(file_path, 'r') as f:
+            data = BeautifulSoup(f, 'xml')
+        types = data.find_all('Marker_Type')
+        for t in types:
+            type_num = int(t.Type.string) #print(len(list(typ.children)))
+            markers = t.find_all('Marker')
+            for marker in markers:
+                all_X.append(int(marker.MarkerX.contents[0]))
+                all_Y.append(int(marker.MarkerY.contents[0]))
+                all_Z.append(int(marker.MarkerZ.contents[0]))
+                if type_num == 1:
+                    neg_X.append(int(marker.MarkerX.contents[0]))
+                    neg_Y.append(int(marker.MarkerY.contents[0]))
+                    neg_Z.append(int(marker.MarkerZ.contents[0]))
+                elif type_num == 2:
+                    pos_X.append(int(marker.MarkerX.contents[0]))
+                    pos_Y.append(int(marker.MarkerY.contents[0]))
+                    pos_Z.append(int(marker.MarkerZ.contents[0]))
+                else:
+                    print(f'Unexpected marker type number: {type_num}')
+        return ([all_X, all_Y, all_Z],
+                [neg_X, neg_Y, neg_Z],
+                [pos_X, pos_Y, pos_Z])
+    elif ext == 'tiff':
+        reader = imageio.get_reader(file_path)
+        images = []
+        for frame in reader:
+            images.append(frame)
+        return images
+    elif ext == 'csv':
+        if name.startswith('cells_'):
+            cell_df = pd.read_csv(file_path)
+            z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
+            y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
+            x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
+            return [x_coords, y_coords, z_coords]
+        else:
+            area_indexes = pd.read_csv(file_path)
+            area_indexes = area_indexes.set_index('id')
+            return area_indexes
+    else:
+        print('Unexpected file extension')
+        return None
+
+def save(file_name, as_type):
+    if as_type == 'png':
+        plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')
+    elif as_type == 'pdf':
+        pp = PdfPages(f'{file_name}.pdf')
+        pp.savefig()
+        pp.close()
