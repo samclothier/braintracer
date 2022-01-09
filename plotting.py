@@ -1,4 +1,3 @@
-#import braintracer.file_management as btf
 import braintracer.analysis as bt
 import numpy as np
 import pandas as pd
@@ -57,7 +56,7 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, debug=Fal
 
 	totals = []
 	for idx, cells in enumerate(list_cells): # do conversion to % area cells before/after sorting to sort by proportion/absolute cells
-		n, p_cells = bt.get_extra_cells([parent], original_counters[idx], area_indexes)
+		n, p_cells = bt._get_extra_cells([parent], original_counters[idx], area_indexes)
 		total_cells = sum(cells) + p_cells[0]
 		totals.append(total_cells)
 		if not prop_all:
@@ -70,7 +69,7 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, debug=Fal
 	list_cells = [list(i) for i in list_cells]
 
 	for idx, counter in enumerate(original_counters): # add any extra cells that were assigned to the parent area
-		p_name, p_cells = bt.get_extra_cells([parent], counter, area_indexes)
+		p_name, p_cells = bt._get_extra_cells([parent], counter, area_indexes)
 		if not prop_all:
 			p_cells = list(map(lambda x: (x / totals[idx])*100, p_cells))
 		else:
