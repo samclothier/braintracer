@@ -35,45 +35,46 @@ def generate_custom_plot(ax, dataset_cells, area_names, title, grouped):
 	ax.grid(axis='x')
 	ax.set_title(f'{title}')
 
-def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, debug=False, prop_all=True):
+def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=True):
+	'''
+	prop_all: True; cell counts as fraction of total cells in signal channel. False; cell counts as fraction in parent area
+	'''
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
-	totals = [i.get_total_cells() for i in bt.datasets]
-	new_counters = [i.propagated_cell_counter for i in bt.datasets]
-	original_counters = [i.raw_cell_counter for i in bt.datasets]
-	area_indexes = bt.area_indexes
+	new_counters = [i.ch1_cells_by_area for i in bt.datasets]
+	original_counters = [i.raw_ch1_cells_by_area for i in bt.datasets]
 
 	parent, children = bt.children_from(parent_name, depth)
 
-	list_cells = []
+	list_cells = [] # 2D array of number of cells in each child area for each dataset
 	for counter in new_counters:
 		try:
-			names, idxs, cells = bt.get_area_info(children, counter, area_indexes)
+			names, _, cells = bt.get_area_info(children, counter)
 		except IndexError:
 			print('Cannot zoom into an area with no children.')
 			return
 		list_cells.append(cells)
 
-	totals = []
+	parent_totals = []
 	for idx, cells in enumerate(list_cells): # do conversion to % area cells before/after sorting to sort by proportion/absolute cells
-		n, p_cells = bt._get_extra_cells([parent], original_counters[idx], area_indexes)
+		_, p_cells = bt._get_extra_cells([parent], original_counters[idx])
 		total_cells = sum(cells) + p_cells[0]
-		totals.append(total_cells)
+		parent_totals.append(total_cells)
 		if not prop_all:
 			list_cells[idx] = list(map(lambda x: (x / total_cells)*100, cells))
 		else:
-			list_cells[idx] = list(map(lambda x: (x / bt.datasets[idx].get_total_cells())*100, cells))
+			list_cells[idx] = list(map(lambda x: (x / bt.datasets[idx].num_cells(ch1=True))*100, cells))
 
 	cells_sort_by = [sum(x) for x in zip(*list_cells)] # sum each area for each dataset
 	cells_sort_by, names, *list_cells = zip(*sorted(zip(cells_sort_by, names, *list_cells), reverse=True))
 	list_cells = [list(i) for i in list_cells]
 
 	for idx, counter in enumerate(original_counters): # add any extra cells that were assigned to the parent area
-		p_name, p_cells = bt._get_extra_cells([parent], counter, area_indexes)
+		p_name, p_cells = bt._get_extra_cells([parent], counter)
 		if not prop_all:
-			p_cells = list(map(lambda x: (x / totals[idx])*100, p_cells))
+			p_cells = list(map(lambda x: (x / parent_totals[idx])*100, p_cells))
 		else:
-			p_cells = list(map(lambda x: (x / bt.datasets[idx].get_total_cells())*100, p_cells))
+			p_cells = list(map(lambda x: (x / bt.datasets[idx].num_cells(ch1=True))*100, p_cells))
 		list_cells[idx] = list_cells[idx] + p_cells
 	names = names + tuple(['Rest of ' + p_name[0]])
 
@@ -84,7 +85,7 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, debug=Fal
 	idxs_to_remove = np.where(averaged < thresh)[0]
 	for idx, cells in enumerate(list_cells):
 		list_cells[idx] = [v for i, v in enumerate(cells) if i not in idxs_to_remove]
-	if debug:
+	if bt.debug:
 		names_removed = [v for i, v in enumerate(names) if i in idxs_to_remove]
 		string = ', '.join(names_removed)
 		print(f'Areas excluded: {names_removed}')
@@ -118,9 +119,9 @@ def generate_projection_plot(area, s=2, contour=True):
 	_display_legend_subset(ax1, (0,))
 	_display_legend_subset(ax2, (0,))
 
-def make_areas_3D(dataset, areas, colours):
+def make_areas_3D(areas, colours):
 	assert len(areas) == len(colours), 'Each area should have a corresponding colour.'
-	atlas = np.array(dataset.atlas)
+	atlas = np.array(bt.atlas)
 	area_nums = bt.get_area_info(areas)[1]
 	def _subsample_atlas_pixels(x, y, z): # reduce pixel density 20x
 		x = [val for i, val in enumerate(x) if i % 20 == 0]

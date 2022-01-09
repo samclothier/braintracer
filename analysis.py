@@ -8,17 +8,20 @@ from itertools import chain
 datasets = []
 area_indexes = btf.open_file('structures.csv')
 atlas = btf.open_file(f'atlas.tiff')
+debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg, display_validation=False):
+    def __init__(self, name, group, sig, bg):
         self.name, self.group, self.sig, self.bg = name, group, sig, bg
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
         self.data = btf.open_file(f'reg_r_{self.name}.tiff')
-        validate_dimensions(self, display=display_validation)
+        validate_dimensions(self, display=debug)
         datasets.append(self)
-        raw_cell_counter = count_cells(self.ch1_cells)
-        self.propagated_cell_counter = propagate_cells_through_inheritance_tree(raw_cell_counter)
+        self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
+        self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
+        self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
+        self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
 
     def show_coronal_section(self, slice_frac=(500, 1000), ch1=None):
         '''
@@ -37,10 +40,10 @@ class Dataset:
         layer_ch2_idxs = np.array(np.where(np.array(self.ch2_cells[2])==ds_slice_num))[0]
         if ch1 != False:
             for i in layer_ch1_idxs:
-                plt.scatter(self.ch1_cells[0][i], self.ch1_cells[1][i], c='r', s=0.5)
+                plt.scatter(self.ch1_cells[0][i], self.ch1_cells[1][i], c='r', s=0.8)
         if ch1 != True:
             for i in layer_ch2_idxs:
-                plt.scatter(self.ch2_cells[0][i], self.ch2_cells[1][i], c='g', s=0.5)
+                plt.scatter(self.ch2_cells[0][i], self.ch2_cells[1][i], c='g', s=0.8)
 
     def num_cells(self, ch1=None):
         if ch1 == True:
@@ -49,6 +52,75 @@ class Dataset:
             return len(self.ch2_cells[0])
         else:
             return len(self.ch1_cells[0]) + len(self.ch2_cells[0])
+
+
+    def __count_cells(self, cell_coords):
+        '''
+        return the number of cells in each brain region
+        '''
+        x_vals, y_vals, z_vals = cell_coords[0], cell_coords[1], cell_coords[2]
+        counter = Counter()
+        for idx, z in enumerate(z_vals):
+            x = x_vals[idx]
+            y = y_vals[idx]
+            area_index = _get_area_index(z, x, y)
+            counter.setdefault(area_index, 0)
+            counter[area_index] = counter[area_index] + 1
+        if debug:
+            total_cells = sum(counter.values()) # <-- if total cells needs to be verified
+            print(f'Cells in channel: {total_cells}')
+        counter = counter.most_common()
+        return counter
+
+    def __propagate_cells_through_inheritance_tree(self, original_counter):
+        '''
+        quantify numbers of cells for parent brain areas
+        '''
+        already_accessed = []
+        new_counter = Counter()
+        for idx, row in enumerate(area_indexes.itertuples()):
+            cur_area_idx = row.Index
+            try: # access the value of the counter for this area:
+                child_cells = [item for item in original_counter if item[0] == cur_area_idx][0][-1] # list of tuples, func returns a list of filtered tuples, so get first item, which is a tuple (area, flrsnce) so grab flrsnce
+            except IndexError:
+                pass
+            else:
+                if not any(x == cur_area_idx for x in already_accessed): # check no indexes are assigned to more than once
+                    id_path = row.structure_id_path
+                    id_path_list = id_path.split('/')
+                    id_path_list = [i for i in id_path_list if i != ''] # remove blank and current indexes
+                    for i in id_path_list: # propagate lowest area count through all parent areas
+                        area_index = int(i)
+                        new_counter.setdefault(area_index, 0)
+                        new_counter[area_index] += child_cells
+                for i in id_path_list: # add parent and child areas to done list if not already added
+                    if not any(x == i for x in already_accessed):
+                        already_accessed.append(i)
+                already_accessed.append(cur_area_idx)
+        return new_counter
+
+    def get_cells_in(self, area, ch1=True):
+        '''
+        returns the x, y, z coordinates of cells in a specific brain area
+        area: can be string or index reference to single area
+        ch1: True or False, True returns cells in signal channel, False returns cells in background channel
+        '''
+        cells_x, cells_y, cells_z = [], [], []
+        if isinstance(area, str):
+            _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
+        else:
+            area_index = area
+        cell_coords = self.ch1_cells if ch1 else self.ch2_cells
+        cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
+        for idx, z in enumerate(cls_z):
+            x = cls_x[idx]
+            y = cls_y[idx]
+            cur_area_idx = _get_area_index(z, x, y)
+            if cur_area_idx == area_index:
+                cells_x.append(x)
+                cells_y.append(y)
+                cells_z.append(z)
+        return cells_x, cells_y, cells_z
 
 class _Results: # singleton object
    _instance = None
@@ -87,7 +159,7 @@ def validate_dimensions(dataset, display=False):
             ax.imshow(im_sets[idx][dist], norm=colors.LogNorm())
 
 # downsample points from raw coordinates
-def raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
+def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
     x_vals, y_vals, z_vals = cell_coords[0], cell_coords[1], cell_coords[2]
     def x_to_downsampled(x):
         return downsampled_dim[1] - int(x * (downsampled_dim[1] / raw_dim[0])) # x inverted, results in float
@@ -101,7 +173,7 @@ def raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
     return x_vals, y_vals, z_vals
 
 # get the index referring to the brain area in which a cell is located
-def get_area_index(z, x, y):
+def _get_area_index(z, x, y):
     im = atlas[z]
     if x <= im.shape[1] and y <= im.shape[0]:
         area_index = int(im[y,x])
@@ -113,23 +185,11 @@ def get_area_index(z, x, y):
         print('Warning: Area index is < 0')
         return 0
 
-# return the number of cells in each brain region
-def count_cells(cell_coords, debug=False):
-    x_vals, y_vals, z_vals = cell_coords[0], cell_coords[1], cell_coords[2]
-    counter = Counter()
-    for idx, z in enumerate(z_vals):
-        x = x_vals[idx]
-        y = y_vals[idx]
-        area_index = get_area_index(z, x, y)
-        counter.setdefault(area_index, 0)
-        counter[area_index] = counter[area_index] + 1
-    if debug:
-        total_cells = sum(counter.values()) # <-- if total cells needs to be verified
-        print(total_cells)
-    counter = counter.most_common()
-    return counter
-
 def children_from(parent, depth):
+    '''
+    parent: choose parent area
+    depth: number of steps down the inheritance tree to fetch child areas from. 0 returns all children.
+    '''
     parent = area_indexes.loc[area_indexes['name']==parent].index[0]
     parents = [parent]
     if depth == 0:
@@ -147,33 +207,6 @@ def children_from(parent, depth):
         children = parents
     return parent, children
 
-def propagate_cells_through_inheritance_tree(original_counter):
-    '''
-    quantify numbers of cells for parent brain areas
-    '''
-    already_accessed = []
-    new_counter = Counter()
-    for idx, row in enumerate(area_indexes.itertuples()):
-        cur_area_idx = row.Index
-        try: # access the value of the counter for this area:
-            child_cells = [item for item in original_counter if item[0] == cur_area_idx][0][-1] # list of tuples, func returns a list of filtered tuples, so get first item, which is a tuple (area, flrsnce) so grab flrsnce
-        except IndexError:
-            pass
-        else:
-            if not any(x == cur_area_idx for x in already_accessed): # check no indexes are assigned to more than once
-                id_path = row.structure_id_path
-                id_path_list = id_path.split('/')
-                id_path_list = [i for i in id_path_list if i != ''] # remove blank and current indexes
-                for i in id_path_list: # propagate lowest area count through all parent areas
-                    area_index = int(i)
-                    new_counter.setdefault(area_index, 0)
-                    new_counter[area_index] += child_cells
-            for i in id_path_list: # add parent and child areas to done list if not already added
-                if not any(x == i for x in already_accessed):
-                    already_accessed.append(i)
-            already_accessed.append(cur_area_idx)
-    return new_counter
-
 def get_area_info(codes, new_counter=None):
     '''
     return area full-names, area indexes, and area cell count given short-letter codes or area indexes
@@ -181,7 +214,7 @@ def get_area_info(codes, new_counter=None):
     if not isinstance(codes, list):
         codes = [codes]
     if new_counter == None:
-        new_counter = datasets[0].propagated_cell_counter
+        new_counter = datasets[0].ch1_cells_by_area
     if isinstance(codes[0], int):
         names = area_indexes.loc[codes, 'name'].tolist()
         idxes = codes
@@ -199,12 +232,15 @@ def get_area_info(codes, new_counter=None):
     return names, idxes, cells
 
 # check if there are extra cells assigned to the parent area rather than the children
-def _get_extra_cells(codes, original_counter, area_indexes):
+def _get_extra_cells(codes, original_counter):
     names = area_indexes.loc[codes, 'name'].tolist()
     try:
         cells = list(map(lambda x: [item for item in original_counter if item[0] == x][0][-1], codes))
+        if debug:
+            print('There were additional cells in the parent area')
     except IndexError:
-        #print('The zoomed in parent area has no cells outside of children')
+        if debug:
+            print('The zoomed in parent area has no additional cells in the parent area')
         cells = list(map(lambda x: x*0, codes))
     return names, cells
 
@@ -214,41 +250,23 @@ summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
 summary_names, _, _ = get_area_info(summary_areas, Counter())
 nrmdltn_areas = ['VTA','RAmb', 'RM', 'RO', 'RPA', 'RPO', 'CS', 'SNc', 'SNr', 'LC']
 nrmdltn_names, _, _ = get_area_info(nrmdltn_areas, Counter())
-def run_analysis(debug=False):
+def run_analysis():
     summary_cells_list = []
     nrmdltn_cells_list = []
     for idx, dataset in enumerate(datasets):
-        summary_names, _, summary_cells = get_area_info(summary_areas, dataset.propagated_cell_counter)
-        summary_cells = list(map(lambda x: (x / len(dataset.ch1_cells))*100, summary_cells))
+        summary_names, _, summary_cells = get_area_info(summary_areas, dataset.ch1_cells_by_area)
+        summary_cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, summary_cells))
         summary_cells_list.append(summary_cells)
 
-        nrmdltn_names, _, nrmdltn_cells = get_area_info(nrmdltn_areas, dataset.propagated_cell_counter)
-        nrmdltn_cells = list(map(lambda x: (x / len(dataset.ch1_cells))*100, nrmdltn_cells))
+        nrmdltn_names, _, nrmdltn_cells = get_area_info(nrmdltn_areas, dataset.ch1_cells_by_area)
+        nrmdltn_cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, nrmdltn_cells))
         nrmdltn_cells_list.append(nrmdltn_cells)
         
         if debug:
-            n, i, IO_cells = get_area_info(['IO'], dataset.propagated_cell_counter)
-            print(f'{dataset.name}: {IO_cells[0]} cells in {dataset.name} inferior olive, out of {len(dataset.ch1_cells)} total. {sum(summary_cells):.1f}% cells in non-tract and non-ventricular areas')
+            n, i, IO_cells = get_area_info(['IO'], dataset.ch1_cells_by_area)
+            print(f'{dataset.name}: {IO_cells[0]} cells in {dataset.name} inferior olive, out of {dataset.num_cells(ch1=True)} total. {sum(summary_cells):.1f}% cells in non-tract and non-ventricular areas')
     results.summary_cells = summary_cells_list
     results.nrmdltn_cells = nrmdltn_cells_list
-
-def get_cells_in(area, dataset, ch1=True):
-    cells_x, cells_y, cells_z = [], [], []
-    if isinstance(area, str):
-        _, area_index, _ = get_area_info([area], dataset.propagated_cell_counter)
-    else:
-        area_index = area
-    cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
-    cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
-    for idx, z in enumerate(cls_z):
-        x = cls_x[idx]
-        y = cls_y[idx]
-        cur_area_idx = get_area_index(z, x, y)
-        if cur_area_idx == area_index:
-            cells_x.append(x)
-            cells_y.append(y)
-            cells_z.append(z)
-    return cells_x, cells_y, cells_z
 
 def _get_cells_in(areas, dataset, ch1=True):
     cells_x, cells_y, cells_z = [], [], []
@@ -257,7 +275,7 @@ def _get_cells_in(areas, dataset, ch1=True):
     for idx, z in enumerate(cls_z):
         x = cls_x[idx]
         y = cls_y[idx]
-        cur_area_idx = get_area_index(z, x, y)
+        cur_area_idx = _get_area_index(z, x, y)
         if cur_area_idx in areas:
             cells_x.append(x)
             cells_y.append(y)
