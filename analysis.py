@@ -15,7 +15,7 @@ class Dataset:
         self.name, self.group, self.sig, self.bg = name, group, sig, bg
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
-        self.data = btf.open_file(f'reg_r_{self.name}.tiff')
+        self.data = btf.open_file(f'reg_r_{self.name}.tiff') # will be used for fluorescence analysis
         validate_dimensions(self, display=debug)
         datasets.append(self)
         self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)

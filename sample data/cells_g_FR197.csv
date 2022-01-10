@@ -1,0 +1,3380 @@
+coordinate_raw_axis_0,coordinate_raw_axis_1,coordinate_raw_axis_2,coordinate_atlas_axis_0,coordinate_atlas_axis_1,coordinate_atlas_axis_2,structure_name,hemisphere
+23,1912,2600,1313,471,530,Uvula (IX),right
+27,1911,2634,1313,471,520,Uvula (IX),right
+29,1888,2672,1315,468,511,Uvula (IX),right
+37,1917,2559,1306,470,539,Uvula (IX),right
+41,1856,2606,1308,458,528,Uvula (IX),right
+40,1666,2538,1312,414,547,Uvula (IX),right
+42,1924,2554,1303,472,541,Uvula (IX),right
+44,1933,2584,1304,474,533,Uvula (IX),right
+45,1901,2649,1307,468,517,Uvula (IX),right
+47,1839,2606,1305,454,528,Uvula (IX),right
+52,1889,2625,1303,466,523,Uvula (IX),right
+52,1696,2451,1304,419,567,Uvula (IX),right
+58,1671,2601,1306,415,532,Uvula (IX),right
+59,1644,2528,1304,408,550,Uvula (IX),right
+59,1672,2601,1305,415,532,Uvula (IX),right
+61,1496,2155,1314,377,635,Pyramus (VIII),left
+62,1861,2572,1299,458,536,Uvula (IX),right
+69,1829,2632,1300,452,523,Uvula (IX),right
+69,1890,2623,1299,466,523,Uvula (IX),right
+71,1373,2359,1314,351,587,Pyramus (VIII),left
+70,1489,2062,1314,377,654,Pyramus (VIII),left
+70,1532,2080,1311,386,651,Pyramus (VIII),left
+76,1726,2505,1296,426,555,Uvula (IX),right
+73,1856,2598,1298,458,530,Uvula (IX),right
+73,1408,2363,1311,358,586,Pyramus (VIII),left
+75,1402,2355,1310,356,588,Pyramus (VIII),left
+75,1396,2326,1310,355,594,Pyramus (VIII),left
+75,1725,2505,1296,426,555,Uvula (IX),right
+74,1384,2091,1316,353,647,Pyramus (VIII),left
+77,1443,2330,1307,366,594,Pyramus (VIII),left
+81,1374,2665,1312,348,518,Pyramus (VIII),right
+81,1480,2091,1308,374,646,Pyramus (VIII),left
+78,1463,2296,1304,370,600,Pyramus (VIII),left
+84,1328,2284,1311,340,603,Pyramus (VIII),left
+84,1515,2173,1301,380,628,Pyramus (VIII),left
+84,1914,2181,1290,471,636,Uvula (IX),left
+83,1356,2649,1311,343,521,Pyramus (VIII),right
+83,1523,2093,1304,383,646,Pyramus (VIII),left
+83,1357,2042,1315,347,657,Pyramus (VIII),left
+83,1425,2330,1304,362,593,Pyramus (VIII),left
+82,1430,2328,1305,363,594,Pyramus (VIII),left
+82,1356,2041,1316,347,657,Pyramus (VIII),left
+82,1427,2114,1309,361,641,Pyramus (VIII),left
+82,1446,2672,1307,365,517,Pyramus (VIII),right
+82,1458,2320,1303,369,596,Pyramus (VIII),left
+82,1459,2321,1303,369,595,Pyramus (VIII),left
+85,1348,2042,1315,346,657,Pyramus (VIII),left
+85,1355,2659,1311,343,519,Pyramus (VIII),right
+86,1316,2427,1311,335,571,Pyramus (VIII),left
+86,1452,2684,1305,366,515,Pyramus (VIII),right
+86,1357,2367,1308,346,584,Pyramus (VIII),left
+86,1470,2088,1306,371,647,Pyramus (VIII),left
+88,1355,2044,1313,347,657,Pyramus (VIII),left
+88,1487,2854,1308,378,476,Pyramus (VIII),right
+88,1469,2088,1305,371,646,Pyramus (VIII),left
+89,1446,2729,1306,366,504,Pyramus (VIII),right
+89,1426,2393,1302,362,579,Pyramus (VIII),left
+91,1332,2569,1308,338,540,Pyramus (VIII),right
+91,1312,2543,1309,333,545,Pyramus (VIII),right
+91,1278,2610,1311,324,530,Pyramus (VIII),right
+91,1416,2884,1310,360,468,Pyramus (VIII),right
+90,1284,2566,1312,326,539,Pyramus (VIII),right
+93,1484,2850,1306,378,477,Pyramus (VIII),right
+93,1497,2172,1299,375,627,Pyramus (VIII),left
+94,1270,2026,1316,327,660,Pyramus (VIII),left
+94,1830,2682,1295,454,512,Uvula (IX),right
+94,1297,2590,1309,328,535,Pyramus (VIII),right
+94,1369,2042,1309,350,656,Pyramus (VIII),left
+94,1374,2547,1304,349,544,Pyramus (VIII),right
+92,1413,2471,1302,359,561,Pyramus (VIII),right
+92,1363,2454,1305,348,566,Pyramus (VIII),right
+97,1346,2671,1306,341,516,Pyramus (VIII),right
+97,1478,2856,1305,377,475,Pyramus (VIII),right
+99,1424,2886,1306,363,467,Pyramus (VIII),right
+99,1239,2342,1309,317,590,Pyramus (VIII),left
+99,1436,2366,1297,364,584,Pyramus (VIII),left
+99,1470,2087,1300,370,645,Pyramus (VIII),left
+99,1469,2088,1300,370,645,Pyramus (VIII),left
+96,1802,2611,1293,445,529,Uvula (IX),right
+100,1444,2457,1296,366,565,Pyramus (VIII),right
+100,1268,2631,1309,321,524,Pyramus (VIII),right
+100,1428,2330,1297,363,593,Pyramus (VIII),left
+100,1900,2176,1288,470,635,Uvula (IX),left
+101,1309,2591,1305,332,534,Pyramus (VIII),right
+101,1492,2063,1300,375,651,Pyramus (VIII),left
+102,1810,2626,1292,448,526,Uvula (IX),right
+102,1270,2032,1312,326,658,Pyramus (VIII),left
+102,1283,2032,1311,330,658,Pyramus (VIII),left
+102,1281,2414,1305,327,574,Pyramus (VIII),left
+102,1465,2089,1299,369,645,Pyramus (VIII),left
+102,1313,2053,1308,337,653,Pyramus (VIII),left
+102,1333,2049,1307,342,654,Pyramus (VIII),left
+103,1305,2406,1303,334,575,Pyramus (VIII),left
+103,1470,2860,1302,374,475,Pyramus (VIII),right
+103,1342,2052,1306,343,653,Pyramus (VIII),left
+105,1304,2059,1307,335,652,Pyramus (VIII),left
+105,1306,2411,1303,334,574,Pyramus (VIII),left
+105,1456,2857,1303,371,475,Pyramus (VIII),right
+105,1254,2416,1306,320,573,Pyramus (VIII),left
+111,1343,2674,1299,341,516,Pyramus (VIII),right
+111,1397,2452,1295,355,565,Pyramus (VIII),right
+111,1313,2440,1299,336,568,Pyramus (VIII),right
+108,1415,2878,1303,361,470,Pyramus (VIII),right
+108,1337,2881,1307,339,468,Pyramus (VIII),right
+106,1791,2615,1291,443,530,Uvula (IX),right
+106,1311,2005,1309,337,664,Pyramus (VIII),left
+106,1374,2301,1298,351,598,Pyramus (VIII),left
+106,1447,2484,1294,366,559,Pyramus (VIII),right
+107,1285,2041,1307,330,655,Pyramus (VIII),left
+107,1450,2370,1293,367,584,Pyramus (VIII),left
+107,1298,2058,1306,333,652,Pyramus (VIII),left
+107,1308,2059,1305,336,652,Pyramus (VIII),left
+107,1321,2449,1300,337,566,Pyramus (VIII),right
+109,1312,2645,1302,332,523,Pyramus (VIII),right
+109,1451,2861,1301,369,474,Pyramus (VIII),right
+109,1507,2147,1294,377,631,Pyramus (VIII),left
+109,1790,2400,1289,442,579,Uvula (IX),left
+109,1325,2351,1300,339,587,arbor vitae,left
+109,1377,2318,1297,351,595,Pyramus (VIII),left
+109,1397,2331,1296,356,591,Pyramus (VIII),left
+109,1426,2473,1295,361,561,Pyramus (VIII),right
+109,1294,2347,1302,332,588,Pyramus (VIII),left
+109,1407,2665,1298,356,519,Pyramus (VIII),right
+110,1335,2883,1306,339,468,Pyramus (VIII),right
+110,1549,3023,1303,399,437,Copula pyramidis,right
+113,1354,2608,1298,344,531,arbor vitae,right
+113,1269,2659,1303,321,519,Pyramus (VIII),right
+113,1330,2364,1298,341,585,arbor vitae,left
+113,1332,2888,1306,338,467,Pyramus (VIII),right
+113,1449,2866,1300,370,473,Pyramus (VIII),right
+113,1463,2862,1299,373,474,Pyramus (VIII),right
+113,1430,2122,1295,361,636,Pyramus (VIII),left
+113,1500,2150,1292,376,631,Pyramus (VIII),left
+112,1499,2149,1292,376,631,Pyramus (VIII),left
+114,1310,2429,1298,335,571,Pyramus (VIII),left
+114,1792,2653,1290,444,521,Uvula (IX),right
+114,1395,2314,1294,356,595,Pyramus (VIII),left
+117,1284,2661,1301,326,518,Pyramus (VIII),right
+117,1473,2825,1296,375,484,Pyramus (VIII),right
+117,1441,2864,1298,367,474,Pyramus (VIII),right
+115,1343,2893,1303,342,466,Pyramus (VIII),right
+115,1471,2837,1297,374,481,Pyramus (VIII),right
+115,1300,2049,1303,333,653,Pyramus (VIII),left
+115,1308,2059,1302,336,651,Pyramus (VIII),left
+116,1445,2863,1298,368,474,Pyramus (VIII),right
+116,1504,2154,1291,376,629,Pyramus (VIII),left
+116,1309,2059,1302,336,651,Pyramus (VIII),left
+120,1275,2352,1298,327,587,Pyramus (VIII),left
+121,1302,2669,1298,330,517,Pyramus (VIII),right
+121,1428,2862,1297,364,474,Pyramus (VIII),right
+121,1434,2087,1294,363,643,Pyramus (VIII),left
+123,1348,2681,1294,343,515,arbor vitae,right
+123,1331,2049,1298,340,652,Pyramus (VIII),left
+123,1378,2442,1291,352,567,Pyramus (VIII),right
+123,1703,3190,1305,441,400,Copula pyramidis,right
+123,1700,3155,1304,439,407,Copula pyramidis,right
+124,1418,2865,1296,362,474,Pyramus (VIII),right
+124,1360,2904,1300,347,465,Pyramus (VIII),right
+122,1781,2624,1287,442,528,Uvula (IX),right
+126,1419,2216,1289,360,615,Pyramus (VIII),left
+126,1264,2463,1296,323,563,Pyramus (VIII),right
+126,1325,2677,1295,336,515,Pyramus (VIII),right
+126,1225,1984,1306,316,668,Pyramus (VIII),left
+125,1319,2674,1296,335,516,Pyramus (VIII),right
+127,1364,2907,1298,348,464,Pyramus (VIII),right
+127,1387,2323,1290,354,593,Pyramus (VIII),left
+131,1347,2688,1292,342,514,arbor vitae,right
+131,1418,2874,1294,362,473,Pyramus (VIII),right
+131,1262,2363,1294,323,584,Pyramus (VIII),left
+128,1705,3224,1304,442,392,Copula pyramidis,right
+130,1342,2050,1295,343,651,Pyramus (VIII),left
+129,1370,2089,1293,349,643,arbor vitae,left
+129,1370,2468,1290,349,562,Pyramus (VIII),right
+132,1373,2910,1296,351,464,Pyramus (VIII),right
+132,1301,2510,1292,332,553,Pyramus (VIII),right
+134,1318,2813,1295,336,485,Pyramus (VIII),right
+134,1377,2430,1288,351,570,Pyramus (VIII),right
+134,1391,2275,1288,354,603,Pyramus (VIII),left
+135,1655,3132,1300,427,413,Copula pyramidis,right
+135,1278,2520,1292,326,551,Pyramus (VIII),right
+135,1289,2633,1292,328,525,Pyramus (VIII),right
+137,1412,2442,1286,359,567,Pyramus (VIII),right
+137,1461,2988,1295,374,447,Copula pyramidis,right
+137,1279,2506,1292,326,553,Pyramus (VIII),right
+137,1340,2100,1291,342,640,Pyramus (VIII),left
+137,1340,2689,1291,340,514,Pyramus (VIII),right
+137,1362,2455,1288,347,565,Pyramus (VIII),right
+137,1312,2816,1295,333,484,Pyramus (VIII),right
+136,1543,3016,1295,397,441,Copula pyramidis,right
+136,1673,2348,1282,415,588,Uvula (IX),left
+138,1380,2927,1294,352,460,Pyramus (VIII),right
+138,1505,2897,1291,384,469,Pyramus (VIII),right
+138,2747,2841,1292,685,478,"Medullary reticular nucleus, ventral part",right
+140,1419,2218,1285,360,614,Pyramus (VIII),left
+140,1336,2690,1289,339,514,Pyramus (VIII),right
+140,1383,2929,1294,354,460,Pyramus (VIII),right
+142,1268,2491,1290,324,556,Pyramus (VIII),right
+142,1416,2235,1285,359,611,Pyramus (VIII),left
+142,1409,2238,1285,358,610,Pyramus (VIII),left
+143,1379,2446,1285,352,566,Pyramus (VIII),right
+143,1407,2211,1285,357,615,Pyramus (VIII),left
+144,1409,2970,1292,361,452,Copula pyramidis,right
+145,1262,2488,1290,322,557,Pyramus (VIII),right
+145,1408,2402,1284,359,575,Pyramus (VIII),left
+145,1413,2213,1284,359,615,Pyramus (VIII),left
+145,1371,2087,1288,349,641,arbor vitae,left
+151,1397,2228,1283,355,611,Pyramus (VIII),left
+147,1239,2005,1296,320,661,Pyramus (VIII),left
+147,1330,2698,1287,338,512,Pyramus (VIII),right
+148,1420,2813,1287,361,487,Pyramus (VIII),right
+148,1438,2816,1287,366,486,Pyramus (VIII),right
+149,1328,2698,1287,338,512,Pyramus (VIII),right
+150,1758,2621,1281,439,530,Uvula (IX),right
+150,1301,2564,1286,331,541,Pyramus (VIII),right
+153,1429,2914,1288,365,465,arbor vitae,right
+154,1385,2939,1289,354,459,Pyramus (VIII),right
+155,1401,2196,1282,355,617,Pyramus (VIII),left
+155,1382,2927,1288,352,461,Pyramus (VIII),right
+156,1302,2687,1286,331,514,Pyramus (VIII),right
+157,1327,2694,1285,337,513,Pyramus (VIII),right
+157,1363,2803,1286,347,489,arbor vitae,right
+157,1386,2253,1282,353,606,Pyramus (VIII),left
+157,1410,2796,1284,358,491,Pyramus (VIII),right
+157,1485,2055,1283,374,647,Pyramus (VIII),left
+158,1398,2269,1281,356,603,Pyramus (VIII),left
+158,1425,2790,1283,362,493,Pyramus (VIII),right
+158,1485,2056,1283,374,646,Pyramus (VIII),left
+161,2900,3082,1282,739,423,Medulla,right
+161,1361,2796,1284,346,490,arbor vitae,right
+160,1397,2953,1287,356,456,Copula pyramidis,right
+163,2806,2816,1286,700,485,"Medullary reticular nucleus, ventral part",right
+162,1336,2660,1282,340,521,arbor vitae,right
+167,1325,2699,1281,337,513,Pyramus (VIII),right
+167,1391,2191,1279,353,618,Pyramus (VIII),left
+164,1246,2050,1288,320,651,Pyramus (VIII),left
+165,1248,2013,1289,322,658,Pyramus (VIII),left
+165,1268,2087,1285,326,642,Pyramus (VIII),left
+165,1249,1970,1290,323,667,Pyramus (VIII),left
+166,1400,2209,1279,355,615,Pyramus (VIII),left
+166,1402,2950,1285,357,457,Copula pyramidis,right
+168,2854,2915,1284,717,463,"Lateral reticular nucleus, magnocellular part",right
+168,1422,2877,1283,361,473,Pyramus (VIII),right
+170,1390,2212,1278,353,613,Pyramus (VIII),left
+169,1401,2206,1278,355,614,Pyramus (VIII),left
+169,2860,2928,1284,719,460,"Lateral reticular nucleus, magnocellular part",right
+173,1350,2779,1280,344,495,arbor vitae,right
+171,1907,2372,1276,477,585,Uvula (IX),left
+172,1870,2380,1276,468,583,Uvula (IX),left
+174,1348,2574,1277,344,540,Pyramus (VIII),right
+174,1239,2028,1285,319,654,Pyramus (VIII),left
+174,1886,2134,1272,472,636,Uvula (IX),left
+175,2901,3041,1277,735,434,Medulla,right
+175,1370,2899,1281,349,469,Pyramus (VIII),right
+175,1878,2136,1272,470,634,Uvula (IX),left
+175,1326,2700,1278,337,513,Pyramus (VIII),right
+176,2926,2728,1277,739,502,Medulla,right
+176,1368,2901,1281,349,468,Pyramus (VIII),right
+176,2934,2737,1276,742,500,Medulla,right
+177,1326,2702,1278,337,512,Pyramus (VIII),right
+177,1843,2142,1273,462,633,Uvula (IX),left
+177,2932,2866,1278,741,470,Medulla,right
+177,1833,2144,1273,459,632,Uvula (IX),left
+177,1857,2139,1272,464,634,Uvula (IX),left
+177,2892,2732,1279,727,502,Medulla,right
+179,1272,2437,1278,325,568,Pyramus (VIII),right
+180,1369,2206,1276,349,614,Pyramus (VIII),left
+180,1763,2638,1272,443,528,Uvula (IX),right
+180,1266,2041,1281,325,650,Pyramus (VIII),left
+178,2924,2772,1277,738,492,Medulla,right
+178,2927,2708,1276,738,507,Medulla,right
+178,2925,2740,1276,738,500,Medulla,right
+178,2936,2729,1275,742,502,Medulla,right
+178,2939,2755,1275,743,496,Medulla,right
+181,1363,2370,1275,349,582,Pyramus (VIII),left
+181,2938,2730,1274,743,502,Medulla,right
+181,1326,2702,1277,337,512,Pyramus (VIII),right
+181,1375,2922,1280,350,463,Pyramus (VIII),right
+182,2939,2800,1274,742,486,Medulla,right
+182,2922,2746,1275,735,498,Medulla,right
+182,2928,2803,1275,739,485,Medulla,right
+183,1316,2034,1278,336,651,Pyramus (VIII),left
+184,2928,2757,1274,738,495,Medulla,right
+184,1314,2040,1278,336,650,Pyramus (VIII),left
+184,2882,2737,1276,721,502,Medulla,right
+184,2936,2817,1274,740,482,Medulla,right
+184,2945,2736,1272,743,500,Medulla,right
+185,2931,2801,1274,738,485,Medulla,right
+185,2942,2751,1273,741,496,Medulla,right
+186,2912,2787,1274,730,489,Medulla,right
+186,2487,3578,1266,630,324,Medulla,right
+186,2924,2728,1273,736,503,Medulla,right
+186,2927,2841,1274,736,477,Medulla,right
+186,2934,2843,1273,740,477,Medulla,right
+186,2923,2763,1273,736,494,Medulla,right
+187,2472,3580,1266,626,324,Medulla,right
+187,2872,2694,1274,717,513,Inferior olivary complex,right
+187,2934,2739,1271,739,500,Medulla,right
+187,1369,2206,1273,349,614,Pyramus (VIII),left
+187,2912,2753,1273,730,497,Medulla,right
+188,1392,2794,1274,353,493,Pyramus (VIII),right
+188,2908,2726,1273,730,503,Medulla,right
+188,2924,2780,1272,735,491,Medulla,right
+188,2899,2754,1274,727,498,Medulla,right
+189,2939,2777,1271,740,491,Medulla,right
+189,2940,2850,1272,741,475,Medulla,right
+189,1326,2708,1274,338,511,Pyramus (VIII),right
+189,2930,2773,1272,737,492,Medulla,right
+189,2943,2756,1271,742,495,Medulla,right
+189,2957,2764,1270,745,494,Medulla,right
+189,1399,2800,1274,356,492,Pyramus (VIII),right
+189,2943,2837,1271,742,477,Medulla,right
+190,1392,2966,1277,354,454,Copula pyramidis,right
+190,2936,2689,1269,738,513,Medulla,right
+190,2951,2854,1270,744,474,Medulla,right
+190,2957,2739,1269,745,500,Medulla,right
+190,1373,2816,1274,350,487,arbor vitae,right
+190,2437,3588,1265,617,321,Medulla,right
+190,2947,2762,1270,741,494,Medulla,right
+191,1891,2150,1266,474,631,Uvula (IX),left
+191,2431,3588,1265,616,321,Medulla,right
+191,2898,2740,1271,726,501,Medulla,right
+191,2904,2766,1272,727,494,Medulla,right
+191,2931,2741,1270,736,499,Medulla,right
+191,2950,2822,1269,743,481,Medulla,right
+191,2422,3588,1265,614,321,Medulla,right
+193,2936,2882,1270,739,469,Medulla,right
+193,2936,2773,1270,737,492,Medulla,right
+193,2924,2737,1270,734,501,Medulla,right
+193,2931,2836,1271,736,478,Medulla,right
+193,2939,2801,1270,739,485,Medulla,right
+193,2943,2740,1269,741,500,Medulla,right
+194,2950,2848,1268,743,476,Medulla,right
+194,2932,2875,1270,736,471,Medulla,right
+194,2956,2885,1268,745,468,Medulla,right
+194,2958,2803,1267,745,485,Medulla,right
+194,2906,2869,1271,728,473,Medulla,right
+194,2920,2740,1269,732,501,Medulla,right
+194,2935,2842,1269,737,477,Medulla,right
+192,2927,2922,1271,736,461,Medulla,right
+197,2941,2821,1268,738,481,Medulla,right
+197,2944,2800,1268,740,487,Medulla,right
+196,2929,2703,1267,735,509,Medulla,right
+196,2932,2864,1269,735,473,Medulla,right
+196,2951,2718,1266,741,505,Medulla,right
+195,2921,2845,1269,732,478,Medulla,right
+195,2924,2781,1269,733,491,Medulla,right
+195,2945,2840,1268,740,478,Medulla,right
+195,2952,2829,1267,742,480,Medulla,right
+195,2905,2740,1269,726,501,Inferior olivary complex,right
+198,1326,2709,1270,338,512,arbor vitae,right
+198,2918,2723,1267,731,505,Inferior olivary complex,right
+198,2926,2768,1268,732,494,Inferior olivary complex,right
+198,2936,2811,1267,736,484,Medulla,right
+198,2915,2709,1267,729,508,Inferior olivary complex,right
+200,1354,2203,1269,345,615,Pyramus (VIII),left
+200,1356,2912,1273,345,466,Pyramus (VIII),right
+200,2948,2876,1266,742,470,Medulla,right
+200,2961,2749,1264,743,498,Medulla,right
+199,2365,3585,1262,600,321,Medulla,right
+199,2942,2793,1266,737,488,Medulla,right
+199,1838,2149,1265,462,629,Uvula (IX),left
+199,2915,2834,1268,729,481,Medulla,right
+201,1357,2706,1269,345,512,Pyramus (VIII),right
+201,2909,2774,1268,727,494,Inferior olivary complex,right
+201,2956,2797,1265,742,487,Medulla,right
+202,2949,2820,1265,740,483,Medulla,right
+202,1333,2530,1267,340,550,Pyramus (VIII),right
+202,2911,2823,1267,726,483,Medulla,right
+202,2938,2779,1265,736,492,Medulla,right
+202,2940,2866,1266,737,472,Medulla,right
+202,2944,2808,1265,738,485,Medulla,right
+202,2950,2828,1265,740,480,Medulla,right
+202,2958,2836,1264,743,478,Medulla,right
+202,2966,2824,1264,745,481,Medulla,right
+205,2923,2765,1265,730,495,Inferior olivary complex,right
+205,2858,2367,1263,712,599,Medulla,left
+205,2945,2730,1263,737,503,Medulla,right
+205,2916,3115,1262,739,422,Medulla,right
+205,2947,2874,1264,739,471,Medulla,right
+205,2950,2790,1263,739,489,Medulla,right
+205,2959,2791,1263,742,488,Medulla,right
+203,2944,2959,1264,742,454,Medulla,right
+203,2896,2737,1266,721,502,Inferior olivary complex,right
+204,1375,2746,1268,350,503,Pyramus (VIII),right
+204,2931,2809,1265,732,486,Medulla,right
+204,2940,2753,1264,735,497,Medulla,right
+204,2956,2757,1263,740,496,Medulla,right
+204,2962,2817,1263,743,482,Medulla,right
+204,2967,2795,1262,744,488,Medulla,right
+204,1360,2904,1271,346,469,Pyramus (VIII),right
+204,2850,2378,1264,710,596,Medulla,left
+204,2924,2773,1265,730,493,Inferior olivary complex,right
+204,2925,2949,1265,734,457,Medulla,right
+204,2929,2801,1265,732,487,Inferior olivary complex,right
+206,1333,2502,1266,340,555,Pyramus (VIII),right
+206,2880,2721,1265,716,506,Medulla,right
+206,2904,2751,1265,723,499,Inferior olivary complex,right
+206,2937,2734,1263,733,502,Medulla,right
+206,2963,2859,1262,744,474,Medulla,right
+206,2938,2865,1264,736,474,Medulla,right
+206,2949,2832,1263,739,480,Medulla,right
+206,2954,2746,1262,740,498,Medulla,right
+206,2955,2866,1263,741,472,Medulla,right
+208,2910,2307,1260,723,615,Medulla,left
+208,2914,2705,1262,726,510,Inferior olivary complex,right
+208,2937,2798,1263,733,488,Inferior olivary complex,right
+208,2886,2702,1264,717,511,Inferior olivary complex,right
+208,2936,2792,1263,733,489,Inferior olivary complex,right
+207,2942,2877,1263,736,471,Medulla,right
+207,2942,2804,1262,734,487,Medulla,right
+207,2947,2812,1262,736,484,Medulla,right
+207,2955,2804,1261,739,486,Medulla,right
+207,2971,2842,1261,745,477,Medulla,right
+207,2897,2700,1263,720,512,Inferior olivary complex,right
+207,2906,2715,1263,723,508,Inferior olivary complex,right
+207,2907,2748,1264,723,500,Inferior olivary complex,right
+207,2944,2787,1262,736,490,Medulla,right
+209,2897,3170,1259,734,411,Medulla,right
+209,2904,2706,1263,723,509,Inferior olivary complex,right
+209,2950,2839,1262,738,479,Medulla,right
+209,2972,2770,1260,744,493,Medulla,right
+209,2902,2818,1265,722,485,Medulla,right
+209,2948,2779,1261,737,492,Medulla,right
+209,2948,2807,1262,738,485,Medulla,right
+209,2948,2818,1262,738,483,Medulla,right
+210,2892,3136,1259,731,419,ventral spinocerebellar tract,right
+210,2919,2735,1262,727,503,Inferior olivary complex,right
+210,2930,2869,1262,732,474,Medulla,right
+210,2944,2857,1261,737,475,Medulla,right
+210,2954,2899,1261,741,466,Medulla,right
+210,2967,2830,1260,743,481,Medulla,right
+210,2918,2714,1261,727,508,Inferior olivary complex,right
+211,2943,2731,1259,734,502,Medulla,right
+211,1093,2614,1271,281,534,Folium-tuber vermis (VII),right
+211,2904,2732,1261,722,504,Inferior olivary complex,right
+211,2925,2828,1262,729,482,Medulla,right
+211,2941,2740,1260,733,501,Inferior olivary complex,right
+212,2946,2872,1261,736,472,Medulla,right
+212,2947,2797,1260,735,488,Medulla,right
+212,2950,2786,1260,736,490,Medulla,right
+212,2961,2841,1259,741,478,Medulla,right
+212,2963,2777,1258,741,491,Medulla,right
+212,2930,2714,1260,730,507,Inferior olivary complex,right
+212,2956,2812,1260,738,484,Medulla,right
+212,2930,2748,1260,730,499,Inferior olivary complex,right
+213,2893,2729,1262,719,505,Inferior olivary complex,right
+213,2921,2737,1261,726,502,Inferior olivary complex,right
+213,2928,2856,1261,731,476,Medulla,right
+213,2933,2779,1260,731,492,Inferior olivary complex,right
+213,2949,2820,1260,737,483,Medulla,right
+213,2957,2832,1260,739,480,Medulla,right
+213,2967,2791,1259,741,488,Medulla,right
+213,2950,2859,1260,738,475,Medulla,right
+214,2929,2742,1259,729,500,Inferior olivary complex,right
+214,2933,2757,1259,731,497,Inferior olivary complex,right
+214,2949,2868,1259,737,473,Medulla,right
+214,2969,2850,1258,743,476,Medulla,right
+214,2905,2763,1261,721,497,Medulla,right
+216,1348,2166,1264,343,621,Pyramus (VIII),left
+216,2964,2799,1257,740,487,Medulla,right
+216,2917,2716,1259,724,507,Inferior olivary complex,right
+216,2968,2770,1256,742,494,Medulla,right
+215,2944,2815,1258,734,485,Medulla,right
+215,2966,2809,1257,740,485,Medulla,right
+215,1357,2894,1266,344,471,Pyramus (VIII),right
+215,2934,2755,1258,730,498,Inferior olivary complex,right
+217,2961,2825,1257,739,482,Medulla,right
+217,893,1945,1278,225,678,Declive (VI),left
+217,2920,2847,1260,727,479,Medulla,right
+217,2927,2738,1258,727,502,Inferior olivary complex,right
+217,2929,2780,1259,729,493,Inferior olivary complex,right
+217,2953,2843,1258,738,478,Medulla,right
+217,2912,2732,1259,722,504,Inferior olivary complex,right
+217,2935,2747,1258,730,499,Inferior olivary complex,right
+217,2937,2810,1259,731,486,Medulla,right
+218,2968,2844,1256,742,478,Medulla,right
+218,1375,2876,1264,349,474,Pyramus (VIII),right
+218,1481,2967,1267,376,455,Copula pyramidis,right
+218,2947,2800,1257,733,488,Inferior olivary complex,right
+218,2949,2787,1257,735,490,Medulla,right
+218,2966,2248,1253,735,631,Medulla,left
+221,944,1944,1276,239,678,Declive (VI),left
+221,2929,2839,1257,729,481,Medulla,right
+221,2933,2756,1256,729,497,Inferior olivary complex,right
+221,1200,1923,1269,308,675,Folium-tuber vermis (VII),left
+221,2955,2902,1256,739,466,Medulla,right
+221,2947,2760,1256,732,497,Inferior olivary complex,right
+221,2974,2878,1255,744,471,Medulla,right
+219,2920,2887,1258,727,471,Medulla,right
+219,2930,2706,1256,727,509,Inferior olivary complex,right
+219,2947,2945,1256,737,459,Medulla,right
+219,2954,2759,1255,735,497,Medulla,right
+219,2958,2833,1256,738,480,Medulla,right
+219,1359,2890,1264,345,472,Pyramus (VIII),right
+219,2980,2792,1254,744,488,Medulla,right
+220,2930,2720,1256,727,507,Inferior olivary complex,right
+220,2932,2803,1257,728,488,Inferior olivary complex,right
+220,2948,2774,1255,734,493,Inferior olivary complex,right
+220,2949,2849,1256,735,478,Medulla,right
+220,2955,3005,1255,743,445,Medulla,right
+220,2957,2800,1256,736,488,Medulla,right
+220,856,1954,1276,214,676,Declive (VI),left
+220,2928,2793,1257,728,490,Inferior olivary complex,right
+222,1215,1936,1268,311,672,Folium-tuber vermis (VII),left
+222,1335,2755,1261,340,503,arbor vitae,right
+222,2957,2853,1255,736,477,Medulla,right
+222,1187,1919,1269,304,677,Folium-tuber vermis (VII),left
+222,2950,2820,1255,734,484,Medulla,right
+222,932,1938,1275,235,679,Declive (VI),left
+222,1194,1924,1268,306,676,Folium-tuber vermis (VII),left
+223,2938,2752,1254,729,499,Inferior olivary complex,right
+223,1181,1922,1268,302,676,Folium-tuber vermis (VII),left
+223,2934,2788,1255,728,491,Inferior olivary complex,right
+224,2953,2838,1254,735,480,Medulla,right
+224,1182,1929,1268,302,675,Folium-tuber vermis (VII),left
+224,1189,1926,1267,305,675,Folium-tuber vermis (VII),left
+224,2902,2723,1255,717,507,Inferior olivary complex,right
+224,2914,2700,1254,722,512,Inferior olivary complex,right
+224,2964,2783,1253,738,491,Medulla,right
+226,1110,2579,1264,284,542,Folium-tuber vermis (VII),right
+226,2962,2837,1253,736,480,Medulla,right
+226,2933,2880,1254,730,473,Medulla,right
+226,2935,2793,1254,728,490,Inferior olivary complex,right
+226,2964,2809,1252,737,486,Medulla,right
+226,2937,2752,1253,727,499,Inferior olivary complex,right
+226,2956,2773,1252,734,494,Inferior olivary complex,right
+227,1300,2498,1257,330,557,Pyramus (VIII),right
+227,958,1957,1271,243,674,Folium-tuber vermis (VII),left
+227,1051,2938,1266,267,468,Folium-tuber vermis (VII),right
+227,2957,2857,1252,735,476,Medulla,right
+227,2949,2855,1252,733,477,Medulla,right
+225,1211,1931,1267,310,673,Folium-tuber vermis (VII),left
+225,2842,2277,1254,702,618,Medulla,left
+225,2945,2811,1254,732,485,Medulla,right
+225,2970,2886,1253,742,469,Medulla,right
+225,953,1937,1273,241,679,Folium-tuber vermis (VII),left
+225,1182,1928,1268,302,675,Folium-tuber vermis (VII),left
+225,1654,3234,1268,423,397,Copula pyramidis,right
+225,2856,2713,1257,704,511,Medulla,right
+225,2955,2772,1253,734,494,Inferior olivary complex,right
+225,2971,2804,1253,740,487,Medulla,right
+225,2973,2875,1253,743,472,Medulla,right
+228,2973,2763,1250,739,495,Medulla,right
+228,1199,1932,1265,307,673,Folium-tuber vermis (VII),left
+228,2979,2868,1251,743,473,Medulla,right
+228,2967,2747,1250,736,499,Medulla,right
+229,2952,2907,1252,735,466,Medulla,right
+229,1710,3259,1266,435,392,Copula pyramidis,right
+230,2938,2783,1251,728,492,Inferior olivary complex,right
+230,932,1952,1270,234,676,Declive (VI),left
+230,1186,1928,1265,303,675,Folium-tuber vermis (VII),left
+230,1311,2747,1258,334,504,Pyramus (VIII),right
+230,2981,2812,1249,741,485,Medulla,right
+232,1351,2183,1258,343,618,Pyramus (VIII),left
+232,2968,2908,1249,740,466,Medulla,right
+232,2964,2730,1248,735,504,Medulla,right
+231,1379,2367,1256,349,581,Pyramus (VIII),left
+231,2942,2855,1251,729,478,Medulla,right
+231,2963,2889,1250,738,470,Medulla,right
+231,918,1939,1270,231,679,Declive (VI),left
+234,2997,2818,1246,745,484,Medulla,right
+234,954,1958,1268,241,674,Declive (VI),left
+234,1185,1928,1263,303,675,Folium-tuber vermis (VII),left
+234,1201,1913,1263,306,678,Folium-tuber vermis (VII),left
+234,1350,2053,1258,343,645,arbor vitae,left
+234,2959,2895,1249,736,469,Medulla,right
+233,2982,2874,1249,742,472,Medulla,right
+233,2981,2806,1248,741,486,Medulla,right
+233,1175,1921,1264,300,676,Folium-tuber vermis (VII),left
+233,1559,3114,1264,398,423,Copula pyramidis,right
+233,2973,2716,1247,738,506,Medulla,right
+233,2988,2794,1247,743,489,Medulla,right
+233,2990,2822,1248,744,482,Medulla,right
+233,1206,1929,1263,308,674,Folium-tuber vermis (VII),left
+233,2950,2746,1249,730,500,Inferior olivary complex,right
+233,2989,2805,1247,744,487,Medulla,right
+233,2990,2763,1247,743,495,Medulla,right
+233,2996,2810,1247,745,485,Medulla,right
+235,2996,2782,1245,744,491,Medulla,right
+235,2966,2805,1247,734,488,Inferior olivary complex,right
+235,2984,2835,1246,742,481,Medulla,right
+237,942,1958,1267,236,674,Declive (VI),left
+237,1221,1946,1261,311,670,Folium-tuber vermis (VII),left
+237,1427,1878,1260,361,683,Copula pyramidis,left
+236,1193,1912,1262,305,678,Folium-tuber vermis (VII),left
+236,1423,2989,1258,361,450,Copula pyramidis,right
+236,1438,2994,1259,365,449,Copula pyramidis,right
+236,2966,2822,1247,735,484,Medulla,right
+236,2970,2737,1246,735,502,Medulla,right
+236,2972,2882,1247,738,471,Medulla,right
+236,3000,2811,1245,746,485,Medulla,right
+238,2983,2814,1245,740,485,Medulla,right
+238,1034,2912,1261,262,474,Folium-tuber vermis (VII),right
+238,2989,2794,1244,742,489,Medulla,right
+238,2946,2694,1245,727,513,Medulla,right
+239,2980,2879,1245,740,472,Medulla,right
+239,1262,2485,1252,320,560,Pyramus (VIII),right
+239,2949,2850,1246,730,479,Medulla,right
+241,2990,2854,1244,743,477,Medulla,right
+241,2978,2836,1244,739,480,Medulla,right
+243,1257,2492,1250,319,558,Pyramus (VIII),right
+243,1057,1964,1261,267,671,Folium-tuber vermis (VII),left
+243,2957,2909,1244,733,467,Medulla,right
+243,2993,2759,1240,741,497,Medulla,right
+243,1254,2451,1250,318,566,Pyramus (VIII),right
+243,2968,2840,1243,735,481,Medulla,right
+243,2988,2861,1242,742,475,Medulla,right
+243,2977,2888,1243,738,471,Medulla,right
+242,2977,2860,1244,738,477,Medulla,right
+242,2967,2737,1243,732,502,Inferior olivary complex,right
+242,2990,2831,1243,741,481,Medulla,right
+242,2999,2850,1242,745,478,Medulla,right
+242,3002,2825,1242,744,483,Medulla,right
+242,2897,2686,1245,711,516,Inferior olivary complex,right
+242,2974,2792,1243,736,490,Medulla,right
+240,2991,2791,1243,741,489,Medulla,right
+240,2992,2893,1244,744,469,Medulla,right
+240,3000,2804,1243,745,487,Medulla,right
+246,1253,2484,1249,318,560,Pyramus (VIII),right
+246,2992,2785,1240,739,492,Medulla,right
+245,3000,2864,1241,745,475,Medulla,right
+245,2978,2814,1242,737,486,Medulla,right
+244,2962,2816,1243,731,485,Medulla,right
+249,3000,2851,1239,744,477,Medulla,right
+249,2970,2769,1240,732,496,Inferior olivary complex,right
+249,2974,2845,1241,736,480,Medulla,right
+249,3002,2833,1239,743,481,Medulla,right
+249,2989,2781,1239,739,492,Medulla,right
+247,2961,2828,1241,730,484,Medulla,right
+247,2993,2818,1239,741,485,Medulla,right
+247,3003,2784,1238,743,492,Medulla,right
+248,906,1962,1261,226,673,Declive (VI),left
+248,1248,2481,1248,317,560,Pyramus (VIII),right
+248,2973,2795,1240,734,491,Inferior olivary complex,right
+248,2982,2860,1241,738,477,Medulla,right
+248,3001,2785,1238,742,492,Medulla,right
+248,3011,2786,1238,745,491,Medulla,right
+250,3017,2754,1236,746,498,Medulla,right
+250,2952,2853,1241,728,479,Medulla,right
+250,2962,2815,1240,730,487,Medulla,right
+250,2785,3099,1241,694,436,"Lateral reticular nucleus, magnocellular part",right
+250,2992,2742,1237,737,501,Medulla,right
+251,3008,2806,1236,745,487,Medulla,right
+251,2994,2823,1237,740,484,Medulla,right
+251,3001,2756,1236,740,498,Medulla,right
+251,1399,2927,1249,353,464,Pyramus (VIII),right
+251,3003,2814,1237,743,486,Medulla,right
+251,3014,2792,1236,746,490,Medulla,right
+251,2977,2808,1238,733,488,Inferior olivary complex,right
+252,1539,2705,1246,389,515,Uvula (IX),right
+252,1518,3077,1253,385,430,Copula pyramidis,right
+252,2972,2798,1238,732,490,Inferior olivary complex,right
+252,2990,2770,1237,737,496,Medulla,right
+253,1368,2138,1249,347,627,Pyramus (VIII),left
+253,2983,2816,1238,737,485,Medulla,right
+253,1518,3078,1253,385,430,Copula pyramidis,right
+254,2928,2556,1235,719,548,Medulla,right
+254,2990,2775,1236,737,495,Medulla,right
+254,3005,2860,1236,744,477,Medulla,right
+254,2978,2787,1237,734,492,Inferior olivary complex,right
+255,1262,2781,1246,320,498,Pyramus (VIII),right
+256,1504,3055,1250,381,436,Copula pyramidis,right
+256,2965,2835,1237,730,483,Medulla,right
+256,1504,2087,1248,379,637,Uvula (IX),left
+256,2745,3464,1233,689,350,Medulla,right
+257,1212,1977,1251,307,664,Folium-tuber vermis (VII),left
+257,2741,3471,1232,688,348,Medulla,right
+257,3012,2810,1234,743,487,Medulla,right
+257,3020,2775,1233,746,494,Medulla,right
+257,2974,2796,1236,732,490,Inferior olivary complex,right
+258,1499,3042,1249,379,438,Copula pyramidis,right
+258,2960,2775,1236,727,496,Inferior olivary complex,right
+258,1143,1973,1251,290,666,Folium-tuber vermis (VII),left
+258,2732,3481,1232,686,346,Medulla,right
+258,3014,2778,1232,744,493,Medulla,right
+258,2730,3485,1232,686,346,Medulla,right
+258,2731,3483,1232,686,346,Medulla,right
+259,984,1982,1253,247,667,Declive (VI),left
+259,2994,2837,1234,739,482,Medulla,right
+259,2998,2826,1233,740,483,Medulla,right
+259,1448,2976,1246,365,452,arbor vitae,right
+260,1152,1975,1250,292,666,Folium-tuber vermis (VII),left
+260,2950,2742,1234,723,503,Inferior olivary complex,right
+260,1492,2095,1246,376,636,Uvula (IX),left
+262,3022,2811,1231,745,486,Medulla,right
+261,3031,2763,1230,748,496,Medulla,right
+261,1162,1978,1250,294,665,Folium-tuber vermis (VII),left
+265,3015,2803,1230,743,489,Medulla,right
+265,2680,3547,1229,674,331,Medulla,right
+263,2999,2783,1230,738,493,Medulla,right
+263,1406,2937,1243,353,461,Pyramus (VIII),right
+264,1406,2938,1243,353,461,Pyramus (VIII),right
+264,2683,3544,1229,675,332,Medulla,right
+264,2968,2772,1232,728,496,Inferior olivary complex,right
+266,2958,2805,1232,726,490,Medulla,right
+266,3019,2769,1228,743,496,Medulla,right
+266,3028,2809,1228,747,487,Medulla,right
+266,2979,2756,1230,731,499,Inferior olivary complex,right
+268,3009,2784,1228,740,493,Medulla,right
+267,2994,2742,1228,735,502,Medulla,right
+269,2970,2979,1231,736,454,Medulla,right
+271,3022,2770,1225,742,497,Medulla,right
+274,1387,2864,1237,349,479,arbor vitae,right
+274,2040,3438,1237,512,348,root,right
+274,3027,2764,1223,743,498,Medulla,right
+274,2995,2754,1225,733,501,Inferior olivary complex,right
+273,2637,3582,1226,663,324,spinal tract of the trigeminal nerve,right
+273,2638,3581,1226,664,323,Medulla,right
+273,2636,3583,1226,663,324,spinal tract of the trigeminal nerve,right
+275,1013,2792,1241,254,502,Declive (VI),right
+275,1116,2771,1239,281,504,Declive (VI),right
+275,1124,2773,1239,284,504,Declive (VI),right
+275,1489,2435,1234,372,568,Uvula (IX),right
+277,1160,2765,1238,293,505,Declive (VI),right
+277,992,2798,1242,247,502,Declive (VI),right
+277,2982,2804,1226,730,491,Inferior olivary complex,right
+277,2036,3432,1236,510,349,root,right
+276,2984,2878,1226,734,475,Medulla,right
+276,2037,3433,1236,510,349,root,right
+278,3024,2769,1222,742,497,Medulla,right
+279,1428,2329,1233,358,588,Uvula (IX),left
+283,1396,2872,1232,351,477,arbor vitae,right
+283,1132,2788,1235,284,500,Declive (VI),right
+283,2999,2808,1221,734,490,Medulla,right
+283,2555,3616,1221,644,315,spinal tract of the trigeminal nerve,right
+283,2553,3617,1221,644,315,spinal tract of the trigeminal nerve,right
+281,2027,3430,1235,507,350,root,right
+291,3015,2943,1217,743,462,Medulla,right
+291,1028,2090,1232,258,642,Declive (VI),left
+282,2561,3612,1222,645,316,spinal tract of the trigeminal nerve,right
+282,2556,3615,1222,643,316,spinal tract of the trigeminal nerve,right
+284,3026,2872,1220,744,475,Medulla,right
+284,842,2010,1240,206,661,arbor vitae,left
+284,2025,3423,1233,507,351,root,right
+285,2937,3068,1222,730,437,Medulla,right
+285,2531,3622,1222,638,314,spinal tract of the trigeminal nerve,right
+286,3022,2825,1219,741,486,Medulla,right
+286,3023,2824,1218,742,486,Medulla,right
+289,2026,3407,1230,506,354,root,right
+289,3015,2834,1218,739,484,Medulla,right
+289,1461,2957,1231,366,457,arbor vitae,right
+289,1468,2872,1229,370,477,Uvula (IX),right
+290,2469,3631,1220,624,311,spinal tract of the trigeminal nerve,right
+293,1029,2092,1232,258,641,Declive (VI),left
+292,1404,2867,1228,353,478,arbor vitae,right
+294,1030,2093,1231,257,641,Declive (VI),left
+296,1031,2094,1230,257,641,Declive (VI),left
+298,1251,2777,1227,313,500,Declive (VI),right
+298,1108,1840,1233,277,697,arbor vitae,left
+297,1362,2038,1228,343,649,arbor vitae,left
+297,1421,2866,1225,356,478,arbor vitae,right
+297,1458,2946,1226,366,459,arbor vitae,right
+300,1364,2429,1222,342,570,Declive (VI),right
+302,875,2087,1228,215,644,Declive (VI),left
+302,1431,2861,1222,359,479,arbor vitae,right
+303,1003,1852,1231,249,695,Declive (VI),left
+303,1052,1896,1230,262,684,Declive (VI),left
+304,1448,1797,1226,363,705,Copula pyramidis,left
+305,1440,2858,1221,361,480,arbor vitae,right
+305,1458,2921,1221,366,465,arbor vitae,right
+305,2022,3372,1222,504,362,Medulla,right
+307,910,1854,1231,223,694,Declive (VI),left
+307,963,1855,1230,238,694,Declive (VI),left
+307,1046,3050,1226,253,448,Declive (VI),right
+307,2347,3621,1213,595,310,spinal tract of the trigeminal nerve,right
+308,1448,2858,1219,364,480,arbor vitae,right
+309,2332,3614,1213,591,312,spinal tract of the trigeminal nerve,right
+311,967,3068,1225,231,446,Declive (VI),right
+311,1024,3068,1225,247,444,Declive (VI),right
+311,1053,3047,1224,256,447,Declive (VI),right
+313,971,1869,1227,239,691,Declive (VI),left
+313,2023,3360,1217,505,365,Medulla,right
+313,2351,3627,1211,596,309,spinal tract of the trigeminal nerve,right
+313,1487,2901,1216,372,470,arbor vitae,right
+314,1439,2867,1215,361,478,Fastigial nucleus,right
+314,2284,3592,1211,580,316,spinal tract of the trigeminal nerve,right
+314,2324,3613,1210,590,312,spinal tract of the trigeminal nerve,right
+312,1447,2871,1216,362,477,Fastigial nucleus,right
+315,2979,2852,1205,726,484,Inferior olivary complex,right
+315,1228,2968,1220,305,458,Declive (VI),right
+315,2315,3608,1209,588,313,spinal tract of the trigeminal nerve,right
+315,2222,3576,1211,565,318,inferior cerebellar peduncle,right
+315,2312,3606,1209,587,313,spinal tract of the trigeminal nerve,right
+315,2314,3607,1209,588,313,spinal tract of the trigeminal nerve,right
+320,1320,2806,1215,329,492,Declive (VI),right
+321,1416,2858,1212,354,480,arbor vitae,right
+321,2027,3359,1213,505,365,Medulla,right
+321,1235,2966,1218,306,458,Declive (VI),right
+324,1409,2855,1210,352,481,arbor vitae,right
+324,2240,3560,1206,568,323,spinal tract of the trigeminal nerve,right
+324,1261,2957,1215,312,459,Declive (VI),right
+323,1206,1877,1218,303,688,Declive (VI),left
+325,1316,2809,1213,327,492,Declive (VI),right
+328,721,2020,1217,172,657,arbor vitae,left
+329,908,3117,1218,216,438,Declive (VI),right
+329,992,2147,1212,245,630,Lobules IV-V,left
+329,2038,3359,1208,508,366,spinal tract of the trigeminal nerve,right
+330,1400,2851,1207,349,481,arbor vitae,right
+330,2201,3536,1204,558,327,spinal tract of the trigeminal nerve,right
+330,2194,3531,1204,556,328,spinal tract of the trigeminal nerve,right
+331,2212,3538,1202,560,327,spinal tract of the trigeminal nerve,right
+331,2192,3530,1203,554,329,spinal tract of the trigeminal nerve,right
+331,988,2148,1210,245,630,Lobules IV-V,left
+333,1319,2790,1209,328,496,Declive (VI),right
+335,908,3110,1214,216,441,Declive (VI),right
+335,2200,3529,1200,557,329,spinal tract of the trigeminal nerve,right
+338,2045,3359,1203,510,366,spinal tract of the trigeminal nerve,right
+338,943,2145,1207,233,632,Lobules IV-V,left
+338,2147,3492,1201,541,336,inferior cerebellar peduncle,right
+338,698,2021,1212,167,656,Declive (VI),left
+340,2180,3513,1199,551,332,spinal tract of the trigeminal nerve,right
+340,1317,2784,1205,326,497,Declive (VI),right
+339,1307,2868,1205,323,478,Declive (VI),right
+345,840,3105,1211,198,445,Declive (VI),right
+345,1357,2323,1201,339,590,Lobules IV-V,left
+345,1375,2072,1202,345,642,arbor vitae,left
+345,1378,2857,1201,343,480,arbor vitae,right
+345,2043,3361,1199,510,364,inferior cerebellar peduncle,right
+345,1346,2352,1201,337,584,Lobules IV-V,left
+344,934,2144,1204,231,632,Lobules IV-V,left
+344,965,2148,1204,238,631,Lobules IV-V,left
+348,1069,2350,1204,262,588,Lobules IV-V,left
+348,1322,2791,1201,326,495,Lobules IV-V,right
+349,1009,2357,1203,246,587,Lobules IV-V,left
+349,2132,3473,1196,535,340,inferior cerebellar peduncle,right
+350,1043,2396,1203,255,579,Lobules IV-V,left
+350,1048,2418,1203,256,575,Lobules IV-V,left
+350,1083,2389,1203,265,580,Lobules IV-V,left
+350,786,1845,1209,189,694,Declive (VI),left
+350,1026,2365,1203,250,586,Lobules IV-V,left
+350,2131,3472,1195,535,340,inferior cerebellar peduncle,right
+350,2129,3470,1195,535,342,inferior cerebellar peduncle,right
+352,1072,2460,1203,260,567,Lobules IV-V,right
+351,1096,2328,1202,268,592,Lobules IV-V,left
+351,1125,2359,1202,276,586,Lobules IV-V,left
+353,1075,2455,1203,262,568,Lobules IV-V,right
+353,842,3120,1207,198,441,Declive (VI),right
+353,1002,2333,1201,244,592,Lobules IV-V,left
+353,1009,2332,1201,246,592,Lobules IV-V,left
+353,2039,3348,1195,508,368,inferior cerebellar peduncle,right
+355,1071,2348,1200,261,589,Lobules IV-V,left
+354,1205,2348,1200,297,587,Lobules IV-V,left
+354,1438,2184,1195,360,618,arbor vitae,left
+356,1005,2322,1200,245,594,Lobules IV-V,left
+356,1017,2311,1199,248,596,Lobules IV-V,left
+356,1048,2332,1200,256,592,Lobules IV-V,left
+356,1171,2348,1200,288,587,Lobules IV-V,left
+356,1205,2530,1200,296,552,Lobules IV-V,right
+356,1368,2857,1195,340,480,arbor vitae,right
+356,2100,3438,1192,526,348,inferior cerebellar peduncle,right
+359,971,2394,1199,235,581,Lobules IV-V,left
+359,1067,2492,1200,258,560,Lobules IV-V,right
+359,1259,2295,1196,312,597,Lobules IV-V,left
+359,1093,2431,1199,266,572,Lobules IV-V,left
+358,1004,2348,1199,245,589,Lobules IV-V,left
+358,1024,2327,1199,250,593,Lobules IV-V,left
+358,1105,2340,1199,270,590,Lobules IV-V,left
+358,987,2343,1199,240,590,Lobules IV-V,left
+358,1083,2194,1199,267,620,Lobules IV-V,left
+358,1271,2298,1197,315,596,Lobules IV-V,left
+358,1287,2120,1197,320,632,Lobules IV-V,left
+358,2118,3446,1190,531,346,inferior cerebellar peduncle,right
+360,1163,2319,1198,286,593,Lobules IV-V,left
+360,983,2342,1198,240,590,Lobules IV-V,left
+360,1021,2325,1198,249,594,Lobules IV-V,left
+360,1056,2615,1201,255,536,Lobules IV-V,right
+360,1073,2145,1198,265,630,Lobules IV-V,left
+360,1179,2635,1200,287,531,Lobules IV-V,right
+361,1073,2452,1199,261,568,Lobules IV-V,right
+361,1155,2378,1198,283,582,Lobules IV-V,left
+361,1169,2353,1198,287,586,Lobules IV-V,left
+361,1015,2175,1197,250,625,Lobules IV-V,left
+361,1199,2621,1199,293,532,Lobules IV-V,right
+361,1259,2292,1196,312,597,Lobules IV-V,left
+361,2037,3348,1191,506,368,inferior cerebellar peduncle,right
+361,1218,2216,1198,301,612,Lobules IV-V,left
+362,1106,2329,1197,270,592,Lobules IV-V,left
+362,1088,2132,1197,269,632,Lobules IV-V,left
+362,1066,2148,1197,263,630,Lobules IV-V,left
+363,1060,2319,1196,259,595,Lobules IV-V,left
+363,1095,2613,1199,265,536,Lobules IV-V,right
+363,1257,2308,1194,311,594,Lobules IV-V,left
+363,956,2369,1197,231,586,Lobules IV-V,left
+363,1108,2136,1196,274,631,Lobules IV-V,left
+363,1118,2138,1196,276,631,Lobules IV-V,left
+363,1204,2614,1197,294,534,Lobules IV-V,right
+363,2090,3424,1188,522,352,inferior cerebellar peduncle,right
+363,994,2412,1197,241,576,Lobules IV-V,left
+364,1010,2577,1199,243,544,Lobules IV-V,right
+364,1027,2156,1196,253,628,Lobules IV-V,left
+364,1059,2159,1196,261,628,Lobules IV-V,left
+364,1217,2646,1197,296,527,Lobules IV-V,right
+364,1282,2793,1195,314,495,Lobules IV-V,right
+364,1286,2685,1195,316,519,Lobules IV-V,right
+364,1058,2167,1196,261,625,Lobules IV-V,left
+364,1147,2656,1199,278,526,Lobules IV-V,right
+364,2086,3420,1188,521,353,inferior cerebellar peduncle,right
+365,949,2277,1196,232,604,Lobules IV-V,left
+365,1105,2186,1196,272,620,Lobules IV-V,left
+365,969,2342,1196,236,591,Lobules IV-V,left
+365,1014,2382,1197,246,582,Lobules IV-V,left
+365,1235,2652,1196,302,526,Lobules IV-V,right
+365,2085,3419,1188,521,353,inferior cerebellar peduncle,right
+366,1064,2481,1197,258,562,Lobules IV-V,right
+366,1070,2476,1197,259,563,Lobules IV-V,right
+366,939,2316,1195,229,596,Lobules IV-V,left
+366,944,2176,1194,232,625,Lobules IV-V,left
+366,1245,2661,1195,304,524,Lobules IV-V,right
+366,2083,3416,1187,521,353,inferior cerebellar peduncle,right
+367,1005,2778,1199,241,504,Lobules IV-V,right
+367,1027,2769,1199,246,506,Lobules IV-V,right
+367,1267,2674,1193,310,521,Lobules IV-V,right
+367,1282,2753,1193,314,503,Lobules IV-V,right
+367,1109,2616,1197,268,534,Lobules IV-V,right
+367,1140,2328,1194,279,592,Lobules IV-V,left
+367,1185,2717,1197,288,512,Lobules IV-V,right
+367,999,2077,1194,247,646,Lobules IV-V,left
+368,1214,2148,1194,300,627,Lobules IV-V,left
+368,941,2167,1194,231,627,Lobules IV-V,left
+368,771,1830,1201,185,696,Declive (VI),left
+368,948,2735,1198,227,515,Lobules IV-V,right
+368,2036,3346,1187,506,368,inferior cerebellar peduncle,right
+369,1022,2617,1198,245,536,Lobules IV-V,right
+369,1300,2749,1192,319,504,Lobules IV-V,right
+369,932,2341,1195,226,591,Lobules IV-V,left
+369,961,2332,1195,233,593,Lobules IV-V,left
+369,970,2765,1199,232,509,Lobules IV-V,right
+369,1066,2191,1194,262,620,Lobules IV-V,left
+369,1092,2324,1195,266,594,Lobules IV-V,left
+369,1147,2327,1194,280,592,Lobules IV-V,left
+369,2074,3408,1187,518,355,inferior cerebellar peduncle,right
+369,3030,2890,1176,740,477,Medulla,right
+369,985,2097,1194,243,642,Lobules IV-V,left
+369,1361,2858,1190,336,480,arbor vitae,right
+370,942,2122,1193,232,637,Lobules IV-V,left
+370,967,2420,1195,233,576,Lobules IV-V,left
+370,912,2194,1193,223,623,Lobules IV-V,left
+370,1097,2185,1194,269,622,Lobules IV-V,left
+370,1190,2764,1196,289,502,Lobules IV-V,right
+370,1360,2859,1189,336,480,arbor vitae,right
+371,937,2312,1193,227,597,Lobules IV-V,left
+371,974,2322,1193,237,595,Lobules IV-V,left
+371,984,2352,1193,239,589,Lobules IV-V,left
+371,990,2310,1193,241,598,Lobules IV-V,left
+371,1092,2189,1193,268,621,Lobules IV-V,left
+371,939,2740,1196,224,514,Lobules IV-V,right
+371,959,2092,1192,237,643,Lobules IV-V,left
+375,926,2220,1191,227,617,Lobules IV-V,left
+375,1011,2730,1195,242,514,Lobules IV-V,right
+375,904,2348,1192,219,590,Lobules IV-V,left
+375,909,2210,1191,223,620,Lobules IV-V,left
+375,1005,2202,1191,247,620,Lobules IV-V,left
+375,1079,2031,1191,267,655,Lobules IV-V,left
+375,1094,2080,1191,270,644,Lobules IV-V,left
+375,1182,2750,1193,286,505,Lobules IV-V,right
+375,1304,2512,1187,322,554,arbor vitae,right
+375,1093,2095,1191,270,641,Lobules IV-V,left
+372,1182,2725,1195,286,511,Lobules IV-V,right
+372,1005,2501,1194,242,559,Lobules IV-V,right
+372,1065,2721,1197,256,514,Lobules IV-V,right
+372,1328,2435,1187,330,570,arbor vitae,right
+372,2068,3398,1185,516,357,inferior cerebellar peduncle,right
+373,1005,2727,1197,241,514,Lobules IV-V,right
+373,911,2295,1193,222,602,Lobules IV-V,left
+373,927,2343,1193,224,591,Lobules IV-V,left
+373,971,2317,1193,236,596,Lobules IV-V,left
+373,997,2708,1196,238,519,Lobules IV-V,right
+373,1116,2744,1196,269,508,Lobules IV-V,right
+373,1216,2155,1192,299,626,Lobules IV-V,left
+373,1257,2031,1191,313,651,Lobules IV-V,left
+374,899,2343,1193,218,591,Lobules IV-V,left
+374,992,2765,1196,237,508,Lobules IV-V,right
+374,1075,2385,1192,261,582,Lobules IV-V,left
+374,928,2742,1195,221,513,Lobules IV-V,right
+374,1030,2873,1196,246,483,Lobules IV-V,right
+374,1146,2749,1195,277,506,Lobules IV-V,right
+374,1278,2870,1191,314,477,Lobules IV-V,right
+374,918,2145,1191,226,633,Lobules IV-V,left
+376,941,2342,1192,228,591,Lobules IV-V,left
+376,1040,2876,1195,249,482,Lobules IV-V,right
+376,1202,2164,1190,295,624,Lobules IV-V,left
+376,1092,2095,1191,269,641,Lobules IV-V,left
+376,1295,2567,1187,318,543,arbor vitae,right
+376,1341,2129,1186,333,629,arbor vitae,left
+377,962,2662,1194,229,528,Lobules IV-V,right
+377,988,2783,1195,236,503,Lobules IV-V,right
+377,1138,2692,1194,275,518,Lobules IV-V,right
+377,1240,2751,1191,302,503,Lobules IV-V,right
+377,1294,2578,1187,318,541,arbor vitae,right
+377,1326,2202,1186,329,613,arbor vitae,left
+377,1331,2223,1186,330,609,arbor vitae,left
+377,2106,3448,1182,526,346,inferior cerebellar peduncle,right
+377,981,2101,1191,242,641,Lobules IV-V,left
+377,1010,2130,1191,249,635,Lobules IV-V,left
+377,1194,2455,1190,292,567,Lobules IV-V,right
+377,1308,2198,1187,325,615,arbor vitae,left
+377,1319,2196,1187,328,615,arbor vitae,left
+378,1219,2740,1191,297,507,Lobules IV-V,right
+378,2065,3391,1182,514,358,inferior cerebellar peduncle,right
+378,921,2337,1191,223,592,Lobules IV-V,left
+378,969,2842,1194,231,492,Lobules IV-V,right
+378,1250,2202,1188,308,615,Lobules IV-V,left
+378,1289,2977,1189,316,453,arbor vitae,right
+378,1293,2591,1187,318,538,arbor vitae,right
+378,894,2190,1190,219,624,Lobules IV-V,left
+378,1168,2451,1190,285,567,Lobules IV-V,right
+378,1187,2508,1190,289,556,Lobules IV-V,right
+379,916,2687,1192,218,524,Lobules IV-V,right
+379,997,2245,1189,243,612,Lobules IV-V,left
+379,1040,2350,1189,252,589,arbor vitae,left
+379,1225,2205,1188,301,615,Lobules IV-V,left
+379,1291,2607,1186,316,535,arbor vitae,right
+379,976,2009,1190,241,661,Lobules IV-V,left
+379,994,2767,1193,238,506,Lobules IV-V,right
+379,998,2098,1189,247,642,Lobules IV-V,left
+379,1060,2320,1189,258,595,Lobules IV-V,left
+379,1131,2447,1189,274,568,arbor vitae,right
+381,886,2194,1189,217,623,Lobules IV-V,left
+381,889,2167,1189,218,628,Lobules IV-V,left
+381,989,2189,1189,243,623,Lobules IV-V,left
+381,1108,2860,1193,267,483,Lobules IV-V,right
+381,994,2663,1192,238,527,Lobules IV-V,right
+381,1200,2208,1188,295,615,Lobules IV-V,left
+381,1275,2967,1189,312,455,Lobules IV-V,right
+381,1346,2326,1183,335,589,arbor vitae,left
+381,1123,2218,1189,275,614,Lobules IV-V,left
+381,1197,2209,1188,293,615,Lobules IV-V,left
+380,1124,2129,1189,277,633,Lobules IV-V,left
+380,871,2197,1189,213,622,Lobules IV-V,left
+380,890,2212,1189,218,619,Lobules IV-V,left
+380,972,2170,1189,239,628,Lobules IV-V,left
+380,1210,2207,1188,297,614,Lobules IV-V,left
+380,1283,2061,1186,319,644,arbor vitae,left
+380,1371,2104,1183,341,634,arbor vitae,left
+380,1000,2025,1190,247,658,Lobules IV-V,left
+380,1060,2319,1189,258,595,Lobules IV-V,left
+380,1084,2446,1190,262,569,Lobules IV-V,right
+380,1111,2447,1189,269,569,arbor vitae,right
+382,887,2180,1188,217,626,Lobules IV-V,left
+382,931,2789,1192,221,504,Lobules IV-V,right
+382,961,2824,1192,228,496,Lobules IV-V,right
+382,890,2146,1188,219,633,Lobules IV-V,left
+382,951,2637,1191,227,533,Lobules IV-V,right
+382,951,2788,1192,226,504,Lobules IV-V,right
+382,1007,2091,1188,248,643,Lobules IV-V,left
+382,1112,2758,1191,267,504,Lobules IV-V,right
+382,1281,2649,1186,313,526,arbor vitae,right
+382,1108,2905,1192,267,473,Lobules IV-V,right
+384,962,2755,1191,229,510,Lobules IV-V,right
+384,992,2690,1190,237,522,Lobules IV-V,right
+384,863,2332,1189,209,594,Lobules IV-V,left
+384,1004,2164,1187,247,628,Lobules IV-V,left
+384,881,2147,1188,216,633,Lobules IV-V,left
+384,1308,2336,1182,324,588,Lobules IV-V,left
+384,1320,2718,1184,324,511,arbor vitae,right
+383,1001,2159,1187,246,629,Lobules IV-V,left
+383,734,1864,1192,175,690,Declive (VI),left
+385,936,2173,1187,230,627,Lobules IV-V,left
+385,1031,2086,1188,254,644,Lobules IV-V,left
+385,749,1834,1193,179,696,Declive (VI),left
+385,887,2190,1188,217,624,Lobules IV-V,left
+385,1049,2900,1191,251,477,Lobules IV-V,right
+385,1061,2213,1187,259,617,arbor vitae,left
+385,1102,2905,1191,264,473,Lobules IV-V,right
+385,1332,2874,1184,328,476,arbor vitae,right
+385,1348,2357,1181,336,584,Lobules IV-V,left
+385,2062,3401,1179,513,356,inferior cerebellar peduncle,right
+385,1055,2099,1188,260,641,Lobules IV-V,left
+386,899,2693,1189,213,523,Lobules IV-V,right
+386,873,2405,1189,210,580,Lobules IV-V,left
+386,1012,1973,1188,250,669,Lobules IV-V,left
+386,1171,2391,1185,285,579,Lobules IV-V,left
+386,1272,2687,1184,310,518,arbor vitae,right
+386,1236,2907,1187,301,468,Lobules IV-V,right
+386,1261,2067,1184,312,643,arbor vitae,left
+387,1087,2914,1189,260,472,Lobules IV-V,right
+387,865,2371,1188,208,586,Lobules IV-V,left
+387,872,2368,1188,209,587,Lobules IV-V,left
+387,916,2699,1189,217,522,Lobules IV-V,right
+387,987,2812,1189,235,497,Lobules IV-V,right
+387,1086,2886,1189,260,477,Lobules IV-V,right
+387,1120,2827,1189,270,489,Lobules IV-V,right
+387,1260,2898,1185,308,470,Lobules IV-V,right
+387,1352,2329,1179,335,589,Lobules IV-V,left
+387,883,2122,1186,217,638,Lobules IV-V,left
+387,1036,2212,1186,253,617,arbor vitae,left
+387,1273,2701,1183,311,514,arbor vitae,right
+388,979,2615,1188,234,537,Lobules IV-V,right
+388,1009,2770,1189,241,505,Lobules IV-V,right
+388,870,2145,1186,213,634,Lobules IV-V,left
+388,1045,2120,1186,257,637,Lobules IV-V,left
+388,1073,2868,1189,258,482,Lobules IV-V,right
+388,1274,2710,1183,311,513,arbor vitae,right
+388,990,2382,1187,239,583,arbor vitae,left
+389,965,2681,1188,230,524,Lobules IV-V,right
+389,1056,2845,1189,253,488,Lobules IV-V,right
+389,947,2878,1190,224,485,Lobules IV-V,right
+389,1023,2727,1189,245,513,Lobules IV-V,right
+389,1083,2899,1189,260,475,Lobules IV-V,right
+389,1093,2170,1186,268,626,arbor vitae,left
+390,1056,2784,1188,253,500,Lobules IV-V,right
+390,860,2193,1186,210,624,Lobules IV-V,left
+390,948,1975,1186,234,669,Lobules IV-V,left
+390,1080,2672,1187,259,523,arbor vitae,right
+390,1095,2689,1187,263,519,arbor vitae,right
+390,855,2405,1188,205,580,Lobules IV-V,left
+390,872,2643,1188,206,533,Lobules IV-V,right
+390,949,2263,1185,232,608,Lobules IV-V,left
+390,988,2680,1187,236,524,Lobules IV-V,right
+390,1042,2637,1187,249,531,arbor vitae,right
+390,1089,2679,1187,262,522,arbor vitae,right
+391,871,2211,1185,213,620,Lobules IV-V,left
+391,903,2815,1188,214,500,Lobules IV-V,right
+391,1010,2673,1186,241,524,Lobules IV-V,right
+391,1015,2274,1184,247,605,Lobules IV-V,left
+391,1038,2635,1186,249,532,arbor vitae,right
+391,1053,2647,1186,253,529,arbor vitae,right
+391,1077,2365,1184,260,586,Lobules IV-V,left
+391,869,2195,1185,213,624,Lobules IV-V,left
+391,1046,2640,1186,250,531,arbor vitae,right
+391,1062,2654,1186,254,527,arbor vitae,right
+391,1114,2713,1186,268,514,arbor vitae,right
+391,1132,2731,1186,272,509,arbor vitae,right
+393,853,2177,1185,209,627,Lobules IV-V,left
+393,878,2707,1187,208,521,Lobules IV-V,right
+393,897,2582,1187,213,544,Lobules IV-V,right
+393,915,2869,1188,216,488,Lobules IV-V,right
+393,949,2161,1184,233,630,Lobules IV-V,left
+393,970,2095,1184,239,644,Lobules IV-V,left
+393,1002,2601,1186,239,539,arbor vitae,right
+393,1076,2495,1184,259,560,Lobules IV-V,right
+393,1188,2768,1185,288,500,Lobules IV-V,right
+393,1193,2772,1185,289,499,Lobules IV-V,right
+393,1333,2870,1180,329,477,arbor vitae,right
+393,2056,3412,1175,512,354,inferior cerebellar peduncle,right
+393,896,2655,1187,212,531,Lobules IV-V,right
+393,964,2415,1185,232,577,arbor vitae,left
+393,978,2370,1185,237,586,arbor vitae,left
+393,996,2599,1186,238,540,arbor vitae,right
+393,1016,2612,1186,243,536,arbor vitae,right
+393,1019,2187,1184,250,623,arbor vitae,left
+392,852,2405,1187,204,580,Lobules IV-V,left
+392,1017,2611,1186,243,536,arbor vitae,right
+392,1040,2174,1184,255,626,arbor vitae,left
+392,1100,2197,1184,269,619,arbor vitae,left
+392,1143,2734,1186,276,509,arbor vitae,right
+392,1150,2736,1186,277,508,Lobules IV-V,right
+392,1176,2755,1185,284,504,arbor vitae,right
+392,1185,2874,1186,287,477,Lobules IV-V,right
+392,1331,2761,1180,327,501,arbor vitae,right
+396,916,2207,1183,224,621,arbor vitae,left
+396,860,2180,1183,211,627,Lobules IV-V,left
+396,951,2798,1186,226,501,Lobules IV-V,right
+396,882,2645,1185,208,533,Lobules IV-V,right
+396,942,2826,1186,223,495,Lobules IV-V,right
+396,956,2435,1184,229,573,arbor vitae,left
+396,960,2843,1186,228,491,Lobules IV-V,right
+396,977,2212,1183,239,619,arbor vitae,left
+396,978,2592,1184,234,541,arbor vitae,right
+396,1137,2010,1183,280,660,Lobules IV-V,left
+396,1244,2889,1182,303,472,Lobules IV-V,right
+396,960,2558,1184,229,548,arbor vitae,right
+396,961,2560,1184,229,548,arbor vitae,right
+396,975,2589,1184,233,542,arbor vitae,right
+396,1205,2794,1183,292,494,arbor vitae,right
+396,1229,2483,1179,300,561,Lobules IV-V,right
+396,1273,2758,1180,311,502,arbor vitae,right
+396,1324,2872,1179,326,476,arbor vitae,right
+396,1328,2787,1178,327,495,arbor vitae,right
+394,961,2949,1187,227,470,Lobules IV-V,right
+394,990,2597,1185,236,540,arbor vitae,right
+394,1195,2775,1184,289,499,arbor vitae,right
+394,1198,2779,1184,291,498,arbor vitae,right
+394,1274,2748,1181,311,504,arbor vitae,right
+394,875,2151,1184,215,632,Lobules IV-V,left
+394,882,2506,1186,209,559,Lobules IV-V,right
+394,972,2397,1184,234,580,arbor vitae,left
+394,1002,2210,1183,245,619,Lobules IV-V,left
+394,1255,2924,1183,306,465,Lobules IV-V,right
+395,980,2802,1185,233,499,Lobules IV-V,right
+395,892,2180,1183,218,627,Lobules IV-V,left
+395,894,2186,1183,219,625,Lobules IV-V,left
+395,966,2441,1184,232,571,arbor vitae,left
+395,984,2594,1184,235,541,arbor vitae,right
+395,1088,2964,1185,260,461,Lobules IV-V,right
+395,1124,2016,1183,278,658,Lobules IV-V,left
+395,1127,2405,1181,272,578,Lobules IV-V,left
+395,1142,2842,1184,275,484,Lobules IV-V,right
+395,1203,2788,1183,292,495,arbor vitae,right
+397,1349,2304,1175,335,594,Lobules IV-V,left
+397,894,2779,1186,211,507,Lobules IV-V,right
+397,949,2345,1184,230,592,arbor vitae,left
+397,1111,2256,1182,270,607,Lobules IV-V,left
+397,957,2442,1184,229,571,arbor vitae,left
+397,963,2462,1184,231,567,arbor vitae,right
+397,983,2189,1183,242,624,arbor vitae,left
+397,1097,2576,1183,263,542,Lobules IV-V,right
+397,1206,2797,1183,292,493,arbor vitae,right
+397,1272,2772,1180,310,498,arbor vitae,right
+398,863,2641,1184,204,533,Lobules IV-V,right
+398,671,1841,1187,156,695,Declive (VI),left
+398,834,2420,1185,199,577,Lobules IV-V,left
+398,843,2171,1183,207,628,Lobules IV-V,left
+398,874,2810,1185,206,501,Lobules IV-V,right
+398,944,2216,1182,231,618,arbor vitae,left
+398,959,2450,1183,230,570,arbor vitae,right
+398,960,2455,1183,230,569,arbor vitae,right
+398,1042,2298,1181,253,600,Lobules IV-V,left
+398,1271,2783,1179,310,496,arbor vitae,right
+398,1138,2369,1180,277,584,Lobules IV-V,left
+398,1206,2802,1182,292,492,arbor vitae,right
+402,3030,2857,1158,739,482,Medulla,right
+402,911,2926,1184,214,476,Lobules IV-V,right
+402,1056,2626,1181,253,532,Lobules IV-V,right
+402,1223,2292,1176,300,598,Lobules IV-V,left
+402,823,2246,1182,201,613,Lobules IV-V,left
+402,836,2198,1181,204,623,Lobules IV-V,left
+402,943,2219,1181,231,618,arbor vitae,left
+402,1063,2110,1180,262,640,Lobules IV-V,left
+402,1077,2457,1179,259,567,Lobules IV-V,right
+402,1134,2973,1182,272,456,Lobules IV-V,right
+402,841,2397,1183,201,581,Lobules IV-V,left
+402,1034,2876,1183,247,480,Lobules IV-V,right
+402,1046,2832,1183,250,490,Lobules IV-V,right
+402,1153,2847,1181,278,482,Lobules IV-V,right
+402,1209,2825,1180,293,487,arbor vitae,right
+399,828,2265,1183,202,609,Lobules IV-V,left
+399,1100,2921,1183,263,468,Lobules IV-V,right
+399,916,2642,1183,217,532,Lobules IV-V,right
+399,926,2795,1184,219,502,Lobules IV-V,right
+399,971,2348,1182,234,591,arbor vitae,left
+399,1104,2462,1180,266,566,Lobules IV-V,right
+399,1108,1904,1182,274,683,Lobules IV-V,left
+399,1111,2579,1181,267,542,Lobules IV-V,right
+400,820,2348,1184,197,591,Lobules IV-V,left
+400,904,2202,1182,222,622,arbor vitae,left
+400,1037,2429,1181,249,573,Lobules IV-V,left
+400,1207,2811,1181,292,489,arbor vitae,right
+400,1034,2765,1183,247,505,arbor vitae,right
+400,1072,2976,1183,255,458,Lobules IV-V,right
+400,1112,2578,1181,267,542,Lobules IV-V,right
+400,1249,2958,1180,304,457,Lobules IV-V,right
+401,830,2386,1184,199,583,Lobules IV-V,left
+401,1001,2584,1182,239,542,Lobules IV-V,right
+401,904,2913,1185,213,479,Lobules IV-V,right
+401,1070,2567,1181,257,544,Lobules IV-V,right
+401,1309,2871,1178,321,476,arbor vitae,right
+401,2005,3299,1172,497,379,inferior cerebellar peduncle,right
+401,2054,3414,1171,511,354,inferior cerebellar peduncle,right
+401,995,2391,1181,240,581,Lobules IV-V,left
+401,1031,2367,1181,249,586,Lobules IV-V,left
+401,1180,2854,1182,285,481,Lobules IV-V,right
+403,827,2164,1181,202,631,Lobules IV-V,left
+403,832,2351,1182,199,591,Lobules IV-V,left
+403,994,2605,1180,238,538,Lobules IV-V,right
+403,835,2462,1182,198,568,Lobules IV-V,right
+403,899,2805,1182,213,501,Lobules IV-V,right
+403,981,2926,1183,232,472,Lobules IV-V,right
+403,1127,2842,1181,270,484,Lobules IV-V,right
+403,1143,2844,1180,276,484,Lobules IV-V,right
+403,955,2588,1180,228,542,arbor vitae,right
+403,1133,2843,1181,273,484,Lobules IV-V,right
+403,1196,2105,1177,293,637,Lobules IV-V,left
+403,1306,2872,1176,320,475,arbor vitae,right
+404,715,1838,1184,170,696,Declive (VI),left
+404,884,2811,1182,209,499,Lobules IV-V,right
+404,904,2722,1181,214,516,Lobules IV-V,right
+404,988,2293,1180,240,602,Lobules IV-V,left
+404,1042,2831,1182,248,490,Lobules IV-V,right
+404,1094,2685,1180,263,520,Lobules IV-V,right
+404,1156,2846,1180,278,482,Lobules IV-V,right
+404,1213,2835,1179,295,485,arbor vitae,right
+404,953,2587,1180,228,542,arbor vitae,right
+404,1030,2831,1182,246,490,Lobules IV-V,right
+404,1055,2832,1181,252,489,arbor vitae,right
+404,1082,2836,1181,259,487,arbor vitae,right
+404,1113,2840,1181,268,486,Lobules IV-V,right
+404,1216,2839,1179,295,484,arbor vitae,right
+405,969,2471,1180,232,565,Lobules IV-V,right
+405,1004,2916,1182,239,473,Lobules IV-V,right
+405,1096,2345,1178,265,590,Lobules IV-V,left
+405,891,1983,1181,218,668,Lobules IV-V,left
+405,1046,2878,1182,249,480,Lobules IV-V,right
+405,1050,2906,1182,250,473,Lobules IV-V,right
+405,1109,2314,1178,269,596,Lobules IV-V,left
+405,1110,2480,1178,267,562,Lobules IV-V,right
+405,1220,2844,1179,296,482,arbor vitae,right
+405,914,2218,1180,224,619,arbor vitae,left
+405,950,2583,1180,226,543,arbor vitae,right
+405,1014,2725,1181,242,514,Lobules IV-V,right
+405,1220,2857,1179,296,479,Lobules IV-V,right
+406,1000,2832,1181,238,491,arbor vitae,right
+406,855,2767,1181,201,509,Lobules IV-V,right
+406,932,2909,1182,220,479,Lobules IV-V,right
+406,1063,2750,1180,255,507,Lobules IV-V,right
+406,807,2379,1182,192,585,Lobules IV-V,left
+406,895,2910,1182,210,480,Lobules IV-V,right
+406,923,2222,1179,226,618,Lobules IV-V,left
+406,998,2476,1179,240,564,Lobules IV-V,right
+406,1025,2831,1181,244,490,arbor vitae,right
+406,1030,2332,1178,249,593,Lobules IV-V,left
+406,1052,2285,1178,255,603,Lobules IV-V,left
+406,1133,2307,1176,276,597,Lobules IV-V,left
+406,839,2437,1181,200,573,Lobules IV-V,left
+406,1013,2831,1181,242,490,arbor vitae,right
+407,562,2061,1185,127,649,Declive (VI),left
+407,707,1840,1182,167,696,Declive (VI),left
+407,838,2404,1181,201,580,Lobules IV-V,left
+407,857,2197,1179,209,624,Lobules IV-V,left
+407,899,2219,1179,220,619,arbor vitae,left
+407,916,2223,1179,224,618,Lobules IV-V,left
+407,928,2227,1178,227,617,Lobules IV-V,left
+407,948,2810,1180,225,498,Lobules IV-V,right
+407,1091,2489,1176,262,561,Lobules IV-V,right
+407,1130,2359,1175,274,587,Lobules IV-V,left
+407,980,2542,1178,234,551,Lobules IV-V,right
+407,1001,2647,1178,239,529,Lobules IV-V,right
+407,1017,2831,1180,242,490,arbor vitae,right
+407,1052,2146,1177,257,632,Lobules IV-V,left
+408,1139,1891,1178,281,685,Lobules IV-V,left
+408,1018,2495,1177,244,560,Lobules IV-V,right
+408,695,1839,1182,164,696,Declive (VI),left
+408,886,1957,1179,217,673,Lobules IV-V,left
+408,892,1975,1179,218,670,Lobules IV-V,left
+408,1111,2357,1176,269,587,Lobules IV-V,left
+408,1232,2856,1176,299,479,arbor vitae,right
+408,1292,2851,1174,315,480,arbor vitae,right
+410,1241,2867,1175,301,476,arbor vitae,right
+410,2057,3412,1166,511,355,inferior cerebellar peduncle,right
+410,813,2441,1180,194,572,Lobules IV-V,left
+410,902,2229,1178,220,617,arbor vitae,left
+410,988,2834,1179,235,491,arbor vitae,right
+410,997,2886,1180,236,480,Lobules IV-V,right
+410,1069,2306,1176,259,598,Lobules IV-V,left
+410,1085,2132,1176,266,634,Lobules IV-V,left
+410,1253,2868,1175,306,476,arbor vitae,right
+410,1275,2871,1174,311,475,arbor vitae,right
+410,921,2298,1178,223,602,Lobules IV-V,left
+410,1017,2349,1177,245,590,Lobules IV-V,left
+409,795,2316,1181,191,598,Lobules IV-V,left
+409,870,1986,1179,213,667,Lobules IV-V,left
+409,921,2229,1179,225,617,Lobules IV-V,left
+409,996,2835,1180,237,491,arbor vitae,right
+409,1014,2420,1177,244,576,Lobules IV-V,left
+409,1041,2327,1177,252,594,Lobules IV-V,left
+409,1116,2873,1179,268,478,arbor vitae,right
+409,1282,2875,1175,313,475,arbor vitae,right
+409,861,2611,1180,203,538,Lobules IV-V,right
+409,945,2150,1178,232,634,Lobules IV-V,left
+409,944,2499,1179,226,560,Lobules IV-V,right
+409,967,2390,1178,232,583,Lobules IV-V,left
+409,1248,2865,1176,304,478,arbor vitae,right
+411,646,2052,1181,152,653,Declive (VI),left
+411,838,2231,1178,205,616,Lobules IV-V,left
+411,1137,2884,1177,273,475,arbor vitae,right
+411,700,1844,1180,166,695,Declive (VI),left
+411,873,2885,1180,206,485,Lobules IV-V,right
+411,974,2832,1178,232,492,arbor vitae,right
+411,1003,2461,1176,241,567,Lobules IV-V,right
+411,1048,2489,1175,252,561,Lobules IV-V,right
+411,1100,2835,1177,264,487,arbor vitae,right
+411,1120,2841,1177,269,484,arbor vitae,right
+411,1163,2699,1174,281,515,Lobules IV-V,right
+411,842,2631,1178,198,535,Lobules IV-V,right
+411,980,2834,1178,233,491,arbor vitae,right
+411,993,2164,1176,244,630,Lobules IV-V,left
+411,1070,2061,1176,263,649,Lobules IV-V,left
+412,845,2749,1178,198,513,Lobules IV-V,right
+412,730,3154,1184,168,433,Declive (VI),right
+412,868,2145,1177,214,635,Lobules IV-V,left
+412,878,2728,1178,208,516,Lobules IV-V,right
+412,885,2910,1180,208,480,Lobules IV-V,right
+412,893,2230,1177,219,617,arbor vitae,left
+412,985,2553,1176,235,548,Lobules IV-V,right
+412,1262,2868,1174,307,476,arbor vitae,right
+412,3032,2852,1153,740,483,Medulla,right
+412,597,2041,1182,137,654,Declive (VI),left
+412,1015,2485,1176,243,562,Lobules IV-V,right
+413,982,2212,1176,240,619,Lobules IV-V,left
+413,1158,2895,1176,279,472,arbor vitae,right
+413,1176,2901,1176,283,469,arbor vitae,right
+413,635,1842,1181,147,695,Declive (VI),left
+413,877,2889,1180,205,484,Lobules IV-V,right
+413,954,2489,1177,228,562,Lobules IV-V,right
+413,960,2829,1178,228,493,Lobules IV-V,right
+413,1018,2434,1176,245,573,Lobules IV-V,left
+413,1042,2741,1177,249,508,Lobules IV-V,right
+413,1161,2848,1176,280,482,arbor vitae,right
+413,1215,2176,1172,297,621,Lobules IV-V,left
+413,870,2224,1177,213,618,Lobules IV-V,left
+413,1204,2712,1174,291,512,Lobules IV-V,right
+414,1304,2129,1169,322,629,Lobules IV-V,left
+414,1091,2044,1175,268,653,Lobules IV-V,left
+414,1187,1887,1175,292,685,Lobules IV-V,left
+414,1200,2858,1174,290,479,arbor vitae,right
+414,885,2231,1177,216,616,arbor vitae,left
+415,793,2384,1178,190,585,Lobules IV-V,left
+415,949,2638,1175,226,532,Lobules IV-V,right
+415,952,2655,1175,226,529,Lobules IV-V,right
+415,959,2589,1175,229,542,Lobules IV-V,right
+415,641,3168,1185,142,429,Declive (VI),right
+415,837,2844,1178,195,494,Lobules IV-V,right
+415,1064,2729,1174,255,511,Lobules IV-V,right
+415,1144,2009,1174,282,659,arbor vitae,left
+415,1186,2906,1174,286,468,arbor vitae,right
+415,1252,2888,1172,304,472,arbor vitae,right
+416,829,2105,1176,204,644,Lobules IV-V,left
+416,913,2568,1175,218,546,Lobules IV-V,right
+416,984,2465,1174,236,567,Lobules IV-V,right
+416,1066,2128,1174,261,636,Lobules IV-V,left
+416,982,2334,1175,237,594,Lobules IV-V,left
+416,1086,2099,1174,266,642,Lobules IV-V,left
+417,1084,2766,1174,260,501,Lobules IV-V,right
+417,833,2842,1178,195,494,Lobules IV-V,right
+417,848,2622,1176,201,536,Lobules IV-V,right
+417,896,2176,1175,220,628,arbor vitae,left
+417,944,2293,1175,229,603,Lobules IV-V,left
+417,1021,2827,1176,243,491,Lobules IV-V,right
+417,1297,2856,1170,317,478,arbor vitae,right
+417,1367,2953,1170,336,458,arbor vitae,right
+417,1401,2629,1165,344,530,Lobules IV-V,right
+417,2009,3310,1164,498,377,inferior cerebellar peduncle,right
+417,845,2555,1177,200,550,Lobules IV-V,right
+417,1042,2153,1174,255,631,Lobules IV-V,left
+418,2058,3406,1162,512,356,inferior cerebellar peduncle,right
+418,827,2782,1176,193,506,Lobules IV-V,right
+418,865,2896,1177,203,482,Lobules IV-V,right
+418,969,2837,1176,230,490,arbor vitae,right
+418,1003,2675,1173,240,523,Lobules IV-V,right
+418,1087,2049,1173,267,652,Lobules IV-V,left
+418,615,2050,1180,143,654,Declive (VI),left
+418,954,1971,1175,235,670,Lobules IV-V,left
+418,1299,2863,1169,318,477,arbor vitae,right
+419,797,2606,1176,186,540,Lobules IV-V,right
+419,865,2232,1174,211,616,arbor vitae,left
+419,1041,2066,1173,256,649,Lobules IV-V,left
+419,932,2825,1175,220,495,arbor vitae,right
+419,870,2892,1176,204,483,Lobules IV-V,right
+419,1301,2866,1169,318,476,arbor vitae,right
+420,646,3181,1183,143,425,Simple lobule,right
+420,844,2227,1175,206,618,arbor vitae,left
+420,880,2178,1174,216,628,arbor vitae,left
+420,951,2498,1173,227,560,Lobules IV-V,right
+420,965,2840,1175,229,490,arbor vitae,right
+420,1034,2072,1173,255,648,Lobules IV-V,left
+420,1057,2049,1173,259,653,Lobules IV-V,left
+420,1081,2007,1173,266,661,Lobules IV-V,left
+420,1098,2726,1172,264,510,Lobules IV-V,right
+420,799,2127,1175,196,639,Lobules IV-V,left
+420,868,2590,1174,206,543,arbor vitae,right
+420,924,2824,1175,219,495,arbor vitae,right
+420,1302,2868,1169,318,476,arbor vitae,right
+422,1261,2916,1169,306,465,arbor vitae,right
+422,791,2187,1174,193,626,Lobules IV-V,left
+422,902,2227,1173,220,617,Lobules IV-V,left
+422,858,2001,1173,211,665,Lobules IV-V,left
+422,877,2950,1176,206,472,Lobules IV-V,right
+422,878,1944,1173,216,676,Lobules IV-V,left
+422,892,2883,1175,210,484,Lobules IV-V,right
+422,898,2526,1173,214,554,Lobules IV-V,right
+422,975,2085,1173,240,647,Lobules IV-V,left
+422,1220,2003,1169,301,658,Lobules IV-V,left
+422,1382,2653,1163,338,525,Lobules IV-V,right
+422,1423,2524,1163,351,552,Lobules IV-V,right
+422,965,2831,1174,229,491,arbor vitae,right
+422,974,2561,1172,233,546,Lobules IV-V,right
+422,1029,2132,1172,253,636,Lobules IV-V,left
+422,1092,2101,1171,267,641,Lobules IV-V,left
+422,1124,2779,1171,270,498,Lobules IV-V,right
+422,1277,2138,1166,313,628,Lobules IV-V,left
+421,794,2182,1175,194,627,Lobules IV-V,left
+421,810,2656,1175,190,530,Lobules IV-V,right
+421,980,2123,1173,241,639,Lobules IV-V,left
+421,1220,2011,1170,301,656,Lobules IV-V,left
+421,1236,2946,1171,299,459,arbor vitae,right
+421,816,2619,1175,191,538,Lobules IV-V,right
+421,882,2166,1174,216,630,arbor vitae,left
+421,883,2260,1174,216,611,Lobules IV-V,left
+421,963,2834,1175,229,492,arbor vitae,right
+423,779,2169,1174,191,631,Lobules IV-V,left
+423,780,2243,1174,190,614,Lobules IV-V,left
+423,940,2621,1171,224,534,Lobules IV-V,right
+423,958,2782,1172,228,502,Lobules IV-V,right
+423,983,2676,1171,235,523,Lobules IV-V,right
+423,1088,2771,1170,261,500,Lobules IV-V,right
+423,1063,2778,1171,255,499,Lobules IV-V,right
+423,1123,2779,1170,270,498,Lobules IV-V,right
+424,849,2232,1173,208,617,arbor vitae,left
+424,1052,2767,1171,251,502,Lobules IV-V,right
+424,628,3175,1182,139,427,Simple lobule,right
+424,1057,2831,1172,252,488,Lobules IV-V,right
+424,1307,2879,1167,319,474,arbor vitae,right
+425,814,2767,1174,190,509,Lobules IV-V,right
+425,854,1999,1173,210,666,Lobules IV-V,left
+425,857,1926,1173,209,679,Lobules IV-V,left
+425,883,2627,1172,210,534,arbor vitae,right
+425,911,2671,1172,216,525,Lobules IV-V,right
+425,955,2232,1172,233,616,Lobules IV-V,left
+425,826,2107,1173,203,643,Lobules IV-V,left
+425,900,2156,1172,221,632,Lobules IV-V,left
+425,919,2694,1172,219,521,Lobules IV-V,right
+426,958,2201,1171,235,622,Lobules IV-V,left
+426,1065,2820,1170,255,491,Lobules IV-V,right
+426,2054,3407,1159,510,357,inferior cerebellar peduncle,right
+426,906,2484,1171,216,563,Lobules IV-V,right
+426,938,2223,1171,230,618,Lobules IV-V,left
+426,948,2634,1170,226,532,Lobules IV-V,right
+426,966,2830,1172,229,492,Lobules IV-V,right
+426,976,2736,1170,232,510,Lobules IV-V,right
+426,998,2132,1170,246,637,Lobules IV-V,left
+426,1213,2006,1167,299,658,Lobules IV-V,left
+426,851,2378,1173,204,586,arbor vitae,left
+427,765,2216,1172,186,620,Lobules IV-V,left
+427,838,2770,1172,197,508,Lobules IV-V,right
+427,899,2179,1170,221,628,Lobules IV-V,left
+427,922,2959,1172,217,467,Lobules IV-V,right
+427,972,2667,1169,231,525,Lobules IV-V,right
+427,1102,2792,1168,264,495,Lobules IV-V,right
+427,849,2589,1171,201,543,arbor vitae,right
+427,927,2691,1170,220,521,Lobules IV-V,right
+427,1009,2102,1170,248,643,Lobules IV-V,left
+428,862,2251,1171,210,612,Lobules IV-V,left
+428,971,2728,1169,231,512,Lobules IV-V,right
+428,1268,2929,1166,309,463,arbor vitae,right
+428,809,2045,1171,199,657,Lobules IV-V,left
+428,842,2232,1171,205,617,arbor vitae,left
+428,866,2817,1172,204,497,Lobules IV-V,right
+428,908,2472,1170,217,565,Lobules IV-V,right
+428,1144,2820,1168,275,488,Lobules IV-V,right
+428,946,2829,1171,224,493,Lobules IV-V,right
+428,950,2831,1171,226,492,Lobules IV-V,right
+428,1074,2061,1169,264,650,Lobules IV-V,left
+429,879,2266,1171,214,609,Lobules IV-V,left
+429,859,2447,1172,205,571,Lobules IV-V,left
+429,912,2686,1170,216,522,Lobules IV-V,right
+429,946,2118,1170,233,641,Lobules IV-V,left
+429,1017,1986,1170,250,667,arbor vitae,left
+429,1076,2812,1169,257,491,Lobules IV-V,right
+429,1252,1998,1165,308,659,Lobules IV-V,left
+429,944,2828,1171,224,493,Lobules IV-V,right
+429,1245,2003,1165,307,658,Lobules IV-V,left
+429,2052,3408,1158,508,357,inferior cerebellar peduncle,right
+430,634,3200,1180,140,421,Simple lobule,right
+430,768,2182,1171,188,627,Lobules IV-V,left
+430,835,2234,1171,204,617,arbor vitae,left
+430,885,3001,1172,208,460,Lobules IV-V,right
+430,938,2826,1170,223,493,Lobules IV-V,right
+430,1276,1540,1168,315,759,Simple lobule,left
+430,828,2235,1171,203,617,arbor vitae,left
+430,874,2258,1170,213,611,Lobules IV-V,left
+430,1243,1507,1169,307,765,Simple lobule,left
+432,787,2809,1171,182,501,Lobules IV-V,right
+432,913,2205,1168,224,623,Lobules IV-V,left
+432,933,2005,1169,230,665,arbor vitae,left
+432,1159,1979,1166,285,666,Lobules IV-V,left
+432,1242,1988,1164,305,661,Lobules IV-V,left
+432,818,2813,1171,192,499,Lobules IV-V,right
+432,889,2192,1169,218,625,Lobules IV-V,left
+432,1273,2936,1164,310,460,arbor vitae,right
+431,819,1967,1170,201,672,Lobules IV-V,left
+431,843,2246,1170,206,614,arbor vitae,left
+431,856,2931,1171,201,475,Lobules IV-V,right
+431,979,2105,1168,241,643,Lobules IV-V,left
+431,994,2083,1168,245,647,Lobules IV-V,left
+431,841,2210,1169,206,622,arbor vitae,left
+431,1272,2935,1164,308,461,arbor vitae,right
+433,899,1891,1169,221,686,Lobules IV-V,left
+433,820,1963,1170,201,673,Lobules IV-V,left
+433,838,2210,1169,206,622,arbor vitae,left
+433,839,2895,1171,197,483,Lobules IV-V,right
+433,871,2262,1169,212,610,Lobules IV-V,left
+433,927,2819,1169,219,495,Lobules IV-V,right
+433,1000,2071,1168,246,649,Lobules IV-V,left
+433,1272,1524,1168,314,762,Simple lobule,left
+433,1317,2929,1163,321,462,arbor vitae,right
+433,1318,2902,1163,323,468,arbor vitae,right
+433,773,2143,1170,190,636,Lobules IV-V,left
+434,742,2391,1170,176,583,Lobules IV-V,left
+434,1277,2943,1163,309,459,arbor vitae,right
+434,2051,3412,1155,508,356,inferior cerebellar peduncle,right
+434,652,3167,1177,145,428,Simple lobule,right
+434,818,2235,1169,201,617,arbor vitae,left
+434,891,2587,1167,212,542,Lobules IV-V,right
+434,1164,3073,1165,275,434,Lobules IV-V,right
+434,925,2817,1168,220,495,Lobules IV-V,right
+435,743,2462,1169,175,568,Lobules IV-V,right
+435,872,2816,1168,206,497,arbor vitae,right
+435,902,2582,1166,214,543,Lobules IV-V,right
+435,791,2418,1169,188,577,Lobules IV-V,left
+435,804,2429,1169,192,575,arbor vitae,left
+435,889,2043,1167,220,657,Lobules IV-V,left
+435,918,2025,1167,227,661,Lobules IV-V,left
+435,939,2109,1166,232,643,Lobules IV-V,left
+435,1194,2894,1163,288,471,Lobules IV-V,right
+435,840,2726,1168,198,515,arbor vitae,right
+435,922,2814,1167,218,496,Lobules IV-V,right
+435,924,2816,1167,220,495,Lobules IV-V,right
+435,935,2985,1169,221,461,Lobules IV-V,right
+436,737,2243,1170,179,615,Lobules IV-V,left
+436,862,2973,1170,202,466,Lobules IV-V,right
+436,743,2361,1170,178,589,Lobules IV-V,left
+436,751,2186,1169,183,626,Lobules IV-V,left
+436,928,2689,1166,221,521,Lobules IV-V,right
+436,975,2060,1167,240,653,Lobules IV-V,left
+436,1276,1526,1166,315,761,Simple lobule,left
+436,812,2790,1169,190,504,Lobules IV-V,right
+436,837,2609,1167,197,539,Lobules IV-V,right
+436,855,2329,1168,207,596,Lobules IV-V,left
+436,867,2890,1169,204,483,Lobules IV-V,right
+436,896,2454,1167,214,570,Lobules IV-V,right
+436,948,2993,1169,224,459,Lobules IV-V,right
+437,806,2828,1169,188,497,Lobules IV-V,right
+437,938,2818,1167,223,494,Lobules IV-V,right
+437,742,2253,1170,180,613,Lobules IV-V,left
+437,776,2779,1169,180,507,Lobules IV-V,right
+437,801,1954,1168,195,675,Lobules IV-V,left
+437,805,2236,1168,197,616,arbor vitae,left
+437,884,2542,1167,211,551,Lobules IV-V,right
+437,864,2265,1168,211,610,Lobules IV-V,left
+437,888,2584,1166,212,543,Lobules IV-V,right
+437,892,2953,1169,210,469,Lobules IV-V,right
+437,906,2963,1169,214,466,Lobules IV-V,right
+437,917,2812,1167,217,496,Lobules IV-V,right
+437,937,2828,1167,222,493,Lobules IV-V,right
+438,749,2383,1169,179,585,Lobules IV-V,left
+438,756,2370,1169,181,588,Lobules IV-V,left
+438,1377,2200,1155,339,614,Lobule III,left
+438,747,2230,1169,182,618,Lobules IV-V,left
+438,791,2818,1169,184,499,Lobules IV-V,right
+438,1290,1536,1164,319,759,Simple lobule,left
+438,916,2811,1167,217,496,Lobules IV-V,right
+438,936,2828,1166,222,492,Lobules IV-V,right
+438,2047,3414,1153,507,356,inferior cerebellar peduncle,right
+439,848,2426,1166,204,575,Lobules IV-V,left
+439,923,2779,1165,220,503,Lobules IV-V,right
+439,1281,2953,1160,310,457,arbor vitae,right
+439,1299,1568,1163,321,753,Simple lobule,left
+441,870,2284,1166,212,606,Lobules IV-V,left
+441,719,2465,1168,168,568,Lobules IV-V,right
+441,808,2807,1167,190,500,Lobules IV-V,right
+441,847,2345,1166,204,593,Lobules IV-V,left
+441,863,2278,1166,211,607,Lobules IV-V,left
+441,1325,2921,1159,324,463,arbor vitae,right
+440,737,2195,1168,180,625,Lobules IV-V,left
+440,754,2142,1167,185,636,Lobules IV-V,left
+440,1325,2920,1159,324,464,arbor vitae,right
+442,2045,3418,1151,506,355,inferior cerebellar peduncle,right
+442,839,2698,1165,199,521,Lobules IV-V,right
+442,904,2810,1165,215,497,Lobules IV-V,right
+442,776,2026,1166,190,660,Lobules IV-V,left
+442,891,2039,1164,220,658,Lobules IV-V,left
+443,709,2370,1166,169,588,Lobules IV-V,left
+443,783,2809,1166,183,500,Lobules IV-V,right
+443,1014,3099,1164,238,434,Lobules IV-V,right
+443,573,2430,1168,130,576,Lobules IV-V,left
+443,795,2241,1165,195,615,arbor vitae,left
+443,836,2354,1165,202,591,Lobules IV-V,left
+443,903,2104,1163,224,644,Lobules IV-V,left
+443,906,2081,1163,224,649,Lobules IV-V,left
+443,1314,2000,1156,325,658,arbor vitae,left
+444,863,2312,1164,210,600,Lobules IV-V,left
+444,524,2348,1170,120,592,Lobules IV-V,left
+444,722,2217,1167,176,620,Lobules IV-V,left
+444,875,2235,1164,214,617,Lobules IV-V,left
+444,451,2160,1173,99,628,Lobules IV-V,left
+444,460,2160,1173,103,628,Lobules IV-V,left
+444,1126,1907,1161,276,682,Lobules IV-V,left
+445,918,2828,1164,219,493,Lobules IV-V,right
+445,739,2232,1166,181,617,Lobules IV-V,left
+445,871,2987,1166,205,462,Lobules IV-V,right
+445,895,2822,1164,212,494,Lobules IV-V,right
+445,787,2806,1166,183,500,Lobules IV-V,right
+445,820,2941,1166,192,473,Lobules IV-V,right
+445,836,2227,1164,205,618,Lobules IV-V,left
+445,894,2809,1164,213,497,Lobules IV-V,right
+445,963,2906,1164,229,475,Lobules IV-V,right
+446,715,2418,1165,169,578,Lobules IV-V,left
+446,737,2268,1165,179,609,Lobules IV-V,left
+446,779,2039,1164,192,658,Lobules IV-V,left
+446,788,2242,1164,194,615,arbor vitae,left
+446,818,2270,1164,200,610,Lobules IV-V,left
+446,847,2311,1163,205,600,Lobules IV-V,left
+446,1104,1873,1160,271,689,arbor vitae,left
+447,569,2454,1167,127,571,Lobules IV-V,left
+447,579,2440,1167,131,574,Lobules IV-V,left
+447,841,2567,1162,200,546,Lobules IV-V,right
+447,909,2049,1161,225,656,Lobules IV-V,left
+447,709,2468,1164,166,567,Lobules IV-V,right
+447,822,2607,1162,194,538,Lobules IV-V,right
+448,695,2399,1165,164,582,Lobules IV-V,left
+448,744,2763,1164,172,510,Lobules IV-V,right
+448,772,2825,1164,179,498,Lobules IV-V,right
+448,804,2195,1163,199,626,Lobules IV-V,left
+448,836,2552,1162,199,549,Lobules IV-V,right
+448,848,2608,1161,202,538,Lobules IV-V,right
+448,576,2398,1167,132,582,Lobules IV-V,left
+448,826,2697,1162,195,521,Lobules IV-V,right
+449,816,2561,1162,193,547,Lobules IV-V,right
+449,533,2372,1168,122,587,Lobules IV-V,left
+449,543,2201,1170,129,621,Lobules IV-V,left
+449,691,2247,1166,167,614,Lobules IV-V,left
+449,1107,1916,1160,271,680,Lobules IV-V,left
+449,1330,2932,1155,325,461,arbor vitae,right
+449,842,2127,1162,208,639,Lobules IV-V,left
+449,887,2819,1162,210,495,Lobules IV-V,right
+449,1123,1920,1159,276,679,Lobules IV-V,left
+451,899,2805,1160,214,498,Lobules IV-V,right
+451,605,2439,1164,138,574,Lobules IV-V,left
+451,534,2211,1168,127,619,Lobules IV-V,left
+451,764,2840,1163,178,495,Lobules IV-V,right
+451,812,2488,1160,193,563,Lobules IV-V,right
+451,919,2048,1159,228,656,Lobules IV-V,left
+451,975,1994,1159,241,666,Lobules IV-V,left
+451,772,2241,1162,189,615,arbor vitae,left
+451,932,2815,1160,222,495,Lobules IV-V,right
+450,2043,3421,1148,506,354,inferior cerebellar peduncle,right
+450,529,2149,1170,124,632,Lobules IV-V,left
+450,2010,3343,1148,497,370,inferior cerebellar peduncle,right
+450,794,2356,1162,192,590,Lobules IV-V,left
+450,823,2717,1161,195,517,Lobules IV-V,right
+450,1088,1915,1159,268,681,Lobules IV-V,left
+452,538,2272,1167,127,607,Lobules IV-V,left
+452,780,2858,1163,182,490,Lobules IV-V,right
+452,826,2685,1160,195,523,Lobules IV-V,right
+452,983,1985,1159,243,668,Lobules IV-V,left
+452,767,2242,1162,188,615,arbor vitae,left
+453,544,2453,1166,121,571,Lobules IV-V,left
+453,690,2237,1164,168,616,Lobules IV-V,left
+453,832,2181,1160,205,628,Lobules IV-V,left
+453,558,2259,1167,133,610,Lobules IV-V,left
+453,671,2225,1165,163,619,Lobules IV-V,left
+453,791,2879,1163,185,486,Lobules IV-V,right
+453,810,2886,1162,190,483,Lobules IV-V,right
+453,1299,1977,1153,320,663,Lobules IV-V,left
+453,749,2041,1162,184,657,Lobules IV-V,left
+453,899,1976,1160,223,670,Lobules IV-V,left
+453,1090,1900,1158,267,684,Lobules IV-V,left
+454,656,2427,1163,152,576,Lobules IV-V,left
+454,811,2291,1160,198,604,Lobules IV-V,left
+454,874,2817,1160,208,495,Lobules IV-V,right
+454,526,2146,1168,124,632,Lobules IV-V,left
+454,562,2219,1167,134,619,Lobules IV-V,left
+454,599,2400,1164,138,582,Lobules IV-V,left
+454,678,2366,1162,162,588,Lobules IV-V,left
+454,822,2765,1160,194,508,Lobules IV-V,right
+454,821,2078,1160,203,650,Lobules IV-V,left
+455,571,2213,1166,136,620,Lobules IV-V,left
+455,572,2248,1165,136,613,Lobules IV-V,left
+455,798,2374,1159,193,587,Lobules IV-V,left
+455,816,2102,1159,202,645,Lobules IV-V,left
+455,816,2278,1159,200,607,Lobules IV-V,left
+455,888,2032,1158,221,659,Lobules IV-V,left
+455,947,1971,1158,234,671,Lobules IV-V,left
+456,622,2400,1163,144,582,Lobules IV-V,left
+456,578,2216,1166,139,619,Lobules IV-V,left
+456,591,2270,1165,141,609,Lobules IV-V,left
+456,598,2587,1164,130,545,Lobules IV-V,right
+456,824,2562,1158,196,547,Lobules IV-V,right
+456,1383,2659,1147,339,523,Lobule III,right
+456,1139,3001,1155,270,448,Lobules IV-V,right
+456,1306,2942,1151,317,459,arbor vitae,right
+457,770,2845,1161,180,493,Lobules IV-V,right
+457,518,2334,1165,120,595,Lobules IV-V,left
+457,530,2176,1167,126,626,Lobules IV-V,left
+457,554,2282,1165,131,605,Lobules IV-V,left
+457,560,2185,1167,134,626,Lobules IV-V,left
+457,648,2270,1163,157,609,Lobules IV-V,left
+457,722,2229,1161,177,618,Lobules IV-V,left
+457,786,2866,1161,184,488,Lobules IV-V,right
+457,831,2713,1158,197,517,Lobules IV-V,right
+457,1339,2946,1151,327,458,arbor vitae,right
+457,2003,3350,1145,495,370,inferior cerebellar peduncle,right
+457,2042,3422,1145,504,354,inferior cerebellar peduncle,right
+457,679,2368,1161,162,588,Lobules IV-V,left
+457,746,2245,1160,183,615,arbor vitae,left
+457,755,2276,1160,185,607,arbor vitae,left
+457,2039,3399,1145,504,359,inferior cerebellar peduncle,right
+458,911,2004,1157,226,665,Lobules IV-V,left
+458,1181,3012,1153,280,445,Lobules IV-V,right
+458,790,2595,1158,187,541,Lobules IV-V,right
+458,797,2653,1158,188,530,Lobules IV-V,right
+458,802,2079,1158,199,650,Lobules IV-V,left
+458,841,2994,1160,198,461,Lobules IV-V,right
+458,865,2010,1158,215,664,Lobules IV-V,left
+458,1060,2969,1156,252,458,Lobules IV-V,right
+458,1081,2950,1155,257,462,Lobules IV-V,right
+458,1005,1946,1156,248,675,Lobules IV-V,left
+459,603,2197,1164,146,624,Lobules IV-V,left
+459,641,2428,1160,148,576,Lobules IV-V,left
+459,544,2402,1163,124,581,Lobules IV-V,left
+459,573,2186,1165,138,625,Lobules IV-V,left
+459,581,2364,1162,135,589,Lobules IV-V,left
+459,594,2237,1163,143,615,Lobules IV-V,left
+459,622,2397,1161,144,582,Lobules IV-V,left
+459,742,2245,1159,182,615,arbor vitae,left
+459,1080,3009,1154,255,449,Lobules IV-V,right
+459,546,2491,1163,119,563,Lobules IV-V,right
+459,738,1958,1159,181,675,Lobules IV-V,left
+459,760,2215,1158,188,621,Lobules IV-V,left
+459,802,2812,1158,189,498,arbor vitae,right
+459,2002,3351,1143,493,369,inferior cerebellar peduncle,right
+460,627,2433,1161,144,575,Lobules IV-V,left
+460,796,2246,1157,196,614,Lobules IV-V,left
+460,826,3020,1159,194,456,Lobules IV-V,right
+460,574,2819,1163,122,503,Lobules IV-V,right
+460,772,2402,1157,185,581,Lobules IV-V,left
+460,1163,3007,1152,276,447,Lobules IV-V,right
+461,576,2171,1165,138,628,Lobules IV-V,left
+461,632,2613,1161,139,540,Lobules IV-V,right
+461,739,2826,1159,171,496,Lobules IV-V,right
+461,767,2940,1160,179,474,Lobules IV-V,right
+461,592,2799,1163,126,506,Lobules IV-V,right
+461,613,2249,1163,148,613,Lobules IV-V,left
+461,736,2245,1159,181,615,arbor vitae,left
+461,794,2304,1157,194,602,Lobules IV-V,left
+461,833,2053,1157,208,655,Lobules IV-V,left
+461,1127,1831,1153,275,697,Lobules IV-V,left
+461,1142,3026,1153,269,443,Lobules IV-V,right
+461,1299,2202,1146,318,616,Lobule III,left
+461,607,2242,1163,146,614,Lobules IV-V,left
+461,789,2858,1159,186,489,Lobules IV-V,right
+462,534,2233,1164,127,615,Lobules IV-V,left
+462,597,2411,1161,137,579,Lobules IV-V,left
+462,625,2269,1161,151,609,Lobules IV-V,left
+462,648,2649,1160,144,533,Lobules IV-V,right
+462,780,2552,1156,185,549,Lobules IV-V,right
+462,1029,1904,1154,254,684,Lobules IV-V,left
+463,554,2373,1161,128,587,Lobules IV-V,left
+463,591,2853,1160,127,495,Lobules IV-V,right
+463,664,2264,1159,162,610,Lobules IV-V,left
+463,704,2792,1158,161,504,Lobules IV-V,right
+463,759,2942,1158,177,473,Lobules IV-V,right
+463,768,2241,1156,190,615,Lobules IV-V,left
+463,822,3002,1157,193,459,Lobules IV-V,right
+463,825,2109,1155,206,644,Lobules IV-V,left
+464,596,2686,1161,128,527,Lobules IV-V,right
+464,626,2209,1161,152,622,Lobules IV-V,left
+464,788,2697,1155,187,521,Lobules IV-V,right
+464,887,3065,1157,209,445,Lobules IV-V,right
+464,621,2837,1160,136,497,Lobules IV-V,right
+464,648,2570,1159,146,548,Lobules IV-V,right
+464,670,2487,1158,154,563,Lobules IV-V,right
+464,559,2015,1162,131,662,Lobules IV-V,left
+464,756,2365,1156,183,589,Lobules IV-V,left
+465,831,2787,1155,197,502,Lobules IV-V,right
+465,667,2228,1160,162,618,Lobules IV-V,left
+465,540,2072,1163,127,648,Lobules IV-V,left
+465,629,2805,1160,139,504,Lobules IV-V,right
+465,744,2376,1156,180,586,Lobules IV-V,left
+465,806,2096,1155,201,646,Lobules IV-V,left
+465,660,2012,1159,159,664,Lobules IV-V,left
+465,753,2607,1156,177,539,Lobules IV-V,right
+466,1318,2935,1146,321,461,arbor vitae,right
+466,596,2759,1160,128,514,Lobules IV-V,right
+466,615,2228,1160,149,617,Lobules IV-V,left
+466,639,2772,1159,141,510,Lobules IV-V,right
+466,640,2786,1159,142,507,Lobules IV-V,right
+466,896,2864,1154,214,485,Lobules IV-V,right
+466,909,1994,1153,226,667,Lobules IV-V,left
+466,759,2944,1157,178,473,Lobules IV-V,right
+466,778,2821,1156,183,496,arbor vitae,right
+466,1348,2965,1146,329,454,arbor vitae,right
+467,2044,3431,1139,505,352,inferior cerebellar peduncle,right
+467,569,2219,1161,137,619,Lobules IV-V,left
+467,554,2329,1160,131,596,Lobules IV-V,left
+467,605,2413,1158,139,579,Lobules IV-V,left
+467,688,2788,1156,157,505,Lobules IV-V,right
+467,782,2944,1156,183,472,Lobules IV-V,right
+467,802,2918,1155,189,477,arbor vitae,right
+467,1144,1836,1149,279,696,Lobules IV-V,left
+467,923,1969,1152,230,672,Lobules IV-V,left
+468,612,2835,1158,133,498,Lobules IV-V,right
+468,695,2233,1157,171,617,Lobules IV-V,left
+468,845,2803,1153,201,498,Lobules IV-V,right
+468,582,2191,1161,140,624,Lobules IV-V,left
+468,636,2814,1158,141,502,Lobules IV-V,right
+468,639,2205,1159,156,623,Lobules IV-V,left
+468,785,2845,1155,185,492,arbor vitae,right
+468,1079,3056,1151,254,439,Lobules IV-V,right
+469,1143,3044,1149,270,440,Lobules IV-V,right
+469,589,2629,1159,127,538,Lobules IV-V,right
+469,858,2818,1153,205,495,Lobules IV-V,right
+469,607,2851,1158,132,494,Lobules IV-V,right
+469,674,2422,1156,159,577,Lobules IV-V,left
+469,1081,3030,1151,255,445,Lobules IV-V,right
+469,1294,1972,1145,319,665,Lobules IV-V,left
+470,582,2364,1158,136,589,Lobules IV-V,left
+470,596,2893,1157,130,486,Lobules IV-V,right
+470,651,2794,1156,145,505,Lobules IV-V,right
+470,662,2794,1156,148,505,Lobules IV-V,right
+470,725,2814,1155,168,499,Lobules IV-V,right
+470,756,2551,1153,178,550,Lobules IV-V,right
+470,813,2091,1152,204,647,Lobules IV-V,left
+470,843,2039,1152,211,658,Lobules IV-V,left
+470,688,2233,1156,170,617,Lobules IV-V,left
+470,988,1898,1151,244,685,Lobules IV-V,left
+471,564,2326,1158,133,596,Lobules IV-V,left
+471,580,2849,1157,125,496,Lobules IV-V,right
+471,644,2709,1156,143,522,Lobules IV-V,right
+471,735,2860,1154,171,490,Lobules IV-V,right
+471,916,1953,1151,227,675,Lobules IV-V,left
+471,532,2004,1159,123,663,Lobules IV-V,left
+471,681,2693,1154,154,524,Lobules IV-V,right
+472,600,2608,1157,131,541,Lobules IV-V,right
+472,621,2879,1156,137,488,Lobules IV-V,right
+472,758,2249,1152,188,614,Lobules IV-V,left
+472,808,3024,1154,191,455,Lobules IV-V,right
+472,1323,2836,1142,323,481,Lobule III,right
+472,637,2802,1156,141,503,Lobules IV-V,right
+472,645,2496,1155,147,561,Lobules IV-V,right
+474,554,2746,1157,118,516,Lobules IV-V,right
+474,693,2808,1153,159,501,Lobules IV-V,right
+474,700,2824,1153,161,497,Lobules IV-V,right
+474,864,3069,1153,204,444,Lobules IV-V,right
+474,2049,3434,1136,506,352,inferior cerebellar peduncle,right
+474,514,2273,1159,122,607,Lobules IV-V,left
+474,637,2202,1157,156,623,Lobules IV-V,left
+474,642,2408,1154,150,580,Lobules IV-V,left
+474,899,1926,1150,224,680,Lobules IV-V,left
+474,993,3010,1150,236,452,Lobules IV-V,right
+474,996,1826,1149,245,699,Lobules IV-V,left
+474,1042,3043,1149,245,443,Lobules IV-V,right
+474,1228,1905,1144,301,681,Lobules IV-V,left
+474,733,2429,1151,176,575,Lobules IV-V,left
+474,1977,3360,1137,486,368,inferior cerebellar peduncle,right
+473,533,2175,1161,129,628,Lobules IV-V,left
+473,576,2852,1157,124,495,Lobules IV-V,right
+473,663,2703,1155,150,522,Lobules IV-V,right
+473,915,1922,1151,227,680,Lobules IV-V,left
+473,1979,3359,1138,488,368,inferior cerebellar peduncle,right
+473,564,2001,1158,133,664,Lobules IV-V,left
+473,589,2642,1157,127,535,Lobules IV-V,right
+475,597,2187,1157,145,626,Lobules IV-V,left
+475,798,2821,1151,190,495,Lobules IV-V,right
+475,1305,3054,1142,314,436,arbor vitae,right
+475,616,2291,1155,148,604,Lobules IV-V,left
+475,634,2654,1154,141,532,Lobules IV-V,right
+475,765,2737,1150,180,513,Lobules IV-V,right
+475,788,2092,1150,198,647,Lobules IV-V,left
+475,1055,3007,1147,250,450,Lobules IV-V,right
+475,1108,3042,1146,261,441,Lobules IV-V,right
+475,563,2885,1155,122,489,Lobules IV-V,right
+475,744,2856,1152,174,489,arbor vitae,right
+475,1073,1818,1146,263,701,Lobules IV-V,left
+476,821,2801,1150,196,498,Lobules IV-V,right
+476,591,2938,1154,129,476,Lobules IV-V,right
+476,643,2813,1153,144,501,Lobules IV-V,right
+476,738,2095,1152,185,647,Lobules IV-V,left
+477,930,3104,1151,219,435,Lobules IV-V,right
+477,514,2022,1158,120,658,Lobules IV-V,left
+477,571,2854,1155,123,495,Lobules IV-V,right
+477,596,2197,1157,145,624,Lobules IV-V,left
+477,604,2394,1154,141,583,Lobules IV-V,left
+477,662,2771,1153,149,508,Lobules IV-V,right
+477,695,2891,1152,160,483,Lobules IV-V,right
+477,729,2849,1152,170,492,Lobules IV-V,right
+477,744,2579,1150,175,544,Lobules IV-V,right
+477,1023,3019,1148,242,449,Lobules IV-V,right
+477,1036,3011,1148,245,450,Lobules IV-V,right
+477,652,1944,1154,157,678,Lobules IV-V,left
+477,891,2900,1150,213,478,Lobules IV-V,right
+478,617,2848,1153,136,494,Lobules IV-V,right
+478,642,2260,1154,156,611,Lobules IV-V,left
+478,703,2858,1151,163,490,Lobules IV-V,right
+478,935,1895,1148,232,686,Lobules IV-V,left
+478,1119,3086,1144,262,432,Lobules IV-V,right
+478,537,2876,1154,114,491,Lobules IV-V,right
+478,612,2862,1153,135,491,Lobules IV-V,right
+478,645,2801,1152,144,503,Lobules IV-V,right
+478,706,2939,1152,163,474,Lobules IV-V,right
+478,729,2559,1149,171,549,Lobules IV-V,right
+478,887,1970,1148,221,672,Lobules IV-V,left
+478,963,1843,1148,239,696,Lobules IV-V,left
+478,1018,1854,1147,251,694,Lobules IV-V,left
+478,1149,3078,1143,270,433,Lobules IV-V,right
+478,1307,2824,1139,317,484,Lobule III,right
+478,548,2913,1154,118,483,Lobules IV-V,right
+478,569,2939,1154,124,477,Lobules IV-V,right
+478,625,2107,1156,153,643,Lobules IV-V,left
+478,652,2208,1154,160,622,Lobules IV-V,left
+478,1054,3049,1147,248,442,Lobules IV-V,right
+478,1242,1927,1142,304,676,Lobule III,left
+479,564,2252,1156,136,612,Lobules IV-V,left
+479,635,2914,1151,142,480,Lobules IV-V,right
+479,729,2957,1151,170,469,Lobules IV-V,right
+479,856,3067,1150,202,444,Lobules IV-V,right
+479,658,2713,1151,149,520,Lobules IV-V,right
+479,863,1975,1148,216,671,Lobules IV-V,left
+479,897,1916,1148,223,682,Lobules IV-V,left
+479,944,1902,1147,234,684,Lobules IV-V,left
+480,723,2207,1150,181,622,Lobules IV-V,left
+480,762,2090,1149,191,648,Lobules IV-V,left
+480,867,1959,1148,216,674,Lobules IV-V,left
+480,957,3084,1149,225,438,Lobules IV-V,right
+480,713,2554,1149,167,550,Lobules IV-V,right
+480,766,2686,1148,181,522,Lobules IV-V,right
+480,781,2084,1149,196,649,Lobules IV-V,left
+480,834,3070,1150,197,445,Lobules IV-V,right
+480,972,1847,1147,240,695,Lobules IV-V,left
+480,1251,2583,1137,300,537,Lobule III,right
+480,663,1978,1152,162,671,Lobules IV-V,left
+480,725,2547,1149,170,551,Lobules IV-V,right
+480,944,1900,1147,234,685,Lobules IV-V,left
+480,1101,3111,1144,257,428,Lobules IV-V,right
+480,1107,3112,1144,258,427,Lobules IV-V,right
+480,1113,1777,1144,271,709,Lobules IV-V,left
+480,1427,2006,1137,353,657,arbor vitae,left
+481,594,2631,1153,129,536,Lobules IV-V,right
+481,537,2778,1154,113,511,Lobules IV-V,right
+481,580,2529,1154,127,556,Lobules IV-V,right
+481,634,2013,1154,154,664,Lobules IV-V,left
+481,755,2723,1149,178,516,Lobules IV-V,right
+481,1404,2166,1136,347,623,arbor vitae,left
+481,1067,3104,1145,249,430,Lobules IV-V,right
+481,1088,3110,1145,255,429,Lobules IV-V,right
+481,1095,3109,1144,256,429,Lobules IV-V,right
+481,1395,2096,1136,345,638,arbor vitae,left
+481,2013,3396,1134,496,360,inferior cerebellar peduncle,right
+482,834,3054,1149,197,447,Lobules IV-V,right
+482,635,2849,1150,142,493,Lobules IV-V,right
+482,652,2223,1152,160,619,Lobules IV-V,left
+482,693,2896,1150,160,482,Lobules IV-V,right
+482,699,2882,1149,162,485,Lobules IV-V,right
+482,716,2870,1149,166,487,Lobules IV-V,right
+482,737,2526,1147,174,555,Lobules IV-V,right
+482,890,1887,1147,221,687,Lobules IV-V,left
+482,1956,3365,1134,480,367,inferior cerebellar peduncle,right
+482,913,1867,1147,227,691,Lobules IV-V,left
+482,1050,3100,1145,246,432,Lobules IV-V,right
+482,1056,3102,1145,247,431,Lobules IV-V,right
+483,664,2649,1149,151,532,Lobules IV-V,right
+483,720,2298,1147,177,603,Lobules IV-V,left
+483,723,2371,1147,176,587,Lobules IV-V,left
+483,912,1893,1146,226,686,Lobules IV-V,left
+483,1145,3093,1141,268,430,Lobules IV-V,right
+483,1313,3070,1138,316,433,arbor vitae,right
+483,627,2856,1150,139,491,Lobules IV-V,right
+483,655,2200,1151,162,624,arbor vitae,left
+483,1028,3093,1145,242,433,Lobules IV-V,right
+483,1363,3007,1137,332,444,arbor vitae,right
+483,1954,3366,1133,480,366,inferior cerebellar peduncle,right
+484,585,2146,1155,143,634,Lobules IV-V,left
+484,526,2269,1155,126,608,Lobules IV-V,left
+484,576,2749,1152,124,515,Lobules IV-V,right
+484,647,2712,1150,145,520,Lobules IV-V,right
+484,840,3061,1149,198,445,Lobules IV-V,right
+484,1012,3042,1145,239,444,Lobules IV-V,right
+484,1292,2645,1134,311,524,Lobule III,right
+484,661,2776,1149,149,507,Lobules IV-V,right
+484,661,2879,1149,150,486,Lobules IV-V,right
+484,699,2966,1149,162,467,Lobules IV-V,right
+484,737,2137,1148,184,637,Lobules IV-V,left
+484,1952,3367,1133,479,366,inferior cerebellar peduncle,right
+485,569,2723,1152,123,520,Lobules IV-V,right
+485,715,2803,1148,166,500,arbor vitae,right
+485,736,2706,1147,172,519,Lobules IV-V,right
+485,967,3042,1146,229,446,Lobules IV-V,right
+485,1276,2525,1134,307,551,Lobule III,right
+485,1282,2557,1134,308,543,Lobule III,right
+486,704,2420,1146,168,578,Lobules IV-V,left
+486,1123,3097,1140,263,430,Lobules IV-V,right
+486,664,2808,1148,151,500,Lobules IV-V,right
+486,691,2447,1147,163,571,Lobules IV-V,left
+486,801,3058,1148,188,447,Lobules IV-V,right
+486,1284,2549,1133,309,545,Lobule III,right
+490,2058,3446,1128,507,349,inferior cerebellar peduncle,right
+490,572,2917,1148,125,480,Lobules IV-V,right
+490,747,3057,1147,174,447,Lobules IV-V,right
+490,821,2901,1145,196,478,Lobules IV-V,right
+490,904,3055,1145,215,445,Lobules IV-V,right
+490,1316,3125,1135,315,422,arbor vitae,right
+490,522,2352,1151,121,591,Lobules IV-V,left
+490,792,3013,1146,187,456,Lobules IV-V,right
+490,851,3034,1146,202,451,arbor vitae,right
+487,478,2144,1155,114,632,Lobules IV-V,left
+487,696,2234,1147,173,617,Lobules IV-V,left
+487,1164,3112,1138,272,426,Lobules IV-V,right
+487,483,2106,1155,115,640,Lobules IV-V,left
+487,708,2575,1145,166,546,Lobules IV-V,right
+487,1148,3209,1139,267,409,Lobules IV-V,right
+487,1164,3095,1138,273,430,Lobules IV-V,right
+487,1179,3097,1138,276,429,Lobules IV-V,right
+487,749,2685,1145,177,523,Lobules IV-V,right
+487,1035,3055,1143,244,441,Lobules IV-V,right
+488,1293,2798,1133,313,489,Lobule III,right
+488,595,2942,1148,132,474,Lobules IV-V,right
+488,727,2676,1145,170,525,Lobules IV-V,right
+488,789,2047,1145,199,656,Lobules IV-V,left
+488,1136,3205,1140,263,410,Lobules IV-V,right
+488,1234,2641,1133,296,524,Lobule III,right
+488,599,2004,1151,145,665,Lobules IV-V,left
+488,886,1924,1144,221,681,Lobules IV-V,left
+489,1298,2834,1134,315,482,Lobule III,right
+489,536,1986,1152,126,667,Lobules IV-V,left
+489,602,2919,1148,133,479,Lobules IV-V,right
+489,1299,2805,1133,315,488,Lobule III,right
+489,1939,3368,1132,476,366,inferior cerebellar peduncle,right
+489,499,2039,1154,117,655,Lobules IV-V,left
+489,636,2251,1150,155,613,Lobules IV-V,left
+489,698,2801,1146,162,500,arbor vitae,right
+489,834,2232,1142,208,617,Lobules IV-V,left
+489,877,1935,1144,219,679,Lobules IV-V,left
+491,743,3006,1146,175,457,Lobules IV-V,right
+491,771,3027,1146,181,453,Lobules IV-V,right
+491,775,2222,1142,194,619,Lobules IV-V,left
+491,894,1849,1143,223,695,Lobules IV-V,left
+491,484,2117,1153,115,638,Lobules IV-V,left
+491,607,2393,1147,141,583,Lobules IV-V,left
+491,718,3028,1146,167,454,Lobules IV-V,right
+491,773,3008,1145,183,457,Lobules IV-V,right
+491,865,3039,1145,205,449,arbor vitae,right
+491,720,1990,1146,179,669,arbor vitae,left
+491,779,3010,1145,184,457,Lobules IV-V,right
+491,799,3016,1145,189,455,Lobules IV-V,right
+491,843,3031,1145,201,451,arbor vitae,right
+491,1269,2874,1133,306,473,Lobule III,right
+492,513,2362,1150,119,589,Lobules IV-V,left
+492,688,3046,1147,159,450,Lobules IV-V,right
+492,673,2864,1145,155,488,Lobules IV-V,right
+492,745,2753,1143,176,509,Lobules IV-V,right
+492,527,1975,1150,123,670,Lobules IV-V,left
+492,528,1976,1150,125,669,Lobules IV-V,left
+492,805,3018,1145,191,455,arbor vitae,right
+492,826,2896,1144,198,478,Lobules IV-V,right
+492,954,3037,1143,227,447,Lobules IV-V,right
+492,1932,3369,1130,473,367,inferior cerebellar peduncle,right
+493,535,2757,1148,114,514,Lobules IV-V,right
+493,539,2360,1150,126,590,Lobules IV-V,left
+493,618,2610,1147,138,540,Lobules IV-V,right
+493,1221,3127,1135,286,422,Lobules IV-V,right
+493,1238,3120,1135,292,424,Lobules IV-V,right
+493,584,2883,1146,129,487,Lobules IV-V,right
+493,714,2652,1144,167,529,Lobules IV-V,right
+493,832,3030,1145,197,452,arbor vitae,right
+493,1090,3117,1139,254,427,Lobules IV-V,right
+493,595,2050,1150,145,656,Lobules IV-V,left
+493,604,2192,1150,149,625,Lobules IV-V,left
+493,688,2799,1145,159,501,arbor vitae,right
+493,737,3017,1146,172,455,Lobules IV-V,right
+493,743,2997,1145,175,459,Lobules IV-V,right
+493,755,3002,1145,177,458,Lobules IV-V,right
+493,929,1845,1142,231,696,Lobules IV-V,left
+493,1173,2618,1133,280,529,Lobule III,right
+493,1930,3369,1130,473,367,inferior cerebellar peduncle,right
+494,508,2164,1152,123,629,Lobules IV-V,left
+494,520,2872,1147,111,491,Lobules IV-V,right
+494,556,2781,1147,120,508,Lobules IV-V,right
+494,679,2525,1144,158,556,Lobules IV-V,right
+494,706,2181,1145,177,628,Lobules IV-V,left
+494,709,2713,1143,166,518,Lobules IV-V,right
+494,822,3028,1144,194,452,arbor vitae,right
+494,1334,3113,1133,321,423,arbor vitae,right
+494,547,2937,1146,118,476,Lobules IV-V,right
+494,753,2086,1143,191,648,Lobules IV-V,left
+494,829,2852,1142,199,487,Lobules IV-V,right
+495,662,2417,1143,156,578,Lobules IV-V,left
+495,708,2989,1144,165,462,Lobules IV-V,right
+495,758,2745,1141,181,510,Lobules IV-V,right
+495,939,3042,1141,223,446,Lobules IV-V,right
+495,692,2427,1142,164,575,Lobules IV-V,left
+495,734,2993,1144,172,460,Lobules IV-V,right
+496,557,2951,1145,121,473,Lobules IV-V,right
+496,754,2749,1141,179,510,Lobules IV-V,right
+497,575,1893,1146,137,688,Lobules IV-V,left
+497,646,2262,1145,158,611,Lobules IV-V,left
+497,691,2422,1142,164,576,Lobules IV-V,left
+497,700,2716,1142,163,517,Lobules IV-V,right
+497,1203,2381,1128,288,582,Lobule III,left
+497,1270,3055,1132,303,436,Lobule III,right
+497,1331,3100,1132,319,426,arbor vitae,right
+497,1336,3125,1132,321,421,arbor vitae,right
+497,1338,3112,1132,322,423,arbor vitae,right
+497,1339,3218,1134,321,403,arbor vitae,right
+497,1381,3045,1131,335,437,arbor vitae,right
+497,512,2310,1149,120,600,Lobules IV-V,left
+498,658,2413,1142,156,579,Lobules IV-V,left
+498,1280,3058,1131,305,435,Lobule III,right
+498,537,1941,1147,126,676,Lobules IV-V,left
+498,540,1909,1146,127,684,Lobules IV-V,left
+498,741,2805,1141,175,499,Lobules IV-V,right
+498,1253,2820,1129,302,485,Lobule III,right
+498,504,2172,1150,122,627,Lobules IV-V,left
+498,671,2176,1145,167,629,Lobules IV-V,left
+498,1318,2902,1129,320,466,arbor vitae,right
+499,2039,3457,1124,501,347,inferior cerebellar peduncle,right
+499,506,2250,1148,121,612,Lobules IV-V,left
+499,506,1966,1147,118,670,Lobules IV-V,left
+499,538,2812,1144,117,502,Lobules IV-V,right
+499,711,2002,1143,177,666,arbor vitae,left
+499,711,2799,1140,166,500,Lobules IV-V,right
+499,908,1830,1139,226,699,Lobules IV-V,left
+499,677,2807,1141,156,499,Lobules IV-V,right
+500,482,2152,1149,115,630,Lobules IV-V,left
+500,552,2316,1146,131,598,Lobules IV-V,left
+500,559,2271,1147,135,608,Lobules IV-V,left
+500,561,2896,1143,123,484,Lobules IV-V,right
+500,648,2313,1143,158,600,Lobules IV-V,left
+500,651,2818,1141,148,498,Lobules IV-V,right
+500,705,2153,1142,177,634,Lobules IV-V,left
+500,1158,2529,1129,275,549,Lobule III,right
+500,1283,3074,1130,306,432,Lobule III,right
+500,1334,3106,1130,321,424,arbor vitae,right
+500,683,2815,1141,159,498,Lobules IV-V,right
+501,1342,3131,1131,322,419,arbor vitae,right
+501,790,3054,1142,186,447,Lobules IV-V,right
+501,538,2309,1147,128,600,Lobules IV-V,left
+501,677,2527,1141,156,555,Lobules IV-V,right
+501,1086,3106,1136,253,429,Lobules IV-V,right
+501,1145,2579,1130,272,538,Lobule III,right
+501,1270,2846,1128,306,478,Lobule III,right
+501,612,2149,1147,151,635,Lobules IV-V,left
+501,665,2166,1144,166,631,Lobules IV-V,left
+502,686,2447,1139,162,571,Lobules IV-V,left
+502,557,2467,1145,124,568,Lobules IV-V,right
+502,1083,3186,1135,252,413,Lobules IV-V,right
+502,1217,3138,1131,284,420,Lobules IV-V,right
+502,688,2454,1139,163,570,Lobules IV-V,right
+502,1285,3066,1129,306,433,Lobule III,right
+502,1316,2898,1128,318,467,arbor vitae,right
+503,776,3065,1141,182,445,Lobules IV-V,right
+503,491,1997,1146,115,663,Lobules IV-V,left
+503,581,1892,1142,139,688,Lobules IV-V,left
+503,611,1942,1143,148,678,Lobules IV-V,left
+503,659,2248,1141,163,614,Lobules IV-V,left
+503,872,1894,1138,218,687,Lobules IV-V,left
+503,1230,2674,1126,294,516,Lobule III,right
+503,503,2181,1147,122,625,Lobules IV-V,left
+505,581,1899,1142,139,687,Lobules IV-V,left
+505,632,2049,1144,156,657,Lobules IV-V,left
+505,634,2081,1144,158,649,Lobules IV-V,left
+505,676,2244,1141,168,615,Lobules IV-V,left
+505,731,2829,1138,172,493,Lobules IV-V,right
+505,865,1899,1138,217,686,Lobules IV-V,left
+505,1102,2560,1129,261,543,Lobule III,right
+505,1175,2384,1126,280,582,Lobule III,left
+505,1261,2051,1127,308,651,Lobule III,left
+505,1906,3372,1125,465,366,inferior cerebellar peduncle,right
+505,510,1979,1145,120,668,Lobules IV-V,left
+504,671,2241,1141,166,615,Lobules IV-V,left
+504,683,2501,1139,160,560,Lobules IV-V,right
+504,1360,2661,1124,330,519,Lobule III,right
+507,2031,3453,1121,498,348,inferior cerebellar peduncle,right
+507,668,2592,1138,154,541,Lobules IV-V,right
+507,713,3048,1140,166,448,Lobules IV-V,right
+507,631,2820,1138,143,498,Lobules IV-V,right
+507,647,2823,1138,147,496,Lobules IV-V,right
+507,681,2571,1137,157,545,Lobules IV-V,right
+507,689,2594,1137,160,541,Lobules IV-V,right
+507,1043,3208,1135,242,410,Lobules IV-V,right
+507,1050,2196,1127,254,623,Lobule III,left
+507,1205,2713,1125,288,507,Lobule III,right
+507,1348,3158,1127,324,414,arbor vitae,right
+507,1143,2793,1128,274,491,Lobule III,right
+506,573,2490,1143,128,563,Lobules IV-V,right
+506,638,2882,1139,145,484,Lobules IV-V,right
+506,798,2919,1138,192,474,Lobules IV-V,right
+506,1018,1764,1135,250,712,Lobules IV-V,left
+506,1067,2210,1128,257,621,Lobule III,left
+506,417,2116,1147,92,636,Lobules IV-V,left
+506,431,2101,1147,97,639,Lobules IV-V,left
+506,538,2923,1141,117,479,Lobules IV-V,right
+506,543,2035,1145,132,658,Lobules IV-V,left
+506,1282,2371,1122,308,583,Lobule III,left
+508,806,2845,1136,194,489,Lobules IV-V,right
+508,680,2582,1137,157,543,Lobules IV-V,right
+508,723,2104,1138,184,645,Lobules IV-V,left
+508,743,2050,1138,188,657,Lobules IV-V,left
+508,1369,2662,1122,332,519,Lobule III,right
+508,562,2518,1142,123,557,Lobules IV-V,right
+508,1203,2806,1126,288,487,Lobule III,right
+508,429,2102,1146,97,639,Lobules IV-V,left
+508,562,2022,1144,136,660,Lobules IV-V,left
+508,990,2175,1128,242,629,Lobule III,left
+508,1143,2794,1128,274,491,Lobule III,right
+509,776,3025,1138,183,453,Lobules IV-V,right
+509,787,2834,1136,188,491,Lobules IV-V,right
+509,559,2878,1139,123,488,Lobules IV-V,right
+509,586,3039,1141,129,453,Lobules IV-V,right
+509,666,2675,1138,153,526,Lobules IV-V,right
+509,1272,2342,1121,306,590,Lobule III,left
+509,428,2103,1146,97,639,Lobules IV-V,left
+509,591,2524,1141,131,556,Lobules IV-V,right
+509,621,2061,1143,153,653,Lobules IV-V,left
+509,657,1945,1140,161,679,Lobules IV-V,left
+509,719,2789,1136,170,501,Lobules IV-V,right
+509,1153,2784,1127,276,493,Lobule III,right
+509,1620,2405,1124,403,576,Lingula (I),left
+510,650,2838,1137,149,493,Lobules IV-V,right
+510,658,2718,1137,151,517,Lobules IV-V,right
+510,678,2486,1136,159,563,Lobules IV-V,right
+510,706,2672,1135,165,525,Lobules IV-V,right
+510,717,2811,1136,168,496,Lobules IV-V,right
+510,759,2960,1137,180,466,Lobules IV-V,right
+510,936,1793,1135,232,706,Lobules IV-V,left
+510,1066,3115,1132,249,428,Lobules IV-V,right
+510,1100,2084,1126,268,646,Lobule III,left
+510,1118,2625,1126,266,528,Lobule III,right
+510,1138,3127,1129,265,424,Lobules IV-V,right
+510,1226,3158,1128,287,416,Lobules IV-V,right
+510,1339,2668,1121,324,518,Lobule III,right
+510,858,1909,1135,216,684,Lobules IV-V,left
+510,1131,2533,1125,268,548,Lobule III,right
+511,1056,2253,1126,253,612,Lobule III,left
+511,1209,2777,1123,289,493,Lobule III,right
+511,542,2377,1141,125,586,Lobules IV-V,left
+511,568,2011,1141,139,663,Lobules IV-V,left
+511,1047,2782,1129,250,496,Lobule III,right
+511,1171,2704,1124,279,510,Lobule III,right
+511,1191,2806,1124,284,487,Lobule III,right
+511,731,2821,1135,173,494,Lobules IV-V,right
+511,936,3064,1135,222,442,Lobules IV-V,right
+511,953,2162,1127,235,631,Lobule III,left
+511,1123,2713,1126,268,508,Lobule III,right
+512,775,2838,1134,186,490,Lobules IV-V,right
+512,826,1936,1135,208,678,Lobules IV-V,left
+512,948,2130,1127,235,638,Lobule III,left
+512,1292,2289,1119,312,601,Lobule III,left
+512,531,2913,1138,115,481,Lobules IV-V,right
+512,539,2890,1138,118,486,Lobules IV-V,right
+512,760,2036,1135,193,659,Lobules IV-V,left
+512,939,3058,1135,223,442,Lobules IV-V,right
+512,952,2163,1127,234,631,Lobule III,left
+512,1046,2783,1129,250,496,Lobule III,right
+512,1086,2812,1128,259,489,Lobule III,right
+512,1129,2531,1124,267,548,Lobule III,right
+512,1886,3374,1121,459,366,inferior cerebellar peduncle,right
+513,539,2038,1142,131,657,Lobules IV-V,left
+513,565,2921,1137,124,478,Lobules IV-V,right
+513,617,1900,1138,150,688,Lobules IV-V,left
+513,663,2424,1136,157,576,Lobules IV-V,left
+513,742,2850,1135,176,489,Lobules IV-V,right
+513,910,3015,1135,218,452,Lobules IV-V,right
+513,1000,2250,1127,241,613,Lobule III,left
+513,1307,3073,1125,312,432,Lobule III,right
+513,1371,3088,1124,331,428,arbor vitae,right
+513,1374,3142,1125,332,417,arbor vitae,right
+513,2018,3454,1119,495,349,inferior cerebellar peduncle,right
+514,856,3014,1135,204,453,Lobules IV-V,right
+514,1419,3095,1123,345,427,arbor vitae,right
+514,662,2217,1137,164,620,Lobules IV-V,left
+514,738,2780,1133,176,503,Lobules IV-V,right
+514,985,2030,1128,244,658,Lobule III,left
+514,1246,2392,1119,298,579,Lobule III,left
+514,1228,1957,1125,300,671,Lobule III,left
+514,1392,2739,1119,338,503,Lobule III,right
+514,1621,2622,1119,402,526,Lingula (I),right
+515,559,1874,1137,134,692,Lobules IV-V,left
+515,743,2819,1133,178,494,Lobules IV-V,right
+515,662,2851,1134,152,489,Lobules IV-V,right
+515,1060,2225,1123,255,618,Lobule III,left
+515,1122,2809,1125,267,489,Lobule III,right
+515,1155,2118,1122,280,639,Lobule III,left
+515,1880,3376,1120,458,365,inferior cerebellar peduncle,right
+515,539,2919,1136,118,480,Lobules IV-V,right
+515,1932,3405,1119,471,360,inferior cerebellar peduncle,right
+516,649,2325,1135,157,598,Lobules IV-V,left
+516,2010,3451,1118,492,349,inferior cerebellar peduncle,right
+516,569,2900,1135,126,483,Lobules IV-V,right
+516,679,2817,1133,158,496,Lobules IV-V,right
+516,1064,1744,1130,260,716,Lobules IV-V,left
+516,1202,1974,1124,293,668,Lobule III,left
+516,538,2938,1136,117,475,Lobules IV-V,right
+516,737,1922,1135,184,683,Lobules IV-V,left
+516,1425,2586,1118,348,536,Lobule III,right
+516,1877,3377,1120,456,365,Medulla,right
+517,561,1974,1139,135,671,Lobules IV-V,left
+517,1045,3118,1130,245,428,Lobules IV-V,right
+517,629,2781,1134,143,504,Lobules IV-V,right
+517,642,1965,1137,158,675,Lobules IV-V,left
+517,1032,1751,1131,252,714,Lobules IV-V,left
+517,1047,2168,1123,253,630,Lobule III,left
+517,1338,2046,1120,328,652,Lobule III,left
+517,564,2213,1140,138,621,arbor vitae,left
+517,779,2826,1132,188,492,Lobules IV-V,right
+517,932,2253,1126,227,612,Lobule III,left
+517,1156,1945,1125,282,674,Lobule III,left
+517,1875,3377,1120,456,365,Medulla,right
+518,675,2704,1133,157,519,Lobules IV-V,right
+518,765,2821,1132,183,493,Lobules IV-V,right
+518,557,2559,1138,121,549,Lobules IV-V,right
+518,630,2395,1135,148,583,Lobules IV-V,left
+518,640,2809,1133,146,499,Lobules IV-V,right
+518,656,2425,1134,154,576,Lobules IV-V,left
+518,671,2574,1133,155,545,Lobules IV-V,right
+518,687,3080,1137,157,442,Lobules IV-V,right
+518,704,2109,1134,179,644,Lobules IV-V,left
+518,909,3047,1133,217,445,Lobules IV-V,right
+518,1057,2665,1125,251,520,Lobule III,right
+518,1084,2098,1122,264,644,Lobule III,left
+518,1243,2621,1118,297,527,Lobule III,right
+518,1295,1756,1123,315,713,Lobule III,left
+518,1999,3447,1117,490,350,inferior cerebellar peduncle,right
+518,1329,2815,1119,321,485,Lobule III,right
+519,974,2436,1124,233,572,Lobule III,left
+519,650,2454,1133,151,570,Lobules IV-V,right
+519,669,2555,1132,155,549,Lobules IV-V,right
+519,694,2835,1131,163,492,Lobules IV-V,right
+519,779,1959,1132,197,675,Lobules IV-V,left
+519,954,2243,1124,232,614,Lobule III,left
+519,1302,2074,1119,317,647,Lobule III,left
+519,554,2905,1134,122,482,Lobules IV-V,right
+519,595,2760,1133,133,510,Lobules IV-V,right
+520,672,2770,1131,155,506,Lobules IV-V,right
+520,1133,2708,1122,270,509,Lobule III,right
+520,535,2309,1138,127,600,Lobules IV-V,left
+520,564,2682,1135,124,525,Lobules IV-V,right
+520,698,2784,1131,164,502,Lobules IV-V,right
+520,1550,2378,1120,384,581,Lobule II,left
+520,1093,2877,1125,262,475,Lobule III,right
+520,1440,3123,1121,350,421,arbor vitae,right
+521,593,2761,1133,133,509,Lobules IV-V,right
+521,670,2549,1132,155,550,Lobules IV-V,right
+521,718,2805,1131,170,498,Lobules IV-V,right
+521,782,1955,1132,197,676,Lobules IV-V,left
+521,799,1961,1132,202,673,Lobules IV-V,left
+521,1322,3197,1123,314,407,arbor vitae,right
+521,1444,3126,1121,352,420,arbor vitae,right
+521,1475,1896,1118,364,684,arbor vitae,left
+521,615,2330,1135,147,597,Lobules IV-V,left
+521,1460,2974,1118,357,452,arbor vitae,right
+522,665,2470,1132,155,567,Lobules IV-V,right
+522,1064,2449,1121,252,569,Lobule III,right
+522,1365,3184,1122,328,409,arbor vitae,right
+522,564,2998,1134,124,461,Lobules IV-V,right
+522,578,1998,1137,141,667,Lobules IV-V,left
+522,687,2833,1130,160,492,Lobules IV-V,right
+522,725,1899,1133,181,688,Lobules IV-V,left
+522,991,2830,1127,238,488,Lobule III,right
+522,1024,2581,1123,243,538,Lobule III,right
+522,1072,2238,1121,257,615,Lobule III,left
+522,1078,2883,1124,258,475,Lobule III,right
+522,1127,2885,1123,268,474,Lobule III,right
+522,1453,3134,1120,354,419,arbor vitae,right
+522,1867,3379,1117,454,365,Medulla,right
+523,538,2664,1134,117,529,Lobules IV-V,right
+523,619,2072,1135,154,651,Lobules IV-V,left
+523,657,2037,1134,164,659,Lobules IV-V,left
+523,764,1958,1131,193,675,Lobules IV-V,left
+523,525,2883,1132,114,487,Lobules IV-V,right
+523,537,2896,1132,116,483,Lobules IV-V,right
+523,665,2352,1131,160,591,Lobules IV-V,left
+523,673,2860,1130,157,487,Lobules IV-V,right
+523,676,2799,1130,157,499,Lobules IV-V,right
+523,684,2874,1130,160,484,Lobules IV-V,right
+523,1068,2684,1122,254,515,Lobule III,right
+523,1906,3387,1115,464,363,inferior cerebellar peduncle,right
+523,924,2641,1125,223,527,Lobule III,right
+523,1007,2323,1122,240,597,Lobule III,left
+524,1973,3436,1114,483,352,inferior cerebellar peduncle,right
+524,700,2043,1132,177,658,Lobules IV-V,left
+524,844,3139,1133,198,428,Lobules IV-V,right
+524,1144,2746,1120,273,500,Lobule III,right
+524,644,2376,1131,153,586,Lobules IV-V,left
+524,665,2747,1130,154,510,Lobules IV-V,right
+524,978,2663,1124,235,521,Lobule III,right
+524,1087,2663,1121,257,519,Lobule III,right
+524,1087,2848,1123,259,482,Lobule III,right
+524,1282,2613,1115,307,530,Lobule III,right
+524,1459,3149,1119,355,416,arbor vitae,right
+524,514,2069,1137,125,650,Lobules IV-V,left
+524,663,2858,1130,154,487,Lobules IV-V,right
+524,682,2668,1130,158,525,Lobules IV-V,right
+524,784,2903,1130,188,476,Lobules IV-V,right
+524,932,2068,1123,232,650,Lobule III,left
+524,1461,3153,1119,355,415,arbor vitae,right
+526,494,2191,1136,119,623,Lobules IV-V,left
+526,682,2723,1129,159,514,Lobules IV-V,right
+526,1018,2251,1120,245,612,Lobule III,left
+526,602,2202,1134,148,623,Lobules IV-V,left
+526,641,2069,1134,160,653,Lobules IV-V,left
+526,645,2847,1129,148,490,Lobules IV-V,right
+526,658,2306,1130,161,601,Lobules IV-V,left
+526,672,1928,1132,166,682,Lobules IV-V,left
+526,682,2041,1132,171,658,Lobules IV-V,left
+526,706,2039,1131,178,659,Lobules IV-V,left
+526,896,2093,1123,225,645,Lobule III,left
+526,980,2768,1125,236,500,Lobule III,right
+526,1133,3146,1124,264,420,Lobules IV-V,right
+526,573,2252,1134,140,612,Lobules IV-V,left
+526,589,2017,1135,145,663,Lobules IV-V,left
+526,651,3084,1134,146,441,Lobules IV-V,right
+525,620,2276,1133,151,608,Lobules IV-V,left
+525,711,2025,1132,179,662,Lobules IV-V,left
+525,901,3038,1130,215,447,Lobules IV-V,right
+525,947,2303,1123,229,602,Lobule III,left
+525,1037,2780,1124,248,497,Lobule III,right
+525,591,2129,1136,146,639,Lobules IV-V,left
+525,665,2047,1134,167,657,Lobules IV-V,left
+525,666,2266,1131,164,610,Lobules IV-V,left
+525,666,2442,1131,156,572,Lobules IV-V,left
+525,762,1874,1131,191,692,Lobules IV-V,left
+525,815,2999,1131,195,456,Lobules IV-V,right
+525,931,2453,1123,224,569,Lobule III,right
+525,1071,2873,1124,256,477,Lobule III,right
+525,1102,2684,1121,261,515,Lobule III,right
+525,1156,3157,1124,269,418,Lobules IV-V,right
+525,1244,2112,1117,302,640,Lobule III,left
+529,630,2716,1129,143,516,Lobules IV-V,right
+527,534,2078,1135,131,648,Lobules IV-V,left
+527,599,2959,1130,134,468,Lobules IV-V,right
+527,611,2803,1129,138,500,Lobules IV-V,right
+527,638,2849,1128,146,490,Lobules IV-V,right
+527,657,2868,1128,151,485,Lobules IV-V,right
+527,672,2903,1129,155,477,Lobules IV-V,right
+527,887,2085,1123,223,647,Lobule III,left
+527,973,2862,1125,235,481,Lobule III,right
+528,888,3018,1128,213,451,Lobules IV-V,right
+528,627,2835,1128,142,493,Lobules IV-V,right
+528,650,2015,1132,162,665,Lobules IV-V,left
+528,889,2087,1122,224,646,Lobule III,left
+530,1002,2434,1119,237,573,Lobule III,left
+530,645,2743,1127,148,511,Lobules IV-V,right
+530,703,1964,1130,177,675,Lobules IV-V,left
+530,1230,2449,1112,293,567,Lobule III,right
+530,1388,3209,1119,334,404,arbor vitae,right
+530,1487,3213,1118,361,402,arbor vitae,right
+530,499,2218,1134,120,618,Lobules IV-V,left
+530,553,2908,1129,122,480,Lobules IV-V,right
+530,608,2837,1128,138,492,Lobules IV-V,right
+530,704,3088,1132,162,439,Lobules IV-V,right
+530,913,2524,1121,221,553,Lobule III,right
+530,1028,2734,1121,246,506,Lobule III,right
+530,1079,1701,1125,262,725,Lobules IV-V,left
+530,1119,1901,1121,273,682,Lobule III,left
+530,1127,2732,1118,267,504,Lobule III,right
+530,1291,3002,1117,308,446,Lobule III,right
+530,1291,3197,1120,305,407,Lobules IV-V,right
+530,1947,3425,1112,475,355,inferior cerebellar peduncle,right
+530,643,2288,1129,157,606,Lobules IV-V,left
+530,958,2663,1122,230,522,Lobule III,right
+530,1084,2772,1120,259,496,Lobule III,right
+530,1250,2888,1116,299,470,arbor vitae,right
+531,577,2203,1132,141,623,Lobules IV-V,left
+531,1223,2430,1111,291,572,Lobule III,left
+531,1472,2449,1112,361,566,Lobule II,right
+531,664,2309,1127,162,601,Lobules IV-V,left
+531,672,2699,1126,156,519,Lobules IV-V,right
+531,1085,1682,1124,263,729,arbor vitae,left
+531,1375,2023,1113,336,658,arbor vitae,left
+532,522,2804,1129,113,503,Lobules IV-V,right
+532,499,2070,1134,120,649,Lobules IV-V,left
+532,552,2420,1131,124,578,Lobules IV-V,left
+532,577,2042,1132,141,657,Lobules IV-V,left
+532,578,2448,1130,131,571,arbor vitae,left
+532,609,2040,1132,151,659,Lobules IV-V,left
+532,779,3034,1129,184,449,Lobules IV-V,right
+532,930,2385,1120,224,584,Lobule III,left
+532,1215,2596,1112,288,533,Lobule III,right
+532,1223,2480,1111,291,560,Lobule III,right
+532,948,2660,1121,228,523,Lobule III,right
+532,1199,2900,1116,286,469,Lobule III,right
+532,1319,3041,1116,316,438,Lobule III,right
+532,1500,3224,1117,365,400,arbor vitae,right
+533,532,2271,1132,126,608,Lobules IV-V,left
+533,913,2085,1120,229,647,Lobule III,left
+533,953,2749,1123,230,504,Lobule III,right
+533,995,2713,1121,238,510,Lobule III,right
+533,1003,2653,1120,240,523,Lobule III,right
+533,1060,2155,1116,257,633,Lobule III,left
+533,1339,3140,1117,320,419,Lobule III,right
+533,1501,3225,1117,365,400,arbor vitae,right
+533,1934,3424,1111,472,355,inferior cerebellar peduncle,right
+533,1050,2673,1119,250,518,Lobule III,right
+534,587,2807,1126,131,499,Lobules IV-V,right
+534,645,2713,1125,148,516,Lobules IV-V,right
+534,1335,3132,1116,319,420,Lobule III,right
+534,492,2243,1132,116,613,Lobules IV-V,left
+534,533,2866,1127,117,489,Lobules IV-V,right
+534,609,1972,1130,150,673,Lobules IV-V,left
+534,631,2345,1127,150,594,Lobules IV-V,left
+534,938,2245,1118,229,614,Lobule III,left
+534,941,2609,1120,226,534,Lobule III,right
+535,498,2268,1130,117,608,Lobules IV-V,left
+535,558,2860,1126,124,490,Lobules IV-V,right
+535,612,2808,1125,138,498,Lobules IV-V,right
+535,922,2718,1121,223,511,Lobule III,right
+535,1015,2656,1118,242,522,Lobule III,right
+535,1303,3083,1115,311,431,Lobule III,right
+535,1405,3203,1116,338,405,arbor vitae,right
+535,784,2996,1126,187,456,Lobules IV-V,right
+535,1217,2652,1111,289,520,Lobule III,right
+536,560,2021,1131,136,661,Lobules IV-V,left
+536,648,2239,1127,161,616,Lobules IV-V,left
+536,651,2257,1126,160,612,Lobules IV-V,left
+536,889,2285,1119,218,606,Lobule III,left
+536,904,2755,1122,219,504,Lobule III,right
+536,905,2677,1121,219,519,Lobule III,right
+536,943,2469,1118,227,565,Lobule III,right
+536,1005,2274,1117,241,608,Lobule III,left
+536,1302,3057,1115,310,435,Lobule III,right
+536,558,1901,1129,134,686,Lobules IV-V,left
+536,592,2662,1126,131,527,Lobules IV-V,right
+536,977,2169,1116,238,630,Lobule III,left
+536,1195,2314,1110,285,598,Lobule III,left
+536,1433,3190,1115,347,408,arbor vitae,right
+537,545,2589,1129,118,543,Lobules IV-V,right
+537,632,2328,1127,151,597,Lobules IV-V,left
+537,710,2952,1126,166,466,Lobules IV-V,right
+537,1304,3063,1115,311,434,Lobule III,right
+537,1356,3119,1115,325,423,arbor vitae,right
+537,1407,3224,1116,338,401,arbor vitae,right
+537,1515,3244,1115,368,396,arbor vitae,right
+537,1233,2892,1114,294,469,arbor vitae,right
+538,875,2454,1118,213,569,Lobule III,right
+538,1334,3107,1114,319,425,Lobule III,right
+538,520,2009,1130,125,663,Lobules IV-V,left
+538,549,2255,1129,132,612,Lobules IV-V,left
+538,645,2332,1125,155,596,Lobules IV-V,left
+538,668,2551,1124,155,548,Lobules IV-V,right
+538,877,2475,1118,213,564,Lobule III,right
+538,889,3042,1125,213,446,Lobules IV-V,right
+538,896,2619,1119,217,532,Lobule III,right
+538,987,2878,1120,238,478,Lobule III,right
+538,1157,2331,1111,274,594,Lobule III,left
+538,1225,2588,1109,291,535,Lobule III,right
+538,1320,3198,1116,313,407,Lobules IV-V,right
+538,1912,3421,1109,465,355,inferior cerebellar peduncle,right
+538,592,1980,1129,144,672,Lobules IV-V,left
+538,1518,3248,1114,370,395,arbor vitae,right
+539,643,2395,1124,152,583,Lobules IV-V,left
+539,649,2279,1124,159,608,Lobules IV-V,left
+539,660,2414,1124,156,578,Lobules IV-V,left
+539,528,2388,1128,120,584,Lobules IV-V,left
+539,529,1973,1129,127,671,Lobules IV-V,left
+539,550,2112,1129,135,642,Lobules IV-V,left
+539,593,3010,1127,131,457,Lobules IV-V,right
+539,860,2528,1118,209,552,Lobule III,right
+539,928,2753,1119,225,503,Lobule III,right
+539,1413,3229,1115,341,400,arbor vitae,right
+539,1904,3419,1108,464,356,inferior cerebellar peduncle,right
+539,545,2204,1128,132,623,Lobules IV-V,left
+539,546,2357,1127,126,590,Lobules IV-V,left
+539,574,2875,1124,128,486,Lobules IV-V,right
+539,591,1980,1128,144,672,Lobules IV-V,left
+540,600,2842,1123,135,491,Lobules IV-V,right
+540,954,3076,1123,227,438,Lobules IV-V,right
+540,554,2726,1124,123,515,Lobules IV-V,right
+540,589,2842,1123,132,491,Lobules IV-V,right
+540,667,2480,1124,155,564,Lobules IV-V,right
+540,877,2115,1117,220,641,Lobule III,left
+540,955,2162,1115,234,631,Lobule III,left
+540,517,2076,1129,124,648,Lobules IV-V,left
+540,1337,3214,1116,317,404,arbor vitae,right
+540,1525,3253,1113,371,393,arbor vitae,right
+540,1894,3420,1108,461,356,inferior cerebellar peduncle,right
+541,899,3031,1124,216,448,Lobules IV-V,right
+541,558,2175,1128,137,629,Lobules IV-V,left
+541,582,2675,1124,129,525,Lobules IV-V,right
+541,1352,3112,1113,323,424,Lobule III,right
+541,1362,1912,1111,332,682,arbor vitae,left
+541,1419,3236,1115,342,397,arbor vitae,right
+541,1527,3255,1113,371,393,arbor vitae,right
+541,819,2297,1118,204,603,Lobule III,left
+541,950,2751,1119,229,503,Lobule III,right
+541,1420,3237,1115,342,397,arbor vitae,right
+541,1422,3239,1115,342,397,arbor vitae,right
+542,1277,1957,1111,309,672,Lobule III,left
+542,1334,2963,1110,321,454,Lobule III,right
+542,503,2248,1127,119,613,Lobules IV-V,left
+542,529,2260,1127,126,611,arbor vitae,left
+542,536,2247,1127,128,613,Lobules IV-V,left
+542,552,2122,1128,135,640,Lobules IV-V,left
+542,587,1888,1126,141,690,Lobules IV-V,left
+542,615,1913,1126,150,686,Lobules IV-V,left
+542,745,1860,1124,187,696,Lobules IV-V,left
+542,870,2149,1116,219,634,Lobule III,left
+542,960,2439,1115,229,572,Lobule III,left
+542,1204,1998,1112,292,664,Lobule III,left
+542,1249,3020,1113,296,444,Lobule III,right
+542,1260,1828,1114,305,699,Lobule III,left
+542,1268,1975,1111,308,669,Lobule III,left
+542,1866,3425,1108,453,355,inferior cerebellar peduncle,right
+542,1882,3420,1108,457,356,inferior cerebellar peduncle,right
+542,864,2283,1117,213,606,Lobule III,left
+542,1126,2296,1110,267,602,Lobule III,left
+542,1307,2956,1111,312,455,Lobule III,right
+542,1534,3261,1112,373,391,arbor vitae,right
+543,553,2097,1127,136,645,Lobules IV-V,left
+543,587,1881,1125,141,691,Lobules IV-V,left
+543,642,2343,1122,153,594,Lobules IV-V,left
+543,848,2272,1116,211,608,Lobule III,left
+543,911,2253,1115,223,612,Lobule III,left
+543,942,2798,1118,228,494,Lobule III,right
+543,976,2414,1114,232,577,Lobule III,left
+543,637,2352,1123,151,592,Lobules IV-V,left
+543,869,2243,1115,216,615,Lobule III,left
+544,1420,3215,1112,342,403,arbor vitae,right
+544,591,2229,1125,144,618,Lobules IV-V,left
+544,1323,2951,1109,318,456,Lobule III,right
+544,524,2386,1126,118,584,Lobules IV-V,left
+544,657,2423,1122,154,576,Lobules IV-V,left
+544,933,2836,1118,227,486,Lobule III,right
+544,1126,1870,1116,274,690,Lobule III,left
+544,928,2450,1115,223,570,Lobule III,right
+544,965,2681,1116,232,517,Lobule III,right
+544,1219,2898,1111,290,468,arbor vitae,right
+545,593,2216,1125,145,621,Lobules IV-V,left
+545,654,2397,1122,155,582,Lobules IV-V,left
+545,663,2470,1122,155,566,Lobules IV-V,right
+545,864,2134,1116,218,637,Lobule III,left
+545,562,2211,1126,136,621,Lobules IV-V,left
+545,683,1865,1124,170,696,Lobules IV-V,left
+545,944,2815,1118,229,491,Lobule III,right
+545,1075,3157,1119,251,419,Lobules IV-V,right
+545,1342,3187,1113,319,409,Lobule III,right
+545,1541,3271,1111,374,389,arbor vitae,right
+545,1388,2822,1106,335,484,Lobule II,right
+545,1789,3370,1108,434,367,Cerebellum,right
+546,1191,1855,1114,288,693,Lobule III,left
+546,1492,3683,1113,360,297,arbor vitae,right
+546,513,2000,1126,123,665,Lobules IV-V,left
+546,536,2212,1125,129,621,Lobules IV-V,left
+546,944,2157,1112,233,632,Lobule III,left
+546,1042,2964,1117,249,460,Lobule III,right
+546,1137,2345,1108,269,592,Lobule III,left
+546,1111,2946,1114,264,461,Lobule III,right
+546,1787,3370,1107,433,367,Cerebellum,right
+548,642,2365,1121,151,589,Lobules IV-V,left
+548,503,2058,1125,121,652,Lobules IV-V,left
+548,514,1987,1125,122,667,Lobules IV-V,left
+548,632,2319,1121,151,599,Lobules IV-V,left
+548,1282,3051,1110,304,437,Lobule III,right
+548,1353,1730,1109,330,719,Lobule III,left
+548,1842,3419,1106,446,356,inferior cerebellar peduncle,right
+548,571,2296,1123,135,603,Lobules IV-V,left
+548,1406,2799,1104,339,489,Lobule II,right
+548,1555,3285,1109,378,387,arbor vitae,right
+548,1782,3368,1106,432,367,Cerebellum,right
+547,855,2417,1115,209,577,Lobule III,left
+547,642,2383,1121,151,585,Lobules IV-V,left
+547,897,2468,1114,217,565,Lobule III,right
+547,913,2802,1117,222,493,Lobule III,right
+547,965,2786,1116,233,496,Lobule III,right
+547,1063,2861,1114,255,479,Lobule III,right
+547,1100,1869,1115,269,690,Lobule III,left
+547,1215,2902,1110,289,467,arbor vitae,right
+547,1310,2982,1109,313,450,arbor vitae,right
+547,1362,3162,1111,325,414,Lobule III,right
+547,1549,3278,1109,377,388,arbor vitae,right
+547,1785,3369,1106,433,367,Cerebellum,right
+549,503,2202,1124,120,622,Lobules IV-V,left
+549,880,2434,1114,214,573,Lobule III,left
+549,990,2148,1111,241,634,Lobule III,left
+549,529,2220,1124,127,620,Lobules IV-V,left
+549,535,2246,1124,127,613,Lobules IV-V,left
+549,539,2252,1123,128,613,Lobules IV-V,left
+549,578,2250,1123,140,614,Lobules IV-V,left
+549,843,2204,1114,212,623,Lobule III,left
+549,889,2751,1117,216,504,Lobule III,right
+549,939,2811,1116,228,491,Lobule III,right
+549,1202,2634,1105,284,525,Lobule III,right
+549,1556,3286,1109,378,386,arbor vitae,right
+550,549,2199,1123,133,624,Lobules IV-V,left
+550,619,2297,1120,149,604,Lobules IV-V,left
+550,1221,1828,1112,295,699,Lobule III,left
+550,1834,3417,1105,445,356,inferior cerebellar peduncle,right
+551,631,2587,1119,143,541,Lobules IV-V,right
+551,856,3091,1121,202,435,Lobules IV-V,right
+551,880,2149,1112,220,634,Lobule III,left
+551,992,3116,1118,234,429,Lobules IV-V,right
+552,1380,2990,1105,332,449,arbor vitae,right
+552,1713,3365,1105,416,368,arbor vitae,right
+552,1738,3361,1105,422,368,arbor vitae,right
+552,844,2237,1113,210,616,Lobule III,left
+552,934,3088,1119,222,436,Lobules IV-V,right
+552,1085,2328,1108,257,596,Lobule III,left
+552,1566,3295,1107,380,385,arbor vitae,right
+553,543,2583,1121,119,543,Lobules IV-V,right
+553,630,2583,1119,143,542,Lobules IV-V,right
+553,999,3112,1118,236,430,Lobules IV-V,right
+553,1381,3177,1109,331,411,arbor vitae,right
+553,1464,3269,1109,353,391,arbor vitae,right
+553,1571,3301,1107,381,382,arbor vitae,right
+553,1755,3359,1104,426,369,arbor vitae,right
+553,1533,2369,1102,376,583,Lobule II,left
+553,1575,3303,1107,383,382,arbor vitae,right
+554,1252,1994,1106,302,666,Lobule III,left
+554,1260,1975,1106,305,670,Lobule III,left
+554,547,2646,1119,119,530,Lobules IV-V,right
+554,863,2472,1112,210,564,Lobule III,right
+554,971,2651,1111,232,523,Lobule III,right
+554,1051,2784,1110,251,495,Lobule III,right
+554,1704,3366,1104,414,367,arbor vitae,right
+554,1446,3230,1108,348,400,arbor vitae,right
+554,1583,3306,1105,385,381,arbor vitae,right
+555,1129,3152,1113,264,420,Lobules IV-V,right
+555,1290,1950,1105,312,675,Lobule III,left
+555,1340,2980,1104,321,451,Lobule III,right
+555,2653,3543,1085,654,326,Medulla,right
+555,529,2276,1119,124,607,Lobules IV-V,left
+555,1586,3309,1104,385,381,arbor vitae,right
+555,1686,3363,1103,409,368,arbor vitae,right
+555,740,3120,1121,170,431,Lobules IV-V,right
+555,1590,3311,1104,386,380,arbor vitae,right
+555,1674,3353,1103,407,370,arbor vitae,right
+556,985,2217,1108,238,620,Lobule III,left
+556,1265,1984,1105,306,668,Lobule III,left
+556,1333,1913,1104,324,682,Lobule III,left
+556,890,2748,1113,216,504,Lobule III,right
+556,968,2907,1113,235,472,Lobule III,right
+556,972,2925,1113,235,469,Lobule III,right
+556,1327,3073,1106,316,433,Lobule III,right
+556,1593,3313,1104,388,380,arbor vitae,right
+556,534,2234,1119,127,617,Lobules IV-V,left
+556,1669,3347,1103,406,372,arbor vitae,right
+557,975,2909,1113,236,472,Lobule III,right
+557,575,2246,1119,138,614,Lobules IV-V,left
+557,1132,1972,1109,275,669,Lobule III,left
+557,1283,2931,1105,306,460,Lobule III,right
+557,544,2651,1118,119,529,Lobules IV-V,right
+557,893,2461,1111,216,566,Lobule III,right
+557,1115,2059,1106,270,652,Lobule III,left
+557,1670,3348,1103,406,372,arbor vitae,right
+557,928,2762,1112,225,501,Lobule III,right
+557,982,2925,1113,237,469,Lobule III,right
+557,1230,1652,1110,296,735,Lobules IV-V,left
+557,1599,3316,1104,389,379,arbor vitae,right
+557,1603,3317,1104,390,379,arbor vitae,right
+558,917,3129,1118,216,428,Lobules IV-V,right
+558,525,2255,1118,123,613,Lobules IV-V,left
+558,665,2410,1116,157,579,Lobules IV-V,left
+558,969,2162,1107,237,631,Lobule III,left
+558,972,2584,1108,231,539,Lobule III,right
+558,986,2901,1112,238,473,Lobule III,right
+558,1008,3153,1116,237,422,Lobules IV-V,right
+558,1288,1938,1104,312,677,Lobule III,left
+558,1604,3318,1103,390,379,arbor vitae,right
+558,1655,3335,1103,402,375,arbor vitae,right
+558,1657,3336,1103,402,374,arbor vitae,right
+558,1658,3337,1103,403,374,arbor vitae,right
+558,1660,3338,1103,403,374,arbor vitae,right
+558,977,2666,1109,233,520,Lobule III,right
+558,1093,2385,1105,258,583,Lobule III,left
+558,1293,1943,1104,313,676,Lobule III,left
+558,1642,3331,1103,399,375,arbor vitae,right
+559,608,2325,1115,144,598,Lobules IV-V,left
+559,1358,1747,1103,331,715,Lobule III,left
+559,548,2311,1117,128,600,Lobules IV-V,left
+559,587,2550,1117,130,549,Lobules IV-V,right
+559,833,2458,1111,203,568,Lobule III,right
+559,1362,3114,1105,325,425,Lobule III,right
+559,1372,2243,1096,331,611,Lobule II,left
+559,569,2186,1117,138,627,Lobules IV-V,left
+559,720,3129,1120,164,430,Lobules IV-V,right
+559,1117,2978,1109,265,455,Lobule III,right
+559,1145,3169,1112,267,417,Lobules IV-V,right
+560,1291,3058,1106,306,436,Lobule III,right
+560,547,2309,1117,126,601,Lobules IV-V,left
+560,557,2270,1117,131,610,Lobules IV-V,left
+560,1047,2756,1107,249,500,Lobule III,right
+560,1064,2743,1106,253,503,Lobule III,right
+560,1090,2147,1104,262,634,Lobule III,left
+561,507,2219,1118,118,619,Lobules IV-V,left
+561,582,2556,1117,129,547,Lobules IV-V,right
+561,856,2624,1111,208,531,Lobule III,right
+561,882,2717,1111,214,511,Lobule III,right
+561,978,2729,1109,235,507,Lobule III,right
+561,1010,2955,1111,243,463,Lobule III,right
+561,1024,2758,1108,245,500,Lobule III,right
+561,1052,2971,1111,251,458,Lobule III,right
+561,1102,2972,1110,262,457,Lobule III,right
+561,1140,2268,1102,271,608,Lobule III,left
+561,1364,3117,1105,327,424,Lobule III,right
+561,1485,3289,1105,358,386,arbor vitae,right
+561,998,2580,1106,237,540,Lobule III,right
+561,1053,2617,1104,249,530,Lobule III,right
+561,1165,2963,1108,276,457,Lobule III,right
+561,1287,1949,1103,310,675,Lobule III,left
+563,568,2182,1115,138,628,Lobules IV-V,left
+563,996,2887,1109,240,476,Lobule III,right
+563,616,2626,1113,139,532,Lobules IV-V,right
+563,1076,2603,1102,253,533,Lobule III,right
+563,1088,3182,1112,254,415,Lobules IV-V,right
+563,1108,2569,1100,261,541,Lobule III,right
+563,1292,2933,1102,307,460,Lobule III,right
+563,1073,2077,1103,260,648,Lobule III,left
+563,1092,2747,1104,259,501,Lobule III,right
+562,1139,3175,1111,266,416,Lobules IV-V,right
+562,1318,3074,1104,314,433,Lobule III,right
+562,528,2223,1116,126,619,Lobules IV-V,left
+562,563,2557,1116,124,547,arbor vitae,right
+562,801,3098,1117,187,435,Lobules IV-V,right
+562,1136,2408,1101,267,577,Lobule III,left
+562,1251,2006,1102,301,663,Lobule III,left
+562,1043,2632,1104,247,527,Lobule III,right
+562,1490,3291,1104,359,385,arbor vitae,right
+565,1791,3409,1099,434,357,inferior cerebellar peduncle,right
+565,531,2452,1116,116,570,Lobules IV-V,right
+565,557,2281,1114,130,607,Lobules IV-V,left
+565,945,2170,1105,231,630,Lobule III,left
+565,1998,3427,1093,489,353,inferior cerebellar peduncle,right
+565,574,2613,1114,128,536,Lobules IV-V,right
+565,933,2808,1109,227,492,Lobule III,right
+565,1092,2400,1102,256,580,Lobule III,left
+565,1185,2094,1101,285,646,Lobule III,left
+565,1224,1875,1105,296,690,Lobule III,left
+565,1380,1749,1101,336,715,arbor vitae,left
+565,1003,3184,1114,235,416,Lobules IV-V,right
+565,1049,1973,1106,258,668,Lobule III,left
+564,549,2230,1115,131,618,Lobules IV-V,left
+564,827,2260,1109,205,612,Lobule III,left
+564,1030,3146,1113,242,422,Lobules IV-V,right
+564,1064,3263,1114,247,399,Lobules IV-V,right
+564,1092,3243,1113,253,402,Lobules IV-V,right
+564,1174,2646,1099,277,522,Lobule III,right
+564,578,2311,1114,136,600,Lobules IV-V,left
+564,1055,3176,1113,247,416,Lobules IV-V,right
+564,1371,1894,1099,332,686,Lobule II,left
+564,1501,3296,1103,362,384,arbor vitae,right
+564,1503,3297,1103,363,384,arbor vitae,right
+566,1133,2559,1098,266,543,Lobule III,right
+566,1121,2471,1099,263,562,Lobule III,right
+566,1333,2988,1101,319,449,Lobule III,right
+566,1545,2382,1094,377,580,Lobule II,left
+566,780,2257,1109,194,612,Lobule III,left
+566,992,2439,1104,234,571,Lobule III,left
+566,1047,2451,1102,246,568,Lobule III,right
+566,1369,2270,1093,331,605,Lobule II,left
+569,555,2177,1113,134,629,Lobules IV-V,left
+569,894,2620,1106,216,532,Lobule III,right
+569,1006,2746,1105,240,503,Lobule III,right
+569,1038,2098,1102,252,644,Lobule III,left
+569,1118,2793,1102,266,491,Lobule III,right
+569,1401,1622,1100,340,742,arbor vitae,left
+569,1610,3300,1098,391,383,arbor vitae,right
+569,606,2362,1112,140,589,Lobules IV-V,left
+569,1028,2872,1106,247,478,Lobule III,right
+569,1135,2872,1104,270,475,Lobule III,right
+569,1831,3344,1095,445,372,Medulla,right
+568,605,2355,1112,141,592,Lobules IV-V,left
+568,645,2356,1111,152,591,Lobules IV-V,left
+568,646,2411,1112,150,578,Lobules IV-V,left
+568,1365,3126,1102,326,422,Lobule III,right
+568,1519,3306,1100,367,382,arbor vitae,right
+567,959,2220,1104,232,620,Lobule III,left
+567,1398,2771,1094,337,495,Lobule II,right
+567,554,2276,1112,130,608,Lobules IV-V,left
+567,842,2595,1108,204,537,Lobule III,right
+567,1441,1952,1094,351,673,Lobule II,left
+570,589,2416,1112,134,577,Lobules IV-V,left
+570,1413,3000,1097,341,448,arbor vitae,right
+570,1525,3308,1099,368,381,arbor vitae,right
+570,561,2265,1111,132,611,Lobules IV-V,left
+570,944,2175,1103,231,629,Lobule III,left
+570,981,3149,1112,231,423,Lobules IV-V,right
+570,1003,2551,1101,238,545,Lobule III,right
+570,1038,2870,1105,249,478,Lobule III,right
+570,1084,2314,1100,256,599,Lobule III,left
+570,1091,2671,1099,257,517,Lobule III,right
+570,1096,3163,1109,256,419,Lobules IV-V,right
+570,1100,3187,1110,257,413,Lobules IV-V,right
+570,1301,2950,1100,309,457,Lobule III,right
+570,1055,2715,1102,250,509,Lobule III,right
+572,634,2392,1110,148,583,Lobules IV-V,left
+572,797,2260,1106,198,612,Lobule III,left
+572,807,2399,1107,196,581,Lobule III,left
+572,833,2281,1105,206,606,Lobule III,left
+572,917,2369,1104,220,587,Lobule III,left
+572,1070,2863,1103,256,479,Lobule III,right
+572,1156,2962,1104,273,457,Lobule III,right
+572,1035,2619,1100,245,530,Lobule III,right
+572,1208,3212,1106,282,407,Lobules IV-V,right
+571,1055,2867,1104,253,478,Lobule III,right
+571,1995,3434,1089,487,352,inferior cerebellar peduncle,right
+571,787,2259,1106,195,612,Lobule III,left
+571,918,2620,1104,221,531,Lobule III,right
+571,964,2787,1105,233,495,Lobule III,right
+571,991,2639,1102,236,526,Lobule III,right
+571,1022,2759,1103,244,500,Lobule III,right
+571,1440,1947,1092,350,674,Lobule II,left
+571,1098,2727,1099,260,505,Lobule III,right
+573,546,2530,1112,119,553,Lobules IV-V,right
+573,925,2690,1105,223,516,Lobule III,right
+573,1108,2863,1102,264,478,Lobule III,right
+573,969,2348,1103,231,592,Lobule III,left
+573,1050,2794,1103,251,493,Lobule III,right
+573,1067,2785,1102,254,494,Lobule III,right
+573,1281,3071,1102,303,434,Lobule III,right
+573,1032,2686,1101,245,515,Lobule III,right
+573,1311,2983,1099,312,451,Lobule III,right
+574,545,2509,1111,119,557,Lobules IV-V,right
+574,865,2634,1105,210,528,Lobule III,right
+574,896,2567,1104,216,543,Lobule III,right
+574,912,2677,1104,220,518,Lobule III,right
+574,996,2726,1102,238,507,Lobule III,right
+574,1015,1956,1103,250,671,Lobule III,left
+574,1065,2699,1099,252,512,Lobule III,right
+574,1091,2120,1098,262,640,Lobule III,left
+574,1389,2784,1091,333,493,Lobule II,right
+574,1394,3023,1096,335,443,Lobule III,right
+574,845,2264,1104,208,610,Lobule III,left
+574,1032,2685,1100,244,516,Lobule III,right
+577,642,2413,1108,149,578,Lobules IV-V,left
+577,1080,2871,1102,258,477,Lobule III,right
+577,1157,2904,1101,274,469,Lobule III,right
+577,832,2412,1105,202,578,Lobule III,left
+577,1394,2908,1093,335,466,Lobule II,right
+577,1413,3241,1099,338,397,Lobule III,right
+577,1587,3200,1093,385,406,arbor vitae,right
+575,836,2412,1105,203,578,Lobule III,left
+575,900,2616,1103,217,531,Lobule III,right
+575,960,2351,1102,229,590,Lobule III,left
+575,1019,2810,1102,244,490,Lobule III,right
+575,1028,2680,1099,244,517,Lobule III,right
+575,1115,2967,1103,265,457,Lobule III,right
+575,1361,1734,1097,330,718,Lobule III,left
+575,1365,1761,1096,332,712,Lobule III,left
+575,1365,2063,1091,329,651,Lobule II,left
+575,1373,2058,1090,332,652,Lobule II,left
+575,1476,3017,1093,357,444,Lobule III,right
+575,1534,2419,1088,374,573,Lobule II,left
+576,1402,2951,1093,336,456,Lobule II,right
+576,1589,3201,1093,387,405,arbor vitae,right
+576,1779,3336,1092,433,373,Cerebellum,right
+578,551,2393,1108,123,583,Lobules IV-V,left
+578,1162,1836,1102,281,696,Lobule III,left
+578,1391,2980,1093,333,452,Lobule II,right
+578,989,2601,1098,235,534,Lobule III,right
+578,1152,2924,1101,273,465,Lobule III,right
+578,1153,2934,1101,274,463,Lobule III,right
+578,1226,2871,1097,290,473,Lobule III,right
+578,1262,2946,1098,299,458,Lobule III,right
+578,1306,2959,1096,310,456,Lobule III,right
+578,1320,1782,1097,320,708,Lobule III,left
+578,1326,1769,1097,321,711,Lobule III,left
+578,1445,2991,1092,348,449,Lobule III,right
+578,1560,3323,1094,377,378,arbor vitae,right
+578,917,2646,1102,221,525,Lobule III,right
+578,1361,1866,1093,329,691,Lobule III,left
+579,846,2564,1103,205,544,Lobule III,right
+579,1076,2978,1102,256,456,Lobule III,right
+579,1164,2919,1099,276,466,Lobule III,right
+579,1292,2968,1096,306,454,Lobule III,right
+579,1144,3173,1104,267,416,Lobules IV-V,right
+579,1245,3033,1099,294,442,Lobule III,right
+579,1565,3325,1093,378,378,arbor vitae,right
+579,807,2439,1104,195,572,Lobule III,left
+579,1102,2537,1093,258,548,Lobule III,right
+579,1297,1785,1097,313,708,Lobule III,left
+579,1432,3086,1094,344,431,Lobule III,right
+579,1569,3327,1093,379,376,arbor vitae,right
+580,625,2366,1106,145,588,Lobules IV-V,left
+580,924,2300,1101,223,603,Lobule III,left
+580,1027,2453,1096,241,568,Lobule III,right
+580,1358,1865,1093,329,692,Lobule III,left
+580,1383,3109,1096,332,427,Lobule III,right
+580,1401,1869,1091,340,691,Lobule III,left
+581,637,2398,1106,147,582,Lobules IV-V,left
+581,1102,3181,1106,257,415,Lobules IV-V,right
+581,1734,3395,1092,421,360,arbor vitae,right
+581,788,2241,1103,196,615,Lobule III,left
+581,1023,2599,1096,242,535,Lobule III,right
+581,1125,2926,1100,267,465,Lobule III,right
+581,1128,2149,1095,271,634,Lobule III,left
+581,1130,2972,1101,268,456,Lobule III,right
+581,1383,2676,1086,333,517,Lobule II,right
+581,1404,1668,1094,342,732,Lobule III,left
+581,1575,3330,1093,381,376,arbor vitae,right
+581,1720,3389,1092,417,361,arbor vitae,right
+581,545,2451,1107,120,569,Lobules IV-V,right
+581,1426,3050,1093,343,438,Lobule III,right
+581,1714,3387,1092,416,361,arbor vitae,right
+582,1101,2856,1098,262,479,Lobule III,right
+582,821,2353,1102,200,591,Lobule III,left
+582,859,2564,1102,208,544,Lobule III,right
+582,864,2588,1102,210,538,Lobule III,right
+582,902,2558,1100,217,545,Lobule III,right
+582,916,2291,1100,221,604,Lobule III,left
+582,986,2599,1097,234,535,Lobule III,right
+582,991,2563,1096,235,543,Lobule III,right
+582,996,2363,1098,236,588,Lobule III,left
+582,1089,2775,1096,258,496,Lobule III,right
+582,1100,2920,1100,262,467,Lobule III,right
+582,1264,3070,1098,299,436,Lobule III,right
+582,1344,1865,1092,325,692,Lobule III,left
+582,1706,3385,1091,413,362,arbor vitae,right
+582,873,2561,1101,212,544,Lobule III,right
+582,1103,2058,1096,267,652,Lobule III,left
+582,1216,1952,1096,292,674,Lobule III,left
+583,631,2372,1104,147,587,Lobules IV-V,left
+583,1020,2624,1095,241,529,Lobule III,right
+583,1111,2439,1092,260,570,Lobule III,right
+583,1133,2605,1090,266,533,Lobule III,right
+583,1139,2932,1099,270,463,Lobule III,right
+583,1234,3050,1098,291,440,Lobule III,right
+583,1485,2016,1085,361,659,Lobule II,left
+583,1584,3336,1091,383,374,arbor vitae,right
+583,1694,3381,1090,411,362,arbor vitae,right
+584,820,2412,1102,199,578,Lobule III,left
+584,1662,3360,1090,402,368,arbor vitae,right
+584,1029,3269,1107,240,398,Lobules IV-V,right
+584,1232,3051,1098,290,439,Lobule III,right
+584,1344,1868,1091,325,691,Lobule III,left
+584,1385,2736,1086,332,504,Lobule II,right
+584,1674,3365,1090,406,367,arbor vitae,right
+585,563,2519,1105,125,555,Lobules IV-V,right
+585,1030,2464,1094,242,565,Lobule III,right
+585,1103,2441,1092,259,569,Lobule III,right
+585,1123,2968,1100,267,457,Lobule III,right
+585,1163,2774,1093,275,495,Lobule III,right
+585,1353,1754,1093,329,713,Lobule III,left
+585,1629,3356,1090,395,369,arbor vitae,right
+585,1652,3359,1090,400,368,arbor vitae,right
+585,1011,2403,1096,238,579,Lobule III,left
+585,1061,2603,1093,250,533,Lobule III,right
+585,1231,3052,1098,290,439,Lobule III,right
+587,1114,2268,1091,264,608,Lobule III,left
+587,1081,2568,1090,254,541,Lobule III,right
+587,1081,2157,1092,259,632,Lobule III,left
+587,1299,1798,1093,314,705,Lobule III,left
+587,1480,2772,1083,357,497,Lobule II,right
+587,880,2297,1098,214,603,Lobule III,left
+587,990,2532,1093,234,550,Lobule III,right
+586,1131,2865,1096,268,477,Lobule III,right
+586,602,2396,1103,137,582,Lobules IV-V,left
+586,1007,2579,1094,238,540,Lobule III,right
+586,1358,2119,1085,328,639,Lobule II,left
+588,547,2410,1103,121,579,Lobules IV-V,left
+588,552,2483,1103,121,562,Lobules IV-V,right
+588,1267,3058,1096,299,438,Lobule III,right
+588,1428,3030,1089,344,443,Lobule III,right
+588,1045,2425,1092,246,574,Lobule III,left
+588,1083,2143,1092,260,635,Lobule III,left
+588,1176,1857,1097,283,692,Lobule III,left
+588,1594,3353,1089,385,370,arbor vitae,right
+589,540,2381,1103,120,585,Lobules IV-V,left
+589,573,2385,1102,130,585,Lobules IV-V,left
+589,863,2504,1099,209,557,Lobule III,right
+589,1054,3195,1103,247,413,Lobules IV-V,right
+589,1315,2247,1084,315,611,Lobule II,left
+590,1210,2957,1095,286,457,Lobule III,right
+590,1014,2466,1092,239,564,Lobule III,right
+590,1415,2471,1078,343,562,Lobule II,right
+590,1454,2996,1086,350,448,Lobule III,right
+592,596,2394,1100,136,583,Lobules IV-V,left
+592,1461,1742,1086,356,716,Lobule III,left
+592,1199,2922,1094,283,464,Lobule III,right
+592,1205,2962,1094,284,456,Lobule III,right
+591,1114,2249,1090,265,612,Lobule III,left
+591,1104,2062,1091,266,651,Lobule III,left
+591,1269,3081,1094,300,433,Lobule III,right
+593,555,2402,1101,124,580,Lobules IV-V,left
+593,1398,3032,1088,335,442,Lobule III,right
+593,562,2446,1101,125,570,Lobules IV-V,right
+593,2696,3520,1066,664,330,Medulla,right
+595,597,2443,1099,135,571,Lobules IV-V,left
+595,1444,3007,1084,347,447,Lobule III,right
+595,608,2392,1098,140,583,Lobules IV-V,left
+595,1663,3390,1084,403,361,arbor vitae,right
+595,1051,2541,1087,247,547,Lobule III,right
+595,1110,2069,1089,267,650,Lobule III,left
+595,1370,2529,1075,330,551,Lobule II,right
+595,1459,2685,1078,353,517,Lobule II,right
+594,610,2422,1099,139,576,Lobules IV-V,left
+594,554,2394,1099,124,583,Lobules IV-V,left
+594,614,2415,1099,141,578,Lobules IV-V,left
+594,1254,2933,1091,297,461,Lobule III,right
+594,1499,2572,1077,365,541,Lobule II,right
+597,1437,1936,1081,347,677,Lobule II,left
+597,561,2389,1098,126,584,Lobules IV-V,left
+597,1381,3106,1089,329,428,Lobule III,right
+597,1529,1673,1083,373,731,Lobule III,left
+597,1561,2237,1079,377,611,Lobule II,left
+597,1188,1984,1090,286,668,Lobule III,left
+596,865,2427,1096,209,574,Lobule III,left
+596,1373,2811,1082,328,487,Lobule II,right
+596,1404,3025,1086,337,444,Lobule III,right
+598,587,2404,1097,133,580,Lobules IV-V,left
+598,1354,2780,1081,323,495,Lobule II,right
+598,1357,3109,1089,322,428,Lobule III,right
+598,1034,2490,1087,244,560,Lobule III,right
+598,1106,2618,1085,259,530,Lobule III,right
+598,1115,3217,1098,260,407,Lobules IV-V,right
+598,1331,2658,1078,317,522,Lobule II,right
+598,1351,2536,1075,324,548,Lobule II,right
+598,1460,2643,1076,353,526,Lobule II,right
+599,1421,3016,1083,340,445,Lobule III,right
+599,1221,2886,1088,288,471,Lobule III,right
+599,1332,2160,1079,319,630,Lobule II,left
+599,1341,2378,1075,321,582,Lobule II,left
+600,1078,2571,1084,254,541,Lobule III,right
+600,1104,2268,1086,262,608,Lobule III,left
+600,1466,3269,1087,350,392,Lobule III,right
+600,1586,2211,1077,383,616,Lobule II,left
+602,1478,1740,1081,361,717,Lobule III,left
+602,1091,2250,1086,259,612,Lobule III,left
+602,1219,2870,1087,288,475,Lobule III,right
+602,1349,3040,1086,321,441,Lobule III,right
+602,1429,1886,1079,346,687,Lobule II,left
+602,1440,3208,1087,344,406,Lobule III,right
+602,1455,3173,1085,349,414,Lobule III,right
+602,1584,1821,1076,388,699,uncinate fascicle,left
+601,1405,2865,1080,336,476,arbor vitae,right
+601,1452,3262,1088,346,393,Lobule III,right
+601,1486,1648,1083,361,736,Lobule III,left
+604,2701,3513,1060,665,331,Medulla,right
+604,1445,3076,1082,347,433,Lobule III,right
+604,1847,3428,1078,448,351,arbor vitae,right
+604,1777,3415,1080,431,354,inferior cerebellar peduncle,right
+603,1090,2560,1082,256,544,Lobule III,right
+603,1394,2386,1072,336,580,Lobule II,left
+603,1558,1586,1079,380,751,arbor vitae,left
+605,563,2488,1095,126,561,Lobules IV-V,right
+605,1446,2786,1076,347,493,Lobule II,right
+605,1455,1749,1081,354,715,Lobule III,left
+605,597,2490,1095,135,561,Lobules IV-V,right
+605,1340,2695,1076,320,514,Lobule II,right
+605,1101,2590,1082,258,537,Lobule III,right
+607,1786,3417,1078,433,353,inferior cerebellar peduncle,right
+606,1358,2440,1071,327,570,Lobule II,right
+606,1447,2983,1078,347,452,Lobule II,right
+606,565,2432,1094,127,573,Lobules IV-V,left
+606,1055,2408,1084,248,577,Lobule III,left
+606,1390,3081,1084,332,433,Lobule III,right
+608,1060,1588,1094,259,750,Lobules IV-V,left
+608,1056,2406,1083,248,577,Lobule III,left
+608,1275,1920,1083,306,682,Lobule III,left
+608,1297,2098,1078,310,644,Lobule II,left
+608,1797,3418,1078,436,353,inferior cerebellar peduncle,right
+609,1331,1740,1084,321,716,Lobule III,left
+609,1525,3290,1081,366,386,arbor vitae,right
+609,1531,3301,1081,367,383,arbor vitae,right
+609,1540,1834,1074,376,697,ventral spinocerebellar tract,left
+609,1387,3081,1083,331,433,Lobule III,right
+619,1404,2299,1066,337,599,Lobule II,left
+619,1444,2872,1069,346,474,Lobule II,right
+612,1052,1589,1092,257,750,Lobules IV-V,left
+612,1433,3062,1078,344,436,Lobule III,right
+612,1326,3020,1082,314,445,Lobule III,right
+612,1481,3266,1082,354,392,Lobule III,right
+611,1072,2422,1080,252,574,Lobule III,left
+611,1410,2918,1075,337,464,Lobule II,right
+611,1471,1563,1079,356,756,Lobule III,left
+611,1464,2643,1068,353,526,Lobule II,right
+613,1412,3101,1081,337,429,Lobule III,right
+613,1439,2939,1075,345,460,Lobule II,right
+613,2987,2783,1057,719,490,Medulla,right
+613,1339,2427,1068,321,572,Lobule II,left
+614,1392,3130,1082,331,424,Lobule III,right
+614,1295,2637,1071,308,527,Lobule II,right
+614,1467,1763,1075,356,712,Lobule III,left
+614,1346,3115,1083,319,427,Lobule III,right
+614,1347,2420,1067,322,574,Lobule II,left
+614,1357,2699,1071,323,514,Lobule II,right
+614,1368,2687,1070,328,516,Lobule II,right
+617,1416,2748,1070,339,503,Lobule II,right
+617,1267,2413,1070,301,575,Lobule II,left
+617,1826,1452,1070,446,784,arbor vitae,left
+616,1436,3194,1081,343,410,Lobule III,right
+616,1338,2803,1074,319,489,Lobule II,right
+616,1448,2644,1066,349,527,Lobule II,right
+615,1443,2042,1070,349,655,Lobule II,left
+618,1362,3119,1081,323,426,Lobule III,right
+620,1332,2411,1065,318,575,Lobule II,left
+621,1324,2804,1072,315,489,Lobule II,right
+622,1435,2829,1068,343,484,Lobule II,right
+622,1299,2706,1069,308,511,Lobule II,right
+622,1323,2682,1067,315,517,Lobule II,right
+622,1274,1577,1084,308,752,Lobules IV-V,left
+624,1385,2273,1065,332,604,Lobule II,left
+624,1339,2673,1066,319,520,Lobule II,right
+624,1426,1719,1074,346,721,Lobule III,left
+624,1456,1722,1073,353,720,Lobule III,left
+624,1418,2659,1063,341,523,Lobule II,right
+624,1533,1541,1071,373,760,Lobule III,left
+625,1341,2703,1067,319,513,Lobule II,right
+625,1532,1541,1071,372,760,Lobule III,left
+626,1274,2590,1064,302,538,Lobule II,right
+626,1302,1565,1082,314,756,Lobules IV-V,left
+627,1307,2484,1060,311,561,Lobule II,right
+627,1422,1705,1073,344,724,Lobule III,left
+628,1459,2476,1057,351,562,Lobule II,right
+628,1323,2661,1064,315,522,Lobule II,right
+628,1089,2390,1072,257,581,Lobule III,left
+628,1405,2658,1061,337,524,Lobule II,right
+629,1287,2431,1062,306,571,Lobule II,left
+631,1255,2646,1064,297,525,Lobule II,right
+631,1187,1590,1082,287,750,Lobules IV-V,left
+631,1432,2073,1064,345,648,Lobule II,left
+630,1373,2363,1059,329,585,Lobule II,left
+630,1408,2746,1064,337,503,Lobule II,right
+630,1451,1720,1070,352,721,Lobule III,left
+632,1437,2789,1063,343,494,Lobule II,right
+634,1266,2648,1063,299,525,Lobule II,right
+634,1393,2863,1064,333,476,Lobule II,right
+634,1890,1433,1058,462,789,arbor vitae,left
+634,1398,2662,1059,335,523,Lobule II,right
+633,1323,2302,1062,317,598,Lobule II,left
+633,1582,3395,1069,378,361,arbor vitae,right
+633,1411,2188,1063,339,623,Lobule II,left
+635,1273,2388,1060,303,581,Lobule II,left
+635,1329,2375,1058,318,584,Lobule II,left
+635,1338,2676,1060,319,519,Lobule II,right
+635,1349,2801,1064,321,490,Lobule II,right
+635,1238,2218,1066,296,617,Lobule II,left
+637,1395,2380,1055,334,582,Lobule II,left
+636,1449,1718,1068,352,721,Lobule III,left
+640,1248,2633,1060,296,529,Lobule II,right
+638,1300,2678,1061,309,519,Lobule II,right
+638,1374,2670,1058,328,521,Lobule II,right
+638,1618,3390,1065,389,361,Lobule III,right
+638,1488,2279,1057,357,603,Lobule II,left
+639,1373,2273,1058,329,604,Lobule II,left
+639,1082,2279,1068,256,605,Lobule III,left
+639,1466,2479,1050,351,562,Lobule II,right
+639,1426,2085,1061,344,646,Lobule II,left
+641,1240,2578,1058,293,541,Lobule II,right
+641,1408,2657,1055,337,524,Lobule II,right
+641,1278,2598,1057,303,537,Lobule II,right
+641,1560,1541,1063,379,760,Lobule III,left
+643,1356,2792,1060,323,492,Lobule II,right
+643,1225,2398,1058,290,579,Lobule II,left
+643,1360,2171,1060,327,626,Lobule II,left
+643,1231,2254,1062,293,609,Lobule II,left
+642,1501,2276,1055,359,603,Lobule II,left
+645,1615,3396,1062,388,359,Lobules IV-V,right
+644,1394,2332,1053,334,592,Lobule II,left
+644,1634,3379,1061,394,363,Lobule III,right
+644,1231,2255,1062,293,609,Lobule II,left
+644,1337,2702,1058,318,513,Lobule II,right
+648,1673,3384,1059,404,362,Lobule III,right
+647,1672,3386,1059,403,361,Lobule III,right
+647,1222,2292,1059,290,601,Lobule II,left
+647,1284,2121,1061,308,638,Lobule II,left
+649,1639,3384,1060,395,362,Lobule III,right
+649,2689,3513,1039,661,329,Medulla,right
+649,1624,3364,1060,391,367,Lobule III,right
+650,1519,2272,1051,364,604,Lobule II,left
+650,1649,3376,1058,398,363,Lobule III,right
+650,1267,2283,1057,302,603,Lobule II,left
+650,1363,1509,1070,332,769,arbor vitae,left
+650,1456,2233,1053,349,613,Lobule II,left
+659,2686,3513,1034,659,329,Medulla,right
+652,1257,2249,1057,300,610,Lobule II,left
+652,1359,2283,1053,325,602,Lobule II,left
+652,1297,2674,1054,307,520,Lobule II,right
+653,1308,2352,1051,312,588,Lobule II,left
+653,1377,2314,1051,329,596,Lobule II,left
+653,1290,2382,1051,307,582,Lobule II,left
+655,1521,3373,1061,362,367,Lobules IV-V,right
+656,1229,2350,1053,292,589,Lobule II,left
+657,1267,2264,1055,302,607,Lobule II,left
+657,1347,2245,1053,322,611,Lobule II,left
+660,1238,2459,1047,294,567,Lobule II,right
+660,1259,2539,1046,298,550,Lobule II,right
+660,1286,2271,1052,307,605,Lobule II,left
+661,1253,2274,1053,300,605,Lobule II,left
+662,1447,2234,1048,347,613,Lobule II,left
+663,1242,2392,1047,295,580,Lobule II,left
+665,1250,1520,1068,306,768,Lobules IV-V,left
+666,1279,2298,1048,305,599,Lobule II,left
+668,1230,1521,1066,301,767,Lobules IV-V,left
+674,2697,3508,1027,661,330,Medulla,right
+675,1307,2228,1045,313,614,Lobule II,left
+676,1600,3375,1048,384,365,Lobules IV-V,right
+677,1598,3383,1048,384,363,Lobules IV-V,right
+679,1734,3450,1043,420,347,Lobules IV-V,right
+681,1496,3367,1052,356,368,Lobules IV-V,right
+683,2775,3357,1018,676,367,Pons,right
+683,1654,3763,1045,399,281,Simple lobule,right
+686,1557,3384,1046,372,364,Lobules IV-V,right
+704,1529,1363,1036,376,805,Lobules IV-V,left
+707,2989,2828,1009,713,480,Pons,right
+716,2989,2833,1005,713,479,Pons,right
+716,1643,3475,1030,397,341,Lobules IV-V,right
+714,1492,1397,1033,367,799,Lobules IV-V,left
+715,1691,1291,1025,416,820,Lobules IV-V,left
+722,1449,1420,1031,358,796,Lobules IV-V,left
+726,2844,3245,995,691,393,ventral spinocerebellar tract,right
+738,1660,3499,1020,402,335,Lobules IV-V,right
+738,2726,1641,995,659,740,rubrospinal tract,left
+753,2708,1646,988,655,739,rubrospinal tract,left
+765,2919,3050,979,706,434,"Superior olivary complex, periolivary region",right
+765,2915,3065,979,705,431,"Superior olivary complex, periolivary region",right
+769,2683,1648,981,649,739,rubrospinal tract,left
+773,2962,2856,978,710,474,Pons,right
+777,2617,1629,979,631,744,rubrospinal tract,left
+781,2611,1608,977,630,749,Pons,left
+813,2777,3230,956,676,393,Pons,right

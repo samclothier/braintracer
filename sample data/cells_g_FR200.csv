@@ -1,0 +1,325 @@
+coordinate_raw_axis_0,coordinate_raw_axis_1,coordinate_raw_axis_2,coordinate_atlas_axis_0,coordinate_atlas_axis_1,coordinate_atlas_axis_2,structure_name,hemisphere
+154,2666,2245,1273,707,530,Medulla,right
+161,2735,2112,1273,735,564,Medulla,right
+164,2573,2158,1269,686,554,Inferior olivary complex,right
+173,2672,2139,1268,713,559,Medulla,right
+172,2560,2130,1267,683,562,Inferior olivary complex,right
+172,2697,2140,1268,720,559,Medulla,right
+178,2674,2204,1263,709,543,Medulla,right
+178,2666,2104,1266,712,569,Nucleus raphe pallidus,right
+178,2675,2141,1265,713,558,Medulla,right
+178,2675,2185,1264,711,548,Medulla,right
+177,2720,2288,1263,716,519,Inferior olivary complex,right
+177,2677,2172,1265,712,550,Medulla,right
+180,2676,2293,1261,702,520,Medulla,right
+180,2666,2160,1264,709,555,Medulla,right
+180,2687,2125,1265,716,563,Medulla,right
+181,2712,2133,1264,723,561,Medulla,right
+186,2654,2196,1260,703,545,Inferior olivary complex,right
+186,2745,2087,1262,733,573,Nucleus raphe pallidus,left
+183,2693,2207,1261,713,541,Medulla,right
+183,2634,2147,1262,701,558,Inferior olivary complex,right
+182,2656,2185,1262,704,549,Medulla,right
+185,2693,2144,1262,717,558,Medulla,right
+185,2687,2129,1263,715,562,Medulla,right
+185,2690,2168,1261,714,552,Medulla,right
+187,2665,2169,1260,707,553,Inferior olivary complex,right
+187,2646,2161,1260,702,554,Inferior olivary complex,right
+189,2673,2203,1259,707,544,Medulla,right
+189,2634,2139,1260,701,561,Inferior olivary complex,right
+192,2703,2204,1257,714,543,Medulla,right
+192,2627,2185,1257,695,550,Inferior olivary complex,right
+192,2622,2171,1257,695,553,Inferior olivary complex,right
+191,2716,2169,1258,719,552,Medulla,right
+191,2726,2164,1258,722,553,Medulla,right
+193,2646,2198,1257,699,546,Inferior olivary complex,right
+193,2657,2216,1257,700,541,Inferior olivary complex,right
+194,2689,2174,1257,712,552,Medulla,right
+194,2680,2135,1258,712,562,Inferior olivary complex,right
+194,2696,2205,1256,711,544,Medulla,right
+196,2626,2186,1255,694,549,Inferior olivary complex,right
+197,2685,2192,1255,709,547,Medulla,right
+201,2662,2170,1254,703,554,Inferior olivary complex,right
+201,2698,2196,1253,712,545,Medulla,right
+199,2672,2199,1253,704,546,Inferior olivary complex,right
+203,2737,2150,1252,723,558,Medulla,right
+203,2677,2196,1251,705,546,Inferior olivary complex,right
+204,2684,2187,1252,708,549,Inferior olivary complex,right
+204,2674,2173,1252,706,553,Inferior olivary complex,right
+202,2708,2185,1253,715,549,Medulla,right
+202,2706,2141,1254,716,560,Inferior olivary complex,right
+200,2688,2199,1253,709,546,Inferior olivary complex,right
+205,2682,2153,1253,708,558,Inferior olivary complex,right
+206,2699,2187,1251,711,549,Inferior olivary complex,right
+207,2649,2189,1250,698,550,Inferior olivary complex,right
+207,2650,2208,1249,697,545,Inferior olivary complex,right
+207,2675,2227,1249,702,539,Inferior olivary complex,right
+208,2664,2187,1250,702,550,Inferior olivary complex,right
+208,2725,2193,1250,717,547,Medulla,right
+209,2706,2196,1250,711,546,Inferior olivary complex,right
+218,2753,2286,1243,717,522,Inferior olivary complex,right
+219,2758,2271,1242,719,526,Medulla,right
+219,2684,2161,1245,706,556,Inferior olivary complex,right
+220,1234,3039,1286,388,362,Paramedian lobule,right
+226,2736,2165,1242,717,556,Medulla,right
+226,2746,2179,1241,718,552,Medulla,right
+228,2698,2191,1240,706,549,Inferior olivary complex,right
+231,2697,2172,1239,705,555,Inferior olivary complex,right
+233,1281,3039,1277,396,363,Paramedian lobule,right
+234,2673,2110,1240,703,571,Nucleus raphe pallidus,left
+242,2709,2166,1234,707,556,Inferior olivary complex,right
+242,2798,2386,1231,725,500,Inferior olivary complex,right
+243,2632,2149,1234,690,562,Inferior olivary complex,right
+246,2696,2182,1232,702,553,Inferior olivary complex,right
+247,2706,2148,1232,706,562,Inferior olivary complex,right
+249,2722,2209,1231,707,547,Inferior olivary complex,right
+249,2645,2175,1232,692,557,Inferior olivary complex,right
+251,2662,2135,1231,696,566,Inferior olivary complex,right
+252,2692,2138,1231,702,565,Inferior olivary complex,right
+252,2668,2127,1231,698,567,Inferior olivary complex,right
+254,2675,2195,1228,696,552,Inferior olivary complex,right
+255,2660,2150,1229,695,563,Inferior olivary complex,right
+256,2673,2133,1229,699,566,Inferior olivary complex,right
+256,2711,2198,1227,704,550,Inferior olivary complex,right
+260,2700,2136,1227,703,565,Inferior olivary complex,right
+261,2702,2079,1230,705,579,Inferior olivary complex,left
+270,1336,2066,1276,397,583,Uvula (IX),left
+269,2630,2162,1223,687,560,Inferior olivary complex,right
+275,2864,1864,1225,749,633,Medulla,left
+278,1100,1214,1316,382,775,Paramedian lobule,left
+293,2440,2374,1212,641,519,Gigantocellular reticular nucleus,right
+296,2803,2306,1207,720,525,Inferior olivary complex,right
+298,2470,2405,1209,648,513,Gigantocellular reticular nucleus,right
+314,2711,2441,1199,698,500,Medulla,right
+314,2801,2265,1199,718,538,Inferior olivary complex,right
+312,2800,2197,1202,720,554,Medulla,right
+315,938,1234,1308,336,773,Paramedian lobule,left
+328,2832,2260,1192,726,540,Medulla,right
+331,2825,2252,1191,724,542,Medulla,right
+333,2752,2253,1193,705,543,Inferior olivary complex,right
+344,2821,2196,1187,724,556,Medulla,right
+345,2825,2246,1185,724,544,Medulla,right
+347,2782,2222,1186,713,550,Inferior olivary complex,right
+348,2766,2213,1187,709,553,Inferior olivary complex,right
+350,2813,2214,1184,722,553,Medulla,right
+350,2758,2190,1186,709,559,Inferior olivary complex,right
+352,2781,2203,1184,713,555,Inferior olivary complex,right
+354,2800,2226,1182,717,550,Inferior olivary complex,right
+353,2809,2323,1181,717,527,Inferior olivary complex,right
+357,2824,2246,1180,723,545,Inferior olivary complex,right
+358,2805,2218,1180,719,552,Inferior olivary complex,right
+361,2781,2210,1181,712,555,Inferior olivary complex,right
+361,2814,2228,1179,721,550,Inferior olivary complex,right
+361,2816,2245,1179,720,546,Inferior olivary complex,right
+360,2799,2208,1180,718,555,Inferior olivary complex,right
+365,2835,2247,1176,725,545,Medulla,right
+369,2825,2258,1174,722,543,Inferior olivary complex,right
+369,768,1175,1297,283,786,Crus 2,left
+371,1036,3241,1228,317,338,Crus 2,right
+377,2817,2241,1171,719,547,Inferior olivary complex,right
+377,2809,2248,1171,718,546,Inferior olivary complex,right
+377,2762,2203,1174,707,557,Inferior olivary complex,right
+377,2801,2260,1172,715,544,Inferior olivary complex,right
+377,2830,2237,1170,724,548,Medulla,right
+377,2790,2246,1172,713,547,Inferior olivary complex,right
+378,2806,2236,1171,717,549,Inferior olivary complex,right
+378,903,1765,1261,306,659,Folium-tuber vermis (VII),left
+379,2826,2210,1169,723,556,Medulla,right
+383,2825,2233,1167,722,550,Inferior olivary complex,right
+383,719,2237,1251,252,556,Declive (VI),right
+383,2803,2240,1168,717,549,Inferior olivary complex,right
+381,2794,2211,1171,715,555,Inferior olivary complex,right
+382,2837,2257,1167,724,544,Inferior olivary complex,right
+384,2794,2241,1168,714,548,Inferior olivary complex,right
+384,2801,2228,1168,716,552,Inferior olivary complex,right
+385,2795,2322,1167,712,530,Inferior olivary complex,right
+385,2799,2237,1168,715,549,Inferior olivary complex,right
+385,2808,2234,1168,718,550,Inferior olivary complex,right
+385,2818,2237,1167,720,549,Inferior olivary complex,right
+385,2834,2254,1166,724,545,Inferior olivary complex,right
+385,2850,2241,1165,728,547,Medulla,right
+387,2800,2251,1166,715,546,Inferior olivary complex,right
+387,2810,2250,1166,717,547,Inferior olivary complex,right
+386,752,2107,1253,263,586,Declive (VI),left
+388,2836,2240,1164,724,549,Inferior olivary complex,right
+388,803,2461,1239,267,505,Declive (VI),right
+389,651,2322,1250,230,536,Declive (VI),right
+389,2820,2261,1165,719,544,Inferior olivary complex,right
+389,2832,2249,1165,722,547,Inferior olivary complex,right
+391,779,2454,1238,260,507,Declive (VI),right
+391,798,2429,1238,266,513,Declive (VI),right
+391,855,2185,1243,284,569,Declive (VI),right
+391,792,2199,1245,269,566,Declive (VI),right
+390,2839,2247,1163,725,547,Medulla,right
+392,745,2086,1251,261,590,Declive (VI),left
+392,2843,2234,1162,727,550,Medulla,right
+392,2843,2247,1162,726,547,Medulla,right
+393,2832,2275,1162,721,541,Inferior olivary complex,right
+394,2848,2253,1160,727,546,Medulla,right
+394,645,2333,1247,228,534,Declive (VI),right
+394,2802,2196,1164,716,559,Inferior olivary complex,right
+394,870,2198,1241,287,566,Declive (VI),right
+395,2787,2203,1164,712,558,Inferior olivary complex,right
+395,2813,2316,1160,716,532,Inferior olivary complex,right
+396,673,2243,1247,238,555,Declive (VI),right
+396,905,2168,1240,296,573,Declive (VI),left
+396,2808,2227,1162,717,552,Inferior olivary complex,right
+396,2827,2222,1161,722,553,Inferior olivary complex,right
+396,2827,2239,1161,721,550,Inferior olivary complex,right
+396,2837,2244,1161,723,548,Inferior olivary complex,right
+397,2833,2228,1161,724,552,Medulla,right
+397,737,2063,1250,259,596,Declive (VI),left
+398,650,2350,1244,228,531,Declive (VI),right
+405,2800,2209,1159,715,557,Inferior olivary complex,right
+405,2834,2243,1157,723,549,Inferior olivary complex,right
+400,2831,2255,1159,721,546,Inferior olivary complex,right
+401,2806,2231,1160,716,551,Inferior olivary complex,right
+401,2815,2203,1160,719,558,Inferior olivary complex,right
+402,2849,2249,1157,727,547,Medulla,right
+402,670,2101,1249,241,587,Declive (VI),left
+403,591,2320,1244,212,538,Declive (VI),right
+403,2786,2221,1159,711,554,Inferior olivary complex,right
+403,2820,2266,1157,718,543,Inferior olivary complex,right
+404,578,2310,1245,209,540,Declive (VI),right
+404,598,2347,1243,213,531,Declive (VI),right
+406,2818,2213,1157,720,556,Inferior olivary complex,right
+406,1963,2539,1175,520,494,Nucleus of the solitary tract,right
+406,2831,2250,1156,721,548,Inferior olivary complex,right
+406,2837,2252,1156,722,547,Inferior olivary complex,right
+406,655,2086,1249,237,591,Declive (VI),left
+408,2825,2259,1155,719,546,Inferior olivary complex,right
+408,2824,2211,1156,721,556,Inferior olivary complex,right
+408,2831,2205,1155,723,558,Medulla,right
+409,692,2042,1248,247,601,Declive (VI),left
+409,2842,2221,1155,725,554,Medulla,right
+409,582,2307,1243,209,540,Declive (VI),right
+409,2842,2202,1155,725,558,Medulla,right
+410,2847,2258,1153,725,546,Medulla,right
+410,678,2050,1247,244,599,Declive (VI),left
+410,2802,2213,1156,714,556,Inferior olivary complex,right
+411,2842,2240,1153,724,550,Medulla,right
+411,552,2290,1243,201,545,Declive (VI),right
+411,2798,2206,1155,714,558,Inferior olivary complex,right
+413,568,2282,1242,207,546,Declive (VI),right
+413,2831,2236,1153,721,551,Inferior olivary complex,right
+415,2832,2213,1151,722,556,Medulla,right
+415,2824,2253,1151,719,548,Inferior olivary complex,right
+416,2825,2214,1152,720,556,Inferior olivary complex,right
+416,2832,2250,1151,720,549,Inferior olivary complex,right
+416,2816,2176,1152,719,564,Nucleus raphe pallidus,right
+418,554,2331,1238,200,534,Declive (VI),right
+418,724,1929,1246,257,625,Declive (VI),left
+425,784,1924,1240,271,626,Declive (VI),left
+430,732,1909,1240,257,629,Declive (VI),left
+433,2817,2338,1143,713,530,Inferior olivary complex,right
+451,497,2316,1224,180,537,Declive (VI),right
+453,498,2292,1225,183,543,Declive (VI),right
+456,1020,3166,1191,304,366,Crus 1,right
+459,795,2520,1205,252,495,Lobules IV-V,right
+458,1443,1075,1211,436,808,Copula pyramidis,left
+466,946,3328,1190,283,332,Crus 1,right
+469,1023,3367,1185,301,322,Crus 1,right
+468,1051,3345,1184,308,327,Crus 1,right
+472,982,3253,1186,292,349,Crus 1,right
+473,1076,3345,1180,313,327,Crus 1,right
+475,471,2271,1216,173,548,Declive (VI),right
+474,1062,3367,1180,309,322,Crus 1,right
+508,730,1551,1221,249,702,Declive (VI),left
+514,913,1459,1213,295,725,arbor vitae,left
+518,691,1534,1220,237,706,Declive (VI),left
+518,685,1550,1219,235,703,Declive (VI),left
+525,340,2219,1199,133,560,Declive (VI),right
+529,637,1547,1216,221,703,Declive (VI),left
+530,827,1454,1212,270,724,arbor vitae,left
+533,618,1530,1216,217,707,Declive (VI),left
+536,308,1874,1205,127,636,Declive (VI),left
+542,603,1520,1213,211,710,Declive (VI),left
+541,1215,3665,1140,333,263,Crus 1,right
+543,536,1365,1227,195,749,Crus 1,left
+545,742,1430,1212,246,729,arbor vitae,left
+559,325,1744,1198,130,665,Declive (VI),left
+560,323,1749,1198,130,664,Declive (VI),left
+560,1077,3568,1141,296,285,Crus 1,right
+563,541,1549,1201,191,704,Declive (VI),left
+563,735,1260,1212,244,770,Crus 1,left
+563,1356,3682,1119,364,257,Crus 1,right
+569,1377,3673,1116,369,259,Crus 1,right
+571,554,1569,1195,194,700,Declive (VI),left
+571,561,1575,1194,195,699,Declive (VI),left
+573,1001,3607,1138,276,278,Crus 1,right
+578,592,1472,1199,203,722,Simple lobule,left
+581,1407,2345,1119,383,541,Lobule II,right
+598,723,1044,1205,241,827,Crus 1,left
+602,571,1390,1195,195,747,Simple lobule,left
+624,430,1583,1172,157,703,Declive (VI),left
+627,424,1584,1171,156,703,Declive (VI),left
+637,1622,617,1152,466,911,Paramedian lobule,left
+665,1399,2103,1092,377,600,Lobule II,left
+667,1355,2127,1092,366,594,Lobule II,left
+668,1412,2252,1086,377,569,Lobule II,right
+678,1273,2038,1092,350,612,arbor vitae,left
+679,1351,2307,1084,363,559,Lobule II,right
+684,1230,2048,1091,341,610,Lobule II,left
+693,911,2213,1101,277,578,Lobule III,left
+692,1296,2298,1082,353,561,arbor vitae,right
+699,1312,2399,1077,355,542,Lobule II,right
+700,1297,2353,1078,352,551,Lobule II,right
+702,1297,2297,1079,352,562,arbor vitae,right
+707,1305,2379,1075,354,546,Lobule II,right
+708,409,1523,1142,146,725,Simple lobule,left
+715,312,1551,1142,119,723,Simple lobule,left
+718,370,1544,1139,134,723,Simple lobule,left
+720,1272,2375,1072,348,548,Lobule II,right
+730,428,1492,1134,148,734,Simple lobule,left
+731,428,1493,1133,148,734,Simple lobule,left
+732,1314,2384,1066,355,546,Lobule II,right
+737,1303,2379,1065,353,547,Lobule II,right
+737,1199,2053,1073,335,613,arbor vitae,left
+741,1128,2393,1068,323,546,Lobule II,right
+740,1539,3588,1029,392,286,Simple lobule,right
+749,1089,2366,1066,314,551,Lobule II,right
+757,1106,2242,1064,317,577,Lobule II,left
+758,1133,2356,1061,321,553,Lobule II,right
+761,1191,2076,1064,332,611,Lobule II,left
+765,1028,2343,1061,299,557,Lobule II,right
+769,992,2336,1060,288,559,Lobule II,right
+772,1120,2092,1062,319,610,Lobule II,left
+792,1151,1049,1093,318,834,arbor vitae,left
+828,1038,1045,1085,287,842,Simple lobule,left
+2723,2172,3843,-4,418,396,Copula pyramidis,right
+2864,2481,2712,41,565,625,olfactory nerve layer of main olfactory bulb,left
+2867,2477,2687,39,563,631,olfactory nerve layer of main olfactory bulb,left
+2874,2509,2597,27,565,650,olfactory nerve layer of main olfactory bulb,left
+2882,1904,3660,-57,355,436,Copula pyramidis,right
+2883,1379,3976,-72,191,370,Crus 1,right
+2883,1909,3655,-57,357,437,Copula pyramidis,right
+2892,2483,2618,20,562,647,olfactory nerve layer of main olfactory bulb,left
+2897,1858,3717,-71,339,423,Paramedian lobule,right
+2901,2364,2096,-48,479,766,Copula pyramidis,left
+2900,1783,3815,-82,312,402,arbor vitae,right
+2900,1799,3798,-81,317,405,Paramedian lobule,right
+2905,2449,2541,12,548,666,olfactory nerve layer of main olfactory bulb,left
+2909,1801,3769,-80,319,413,Paramedian lobule,right
+2916,1863,3683,-72,344,433,Copula pyramidis,right
+2921,1967,2247,-7,359,734,Paramedian lobule,left
+2925,1861,3669,-72,344,437,Copula pyramidis,right
+2930,2003,3468,-40,406,484,Uvula (IX),right
+2927,1787,3769,-85,316,415,Paramedian lobule,right
+2932,1784,3767,-85,317,415,Paramedian lobule,right
+2933,2005,3464,-40,407,486,Uvula (IX),right
+2934,1780,3741,-84,316,420,Paramedian lobule,right
+2934,2003,3462,-41,407,486,Uvula (IX),right
+2937,1853,3666,-76,343,438,Copula pyramidis,right
+2938,1800,3496,-63,333,474,Pyramus (VIII),right
+2939,1800,3495,-63,334,475,Pyramus (VIII),right
+2939,1867,3629,-72,349,447,Copula pyramidis,right
+2944,1551,3816,-88,246,406,Crus 1,right
+2945,1861,3638,-74,347,445,Copula pyramidis,right
+2945,1857,3643,-75,345,444,Copula pyramidis,right
+2945,2347,2603,8,526,655,olfactory nerve layer of main olfactory bulb,left
+2950,2201,3314,-33,484,517,Uvula (IX),right
+2949,2201,3323,-32,483,516,Uvula (IX),right
+2949,1851,3623,-74,345,448,Copula pyramidis,right
+2951,1827,3593,-74,338,455,Pyramus (VIII),right
+2953,1844,2715,10,367,631,Olfactory areas,left
+2956,1843,2713,8,367,631,Olfactory areas,left
