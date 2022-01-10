@@ -4,9 +4,27 @@ Braintracer is a processing pipeline extension for the BrainGlobe API. It enable
 ---
 Installation:  
 First, install Anaconda on your machine.  
-Save braintracer files at `%USERPROFILE%\anaconda3\Lib\site-packages\braintracer`.  
-This directory should contain `__init__.py`, `analysis.py`, `file_management.py`, and `plotting.py`.  
-Save `bt.bat` and `bt_visualiser.ipynb` in the directory you wish to work in.  
+Within the base environment: `pip install cellfinder`  
+Save the following files at `%USERPROFILE%\anaconda3\Lib\site-packages\braintracer`:  
+• `__init__.py`  
+• `analysis.py`  
+• `file_management.py`  
+• `plotting.py`  
+
+Add your data into your working directory as follows:  
+```
+├── WorkingDirectory
+│   ├── bt.bat
+│   ├── bt_visualiser.py
+│   ├── DatasetName1
+│   |   ├── SignalChannelName
+│   |   |   ├── section_001_01
+│   |   |   ├── section_001_02
+│   |   ├── BackgroundChannelName
+│   ├── DatasetName2
+```
+
+`SignalChannelName` and `BackgroundChannelName` should be folders containing the images that make up the stack.
 
 Usage:  
 • Open Anaconda Prompt  
