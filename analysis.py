@@ -17,14 +17,16 @@ class Dataset:
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
         self.data = btf.open_file(f'reg_r_{self.name}.tiff')
         validate_dimensions(self, display=debug)
-        if debug:
-            n, i, IO_cells = get_area_info(['IO'], self.ch1_cells_by_area)
-            print(f'{dataset.name}: {IO_cells[0]} cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total. {sum(summary_cells):.1f}% cells in non-tract and non-ventricular areas')
         datasets.append(self)
         self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+        if debug:
+            _, _, IO_cells1 = get_area_info(['IO'], self.ch1_cells_by_area)
+            _, _, IO_cells2 = get_area_info(['IO'], self.ch2_cells_by_area)
+            print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total ch1 cells.')
+            print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} inferior olive, out of {self.num_cells(ch1=False)} total ch2 cells.')
 
     def show_coronal_section(self, slice_frac=(500, 1000), ch1=None):
         '''
@@ -71,7 +73,7 @@ class Dataset:
             counter[area_index] = counter[area_index] + 1
         if debug:
             total_cells = sum(counter.values()) # <-- if total cells needs to be verified
-            print(f'Cells in channel: {total_cells}')
+            print(f'Cells in channel (before manipulation): {total_cells}')
         counter = counter.most_common()
         return counter
 

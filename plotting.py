@@ -14,7 +14,9 @@ def generate_summary_plot(ax, grouped):
 	area_names, _, _ = bt.get_area_info(summary_areas, Counter())
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
-    
+	if bt.debug:
+		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
+		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 	if grouped:
 		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
 	else:
