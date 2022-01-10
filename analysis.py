@@ -28,7 +28,7 @@ class Dataset:
             print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total ch1 cells.')
             print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} inferior olive, out of {self.num_cells(ch1=False)} total ch2 cells.')
 
-    def show_coronal_section(self, slice_frac=(500, 1000), ch1=None):
+    def show_coronal_section(self, slice_frac=(500, 1000), cells_pm=0, ch1=None):
         '''
         Show a coronal section of the atlas with dataset points plotted on top.
         :slice_frac: 2-item tuple: first value is slice in raw data; second value is total number of slice in raw data
@@ -41,8 +41,10 @@ class Dataset:
         data = np.array(atlas)
         plt.suptitle(f'{self.name} Slice {str(ds_slice_num)}')
         plt.imshow(data[ds_slice_num,:,:], norm=colors.LogNorm())
-        layer_ch1_idxs = np.array(np.where(np.array(self.ch1_cells[2])==ds_slice_num))[0]
-        layer_ch2_idxs = np.array(np.where(np.array(self.ch2_cells[2])==ds_slice_num))[0]
+        ch1_inslice = np.array(self.ch1_cells[2])
+        ch2_inslice = np.array(self.ch2_cells[2])
+        layer_ch1_idxs = np.array(np.where((ch1_inslice>=ds_slice_num-cells_pm)*(ch1_inslice<=ds_slice_num+cells_pm)))[0]
+        layer_ch2_idxs = np.array(np.where((ch2_inslice>=ds_slice_num-cells_pm)*(ch2_inslice<=ds_slice_num+cells_pm)))[0]
         if ch1 != False:
             for i in layer_ch1_idxs:
                 plt.scatter(self.ch1_cells[0][i], self.ch1_cells[1][i], c='r', s=0.8)
@@ -263,7 +265,7 @@ def _get_cells_in(areas, dataset, ch1=True):
             cells_z.append(z)
     return cells_x, cells_y, cells_z
 
-def _project_dataset(ax, dataset, area, s, contour, ch1=True):
+def _project_dataset(ax, dataset, area, ch1, s, contour):
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
@@ -282,8 +284,16 @@ def _project_dataset(ax, dataset, area, s, contour, ch1=True):
     else:
         ax.imshow(arr_trimmed)
     
-    X, Y, _ = _get_cells_in(areas, dataset, ch1)
-    X = [x-y_offset for x in X]
-    Y = [y-x_offset for y in Y]
-    colour = 'magenta' if dataset.group == datasets[0].group else (0,0.5,1)
-    ax.scatter(X, Y, color=colour, s=s, label=dataset.group, zorder=10)
+    # colour = 'magenta' if dataset.group == datasets[0].group else (0,0.5,1)
+    def show_cells(channel, colour):
+        X_r, Y_r, _ = _get_cells_in(areas, dataset, channel)
+        X_r = [x-y_offset for x in X_r]
+        Y_r = [y-x_offset for y in Y_r]
+        ax.scatter(X_r, Y_r, color=colour, s=s, label=dataset.group, zorder=10)
+    if ch1 == None:
+        show_cells(True, 'r')
+        show_cells(False, 'g')
+    elif ch1 == True:
+        show_cells(True, 'r')
+    else:
+        show_cells(False, 'g')
