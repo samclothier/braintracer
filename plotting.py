@@ -8,10 +8,13 @@ from collections import Counter
 import plotly
 import plotly.graph_objs as go
 
-def generate_summary_plot(ax, dataset_cells, grouped):
+def generate_summary_plot(ax, grouped):
+	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
+	dataset_cells = _cells_by_area_across_datasets(summary_areas)
+	area_names, _, _ = bt.get_area_info(summary_areas, Counter())
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
-	area_names=bt.summary_names
+    
 	if grouped:
 		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
 	else:
@@ -22,9 +25,12 @@ def generate_summary_plot(ax, dataset_cells, grouped):
 	ax.grid(axis='x')
 	ax.set_title(f'Whole brain')
 
-def generate_custom_plot(ax, dataset_cells, area_names, title, grouped):
+def generate_custom_plot(ax, area_names, title, grouped):
+	dataset_cells = _cells_by_area_across_datasets(area_names)
+	area_names, _, _ = bt.get_area_info(area_names, Counter())
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
+
 	if grouped:
 		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
 	else:
@@ -111,7 +117,7 @@ def generate_projection_plot(area, s=2, contour=True):
 	f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
 		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
-		bt.project_dataset(ax, dataset, area, s, contour)
+		bt._project_dataset(ax, dataset, area, s, contour)
 	ax1.invert_xaxis()
 	ax1.invert_yaxis()
 	ax2.invert_xaxis()
@@ -119,7 +125,7 @@ def generate_projection_plot(area, s=2, contour=True):
 	_display_legend_subset(ax1, (0,))
 	_display_legend_subset(ax2, (0,))
 
-def make_areas_3D(areas, colours):
+def generate_3D_shape(areas, colours):
 	assert len(areas) == len(colours), 'Each area should have a corresponding colour.'
 	atlas = np.array(bt.atlas)
 	area_nums = bt.get_area_info(areas)[1]
@@ -139,6 +145,14 @@ def make_areas_3D(areas, colours):
 	layout = go.Layout(margin={'l': 0, 'r': 0, 'b': 0, 't': 0})
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
+
+def _cells_by_area_across_datasets(areas):
+	cells_list = []
+	for dataset in bt.datasets:
+		_, _, cells = bt.get_area_info(areas, dataset.ch1_cells_by_area)
+		cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, cells))
+		cells_list.append(cells)
+	return cells_list
 
 def _prep_for_sns(area_names, dataset_names, dataset_cells):
 	#area_names = list(chain.from_iterable(area_names))

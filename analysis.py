@@ -17,6 +17,9 @@ class Dataset:
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
         self.data = btf.open_file(f'reg_r_{self.name}.tiff')
         validate_dimensions(self, display=debug)
+        if debug:
+            n, i, IO_cells = get_area_info(['IO'], self.ch1_cells_by_area)
+            print(f'{dataset.name}: {IO_cells[0]} cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total. {sum(summary_cells):.1f}% cells in non-tract and non-ventricular areas')
         datasets.append(self)
         self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
@@ -244,30 +247,6 @@ def _get_extra_cells(codes, original_counter):
         cells = list(map(lambda x: x*0, codes))
     return names, cells
 
-
-# main analysis script
-summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
-summary_names, _, _ = get_area_info(summary_areas, Counter())
-nrmdltn_areas = ['VTA','RAmb', 'RM', 'RO', 'RPA', 'RPO', 'CS', 'SNc', 'SNr', 'LC']
-nrmdltn_names, _, _ = get_area_info(nrmdltn_areas, Counter())
-def run_analysis():
-    summary_cells_list = []
-    nrmdltn_cells_list = []
-    for idx, dataset in enumerate(datasets):
-        summary_names, _, summary_cells = get_area_info(summary_areas, dataset.ch1_cells_by_area)
-        summary_cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, summary_cells))
-        summary_cells_list.append(summary_cells)
-
-        nrmdltn_names, _, nrmdltn_cells = get_area_info(nrmdltn_areas, dataset.ch1_cells_by_area)
-        nrmdltn_cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, nrmdltn_cells))
-        nrmdltn_cells_list.append(nrmdltn_cells)
-        
-        if debug:
-            n, i, IO_cells = get_area_info(['IO'], dataset.ch1_cells_by_area)
-            print(f'{dataset.name}: {IO_cells[0]} cells in {dataset.name} inferior olive, out of {dataset.num_cells(ch1=True)} total. {sum(summary_cells):.1f}% cells in non-tract and non-ventricular areas')
-    results.summary_cells = summary_cells_list
-    results.nrmdltn_cells = nrmdltn_cells_list
-
 def _get_cells_in(areas, dataset, ch1=True):
     cells_x, cells_y, cells_z = [], [], []
     cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
@@ -282,7 +261,7 @@ def _get_cells_in(areas, dataset, ch1=True):
             cells_z.append(z)
     return cells_x, cells_y, cells_z
 
-def project_dataset(ax, dataset, area, s, contour, ch1=True):
+def _project_dataset(ax, dataset, area, s, contour, ch1=True):
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
