@@ -34,13 +34,13 @@ Add your data into your working directory as follows:
 
 Usage:  
 • Open Anaconda Prompt  
-• Type `bt.bat`  
+• Type `bt.bat` while in `WorkingDirectory`  
 • Follow the instructions in the terminal  
 • Play with your results and save figures within Jupyter Notebook!  
 
 ---
 If you don't have access to any raw data, you can use the sample data provided.  
-Set up everything as above bar the DatasetName directories and contained files.  
-Attempt to run `bt.bat` in the terminal once, so that the atlas and other files can be organised correctly.  
+Set up everything as above bar the `DatasetName` directories and contained files.  
+Attempt to run `bt.bat` from `WorkingDirectory` in the terminal once, so that the atlas and other files can be organised correctly.  
 Move the sample data files into the `braintracer\cellfinder\` directory.  
 You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook`
