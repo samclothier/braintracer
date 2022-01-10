@@ -5,6 +5,12 @@ Braintracer is a processing pipeline extension for the BrainGlobe API. It enable
 Installation:  
 First, install Anaconda on your machine.  
 Within the base environment: `pip install cellfinder`  
+Then, `pip install bg_atlasapi`  
+View your current BrainGlobe atlases with `brainglobe list`  
+Ensure you have the 10um atlas installed.  
+If you don't, run `brainglobe install allen_mouse_10um`  
+This should download the atlas to `%USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\annotation.tiff`, along with the file `structures.csv`  
+
 Save the following files at `%USERPROFILE%\anaconda3\Lib\site-packages\braintracer`:  
 • `__init__.py`  
 • `analysis.py`  

@@ -116,7 +116,7 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 def generate_projection_plot(area, ch1=None, s=2, contour=True):
 	f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,6))
 	f.set_facecolor('lightgrey')
-	f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
+	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
 		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
 		bt._project_dataset(ax, dataset, area, ch1, s, contour)
