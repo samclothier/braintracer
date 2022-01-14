@@ -111,6 +111,7 @@ class Dataset:
         returns the x, y, z coordinates of cells in a specific brain area
         area: can be string or index reference to single area
         ch1: True or False, True returns cells in signal channel, False returns cells in background channel
+        NOTE: doesn't seem to work as expected, likely can remove function
         '''
         cells_x, cells_y, cells_z = [], [], []
         if isinstance(area, str):
@@ -128,6 +129,35 @@ class Dataset:
                 cells_y.append(y)
                 cells_z.append(z)
         return cells_x, cells_y, cells_z
+
+    def get_starter_cells_in(self, area, xy_tol_um=10, z_tol_um=10):
+        # atlas is 10um, so divide um tolerance by 10
+        xy_tol = np.ceil(xy_tol_um / 10)
+        z_tol = np.ceil(z_tol_um / 10)
+        if debug:
+            print(f'Atlas space xy tolerance is {xy_tol} and z tolerance is {z_tol}')
+        parent, children = children_from(area, depth=0)
+        areas = [parent] + children
+        ch1_cells_in_area = _get_cells_in(areas, self, ch1=True)
+        ch2_cells_in_area = _get_cells_in(areas, self, ch1=False)
+        matching_ch1_idxs = []
+        matching_ch2_idxs = []
+
+        for ch2_idx, Z in enumerate(ch2_cells_in_area[2]):
+            X = ch2_cells_in_area[0][ch2_idx]
+            Y = ch2_cells_in_area[1][ch2_idx]
+            
+            for ch1_idx, z in enumerate(ch1_cells_in_area[2]):
+                x = ch1_cells_in_area[0][ch1_idx]
+                y = ch1_cells_in_area[1][ch1_idx]
+                if (z-z_tol <= Z <= z+z_tol) & (x-xy_tol <= X <= x+xy_tol) & (y-xy_tol <= Y <= y+xy_tol):
+                    matching_ch1_idxs.append(ch2_idx)
+                    matching_ch2_idxs.append(ch1_idx)
+                    break
+        if debug:
+            print(f'{len(ch1_cells_in_area[2])} ch1 cells and {len(ch2_cells_in_area[2])} ch2 cells in the {str(area)}.')
+            print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
+        return len(matching_ch2_idxs)
 
 class _Results: # singleton object
    _instance = None

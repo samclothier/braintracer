@@ -148,6 +148,12 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
+def generate_starter_cell_plot(ax, area, xy_tol_um=10, z_tol_um=10):
+	dataset_names = [i.name for i in bt.datasets]
+	starter_cells = [i.get_starter_cells_in(area, xy_tol_um, z_tol_um) for i in bt.datasets]
+	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
+	ax.set(ylabel=f'Number of cells in {area}')
+
 def _cells_by_area_across_datasets(areas):
 	cells_list = []
 	for dataset in bt.datasets:
