@@ -161,8 +161,12 @@ class Dataset:
             print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
         return len(matching_ch2_idxs)
 
-    def adapt_starter_area(self, area):
-        pass
+    def adapt_starter_area(self, area, x_bounds, y_bounds, z_bounds):
+        z_min, z_max = z_bounds
+        x_min, x_max = x_bounds
+        y_min, y_max = y_bounds
+        _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
+        atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
 class _Results: # singleton object
    _instance = None
@@ -370,6 +374,7 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
         show_cells(True, 'r')
     else:
         show_cells(False, 'g')
+    return x_min, y_min, z_min
 
 def get_cells_in(dilation, dataset, ch1=True):
     cells_x, cells_y, cells_z = [], [], []

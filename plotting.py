@@ -115,12 +115,12 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	ax.set_title(f'{parent_name}')
 
 def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, s=2, contour=True):
-	f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,6))
+	f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,4))
 	f.set_facecolor('lightgrey')
-	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
 		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
-		bt._project(ax, dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+		x, y, z = bt._project(ax, dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+		f.suptitle(f'Cell distribution in {area} where x={x}, y={y}, z={z} across '+'_'.join([i.name for i in bt.datasets]))
 	ax1.invert_xaxis()
 	ax1.invert_yaxis()
 	ax2.invert_xaxis()
@@ -129,11 +129,11 @@ def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=No
 	_display_legend_subset(ax2, (0,))
 
 def _compare_projection_plots(area, padding=10, ch1=None, s=2, contour=True):
-	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
 		f, axs = plt.subplots(2, 3, figsize=(15,7))
 		f.set_facecolor('lightgrey')
-		bt._project(axs[0,0], dataset, area, padding, ch1, s, contour)
+		x, y, z = bt._project(axs[0,0], dataset, area, padding, ch1, s, contour)
+		f.suptitle(f'Cell distribution in {dataset.name} {area} where x={x}, y={y}, z={z}')
 		bt._project(axs[0,1], dataset, area, padding, ch1, s, contour, all_cells=True)
 		bt._project(axs[0,2], dataset, area, padding, ch1, s, contour, dilate=True)
 		bt._project(axs[1,0], dataset, area, padding, ch1, s, contour, axis=1)
