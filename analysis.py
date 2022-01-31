@@ -4,6 +4,8 @@ from matplotlib import colors
 from collections import Counter
 import numpy as np
 from itertools import chain
+from skimage import morphology
+from scipy import ndimage
 
 datasets = []
 area_indexes = btf.open_file('structures.csv')
@@ -295,31 +297,70 @@ def _get_cells_in(areas, dataset, ch1=True):
             cells_z.append(z)
     return cells_x, cells_y, cells_z
 
-def _project_dataset(ax, dataset, area, ch1, s, contour):
+def _get_cells_in_bounds(x_bounds, y_bounds, z_bounds, dataset, ch1=True):
+    x_min, x_max = x_bounds
+    y_min, y_max = y_bounds
+    z_min, z_max = z_bounds
+    cells_x, cells_y, cells_z = [], [], []
+    cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
+    cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
+    for idx, z in enumerate(cls_z):
+        x = cls_x[idx]
+        y = cls_y[idx]
+        if x_min <= x <= x_max and y_min <= y <= y_max and z_min <= z <= z_max:
+            cells_x.append(x)
+            cells_y.append(y)
+            cells_z.append(z)
+    return cells_x, cells_y, cells_z
+
+def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, all_cells=False):
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
     atlas_ar = np.array(atlas)
     atlas_ar = np.isin(atlas_ar, areas)
-    projection = atlas_ar.any(axis=0)
-    nz = np.nonzero(projection)
-    x_offset = nz[0].min()-10
-    y_offset = nz[1].min()-10
-    arr_trimmed = projection[nz[0].min()-10:nz[0].max()+11,
-                             nz[1].min()-10:nz[1].max()+11]
-    projected_area = arr_trimmed.astype(int)
+    if dilate:
+        struct = ndimage.generate_binary_structure(rank=3, connectivity=1)
+        atlas_ar = ndimage.binary_dilation(atlas_ar, struct, iterations=10)
+    nz = np.nonzero(atlas_ar)
+    z_min = nz[0].min() - padding
+    y_min = nz[1].min() - padding
+    x_min = nz[2].min() - padding
+    z_max = nz[0].max() + padding+1
+    y_max = nz[1].max() + padding+1
+    x_max = nz[2].max() + padding+1
+    if debug:
+        print('x:'+str(x_min)+' '+str(x_max)+' y:'+str(y_min)+' '+str(y_max)+' z:'+str(z_min)+' '+str(z_max))
+    perimeter = atlas_ar[z_min : z_max,
+                         y_min : y_max,
+                         x_min : x_max]
+    projection = perimeter.any(axis=axis)
+    projected_area = projection.astype(int)
+    
     if contour:
         ax.contour(projected_area, colors='k')
         ax.set_aspect('equal')
     else:
-        ax.imshow(arr_trimmed)
-    
-    # colour = 'magenta' if dataset.group == datasets[0].group else (0,0.5,1)
+        ax.imshow(projection)
+
     def show_cells(channel, colour):
-        X_r, Y_r, _ = _get_cells_in(areas, dataset, channel)
-        X_r = [x-y_offset for x in X_r]
-        Y_r = [y-x_offset for y in Y_r]
-        ax.scatter(X_r, Y_r, color=colour, s=s, label=dataset.group, zorder=10)
+        if all_cells:
+            X_r, Y_r, Z_r = _get_cells_in_bounds((x_min, x_max), (y_min, y_max), (z_min, z_max), dataset, ch1=channel)
+        elif dilate:
+            X_r, Y_r, Z_r = get_cells_in(atlas_ar, dataset, ch1=channel)
+        elif not all_cells and not dilate:
+            X_r, Y_r, Z_r = _get_cells_in(areas, dataset, ch1=channel)
+        else:
+            pass
+        X_r = [x-x_min for x in X_r]
+        Y_r = [y-y_min for y in Y_r]
+        Z_r = [z-z_min for z in Z_r]
+        if axis==0:
+            ax.scatter(X_r, Y_r, color=colour, s=s, label=dataset.group, zorder=10)
+        elif axis==1:
+            ax.scatter(X_r, Z_r, color=colour, s=s, label=dataset.group, zorder=10)
+        else:
+            pass
     if ch1 == None:
         show_cells(True, 'r')
         show_cells(False, 'g')
@@ -327,3 +368,18 @@ def _project_dataset(ax, dataset, area, ch1, s, contour):
         show_cells(True, 'r')
     else:
         show_cells(False, 'g')
+    ax.invert_xaxis()
+    ax.invert_yaxis()
+
+def get_cells_in(dilation, dataset, ch1=True):
+    cells_x, cells_y, cells_z = [], [], []
+    cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
+    cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
+    for idx, z in enumerate(cls_z):
+        x = cls_x[idx]
+        y = cls_y[idx]
+        if dilation[z,y,x] == 1:
+            cells_x.append(x)
+            cells_y.append(y)
+            cells_z.append(z)
+    return cells_x, cells_y, cells_z

@@ -113,19 +113,30 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	ax.grid(axis='y')
 	ax.set_title(f'{parent_name}')
 
-def generate_projection_plot(area, ch1=None, s=2, contour=True):
+def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, s=2, contour=True):
 	f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,6))
 	f.set_facecolor('lightgrey')
 	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
 		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
-		bt._project_dataset(ax, dataset, area, ch1, s, contour)
-	ax1.invert_xaxis()
-	ax1.invert_yaxis()
-	ax2.invert_xaxis()
-	ax2.invert_yaxis()
+		bt._project(ax, dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
 	_display_legend_subset(ax1, (0,))
 	_display_legend_subset(ax2, (0,))
+
+def _compare_projection_plots(area, padding=10, ch1=None, s=2, contour=True):
+	f1, axs = plt.subplots(2, 3, figsize=(15,7))
+	f1.set_facecolor('lightgrey')
+	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
+	for dataset in bt.datasets:
+		bt._project(axs[0,0], dataset, area, padding, ch1, s, contour)
+		bt._project(axs[0,1], dataset, area, padding, ch1, s, contour, all_cells=True)
+		bt._project(axs[0,2], dataset, area, padding, ch1, s, contour, dilate=True)
+		bt._project(axs[1,0], dataset, area, padding, ch1, s, contour, axis=1)
+		bt._project(axs[1,1], dataset, area, padding, ch1, s, contour, axis=1, all_cells=True)
+		bt._project(axs[1,2], dataset, area, padding, ch1, s, contour, axis=1, dilate=True)
+	axs[0,0].set_title(f'Cells inside registered area')
+	axs[0,1].set_title(f'All cells')
+	axs[0,2].set_title(f'Cells in 3D dilated area')
 
 def generate_3D_shape(areas, colours):
 	assert len(areas) == len(colours), 'Each area should have a corresponding colour.'
