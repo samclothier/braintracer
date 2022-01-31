@@ -1,3 +1,4 @@
+import braintracer.file_management as btf
 import braintracer.analysis as bt
 import numpy as np
 import pandas as pd
@@ -120,27 +121,35 @@ def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=No
 	for dataset in bt.datasets:
 		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
 		bt._project(ax, dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+	ax1.invert_xaxis()
+	ax1.invert_yaxis()
+	ax2.invert_xaxis()
+	ax2.invert_yaxis()
 	_display_legend_subset(ax1, (0,))
 	_display_legend_subset(ax2, (0,))
 
 def _compare_projection_plots(area, padding=10, ch1=None, s=2, contour=True):
-	f1, axs = plt.subplots(2, 3, figsize=(15,7))
-	f1.set_facecolor('lightgrey')
 	#f.suptitle('Cell distribution in '+area+' across '+'_'.join([i.name for i in bt.datasets]))
 	for dataset in bt.datasets:
+		f, axs = plt.subplots(2, 3, figsize=(15,7))
+		f.set_facecolor('lightgrey')
 		bt._project(axs[0,0], dataset, area, padding, ch1, s, contour)
 		bt._project(axs[0,1], dataset, area, padding, ch1, s, contour, all_cells=True)
 		bt._project(axs[0,2], dataset, area, padding, ch1, s, contour, dilate=True)
 		bt._project(axs[1,0], dataset, area, padding, ch1, s, contour, axis=1)
 		bt._project(axs[1,1], dataset, area, padding, ch1, s, contour, axis=1, all_cells=True)
 		bt._project(axs[1,2], dataset, area, padding, ch1, s, contour, axis=1, dilate=True)
-	axs[0,0].set_title(f'Cells inside registered area')
-	axs[0,1].set_title(f'All cells')
-	axs[0,2].set_title(f'Cells in 3D dilated area')
+		axs[0,0].set_title(f'Cells inside registered area')
+		axs[0,1].set_title(f'All cells')
+		axs[0,2].set_title(f'Cells in 3D dilated area')
+		for ax in list(chain.from_iterable(axs)):
+			ax.invert_xaxis()
+			ax.invert_yaxis()
+		btf.save(f'injection_{dataset.name}_{area}', as_type='png')
+	print('View results in braintracer/TRIO.')
 
 def generate_3D_shape(areas, colours):
 	assert len(areas) == len(colours), 'Each area should have a corresponding colour.'
-	atlas = np.array(bt.atlas)
 	area_nums = bt.get_area_info(areas)[1]
 	def _subsample_atlas_pixels(x, y, z): # reduce pixel density 20x
 		x = [val for i, val in enumerate(x) if i % 20 == 0]
@@ -149,7 +158,7 @@ def generate_3D_shape(areas, colours):
 		return x, y, z
 	data = []
 	for idx, area_num in enumerate(area_nums):
-		z_vals, y_vals, x_vals = np.nonzero(atlas == area_num)
+		z_vals, y_vals, x_vals = np.nonzero(bt.atlas == area_num)
 		x_vals, y_vals, z_vals = _subsample_atlas_pixels(x_vals, y_vals, z_vals)
 		trace = go.Scatter3d(x = y_vals, y = x_vals, z = z_vals, mode='markers',
 		marker={'size': 1, 'opacity': 0.8, 'color':colours[idx]})

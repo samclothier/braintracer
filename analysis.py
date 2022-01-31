@@ -9,7 +9,7 @@ from scipy import ndimage
 
 datasets = []
 area_indexes = btf.open_file('structures.csv')
-atlas = btf.open_file(f'atlas.tiff')
+atlas = np.array(btf.open_file(f'atlas.tiff'))
 debug = False
 
 class Dataset:
@@ -40,9 +40,8 @@ class Dataset:
         frac = raw_slice_num / raw_len
         atlas_len = 1255 # atlas len is 1320 but registration cut-off is about 1250
         ds_slice_num = atlas_len - int(atlas_len*frac)
-        data = np.array(atlas)
         plt.suptitle(f'{self.name} Slice {str(ds_slice_num)}')
-        plt.imshow(data[ds_slice_num,:,:], norm=colors.LogNorm())
+        plt.imshow(atlas[ds_slice_num,:,:], norm=colors.LogNorm())
         ch1_inslice = np.array(self.ch1_cells[2])
         ch2_inslice = np.array(self.ch2_cells[2])
         layer_ch1_idxs = np.array(np.where((ch1_inslice>=ds_slice_num-cells_pm)*(ch1_inslice<=ds_slice_num+cells_pm)))[0]
@@ -133,6 +132,7 @@ class Dataset:
         return cells_x, cells_y, cells_z
 
     def get_starter_cells_in(self, area, xy_tol_um=10, z_tol_um=10):
+        # checks if there is a ch1 cell nearby for every ch2 cell
         # atlas is 10um, so divide um tolerance by 10
         xy_tol = np.ceil(xy_tol_um / 10)
         z_tol = np.ceil(z_tol_um / 10)
@@ -160,6 +160,9 @@ class Dataset:
             print(f'{len(ch1_cells_in_area[2])} ch1 cells and {len(ch2_cells_in_area[2])} ch2 cells in the {str(area)}.')
             print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
         return len(matching_ch2_idxs)
+
+    def adapt_starter_area(self, area):
+        pass
 
 class _Results: # singleton object
    _instance = None
@@ -317,8 +320,7 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
-    atlas_ar = np.array(atlas)
-    atlas_ar = np.isin(atlas_ar, areas)
+    atlas_ar = np.isin(atlas, areas)
     if dilate:
         struct = ndimage.generate_binary_structure(rank=3, connectivity=1)
         atlas_ar = ndimage.binary_dilation(atlas_ar, struct, iterations=10)
@@ -368,8 +370,6 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
         show_cells(True, 'r')
     else:
         show_cells(False, 'g')
-    ax.invert_xaxis()
-    ax.invert_yaxis()
 
 def get_cells_in(dilation, dataset, ch1=True):
     cells_x, cells_y, cells_z = [], [], []

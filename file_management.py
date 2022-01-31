@@ -75,6 +75,13 @@ def open_file(name): # open files
         return None
 
 def save(file_name, as_type):
+    if file_name.startswith('injection_'):
+        dir_name = 'braintracer/TRIO/'
+        dir_path = os.path.join(script_dir, dir_name)
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        file_name = dir_path + file_name
+
     if as_type == 'png':
         plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')
     elif as_type == 'pdf':
