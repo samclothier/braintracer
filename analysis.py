@@ -1,3 +1,4 @@
+from bg_atlasapi.bg_atlas import BrainGlobeAtlas
 import braintracer.file_management as btf
 import matplotlib.pyplot as plt
 from matplotlib import colors
@@ -9,14 +10,15 @@ from scipy import ndimage
 
 datasets = []
 area_indexes = btf.open_file('structures.csv')
-atlas = np.array(btf.open_file(f'atlas.tiff'))
+atlas = btf.get_atlas()
 debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg):
+    def __init__(self, name, group, sig, bg, starter_region, predefined_starter_modification=None):
         self.name, self.group, self.sig, self.bg = name, group, sig, bg
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
+        self.atlas = None
         self.data = btf.open_file(f'reg_r_{self.name}.tiff') # will be used for fluorescence analysis
         validate_dimensions(self, display=debug)
         datasets.append(self)
@@ -24,11 +26,17 @@ class Dataset:
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+        if predefined_starter_modification is not None:
+            self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
+            self.adapt_starter_area(starter_region, (432+30, 432+70), (627+90, 627+125), (1098+100, 1098+180))
         if debug:
-            _, _, IO_cells1 = get_area_info(['IO'], self.ch1_cells_by_area)
-            _, _, IO_cells2 = get_area_info(['IO'], self.ch2_cells_by_area)
-            print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total ch1 cells.')
-            print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} inferior olive, out of {self.num_cells(ch1=False)} total ch2 cells.')
+            try:
+                _, _, IO_cells1 = get_area_info([starter_region], self.ch1_cells_by_area)
+                _, _, IO_cells2 = get_area_info([starter_region], self.ch2_cells_by_area)
+                print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} {starter_region}, out of {self.num_cells(ch1=True)} total ch1 cells.')
+                print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} {starter_region}, out of {self.num_cells(ch1=False)} total ch2 cells.')
+            except Exception:
+                print('Starter region not known for cell count assessment. Use shorthand region notation, e.g. IO for inferior olivary complex.')
 
     def show_coronal_section(self, slice_frac=(500, 1000), cells_pm=0, ch1=None):
         '''
@@ -71,7 +79,7 @@ class Dataset:
         for idx, z in enumerate(z_vals):
             x = x_vals[idx]
             y = y_vals[idx]
-            area_index = _get_area_index(z, x, y)
+            area_index = _get_area_index(self, z, x, y)
             counter.setdefault(area_index, 0)
             counter[area_index] = counter[area_index] + 1
         if debug:
@@ -124,7 +132,7 @@ class Dataset:
         for idx, z in enumerate(cls_z):
             x = cls_x[idx]
             y = cls_y[idx]
-            cur_area_idx = _get_area_index(z, x, y)
+            cur_area_idx = _get_area_index(self, z, x, y)
             if cur_area_idx == area_index:
                 cells_x.append(x)
                 cells_y.append(y)
@@ -166,7 +174,7 @@ class Dataset:
         x_min, x_max = x_bounds
         y_min, y_max = y_bounds
         _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
-        atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
+        self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
 class _Results: # singleton object
    _instance = None
@@ -219,8 +227,8 @@ def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
     return x_vals, y_vals, z_vals
 
 # get the index referring to the brain area in which a cell is located
-def _get_area_index(z, x, y):
-    im = atlas[z]
+def _get_area_index(dataset, z, x, y):
+    im = atlas[z] if dataset.atlas is None else dataset.atlas[z] # happens when a dataset's atlas has been modified
     if x <= im.shape[1] and y <= im.shape[0]:
         area_index = int(im[y,x])
     else:
@@ -297,7 +305,7 @@ def _get_cells_in(areas, dataset, ch1=True):
     for idx, z in enumerate(cls_z):
         x = cls_x[idx]
         y = cls_y[idx]
-        cur_area_idx = _get_area_index(z, x, y)
+        cur_area_idx = _get_area_index(dataset, z, x, y)
         if cur_area_idx in areas:
             cells_x.append(x)
             cells_y.append(y)
@@ -324,7 +332,8 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
-    atlas_ar = np.isin(atlas, areas)
+    atlas_to_project = atlas if dataset.atlas is None else dataset.atlas # happens when a dataset's atlas has been modified
+    atlas_ar = np.isin(atlas_to_project, areas)
     if dilate:
         struct = ndimage.generate_binary_structure(rank=3, connectivity=1)
         atlas_ar = ndimage.binary_dilation(atlas_ar, struct, iterations=10)

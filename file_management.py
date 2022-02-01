@@ -1,11 +1,14 @@
+from bg_atlasapi.bg_atlas import BrainGlobeAtlas
 import os
 from bs4 import BeautifulSoup
 from matplotlib.backends.backend_pdf import PdfPages
 import imageio
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 script_dir = os.getcwd() #path.dirname(os.path.abspath(__file__)) #<-- absolute dir the script is in
+atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name):
     if file_name.startswith('cells_'):
@@ -73,6 +76,15 @@ def open_file(name): # open files
     else:
         print('Unexpected file extension')
         return None
+
+def get_atlas():
+    annotation = atlas.annotation
+    return np.array(annotation)
+
+def get_lookup_df():
+    df = atlas.lookup_df
+    df = df.set_index('id')
+    return df
 
 def save(file_name, as_type):
     if file_name.startswith('injection_'):
