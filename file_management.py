@@ -1,11 +1,10 @@
-from bg_atlasapi.bg_atlas import BrainGlobeAtlas
-import os, sys
-from bs4 import BeautifulSoup
-from matplotlib.backends.backend_pdf import PdfPages
-import imageio
+import os, sys, imageio
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from matplotlib.backends.backend_pdf import PdfPages
+from bg_atlasapi.bg_atlas import BrainGlobeAtlas
+from bs4 import BeautifulSoup
 
 script_dir = os.getcwd() #path.dirname(os.path.abspath(__file__)) #<-- absolute dir the script is in
 atlas = BrainGlobeAtlas('allen_mouse_10um')

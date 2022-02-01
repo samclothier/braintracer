@@ -1,12 +1,13 @@
+import plotly
 import braintracer.file_management as btf
 import braintracer.analysis as bt
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
+import numpy as np
 from itertools import chain
 from collections import Counter
-import plotly
+
 import plotly.graph_objs as go
 
 def generate_summary_plot(ax, grouped):
