@@ -1,5 +1,5 @@
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
-import os
+import os, sys
 from bs4 import BeautifulSoup
 from matplotlib.backends.backend_pdf import PdfPages
 import imageio
@@ -100,3 +100,12 @@ def save(file_name, as_type):
         pp = PdfPages(f'{file_name}.pdf')
         pp.savefig()
         pp.close()
+
+class HiddenPrints:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout

@@ -27,7 +27,8 @@ class Dataset:
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         if predefined_starter_modification is not None:
-            self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
+            with btf.HiddenPrints():
+                self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
             self.adapt_starter_area(starter_region, (432+30, 432+70), (627+90, 627+125), (1098+100, 1098+180))
         if debug:
             try:
@@ -173,6 +174,8 @@ class Dataset:
         z_min, z_max = z_bounds
         x_min, x_max = x_bounds
         y_min, y_max = y_bounds
+        with btf.HiddenPrints():
+            self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
         _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
         self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
