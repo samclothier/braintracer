@@ -11,13 +11,16 @@ from scipy import ndimage
 datasets = []
 area_indexes = btf.open_file('structures.csv')
 atlas = btf.get_atlas()
+starter_region = None
 debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg, starter_region, predefined_starter_modification=None):
+    def __init__(self, name, group, sig, bg, modify_starter=False):
         self.name, self.group, self.sig, self.bg = name, group, sig, bg
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
+        self.ch1_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch1_cells[0])) # flip cells x coord along the midline
+        self.ch2_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch2_cells[0]))
         self.atlas = None # becomes used if the atlas is modified
         self.data = btf.open_file(f'reg_r_{self.name}.tiff') # will be used for fluorescence analysis
         validate_dimensions(self, display=debug)
@@ -26,10 +29,13 @@ class Dataset:
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
-        if predefined_starter_modification is not None:
+        global starter_region
+        if modify_starter:
+            if starter_region is None:
+                print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
             with btf.HiddenPrints():
-                self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
-            self.adapt_starter_area(starter_region, (432+30, 432+70), (627+90, 627+125), (1098+100, 1098+180))
+                self.atlas = btf.get_atlas()
+            self.adapt_starter_area((452+175, 452+225), (627+90, 627+125), (1098+100, 1098+180))
         if debug:
             try:
                 _, _, IO_cells1 = get_area_info([starter_region], self.ch1_cells_by_area)
@@ -49,7 +55,7 @@ class Dataset:
         frac = raw_slice_num / raw_len
         atlas_len = 1255 # atlas len is 1320 but registration cut-off is about 1250
         ds_slice_num = atlas_len - int(atlas_len*frac)
-        plt.suptitle(f'{self.name} Slice {str(ds_slice_num)}')
+        plt.suptitle(f'{self.name} Slice {str(ds_slice_num)} Caudal View')
         plt.imshow(atlas[ds_slice_num,:,:], norm=colors.LogNorm())
         ch1_inslice = np.array(self.ch1_cells[2])
         ch2_inslice = np.array(self.ch2_cells[2])
@@ -125,7 +131,7 @@ class Dataset:
         '''
         cells_x, cells_y, cells_z = [], [], []
         if isinstance(area, str):
-            _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
+            _, area_index, _ = get_area_info([area])
         else:
             area_index = area
         cell_coords = self.ch1_cells if ch1 else self.ch2_cells
@@ -171,13 +177,13 @@ class Dataset:
             print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
         return len(matching_ch2_idxs)
 
-    def adapt_starter_area(self, area, x_bounds, y_bounds, z_bounds):
+    def adapt_starter_area(self, x_bounds, y_bounds, z_bounds):
         z_min, z_max = z_bounds
         x_min, x_max = x_bounds
         y_min, y_max = y_bounds
         with btf.HiddenPrints():
-            self.atlas = np.array(BrainGlobeAtlas('allen_mouse_10um').annotation)
-        _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
+            self.atlas = btf.get_atlas()
+        _, area_index, _ = get_area_info([starter_region])
         self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
 class _Results: # singleton object
@@ -283,7 +289,8 @@ def children_from(parent, depth):
     parent: choose parent area
     depth: number of steps down the inheritance tree to fetch child areas from. 0 returns all children.
     '''
-    parent = area_indexes.loc[area_indexes['name']==parent].index[0]
+    parent, _, _ = get_area_info(parent) # get full name in case short name provided
+    parent = area_indexes.loc[area_indexes['name']==parent[0]].index[0]
     parents = [parent]
     if depth == 0:
         children = []
@@ -347,6 +354,8 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
     areas = [parent] + children
     
     atlas_to_project = atlas if dataset.atlas is None else dataset.atlas # happens when a dataset's atlas has been modified
+    if all_cells:
+        atlas_to_project = atlas
     atlas_ar = np.isin(atlas_to_project, areas)
     if dilate:
         struct = ndimage.generate_binary_structure(rank=3, connectivity=1)
@@ -369,6 +378,7 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
     if contour:
         ax.contour(projected_area, colors='k')
         ax.set_aspect('equal')
+        ax.grid()
     else:
         ax.imshow(projection)
 
@@ -383,10 +393,11 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
         X_r = [x-x_min for x in X_r]
         Y_r = [y-y_min for y in Y_r]
         Z_r = [z-z_min for z in Z_r]
+        channel_label = 'Channel 1' if channel else 'Channel 2'
         if axis == 0:
-            ax.scatter(X_r, Y_r, color=colour, s=s, label=dataset.group, zorder=10)
+            ax.scatter(X_r, Y_r, color=colour, s=s, label=channel_label, zorder=10)
         elif axis == 1:
-            ax.scatter(X_r, Z_r, color=colour, s=s, label=dataset.group, zorder=10)
+            ax.scatter(X_r, Z_r, color=colour, s=s, label=channel_label, zorder=10)
         else:
             pass
     if ch1 == None:

@@ -1,19 +1,18 @@
-import plotly
 import braintracer.file_management as btf
 import braintracer.analysis as bt
 import matplotlib.pyplot as plt
+import plotly.graph_objs as go
 import seaborn as sns
 import pandas as pd
 import numpy as np
-from itertools import chain
+import plotly
 from collections import Counter
-
-import plotly.graph_objs as go
+from itertools import chain
 
 def generate_summary_plot(ax, grouped):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
 	dataset_cells = _cells_by_area_across_datasets(summary_areas)
-	area_names, _, _ = bt.get_area_info(summary_areas, Counter())
+	area_names, _, _ = bt.get_area_info(summary_areas)
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
 	if bt.debug:
@@ -31,7 +30,7 @@ def generate_summary_plot(ax, grouped):
 
 def generate_custom_plot(ax, area_names, title, grouped):
 	dataset_cells = _cells_by_area_across_datasets(area_names)
-	area_names, _, _ = bt.get_area_info(area_names, Counter())
+	area_names, _, _ = bt.get_area_info(area_names)
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
 
@@ -116,36 +115,53 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	ax.set_title(f'{parent_name}')
 
 def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, s=2, contour=True):
-	f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,4))
+	group1, group2 = __get_bt_groups()
+	f, axs = plt.subplots(2, 2, figsize=(12,9), sharex=True)
 	f.set_facecolor('lightgrey')
+	plt.rcParams['grid.color'] = (0.5, 0.5, 0.5, 0.1)
 	for dataset in bt.datasets:
-		ax = ax1 if dataset.group == bt.datasets[0].group else ax2
-		x, y, z = bt._project(ax, dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+		xax = 0 if dataset.group == group1 else 1
+		x, y, z = bt._project(axs[0,xax], dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+		axs[0,xax].set_ylim(0,125)
 		f.suptitle(f'Cell distribution in {area} where x={x}, y={y}, z={z} across '+'_'.join([i.name for i in bt.datasets]))
-	ax1.invert_xaxis()
-	ax1.invert_yaxis()
-	ax2.invert_xaxis()
-	ax2.invert_yaxis()
-	_display_legend_subset(ax1, (0,))
-	_display_legend_subset(ax2, (0,))
-
-def _compare_projection_plots(area, padding=10, ch1=None, s=2, contour=True):
+		bt._project(axs[1,xax], dataset, area, padding, ch1, s, contour, axis=1, all_cells=include_surrounding)
+	axs[0,0].set_title(f'Cells inside {group1} datasets')
+	axs[0,1].set_title(f'Cells inside {group2} datasets')
+	axs[0,0].set_ylabel('Y axis distance from dorsal end of region / px')
+	axs[1,0].set_ylabel('Z axis distance from rostral end of region / px')
+	axs[1,0].set_xlabel('X axis distance from right end of region / px')
+	axs[1,1].set_xlabel('X axis distance from right end of region / px')
+	for ax in list(chain.from_iterable(axs)):
+			ax.invert_yaxis()
+	f.tight_layout()
+	axs[0,0].legend()
+	axs[0,1].legend()
+	#_display_legend_subset(axs[0,0], (0,))
+	#_display_legend_subset(axs[0,1], (0,))
+	
+def _generate_starter_validation_plot(padding=10, ch1=None, s=2, contour=True):
+	area = bt.starter_region
+	if area is None:
+		print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
+		return
 	for dataset in bt.datasets:
-		f, axs = plt.subplots(2, 3, figsize=(15,7))
+		f, axs = plt.subplots(2, 2, figsize=(12,9), sharex=True)
 		f.set_facecolor('lightgrey')
+		plt.rcParams['grid.color'] = (0.5, 0.5, 0.5, 0.1)
 		x, y, z = bt._project(axs[0,0], dataset, area, padding, ch1, s, contour)
 		f.suptitle(f'Cell distribution in {dataset.name} {area} where x={x}, y={y}, z={z}')
 		bt._project(axs[0,1], dataset, area, padding, ch1, s, contour, all_cells=True)
-		bt._project(axs[0,2], dataset, area, padding, ch1, s, contour, dilate=True)
 		bt._project(axs[1,0], dataset, area, padding, ch1, s, contour, axis=1)
 		bt._project(axs[1,1], dataset, area, padding, ch1, s, contour, axis=1, all_cells=True)
-		bt._project(axs[1,2], dataset, area, padding, ch1, s, contour, axis=1, dilate=True)
 		axs[0,0].set_title(f'Cells inside registered area')
 		axs[0,1].set_title(f'All cells')
-		axs[0,2].set_title(f'Cells in 3D dilated area')
+		axs[0,0].set_ylabel('Y axis distance from dorsal end of region / px')
+		axs[1,0].set_ylabel('Z axis distance from rostral end of region / px')
+		axs[1,0].set_xlabel('X axis distance from right end of region / px')
+		axs[1,1].set_xlabel('X axis distance from right end of region / px')
 		for ax in list(chain.from_iterable(axs)):
-			ax.invert_xaxis()
 			ax.invert_yaxis()
+		f.tight_layout()
 		btf.save(f'injection_{dataset.name}_{area}', as_type='png')
 	print('View results in braintracer/TRIO.')
 
@@ -169,11 +185,12 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def generate_starter_cell_plot(ax, area, xy_tol_um=10, z_tol_um=10):
+def generate_starter_cell_plot(ax, xy_tol_um=10, z_tol_um=10):
+	starter_region = bt.starter_region
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.get_starter_cells_in(area, xy_tol_um, z_tol_um) for i in bt.datasets]
+	starter_cells = [i.get_starter_cells_in(starter_region, xy_tol_um, z_tol_um) for i in bt.datasets]
 	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
-	ax.set(ylabel=f'Number of cells in {area}')
+	ax.set(ylabel=f'Number of starter cells in {starter_region}')
 
 def _cells_by_area_across_datasets(areas):
 	cells_list = []
@@ -257,3 +274,13 @@ def _display_legend_subset(ax, idx_tup):
 	handles, labels = ax.get_legend_handles_labels()
 	ax.legend([handle for i,handle in enumerate(handles) if i in idx_tup],
 				[label for i,label in enumerate(labels) if i in idx_tup])
+
+def __get_bt_groups():
+	group_names = set([dataset.group for dataset in bt.datasets])
+	if len(group_names) != 2:
+		print('Comparison plots can only be generated for two dataset groups.')
+		return
+	left_group = bt.datasets[0].group
+	group_names.remove(left_group)
+	right_group = list(group_names)[0]
+	return left_group, right_group
