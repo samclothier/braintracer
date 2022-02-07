@@ -182,7 +182,6 @@ def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=No
 	for dataset in bt.datasets:
 		xax = 0 if dataset.group == group1 else 1
 		x, y, z = bt._project(axs[0,xax], dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
-		axs[0,xax].set_ylim(0,125)
 		f.suptitle(f'Cell distribution in {area} where x={x}, y={y}, z={z} across '+'_'.join([i.name for i in bt.datasets]))
 		bt._project(axs[1,xax], dataset, area, padding, ch1, s, contour, axis=1, all_cells=include_surrounding)
 	axs[0,0].set_title(f'Cells inside {group1} datasets')
