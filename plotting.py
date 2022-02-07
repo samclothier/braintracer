@@ -133,11 +133,10 @@ def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=No
 	axs[1,1].set_xlabel('X axis distance from right end of region / px')
 	for ax in list(chain.from_iterable(axs)):
 			ax.invert_yaxis()
+			ax.grid()
 	f.tight_layout()
-	axs[0,0].legend()
-	axs[0,1].legend()
-	#_display_legend_subset(axs[0,0], (0,))
-	#_display_legend_subset(axs[0,1], (0,))
+	_display_legend_subset(axs[0,0], (0,1,))
+	_display_legend_subset(axs[0,1], (0,1,))
 	
 def _generate_starter_validation_plot(padding=10, ch1=None, s=2, contour=True):
 	area = bt.starter_region
@@ -161,6 +160,7 @@ def _generate_starter_validation_plot(padding=10, ch1=None, s=2, contour=True):
 		axs[1,1].set_xlabel('X axis distance from right end of region / px')
 		for ax in list(chain.from_iterable(axs)):
 			ax.invert_yaxis()
+			ax.grid()
 		f.tight_layout()
 		btf.save(f'injection_{dataset.name}_{area}', as_type='png')
 	print('View results in braintracer/TRIO.')

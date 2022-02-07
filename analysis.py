@@ -378,7 +378,6 @@ def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, 
     if contour:
         ax.contour(projected_area, colors='k')
         ax.set_aspect('equal')
-        ax.grid()
     else:
         ax.imshow(projection)
 
