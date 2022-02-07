@@ -7,7 +7,6 @@ set folder=braintracer
 if not exist %folder% mkdir %folder%
 if not exist %folder%\downsampled_data mkdir %folder%\downsampled_data
 if not exist %folder%\cellfinder mkdir %folder%\cellfinder
-if not exist %folder%\atlas.tiff copy %USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\annotation.tiff %folder%\atlas.tiff
 if not exist %folder%\structures.csv copy %USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\structures.csv %folder%
 
 set /p dataset=Dataset name: 

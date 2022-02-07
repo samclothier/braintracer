@@ -1,11 +1,13 @@
-import os
-from bs4 import BeautifulSoup
-from matplotlib.backends.backend_pdf import PdfPages
-import imageio
+import os, sys, imageio
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+from matplotlib.backends.backend_pdf import PdfPages
+from bg_atlasapi.bg_atlas import BrainGlobeAtlas
+from bs4 import BeautifulSoup
 
 script_dir = os.getcwd() #path.dirname(os.path.abspath(__file__)) #<-- absolute dir the script is in
+atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name):
     if file_name.startswith('cells_'):
@@ -74,10 +76,37 @@ def open_file(name): # open files
         print('Unexpected file extension')
         return None
 
+def get_atlas():
+    global atlas
+    annotation = np.array(atlas.annotation)
+    atlas_oriented = annotation[:,:,::-1] # flip atlas along x axis (I know it's pointless, but the cells are also flipped)
+    return atlas_oriented
+
+def get_lookup_df():
+    df = atlas.lookup_df
+    df = df.set_index('id')
+    return df
+
 def save(file_name, as_type):
+    if file_name.startswith('injection_'):
+        dir_name = 'braintracer/TRIO/'
+        dir_path = os.path.join(script_dir, dir_name)
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        file_name = dir_path + file_name
+
     if as_type == 'png':
         plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')
     elif as_type == 'pdf':
         pp = PdfPages(f'{file_name}.pdf')
         pp.savefig()
         pp.close()
+
+class HiddenPrints:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stdout = self._original_stdout

@@ -1,20 +1,28 @@
 import braintracer.file_management as btf
 import matplotlib.pyplot as plt
-from matplotlib import colors
-from collections import Counter
 import numpy as np
+from bg_atlasapi.bg_atlas import BrainGlobeAtlas
+from collections import Counter
+from skimage import morphology
+from matplotlib import colors
 from itertools import chain
+from scipy import ndimage
 
 datasets = []
 area_indexes = btf.open_file('structures.csv')
-atlas = btf.open_file(f'atlas.tiff')
+atlas = btf.get_atlas()
+starter_region = None
+grouped = True
 debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg):
+    def __init__(self, name, group, sig, bg, modify_starter=False):
         self.name, self.group, self.sig, self.bg = name, group, sig, bg
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
+        self.ch1_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch1_cells[0])) # flip cells x coord along the midline
+        self.ch2_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch2_cells[0]))
+        self.atlas = None # becomes used if the atlas is modified
         self.data = btf.open_file(f'reg_r_{self.name}.tiff') # will be used for fluorescence analysis
         validate_dimensions(self, display=debug)
         datasets.append(self)
@@ -22,11 +30,21 @@ class Dataset:
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+        global starter_region
+        if modify_starter: # starter region is always the global starter region
+            if starter_region is None:
+                print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
+            with btf.HiddenPrints():
+                self.atlas = btf.get_atlas()
+            self.adapt_starter_area((452+175, 452+225), (627+90, 627+125), (1098+100, 1098+180))
         if debug:
-            _, _, IO_cells1 = get_area_info(['IO'], self.ch1_cells_by_area)
-            _, _, IO_cells2 = get_area_info(['IO'], self.ch2_cells_by_area)
-            print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} inferior olive, out of {self.num_cells(ch1=True)} total ch1 cells.')
-            print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} inferior olive, out of {self.num_cells(ch1=False)} total ch2 cells.')
+            try:
+                _, _, IO_cells1 = get_area_info([starter_region], self.ch1_cells_by_area)
+                _, _, IO_cells2 = get_area_info([starter_region], self.ch2_cells_by_area)
+                print(f'{self.name} ({self.group}): {IO_cells1[0]} ch1 cells in {self.name} {starter_region}, out of {self.num_cells(ch1=True)} total ch1 cells.')
+                print(f'{self.name} ({self.group}): {IO_cells2[0]} ch2 cells in {self.name} {starter_region}, out of {self.num_cells(ch1=False)} total ch2 cells.')
+            except Exception:
+                print('Starter region not known for cell count assessment. Use shorthand region notation, e.g. IO for inferior olivary complex.')
 
     def show_coronal_section(self, slice_frac=(500, 1000), cells_pm=0, ch1=None):
         '''
@@ -38,9 +56,8 @@ class Dataset:
         frac = raw_slice_num / raw_len
         atlas_len = 1255 # atlas len is 1320 but registration cut-off is about 1250
         ds_slice_num = atlas_len - int(atlas_len*frac)
-        data = np.array(atlas)
-        plt.suptitle(f'{self.name} Slice {str(ds_slice_num)}')
-        plt.imshow(data[ds_slice_num,:,:], norm=colors.LogNorm())
+        plt.suptitle(f'{self.name} Slice {str(ds_slice_num)} Caudal View')
+        plt.imshow(atlas[ds_slice_num,:,:], norm=colors.LogNorm())
         ch1_inslice = np.array(self.ch1_cells[2])
         ch2_inslice = np.array(self.ch2_cells[2])
         layer_ch1_idxs = np.array(np.where((ch1_inslice>=ds_slice_num-cells_pm)*(ch1_inslice<=ds_slice_num+cells_pm)))[0]
@@ -70,7 +87,7 @@ class Dataset:
         for idx, z in enumerate(z_vals):
             x = x_vals[idx]
             y = y_vals[idx]
-            area_index = _get_area_index(z, x, y)
+            area_index = _get_area_index(self, z, x, y)
             counter.setdefault(area_index, 0)
             counter[area_index] = counter[area_index] + 1
         if debug:
@@ -111,10 +128,11 @@ class Dataset:
         returns the x, y, z coordinates of cells in a specific brain area
         area: can be string or index reference to single area
         ch1: True or False, True returns cells in signal channel, False returns cells in background channel
+        NOTE: doesn't seem to work as expected, likely can remove function
         '''
         cells_x, cells_y, cells_z = [], [], []
         if isinstance(area, str):
-            _, area_index, _ = get_area_info([area], self.ch1_cells_by_area)
+            _, area_index, _ = get_area_info([area])
         else:
             area_index = area
         cell_coords = self.ch1_cells if ch1 else self.ch2_cells
@@ -122,12 +140,53 @@ class Dataset:
         for idx, z in enumerate(cls_z):
             x = cls_x[idx]
             y = cls_y[idx]
-            cur_area_idx = _get_area_index(z, x, y)
+            cur_area_idx = _get_area_index(self, z, x, y)
             if cur_area_idx == area_index:
                 cells_x.append(x)
                 cells_y.append(y)
                 cells_z.append(z)
         return cells_x, cells_y, cells_z
+
+    def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
+        '''
+        checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
+        '''
+        xy_tol = np.ceil(xy_tol_um / 10)
+        z_tol = np.ceil(z_tol_um / 10)
+        if debug:
+            print(f'Atlas space xy tolerance is {xy_tol} and z tolerance is {z_tol}')
+        global starter_region
+        parent, children = children_from(starter_region, depth=0)
+        areas = [parent] + children
+        ch1_cells_in_area = _get_cells_in(areas, self, ch1=True)
+        ch2_cells_in_area = _get_cells_in(areas, self, ch1=False)
+        matching_ch1_idxs = []
+        matching_ch2_idxs = []
+
+        for ch2_idx, Z in enumerate(ch2_cells_in_area[2]):
+            X = ch2_cells_in_area[0][ch2_idx]
+            Y = ch2_cells_in_area[1][ch2_idx]
+            
+            for ch1_idx, z in enumerate(ch1_cells_in_area[2]):
+                x = ch1_cells_in_area[0][ch1_idx]
+                y = ch1_cells_in_area[1][ch1_idx]
+                if (z-z_tol <= Z <= z+z_tol) & (x-xy_tol <= X <= x+xy_tol) & (y-xy_tol <= Y <= y+xy_tol):
+                    matching_ch1_idxs.append(ch2_idx)
+                    matching_ch2_idxs.append(ch1_idx)
+                    break
+        if debug:
+            print(f'{len(ch1_cells_in_area[2])} ch1 cells and {len(ch2_cells_in_area[2])} ch2 cells in the {str(area)}.')
+            print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
+        return len(matching_ch2_idxs)
+
+    def adapt_starter_area(self, x_bounds, y_bounds, z_bounds):
+        z_min, z_max = z_bounds
+        x_min, x_max = x_bounds
+        y_min, y_max = y_bounds
+        with btf.HiddenPrints():
+            self.atlas = btf.get_atlas()
+        _, area_index, _ = get_area_info([starter_region])
+        self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
 class _Results: # singleton object
    _instance = None
@@ -140,8 +199,10 @@ class _Results: # singleton object
         return cls._instance
 results = _Results()
 
-# validate image dimensions
 def validate_dimensions(dataset, display=False):
+    '''
+    validate image dimensions
+    '''
     im_sets = [atlas, dataset.data]
     first_images = list(map(lambda dataset: next(x for x in dataset if True), im_sets))
     def check_image_dimensions(images):
@@ -165,8 +226,10 @@ def validate_dimensions(dataset, display=False):
             dist = int(len(im_sets[idx])*0.7)
             ax.imshow(im_sets[idx][dist], norm=colors.LogNorm())
 
-# downsample points from raw coordinates
 def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
+    '''
+    downsample points from raw coordinates
+    '''
     x_vals, y_vals, z_vals = cell_coords[0], cell_coords[1], cell_coords[2]
     def x_to_downsampled(x):
         return downsampled_dim[1] - int(x * (downsampled_dim[1] / raw_dim[0])) # x inverted, results in float
@@ -179,9 +242,11 @@ def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
     z_vals = list(map(z_to_downsampled, z_vals))
     return x_vals, y_vals, z_vals
 
-# get the index referring to the brain area in which a cell is located
-def _get_area_index(z, x, y):
-    im = atlas[z]
+def _get_area_index(dataset, z, x, y):
+    '''
+    get the index referring to the brain area in which a cell is located
+    '''
+    im = atlas[z] if dataset.atlas is None else dataset.atlas[z] # happens when a dataset's atlas has been modified
     if x <= im.shape[1] and y <= im.shape[0]:
         area_index = int(im[y,x])
     else:
@@ -192,12 +257,42 @@ def _get_area_index(z, x, y):
         print('Warning: Area index is < 0')
         return 0
 
+def _get_cells_in(region, dataset, ch1=True):
+    '''
+    return coordinates of cells within a defined region.
+    region: can be a list of area indexes, numpy array of a 3D area, or a tuple containing the coordinates bounding a cube
+    '''
+    def is_in_region(z, x, y):
+        if isinstance(region, list):
+            areas = region
+            return _get_area_index(dataset, z, x, y) in areas
+        elif isinstance(region, tuple):
+            (x_min, x_max), (y_min, y_max), (z_min, z_max) = region
+            return x_min <= x <= x_max and y_min <= y <= y_max and z_min <= z <= z_max
+        elif isinstance(region, np.ndarray):
+            dilation = region
+            return dilation[z,y,x] == 1
+        else:
+            print(f'Unable to identify region type {type(region)} for returning cell coordinates.')
+    cells_x, cells_y, cells_z = [], [], []
+    cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
+    cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
+    for idx, z in enumerate(cls_z):
+        x = cls_x[idx]
+        y = cls_y[idx]
+        if is_in_region(z,x,y):
+            cells_x.append(x)
+            cells_y.append(y)
+            cells_z.append(z)
+    return cells_x, cells_y, cells_z
+
 def children_from(parent, depth):
     '''
     parent: choose parent area
     depth: number of steps down the inheritance tree to fetch child areas from. 0 returns all children.
     '''
-    parent = area_indexes.loc[area_indexes['name']==parent].index[0]
+    parent, _, _ = get_area_info(parent) # get full name in case short name provided
+    parent = area_indexes.loc[area_indexes['name']==parent[0]].index[0]
     parents = [parent]
     if depth == 0:
         children = []
@@ -238,8 +333,10 @@ def get_area_info(codes, new_counter=None):
         'Unknown area reference format.'
     return names, idxes, cells
 
-# check if there are extra cells assigned to the parent area rather than the children
 def _get_extra_cells(codes, original_counter):
+    '''
+    check if there are extra cells assigned to the parent area rather than the children
+    '''
     names = area_indexes.loc[codes, 'name'].tolist()
     try:
         cells = list(map(lambda x: [item for item in original_counter if item[0] == x][0][-1], codes))
@@ -251,45 +348,59 @@ def _get_extra_cells(codes, original_counter):
         cells = list(map(lambda x: x*0, codes))
     return names, cells
 
-def _get_cells_in(areas, dataset, ch1=True):
-    cells_x, cells_y, cells_z = [], [], []
-    cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
-    cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
-    for idx, z in enumerate(cls_z):
-        x = cls_x[idx]
-        y = cls_y[idx]
-        cur_area_idx = _get_area_index(z, x, y)
-        if cur_area_idx in areas:
-            cells_x.append(x)
-            cells_y.append(y)
-            cells_z.append(z)
-    return cells_x, cells_y, cells_z
-
-def _project_dataset(ax, dataset, area, ch1, s, contour):
+def _project(ax, dataset, area, padding, ch1, s, contour, axis=0, dilate=False, all_cells=False):
+    '''
+    plot a coronal or horizontal projection of a brain region with cells superimposed
+    '''
     parent, children = children_from(area, depth=0)
     areas = [parent] + children
     
-    atlas_ar = np.array(atlas)
-    atlas_ar = np.isin(atlas_ar, areas)
-    projection = atlas_ar.any(axis=0)
-    nz = np.nonzero(projection)
-    x_offset = nz[0].min()-10
-    y_offset = nz[1].min()-10
-    arr_trimmed = projection[nz[0].min()-10:nz[0].max()+11,
-                             nz[1].min()-10:nz[1].max()+11]
-    projected_area = arr_trimmed.astype(int)
+    atlas_to_project = atlas if dataset.atlas is None else dataset.atlas # happens when a dataset's atlas has been modified
+    if all_cells:
+        atlas_to_project = atlas
+    atlas_ar = np.isin(atlas_to_project, areas)
+    if dilate:
+        struct = ndimage.generate_binary_structure(rank=3, connectivity=1)
+        atlas_ar = ndimage.binary_dilation(atlas_ar, struct, iterations=10)
+    nz = np.nonzero(atlas_ar)
+    z_min = nz[0].min() - padding
+    y_min = nz[1].min() - padding
+    x_min = nz[2].min() - padding
+    z_max = nz[0].max() + padding+1
+    y_max = nz[1].max() + padding+1
+    x_max = nz[2].max() + padding+1
+    if debug:
+        print('x:'+str(x_min)+' '+str(x_max)+' y:'+str(y_min)+' '+str(y_max)+' z:'+str(z_min)+' '+str(z_max))
+    perimeter = atlas_ar[z_min : z_max,
+                         y_min : y_max,
+                         x_min : x_max]
+    projection = perimeter.any(axis=axis)
+    projected_area = projection.astype(int)
+    
     if contour:
         ax.contour(projected_area, colors='k')
         ax.set_aspect('equal')
     else:
-        ax.imshow(arr_trimmed)
-    
-    # colour = 'magenta' if dataset.group == datasets[0].group else (0,0.5,1)
+        ax.imshow(projection)
+
     def show_cells(channel, colour):
-        X_r, Y_r, _ = _get_cells_in(areas, dataset, channel)
-        X_r = [x-y_offset for x in X_r]
-        Y_r = [y-x_offset for y in Y_r]
-        ax.scatter(X_r, Y_r, color=colour, s=s, label=dataset.group, zorder=10)
+        if all_cells:
+            region = (x_min, x_max), (y_min, y_max), (z_min, z_max)
+        elif dilate:
+            region = atlas_ar
+        else:
+            region = areas
+        X_r, Y_r, Z_r = _get_cells_in(region, dataset, ch1=channel)
+        X_r = [x-x_min for x in X_r]
+        Y_r = [y-y_min for y in Y_r]
+        Z_r = [z-z_min for z in Z_r]
+        channel_label = 'Channel 1' if channel else 'Channel 2'
+        if axis == 0:
+            ax.scatter(X_r, Y_r, color=colour, s=s, label=channel_label, zorder=10)
+        elif axis == 1:
+            ax.scatter(X_r, Z_r, color=colour, s=s, label=channel_label, zorder=10)
+        else:
+            pass
     if ch1 == None:
         show_cells(True, 'r')
         show_cells(False, 'g')
@@ -297,3 +408,4 @@ def _project_dataset(ax, dataset, area, ch1, s, contour):
         show_cells(True, 'r')
     else:
         show_cells(False, 'g')
+    return x_min, y_min, z_min
