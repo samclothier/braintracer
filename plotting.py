@@ -9,15 +9,21 @@ import plotly
 from collections import Counter
 from itertools import chain
 
-def generate_summary_plot(ax, grouped):
+def generate_summary_plot(ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
 	dataset_cells = _cells_by_area_across_datasets(summary_areas)
 	area_names, _, _ = bt.get_area_info(summary_areas)
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
+	grouped = bt.grouped
 	if bt.debug:
 		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
+
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,5))
+		f.subplots_adjust(left=0.2)
+		f.set_facecolor('white')
 	if grouped:
 		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
 	else:
@@ -28,12 +34,17 @@ def generate_summary_plot(ax, grouped):
 	ax.grid(axis='x')
 	ax.set_title(f'Whole brain')
 
-def generate_custom_plot(ax, area_names, title, grouped):
+def generate_custom_plot(area_names, title, ax=None):
 	dataset_cells = _cells_by_area_across_datasets(area_names)
 	area_names, _, _ = bt.get_area_info(area_names)
 	dataset_names = [i.name for i in bt.datasets]
 	group_names = [i.group for i in bt.datasets]
+	grouped = bt.grouped
 
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,5))
+		f.set_facecolor('lightgrey')
+		f.subplots_adjust(left=0.35)
 	if grouped:
 		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
 	else:
@@ -44,7 +55,7 @@ def generate_custom_plot(ax, area_names, title, grouped):
 	ax.grid(axis='x')
 	ax.set_title(f'{title}')
 
-def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=True):
+def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
 	prop_all: True; cell counts as fraction of total cells in signal channel. False; cell counts as fraction in parent area
 	'''
@@ -52,6 +63,7 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	group_names = [i.group for i in bt.datasets]
 	new_counters = [i.ch1_cells_by_area for i in bt.datasets]
 	original_counters = [i.raw_ch1_cells_by_area for i in bt.datasets]
+	grouped = bt.grouped
 
 	parent, children = bt.children_from(parent_name, depth)
 
@@ -101,6 +113,10 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	names = [v for i, v in enumerate(names) if i not in idxs_to_remove]
 	
 	prop_title = 'all' if prop_all else p_name[0]
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,6))
+		f.set_facecolor('lightgrey')
+		f.subplots_adjust(bottom=0.3)
 	if grouped:
 		_plot_grouped_points(ax, list_cells, group_names, names, parent_name=prop_title)
 	else:
@@ -113,6 +129,50 @@ def generate_zoom_plot(ax, parent_name, grouped, depth=2, threshold=1, prop_all=
 	ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
 	ax.grid(axis='y')
 	ax.set_title(f'{parent_name}')
+
+def generate_mega_overview_figure(title):
+	grouped = bt.grouped
+	f = plt.figure(figsize=(24, 35))
+	gs = f.add_gridspec(60, 30)
+	f.suptitle(title, y=0.92, size='xx-large', weight='bold')
+	f.set_facecolor('lightgrey')
+	ax1 = f.add_subplot(gs[0:9, 5:20])
+	ax_totals = f.add_subplot(gs[0:4, 24:27])
+	ax_io = f.add_subplot(gs[5:9, 24:27])
+	ax2, ax3, ax4 = f.add_subplot(gs[12:22, 0:9]), f.add_subplot(gs[12:22, 10:20]), f.add_subplot(gs[12:22, 21:30])
+	ax5, ax6, ax7 = f.add_subplot(gs[30:40, 0:9]), f.add_subplot(gs[30:40, 10:20]), f.add_subplot(gs[30:40, 21:30])
+	ax8, ax9, ax10 = f.add_subplot(gs[50:60, 0:9]), f.add_subplot(gs[50:60, 10:20]), f.add_subplot(gs[50:60, 21:30])
+	axes = [ax2,ax3,ax4,ax5,ax6,ax7,ax8,ax9,ax10]
+
+	# total cells plot
+	cells = [i.num_cells(ch1=True) for i in bt.datasets]
+	names = [i.group for i in bt.datasets]
+	titles = ['Injection site', 'Total cells']
+	df = pd.DataFrame(zip(names, cells), columns=titles)
+	if grouped:
+		sns.barplot(x=titles[0], y=titles[1], order=['LV','LS'], ax=ax_totals, data=df, ci=None)
+		sns.stripplot(x=titles[0], y=titles[1], order=['LV','LS'], dodge=True, edgecolor='w', linewidth=0.5, ax=ax_totals, data=df)
+	else:
+		sns.barplot(x=titles[0], y=titles[1], ax=ax_totals, data=df, ci=None)
+
+	# IO cells plot
+	io_cells = [bt.get_area_info(['IO'], i.ch1_cells_by_area)[-1] for i in bt.datasets]
+	io_cells = io_cells[0] if len(io_cells) == 1 else chain.from_iterable(io_cells)
+	io_titles = ['Injection site', 'Cells in inferior olive']
+	io_df = pd.DataFrame(zip(names, io_cells), columns=io_titles)
+	if grouped:
+		sns.barplot(x=io_titles[0], y=io_titles[1], order=['LV','LS'], ax=ax_io, data=io_df, ci=None)
+		sns.stripplot(x=io_titles[0], y=io_titles[1], order=['LV','LS'], dodge=True, edgecolor='w', linewidth=0.5, ax=ax_io, data=io_df)
+	else:
+		sns.barplot(x=io_titles[0], y=io_titles[1], ax=ax_io, data=io_df, ci=None)
+
+	# summary and zoom plots for each area
+	generate_summary_plot(ax1)
+	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
+	summary_areas, _, _ = bt.get_area_info(summary_areas)
+	for idx, ax in enumerate(axes[:-1]):
+		generate_zoom_plot(summary_areas[idx], threshold=0.1, ax=ax)
+	generate_zoom_plot(summary_areas[-1], depth=1, threshold=0, ax=ax10)
 
 def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, s=2, contour=True):
 	group1, group2 = __get_bt_groups()
@@ -185,15 +245,20 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def generate_starter_cell_plot(ax, xy_tol_um=10, z_tol_um=10):
+def generate_starter_cell_plot(xy_tol_um=20, z_tol_um=20, ax=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,5))
+		f.set_facecolor('white')
+	starter_region = bt.starter_region
 	dataset_names = [i.name for i in bt.datasets]
 	starter_cells = [i.get_starter_cells_in(xy_tol_um, z_tol_um) for i in bt.datasets]
 	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
 	ax.set(ylabel=f'Number of starter cells in {starter_region}')
 
-def generate_starter_cell_scatter(xy_tol_um=10, z_tol_um=10):
-	f, ax = plt.subplots(figsize=(8,5))
-	f.set_facecolor('white')
+def generate_starter_cell_scatter(xy_tol_um=20, z_tol_um=20, ax=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,5))
+		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
 	starter_cells = np.array([i.get_starter_cells_in(xy_tol_um, z_tol_um) for i in bt.datasets])
 	total_cells = np.array([i.num_cells() for i in bt.datasets])

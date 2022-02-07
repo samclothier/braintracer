@@ -12,6 +12,7 @@ datasets = []
 area_indexes = btf.open_file('structures.csv')
 atlas = btf.get_atlas()
 starter_region = None
+grouped = True
 debug = False
 
 class Dataset:
@@ -146,7 +147,7 @@ class Dataset:
                 cells_z.append(z)
         return cells_x, cells_y, cells_z
 
-    def get_starter_cells_in(self, xy_tol_um=10, z_tol_um=10):
+    def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
         '''
         checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
         '''
