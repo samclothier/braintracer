@@ -186,11 +186,26 @@ def generate_3D_shape(areas, colours):
 	plotly.offline.iplot(plot_figure)
 
 def generate_starter_cell_plot(ax, xy_tol_um=10, z_tol_um=10):
-	starter_region = bt.starter_region
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.get_starter_cells_in(starter_region, xy_tol_um, z_tol_um) for i in bt.datasets]
+	starter_cells = [i.get_starter_cells_in(xy_tol_um, z_tol_um) for i in bt.datasets]
 	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
 	ax.set(ylabel=f'Number of starter cells in {starter_region}')
+
+def generate_starter_cell_scatter(xy_tol_um=10, z_tol_um=10):
+	f, ax = plt.subplots(figsize=(8,5))
+	f.set_facecolor('white')
+	dataset_names = [i.name for i in bt.datasets]
+	starter_cells = np.array([i.get_starter_cells_in(xy_tol_um, z_tol_um) for i in bt.datasets])
+	total_cells = np.array([i.num_cells() for i in bt.datasets])
+	assert len(starter_cells) == len(total_cells), 'Starter cells and total cells must be fetchable for all datasets.'
+	total_cells = total_cells - starter_cells
+	ax.scatter(total_cells, starter_cells)
+	for i, name in enumerate(dataset_names):
+		text = ax.annotate(name, (total_cells[i], starter_cells[i]), xytext=(3, 8), textcoords='offset points')
+		text.set_rotation(90)
+	ax.set_xlabel('All other cells in brain')
+	ax.set_ylabel('Number of starter cells in starter region')
+	ax.grid()
 
 def _cells_by_area_across_datasets(areas):
 	cells_list = []

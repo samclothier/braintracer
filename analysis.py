@@ -30,7 +30,7 @@ class Dataset:
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         global starter_region
-        if modify_starter:
+        if modify_starter: # starter region is always the global starter region
             if starter_region is None:
                 print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
             with btf.HiddenPrints():
@@ -146,7 +146,7 @@ class Dataset:
                 cells_z.append(z)
         return cells_x, cells_y, cells_z
 
-    def get_starter_cells_in(self, area, xy_tol_um=10, z_tol_um=10):
+    def get_starter_cells_in(self, xy_tol_um=10, z_tol_um=10):
         '''
         checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
         '''
@@ -154,7 +154,8 @@ class Dataset:
         z_tol = np.ceil(z_tol_um / 10)
         if debug:
             print(f'Atlas space xy tolerance is {xy_tol} and z tolerance is {z_tol}')
-        parent, children = children_from(area, depth=0)
+        global starter_region
+        parent, children = children_from(starter_region, depth=0)
         areas = [parent] + children
         ch1_cells_in_area = _get_cells_in(areas, self, ch1=True)
         ch2_cells_in_area = _get_cells_in(areas, self, ch1=False)
