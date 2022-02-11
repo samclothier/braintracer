@@ -12,14 +12,14 @@ atlas = BrainGlobeAtlas('allen_mouse_10um')
 def _get_path(file_name):
     if file_name.startswith('cells_'):
         child_dir = 'braintracer\\cellfinder'
-    elif file_name.startswith('atlas'):
-        child_dir = 'braintracer'
     elif file_name.startswith('reg_'):
         child_dir = 'braintracer\\downsampled_data'
+    elif file_name.startswith('groundtruth_'):
+        child_dir = 'braintracer\\ground_truth'
     elif file_name.startswith('structures'):
         child_dir = 'braintracer'
     else:
-        print('Unexpected file name. Braintracer takes files beginning cell_classification_, registered_atlas_, downsampled_, and structures.csv.')
+        print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
         return None
     return os.path.join(script_dir, child_dir+'\\'+file_name)
 
@@ -68,10 +68,12 @@ def open_file(name): # open files
             y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
             x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
             return [x_coords, y_coords, z_coords]
-        else:
+        elif name.startswith('structures'):
             area_indexes = pd.read_csv(file_path)
             area_indexes = area_indexes.set_index('id')
             return area_indexes
+        else:
+            print(f'Cannot load CSV with name {file_name}')
     else:
         print('Unexpected file extension')
         return None
