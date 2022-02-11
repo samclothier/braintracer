@@ -188,6 +188,50 @@ class Dataset:
         _, area_index, _ = get_area_info([starter_region])
         self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
+    def assess_performance(self, gt_name, xy_tol=10, z_tol=10):
+        gt_cells = btf.open_file(gt_name)[0]
+        gt_cells[0] = list(map(lambda x: atlas.shape[2]-x, gt_cells[0])) # flip cells x coord along the midline
+        # please generate ground truth coordinates in atlas space - downsampled_channel_0 is channel 1, downsampled_standard
+        # compare channel 1 cell coordinates to ground truth cells
+        matching_gt_idxs = []
+        matching_cf_idxs = []
+        for gt_idx, Z in enumerate(gt_cells[2]):
+            X = gt_cells[0][gt_idx]
+            Y = gt_cells[1][gt_idx]
+            for cf_idx, z in enumerate(self.ch1_cells[2]):
+                x = self.ch1_cells[0][cf_idx]
+                y = self.ch1_cells[1][cf_idx]
+                if (Z-z_tol <= z <= Z+z_tol) & (X-xy_tol <= x <= X+xy_tol) & (Y-xy_tol <= y <= Y+xy_tol):
+                    matching_gt_idxs.append(gt_idx)
+                    matching_cf_idxs.append(cf_idx)
+                    break
+        total_gt_cells = len(gt_cells[2])
+        gt_matched_cells = len(matching_gt_idxs)
+        cf_pos_cells = len(self.ch1_cells[2])
+
+        prop_detected_by_cf = (gt_matched_cells / total_gt_cells) * 100
+        false_positives = cf_pos_cells - gt_matched_cells
+        prop_true = (gt_matched_cells / (false_positives + gt_matched_cells)) * 100
+        print(f'{gt_matched_cells} matches found ({prop_detected_by_cf:.2f}% of ground truth cells)')
+        print(f'{false_positives} false positives ({prop_true:.2f}% true positive rate)')
+
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18,6))
+        fig.suptitle(f'{self.name} {gt_name}')
+        def plot_dist(ax, axis, xlabel='Distance / um', legend=False):
+            pos_cf, gt_ar = self.ch1_cells[axis], gt_cells[axis]
+            y, x, _ = ax.hist([pos_cf, gt_ar], label=('Positives','Ground Truth'), bins=50)
+            if legend:
+                ax.legend()
+                ax.text(0.02, 0.76, f'{prop_detected_by_cf:.2f}% ground truth matched ({gt_matched_cells})', ha='left', transform=ax.transAxes, color='g', fontsize=8)
+                ax.text(0.02, 0.72, f'{100-prop_true:.2f}% false positives ({false_positives})', ha='left', transform=ax.transAxes, color='r', fontsize=8)
+                ax.text(0.02, 0.62, f'Ztol={z_tol}um, XYtol={xy_tol}um', ha='left', transform=ax.transAxes, color='k', fontsize=8)
+            ax.set_xlabel(xlabel)
+            ax.set_ylabel('Cell count')
+            ax.set_xlim(0, atlas.shape[axis])
+        plot_dist(ax1, 2, xlabel='Distance from caudal end / um')
+        plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
+        plot_dist(ax3, 1, xlabel='Distance from image top / um')
+
 class _Results: # singleton object
    _instance = None
    def __new__(cls):
