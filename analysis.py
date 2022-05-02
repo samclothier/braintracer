@@ -1,7 +1,11 @@
 import braintracer.file_management as btf
+import matplotlib.colors as clrs
 import matplotlib.pyplot as plt
 import numpy as np
+import pickle
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
+from IPython.display import clear_output
+from sklearn import linear_model
 from collections import Counter
 from skimage import morphology
 from matplotlib import colors
@@ -11,31 +15,47 @@ from scipy import ndimage
 datasets = []
 area_indexes = btf.open_file('structures.csv')
 atlas = btf.get_atlas()
+reference = btf.get_reference()
+fluorescence = False
 starter_region = None
 grouped = True
 debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg, modify_starter=False):
-        self.name, self.group, self.sig, self.bg = name, group, sig, bg
+    def __init__(self, name, group, sig, bg, fluorescence=False, modify_starter=False):
+        self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
         self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv')
         self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv')
         self.ch1_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch1_cells[0])) # flip cells x coord along the midline
         self.ch2_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch2_cells[0]))
         self.atlas = None # becomes used if the atlas is modified
-        self.data = btf.open_file(f'reg_r_{self.name}.tiff') # will be used for fluorescence analysis
+        self.ch1 = np.array(btf.open_file(f'reg_{self.sig}_{self.name}.tiff')) # used for fluorescence analysis
+        self.ch2 = np.array(btf.open_file(f'reg_{self.bg}_{self.name}.tiff')) # used for fluorescence analysis
         validate_dimensions(self, display=debug)
         datasets.append(self)
         self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
         self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+        self.flr_totals = None
+        self.area_sizes = None
+        if fluorescence:
+            try:
+                self.flr_totals = pickle.load(open(f'{self.name}_flr_totals.pkl', 'rb'))
+                self.area_sizes = pickle.load(open(f'{self.name}_area_sizes.pkl', 'rb'))
+                print(f'Successfully opened saved fluorescence data for {self.name}')
+            except (OSError, IOError) as e:
+                print(f'Failed to open saved fluorescence data for {self.name}. Analysing fluorescence...')
+                self.analyse_fluorescence(backg=self.ch2) # or global reference
+                pickle.dump(self.flr_totals, open(f'{self.name}_flr_totals.pkl', 'wb'))
+                pickle.dump(self.area_sizes, open(f'{self.name}_area_sizes.pkl', 'wb'))
+                print(f'Saved fluorescence data for {self.name}.')
         global starter_region
         if modify_starter: # starter region is always the global starter region
             if starter_region is None:
                 print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
             with btf.HiddenPrints():
-                self.atlas = btf.get_atlas()
+                self.atlas = btf.get_atlas() #TODO: allow custom starter region modification
             self.adapt_starter_area((452+175, 452+225), (627+90, 627+125), (1098+100, 1098+180))
         if debug:
             try:
@@ -123,29 +143,13 @@ class Dataset:
                 already_accessed.append(cur_area_idx)
         return new_counter
 
-    def get_cells_in(self, area, ch1=True):
+    def get_cells_in(self, area, ch1=None):
         '''
-        returns the x, y, z coordinates of cells in a specific brain area
-        area: can be string or index reference to single area
-        ch1: True or False, True returns cells in signal channel, False returns cells in background channel
-        NOTE: doesn't seem to work as expected, likely can remove function
+        get the number of cells in a given brain area
         '''
-        cells_x, cells_y, cells_z = [], [], []
-        if isinstance(area, str):
-            _, area_index, _ = get_area_info([area])
-        else:
-            area_index = area
-        cell_coords = self.ch1_cells if ch1 else self.ch2_cells
-        cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
-        for idx, z in enumerate(cls_z):
-            x = cls_x[idx]
-            y = cls_y[idx]
-            cur_area_idx = _get_area_index(self, z, x, y)
-            if cur_area_idx == area_index:
-                cells_x.append(x)
-                cells_y.append(y)
-                cells_z.append(z)
-        return cells_x, cells_y, cells_z
+        parent, children = children_from(area, depth=0)
+        areas = [parent] + children
+        return len(_get_cells_in(areas, self, ch1=ch1)[0])
 
     def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
         '''
@@ -232,6 +236,172 @@ class Dataset:
         plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
         plot_dist(ax3, 1, xlabel='Distance from image top / um')
 
+    def analyse_fluorescence(self, backg, ylim=1250):
+        if debug:
+            f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,5))
+            pos1 = ax1.imshow(self.ch1[:,:,600].T)
+            pos2 = ax2.imshow(self.ch1[760,:,:])
+
+        assert backg.shape == self.ch1.shape, 'Reference atlas must have the same dimensions as the registered dataset.'
+        if debug:
+            print(backg.shape, self.ch1.shape)
+
+        sch_values = []
+        ref_values = []
+        coords_excl = []
+        coords_incl = []
+        while len(ref_values) < np.size(self.ch1)*0.001: # keep generating new coordinates until 0.1% of pixels have been sampled (~120,000 points)
+            z = np.random.randint(0, self.ch1.shape[0]-1)
+            y = np.random.randint(0, self.ch1.shape[1]-1)
+            x = np.random.randint(0, self.ch1.shape[2]-1)
+            fluorescence_val = int(self.ch1[z,y,x])
+            autofluorescence = int(backg[z,y,x])
+            if _get_area_index(self, z, x, y) != 0:
+                sch_values.append(fluorescence_val)
+                ref_values.append(autofluorescence)
+                coords_incl.append([z, y, x])
+            else:
+                #print(f'Pixel value at {z} {y} {x} discarded')
+                coords_excl.append([z, y, x])
+        coords_excl = np.array(coords_excl)
+        coords_incl = np.array(coords_incl)
+        #ax1.scatter(coords_excl[:,0], coords_excl[:,1], s=0.5, color='r')
+        #ax1.scatter(coords_incl[:,0], coords_incl[:,1], s=0.5, color='magenta')
+        #ax2.scatter(coords_excl[:,2], coords_excl[:,1], s=0.5, color='r')
+        #ax2.scatter(coords_incl[:,2], coords_incl[:,1], s=0.5, color='magenta')
+
+        X = np.array(ref_values).reshape(len(ref_values),1)
+        y = np.array(sch_values)
+        line_X = np.arange(min(ref_values), max(ref_values))[:, np.newaxis]
+        ref_x = np.array(ref_values)
+        sch_y = np.array(sch_values)
+
+        def fit_model(model, y, ax, name):
+            model.fit(X, y)
+            line_y = model.predict(line_X)
+            try:
+                print(f'{name} coefficient = {model.coef_}')
+                ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
+                return model.coef_, model.intercept_
+            except Exception:
+                print(f'{name} coefficient = {model.estimator_.coef_}')
+                ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
+                return model.estimator_.coef_, model.estimator_.intercept_
+        #inlier_mask = ransac.inlier_mask_
+        #outlier_mask = np.logical_not(inlier_mask)
+
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,5), sharey=False)
+        plt.style = plt.tight_layout()
+
+        lr = linear_model.LinearRegression()
+        fit_model(lr, sch_y, ax1, 'Prior Linear')
+
+        ransac = linear_model.RANSACRegressor(max_trials=30)
+        m, c = fit_model(ransac, sch_y, ax1, 'Prior RANSAC')
+        m = m[0] # extract from array
+        norm_y = sch_y - ((ref_x * m) + c)
+        print(f'Transformed by SIG_norm = SIG - ({m}*ref + {c})')
+
+        lr_norm = linear_model.LinearRegression()
+        fit_model(lr_norm, norm_y, ax2, 'Post Linear')
+
+        ransac_norm = linear_model.RANSACRegressor(max_trials=30)
+        fit_model(ransac_norm, norm_y, ax2, 'Post RANSAC')
+
+        ax1.hist2d(ref_x, sch_y, bins=500, cmap=plt.cm.jet, norm=clrs.LogNorm())
+        ax2.hist2d(ref_x, norm_y, bins=500, cmap=plt.cm.jet, norm=clrs.LogNorm())
+        ax1.set_title(f'{self.name} Signal vs Reference Brightness')
+        ax2.set_title(f'{self.name} Normalised Signal vs Reference Brightness')
+        ax1.set_ylabel('Signal value')
+        ax1.set_xlabel('Reference value')
+        ax2.set_xlabel('Reference value')
+        ax1.legend(loc='best')
+        ax2.legend(loc='best')
+        ax1.grid()
+        #ax1.set_ylim(-0,ylim)
+        #ax1.set_xlim(-10,525)
+        ax2.grid()
+        #ax2.set_ylim(top=ylim)
+        #ax2.set_xlim(-10,525)
+        btf.save(f'fluorescence_normalisation_{self.name}', as_type='png')
+
+        def normalisation_func(sig, ref):
+            return sig - (m*ref + c)
+
+        def get_true_signal(z, x, y):
+            fluorescence_val = int(self.ch1[z,y,x])
+            autofluorescence = int(backg[z,y,x])
+            true_sig = normalisation_func(fluorescence_val, autofluorescence)
+            return true_sig
+
+        cum_flrsnce_cntr = Counter() # cumulative true fluorescence by brain region
+        area_cntr = {} # also count number of signal channel pixels for each brain area
+        for z in range(self.ch1.shape[0] - 1): # this needs validating
+            for x in range(self.ch1.shape[2] - 1):
+                for y in range(self.ch1.shape[1] - 1):
+                    area_index = _get_area_index(self, z, x, y)
+                    flrescence = get_true_signal(z, x, y)
+                    cum_flrsnce_cntr[area_index] += flrescence
+                    area_cntr.setdefault(area_index, 0)
+                    area_cntr[area_index] = area_cntr[area_index] + 1
+            clear_output(wait=True)
+            print(f'Progress: {((z+1)/self.ch1.shape[0])*100:.2f}%')
+        print('Done')
+        cum_flrsnce_cntr = cum_flrsnce_cntr.most_common()
+
+        already_accessed = [] # propagate fluorescence up area inheritance tree
+        self.flr_totals = Counter()
+        self.area_sizes = Counter()
+        for idx, row in enumerate(area_indexes.itertuples()):
+            cur_area_idx = row.Index
+            try: # access the value of the counter for this area:
+                #print(cur_area_idx, [item for item in cum_flrsnce_cntr if item[0] == cur_area_idx])
+                child_fluorescence = [item for item in cum_flrsnce_cntr if item[0] == cur_area_idx][0][-1] # list of tuples, func returns a list of filtered tuples, so get first item, which is a tuple (area, flrsnce) so grab flrsnce
+                child_area = area_cntr[cur_area_idx]
+            except IndexError:
+                pass #print(f'Index {cur_area_idx} had no fluorescence value or maybe area value')
+            else:
+                if not any(x == cur_area_idx for x in already_accessed): # check no indexes are assigned to more than once
+                    id_path = row.structure_id_path
+                    id_path_list = id_path.split('/')
+                    id_path_list = [i for i in id_path_list if i != ''] # remove blank and current indexes
+                    for thing in id_path_list: # propagate lowest area count through all parent areas
+                        area_index = int(thing)
+                        self.flr_totals.setdefault(area_index, 0)
+                        self.flr_totals[area_index] += child_fluorescence
+                        self.area_sizes.setdefault(area_index, 0)
+                        self.area_sizes[area_index] += child_area
+                for i in id_path_list: # add parent and child areas to done list if not already added
+                    if not any(x == i for x in already_accessed):
+                        already_accessed.append(i)
+                already_accessed.append(cur_area_idx)
+
+    def get_average_fluorescence(self, area_idxs):
+        _, area_idxs, _ = get_area_info(area_idxs) # make sure string area names are indexes
+        names = []
+        total_fluorescences = []
+        average_fluorescences = []
+        for i in area_idxs:
+            idx = int(i)
+            tot_fluorescence = self.flr_totals[idx]
+            tot_area = self.area_sizes[idx]
+            try:
+                names.append(area_indexes.loc[idx, 'name'])
+            except KeyError:
+                print(f"KeyError: no brain area exists corresponding to index {idx}.")
+                names.pop()
+            else:
+                total_fluorescences.append(tot_fluorescence)
+                if tot_area != 0:
+                    av_flrsnce = tot_fluorescence / tot_area # divide fluorescence_val by num pixels
+                else:
+                    av_flrsnce = 0
+                average_fluorescences.append(av_flrsnce) # add average fluorescence to average_fluorescences
+        #total_fluorescences, total_names = zip(*sorted(zip(total_fluorescences, names), reverse=True))
+        #average_fluorescences, average_names = zip(*sorted(zip(average_fluorescences, names), reverse=True))
+        return average_fluorescences #, names
+
+
 class _Results: # singleton object
    _instance = None
    def __new__(cls):
@@ -247,7 +417,7 @@ def validate_dimensions(dataset, display=False):
     '''
     validate image dimensions
     '''
-    im_sets = [atlas, dataset.data]
+    im_sets = [atlas, dataset.ch1]
     first_images = list(map(lambda dataset: next(x for x in dataset if True), im_sets))
     def check_image_dimensions(images):
         for first_im in images:
@@ -291,10 +461,11 @@ def _get_area_index(dataset, z, x, y):
     get the index referring to the brain area in which a cell is located
     '''
     im = atlas[z] if dataset.atlas is None else dataset.atlas[z] # happens when a dataset's atlas has been modified
-    if x <= im.shape[1] and y <= im.shape[0]:
+    if x < im.shape[1] and y < im.shape[0]: # not <= because index is (shape - 1)
         area_index = int(im[y,x])
     else:
         print('Warning: Point out of bounds')
+        return 0
     if area_index >= 0:
         return area_index
     else:
