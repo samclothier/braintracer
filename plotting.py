@@ -69,10 +69,46 @@ def generate_custom_plot(area_names, title, ax=None):
 		names, datasets, cells = _prep_for_sns(area_labels, dataset_names, dataset_cells)
 		column_titles = ['Area', 'Dataset', axis_title]
 		df = pd.DataFrame(zip(names, datasets, cells), columns=column_titles)
-		print(df)
 		sns.barplot(x=column_titles[2], y=column_titles[0], hue=column_titles[1], data=df, ax=ax)
 	ax.grid(axis='x')
 	ax.set_title(f'{title}')
+
+def generate_whole_fluorescence_plot(dataset=None, values=None):
+	indexes = list(bt.area_indexes.index)
+	f, ax = plt.subplots(figsize=(10,100))
+	'''
+	if values != None:
+		prev_setting = bt.grouped
+		bt.grouped = False
+		title = 'Raw Fluorescence Plot'
+
+		indexes.sort()
+		area_labels, _, _ = bt.get_area_info(indexes)
+		datasets = [dataset]
+		dataset_cells = [values]
+		axis_title = 'Average normalised fluorescence'
+		dataset_names = [i.name for i in datasets]
+		group_names = [i.group for i in datasets]
+		if ax is None:
+			f, ax = plt.subplots(figsize=(8,5))
+			f.set_facecolor('white')
+			f.subplots_adjust(left=0.35)
+		if bt.grouped:
+			_plot_grouped_points(ax, dataset_cells, group_names, area_labels, is_horizontal=True)
+		else:
+			names, datasets, cells = _prep_for_sns(area_labels, dataset_names, dataset_cells)
+			column_titles = ['Area', 'Dataset', axis_title]
+			df = pd.DataFrame(zip(names, datasets, cells), columns=column_titles)
+			sns.barplot(x=column_titles[2], y=column_titles[0], hue=column_titles[1], data=df, ax=ax)
+		ax.grid(axis='x')
+		ax.set_title(f'{title}')
+		btf.save(f'fluorescence_{dataset.name}_raw', as_type='png')
+		bt.grouped = prev_setting
+	else: # if no dataset provided, generate normal plot for all fluorescence datasets
+	'''
+	title = 'Propagated Fluorescence Plot'
+	generate_custom_plot(indexes, title, ax)
+	
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
@@ -329,7 +365,7 @@ def _cells_in_areas_in_datasets(areas, datasets):
 
 def _fluorescence_by_area_across_fl_datasets(areas):
 	flrs_list = [dataset.get_average_fluorescence(areas) for dataset in bt.datasets if dataset.fluorescence]
-	datasets = [dataset for dataset in bt.datasets if dataset.fluorescence]
+	#datasets = [dataset for dataset in bt.datasets if dataset.fluorescence]
 	return flrs_list
 
 def _prep_for_sns(area_names, dataset_names, dataset_cells):

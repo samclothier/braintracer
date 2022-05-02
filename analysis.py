@@ -1,6 +1,8 @@
 import braintracer.file_management as btf
+import braintracer.plotting as btp
 import matplotlib.colors as clrs
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 import pickle
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
@@ -38,18 +40,21 @@ class Dataset:
         self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         self.flr_totals = None
-        self.area_sizes = None
+        self.area_volumes = None
         if fluorescence:
             try:
                 self.flr_totals = pickle.load(open(f'{self.name}_flr_totals.pkl', 'rb'))
-                self.area_sizes = pickle.load(open(f'{self.name}_area_sizes.pkl', 'rb'))
+                self.area_volumes = pickle.load(open(f'{self.name}_area_volumes.pkl', 'rb'))
                 print(f'Successfully opened saved fluorescence data for {self.name}')
             except (OSError, IOError) as e:
                 print(f'Failed to open saved fluorescence data for {self.name}. Analysing fluorescence...')
                 self.analyse_fluorescence(backg=self.ch2) # or global reference
-                pickle.dump(self.flr_totals, open(f'{self.name}_flr_totals.pkl', 'wb'))
-                pickle.dump(self.area_sizes, open(f'{self.name}_area_sizes.pkl', 'wb'))
-                print(f'Saved fluorescence data for {self.name}.')
+                if self.flr_totals != None and self.area_volumes != None:
+                    pickle.dump(self.flr_totals, open(f'{self.name}_flr_totals.pkl', 'wb'))
+                    pickle.dump(self.area_volumes, open(f'{self.name}_area_volumes.pkl', 'wb'))
+                    print(f'Saved fluorescence data for {self.name}.')
+                else:
+                    print(f'Fluorescence data for {self.name} not saved because fluorescence not quantified correctly.')
         global starter_region
         if modify_starter: # starter region is always the global starter region
             if starter_region is None:
@@ -245,7 +250,7 @@ class Dataset:
         assert backg.shape == self.ch1.shape, 'Reference atlas must have the same dimensions as the registered dataset.'
         if debug:
             print(backg.shape, self.ch1.shape)
-
+        
         sch_values = []
         ref_values = []
         coords_excl = []
@@ -280,11 +285,13 @@ class Dataset:
             model.fit(X, y)
             line_y = model.predict(line_X)
             try:
-                print(f'{name} coefficient = {model.coef_}')
+                if debug:
+                    print(f'{name} coefficient = {model.coef_}')
                 ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
                 return model.coef_, model.intercept_
             except Exception:
-                print(f'{name} coefficient = {model.estimator_.coef_}')
+                if debug:
+                    print(f'{name} coefficient = {model.estimator_.coef_}')
                 ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
                 return model.estimator_.coef_, model.estimator_.intercept_
         #inlier_mask = ransac.inlier_mask_
@@ -327,54 +334,38 @@ class Dataset:
 
         def normalisation_func(sig, ref):
             return sig - (m*ref + c)
+        
+        area_list = atlas.ravel()
+        ch1 = self.ch1.ravel()
+        ch2 = self.ch2.ravel()
 
-        def get_true_signal(z, x, y):
-            fluorescence_val = int(self.ch1[z,y,x])
-            autofluorescence = int(backg[z,y,x])
-            true_sig = normalisation_func(fluorescence_val, autofluorescence)
-            return true_sig
+        tot_fluorescence = pd.Series(ch1).groupby(area_list).sum()
+        tot_autoflorsnce = pd.Series(ch2).groupby(area_list).sum()
+        true_signal = normalisation_func(tot_fluorescence, tot_autoflorsnce)
+        area_vols = pd.Series(ch1).groupby(area_list).agg(lambda x: len(x))
+        #print(tot_fluorescence[543], area_vols[543])
+        print(tot_fluorescence[543], tot_autoflorsnce[543], true_signal[543], area_vols[543])
 
-        cum_flrsnce_cntr = Counter() # cumulative true fluorescence by brain region
-        area_cntr = {} # also count number of signal channel pixels for each brain area
-        for z in range(self.ch1.shape[0] - 1): # this needs validating
-            for x in range(self.ch1.shape[2] - 1):
-                for y in range(self.ch1.shape[1] - 1):
-                    area_index = _get_area_index(self, z, x, y)
-                    flrescence = get_true_signal(z, x, y)
-                    cum_flrsnce_cntr[area_index] += flrescence
-                    area_cntr.setdefault(area_index, 0)
-                    area_cntr[area_index] = area_cntr[area_index] + 1
-            clear_output(wait=True)
-            print(f'Progress: {((z+1)/self.ch1.shape[0])*100:.2f}%')
-        print('Done')
-        cum_flrsnce_cntr = cum_flrsnce_cntr.most_common()
+        #av_signal = true_signal / area_vols # un-propagated signals, needs ordering
+        #btp.generate_whole_fluorescence_plot(self, av_signal.tolist())
 
-        already_accessed = [] # propagate fluorescence up area inheritance tree
         self.flr_totals = Counter()
-        self.area_sizes = Counter()
-        for idx, row in enumerate(area_indexes.itertuples()):
-            cur_area_idx = row.Index
-            try: # access the value of the counter for this area:
-                #print(cur_area_idx, [item for item in cum_flrsnce_cntr if item[0] == cur_area_idx])
-                child_fluorescence = [item for item in cum_flrsnce_cntr if item[0] == cur_area_idx][0][-1] # list of tuples, func returns a list of filtered tuples, so get first item, which is a tuple (area, flrsnce) so grab flrsnce
-                child_area = area_cntr[cur_area_idx]
-            except IndexError:
-                pass #print(f'Index {cur_area_idx} had no fluorescence value or maybe area value')
+        self.area_volumes = Counter()
+        for idx, sig_val in true_signal.iteritems(): #true_signal
+            try:
+                id_path = area_indexes.loc[idx].structure_id_path
+                child_volume = area_vols.loc[idx]
+            except KeyError:
+                pass #print(f'Key {idx} does not exist.')
             else:
-                if not any(x == cur_area_idx for x in already_accessed): # check no indexes are assigned to more than once
-                    id_path = row.structure_id_path
-                    id_path_list = id_path.split('/')
-                    id_path_list = [i for i in id_path_list if i != ''] # remove blank and current indexes
-                    for thing in id_path_list: # propagate lowest area count through all parent areas
-                        area_index = int(thing)
-                        self.flr_totals.setdefault(area_index, 0)
-                        self.flr_totals[area_index] += child_fluorescence
-                        self.area_sizes.setdefault(area_index, 0)
-                        self.area_sizes[area_index] += child_area
-                for i in id_path_list: # add parent and child areas to done list if not already added
-                    if not any(x == i for x in already_accessed):
-                        already_accessed.append(i)
-                already_accessed.append(cur_area_idx)
+                id_path_list = id_path.split('/')
+                id_path_list = [i for i in id_path_list if i != ''] # get clean list of inheritance path
+                for ID in id_path_list: # propagate lowest area count through all parent areas
+                    area_id = int(ID)
+                    self.flr_totals.setdefault(area_id, 0)
+                    self.flr_totals[area_id] += sig_val
+                    self.area_volumes.setdefault(area_id, 0)
+                    self.area_volumes[area_id] += child_volume
 
     def get_average_fluorescence(self, area_idxs):
         _, area_idxs, _ = get_area_info(area_idxs) # make sure string area names are indexes
@@ -384,7 +375,7 @@ class Dataset:
         for i in area_idxs:
             idx = int(i)
             tot_fluorescence = self.flr_totals[idx]
-            tot_area = self.area_sizes[idx]
+            tot_area = self.area_volumes[idx]
             try:
                 names.append(area_indexes.loc[idx, 'name'])
             except KeyError:
