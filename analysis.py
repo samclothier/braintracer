@@ -125,41 +125,41 @@ class Dataset:
         '''
         quantify numbers of cells for parent brain areas
         '''
-        already_accessed = []
         new_counter = Counter()
-        for idx, row in enumerate(area_indexes.itertuples()):
-            cur_area_idx = row.Index
-            try: # access the value of the counter for this area:
-                child_cells = [item for item in original_counter if item[0] == cur_area_idx][0][-1] # list of tuples, func returns a list of filtered tuples, so get first item, which is a tuple (area, flrsnce) so grab flrsnce
-            except IndexError:
-                pass
+        for idx, count in original_counter:
+            try:
+                id_path = area_indexes.loc[idx].structure_id_path
+            except KeyError:
+                pass #print(f'Index {idx} does not exist.')
             else:
-                if not any(x == cur_area_idx for x in already_accessed): # check no indexes are assigned to more than once
-                    id_path = row.structure_id_path
-                    id_path_list = id_path.split('/')
-                    id_path_list = [i for i in id_path_list if i != ''] # remove blank and current indexes
-                    for i in id_path_list: # propagate lowest area count through all parent areas
-                        area_index = int(i)
-                        new_counter.setdefault(area_index, 0)
-                        new_counter[area_index] += child_cells
-                for i in id_path_list: # add parent and child areas to done list if not already added
-                    if not any(x == i for x in already_accessed):
-                        already_accessed.append(i)
-                already_accessed.append(cur_area_idx)
+                id_path_list = id_path.split('/')
+                id_path_list = [i for i in id_path_list if i != ''] # remove current indexes
+                for i in id_path_list: # propagate lowest area count through all parent areas
+                    area_index = int(i)
+                    new_counter.setdefault(area_index, 0)
+                    new_counter[area_index] += count
         return new_counter
 
-    def get_cells_in(self, area, ch1=None):
+    def num_cells_in(self, area, ch1=None):
         '''
         get the number of cells in a given brain area
         '''
         parent, children = children_from(area, depth=0)
         areas = [parent] + children
-        return len(_get_cells_in(areas, self, ch1=ch1)[0])
+        if ch1 == None:
+            return len(_get_cells_in(areas, self, ch1=True)[0]) + len(_get_cells_in(areas, self, ch1=False)[0])
+        else:
+            return len(_get_cells_in(areas, self, ch1=ch1)[0])
 
+    def presynaptics(self):
+        red_cells = self.num_cells(ch1=True)
+        IO_red = self.num_cells_in('IO', ch1=True)
+        CB_red = self.num_cells_in('CB', ch1=True)
+        presynaptics = red_cells - (IO_red + CB_red)
+        return presynaptics
+    '''
     def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
-        '''
-        checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
-        '''
+        ###checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
         xy_tol = np.ceil(xy_tol_um / 10)
         z_tol = np.ceil(z_tol_um / 10)
         if debug:
@@ -187,7 +187,7 @@ class Dataset:
             print(f'{len(ch1_cells_in_area[2])} ch1 cells and {len(ch2_cells_in_area[2])} ch2 cells in the {str(area)}.')
             print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
         return len(matching_ch2_idxs)
-
+    '''
     def adapt_starter_area(self, x_bounds, y_bounds, z_bounds):
         z_min, z_max = z_bounds
         x_min, x_max = x_bounds
@@ -383,7 +383,7 @@ class Dataset:
                 names.pop()
             else:
                 total_fluorescences.append(tot_fluorescence)
-                if tot_area != 0:
+                if tot_area != 0 and tot_fluorescence >= 0: # avoid zero division, and wipe out negatives
                     av_flrsnce = tot_fluorescence / tot_area # divide fluorescence_val by num pixels
                 else:
                     av_flrsnce = 0

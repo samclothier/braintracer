@@ -12,9 +12,32 @@ from itertools import chain
 from vedo import embedWindow # for displaying bg-heatmaps
 embedWindow(None)
 
+def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=False, l_space=None, b_space=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(8,6))
+		f.subplots_adjust(left=l_space, bottom=b_space)
+		f.set_facecolor('white')
+	if bt.grouped:
+		groups = [i.group for i in datasets]
+		_plot_grouped_points(ax, values, groups, areas, is_horizontal=horizontal)
+	else:
+		dataset_names = [i.name for i in datasets]
+		a_names, d_names, values = _prep_for_sns(areas, dataset_names, values)
+		column_titles = ['Area', 'Dataset', axis_title]
+		df = pd.DataFrame(zip(a_names, d_names, values), columns=column_titles)
+		x = column_titles[2] if horizontal else column_titles[0]
+		y = column_titles[0] if horizontal else column_titles[2]
+		sns.barplot(x=x, y=y, hue=column_titles[1], data=df, ax=ax)
+	if not horizontal:
+		ax.set(xlabel=None)
+		ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
+	grid_orientation = 'x' if horizontal else 'y'
+	ax.grid(axis=grid_orientation)
+	ax.set_title(fig_title)
+
 def generate_summary_plot(ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
-	area_names, _, _ = bt.get_area_info(summary_areas)
+	area_labels, _, _ = bt.get_area_info(summary_areas)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
 		dataset_cells = _fluorescence_by_area_across_fl_datasets(summary_areas)
@@ -23,27 +46,13 @@ def generate_summary_plot(ax=None):
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells = _cells_in_areas_in_datasets(summary_areas, datasets)
 		axis_title = 'Proportion of cells / %'
-	dataset_names = [i.name for i in datasets]
-	group_names = [i.group for i in datasets]
+	
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	if bt.debug:
 		print(dataset_cells)
 		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
-	
-	if ax is None:
-		f, ax = plt.subplots(figsize=(8,5))
-		f.subplots_adjust(left=0.2)
-		f.set_facecolor('white')
-	if bt.grouped:
-		_plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=True)
-	else:
-		names, datasets, cells = _prep_for_sns(area_names, dataset_names, dataset_cells)
-		column_titles = ['Area', 'Dataset', axis_title]
-		df = pd.DataFrame(zip(names, datasets, cells), columns=column_titles)
-		sns.barplot(x=column_titles[2], y=column_titles[0], hue=column_titles[1], data=df, ax=ax)
-	ax.grid(axis='x')
-	ax.set_title(f'Whole brain')
+	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title='Whole brain', horizontal=True, l_space=0.2)
 
 def generate_custom_plot(area_names, title, ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
@@ -55,76 +64,29 @@ def generate_custom_plot(area_names, title, ax=None):
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells = _cells_in_areas_in_datasets(area_names, datasets)
 		axis_title = 'Proportion of cells / %'
-	dataset_names = [i.name for i in datasets]
-	group_names = [i.group for i in datasets]
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
-
-	if ax is None:
-		f, ax = plt.subplots(figsize=(8,5))
-		f.set_facecolor('white')
-		f.subplots_adjust(left=0.35)
-	if bt.grouped:
-		_plot_grouped_points(ax, dataset_cells, group_names, area_labels, is_horizontal=True)
-	else:
-		names, datasets, cells = _prep_for_sns(area_labels, dataset_names, dataset_cells)
-		column_titles = ['Area', 'Dataset', axis_title]
-		df = pd.DataFrame(zip(names, datasets, cells), columns=column_titles)
-		sns.barplot(x=column_titles[2], y=column_titles[0], hue=column_titles[1], data=df, ax=ax)
-	ax.grid(axis='x')
-	ax.set_title(f'{title}')
+	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=True, l_space=0.35)
 
 def generate_whole_fluorescence_plot(dataset=None, values=None):
 	indexes = list(bt.area_indexes.index)
 	f, ax = plt.subplots(figsize=(10,100))
-	'''
-	if values != None:
-		prev_setting = bt.grouped
-		bt.grouped = False
-		title = 'Raw Fluorescence Plot'
-
-		indexes.sort()
-		area_labels, _, _ = bt.get_area_info(indexes)
-		datasets = [dataset]
-		dataset_cells = [values]
-		axis_title = 'Average normalised fluorescence'
-		dataset_names = [i.name for i in datasets]
-		group_names = [i.group for i in datasets]
-		if ax is None:
-			f, ax = plt.subplots(figsize=(8,5))
-			f.set_facecolor('white')
-			f.subplots_adjust(left=0.35)
-		if bt.grouped:
-			_plot_grouped_points(ax, dataset_cells, group_names, area_labels, is_horizontal=True)
-		else:
-			names, datasets, cells = _prep_for_sns(area_labels, dataset_names, dataset_cells)
-			column_titles = ['Area', 'Dataset', axis_title]
-			df = pd.DataFrame(zip(names, datasets, cells), columns=column_titles)
-			sns.barplot(x=column_titles[2], y=column_titles[0], hue=column_titles[1], data=df, ax=ax)
-		ax.grid(axis='x')
-		ax.set_title(f'{title}')
-		btf.save(f'fluorescence_{dataset.name}_raw', as_type='png')
-		bt.grouped = prev_setting
-	else: # if no dataset provided, generate normal plot for all fluorescence datasets
-	'''
 	title = 'Propagated Fluorescence Plot'
 	generate_custom_plot(indexes, title, ax)
-	
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
 	prop_all: True; cell counts as fraction of total cells in signal channel. False; cell counts as fraction in parent area
 	'''
-	dataset_names = [i.name for i in bt.datasets]
-	group_names = [i.group for i in bt.datasets]
-	new_counters = [i.ch1_cells_by_area for i in bt.datasets]
-	original_counters = [i.raw_ch1_cells_by_area for i in bt.datasets]
+	datasets = bt.datasets
+	new_counters = [i.ch1_cells_by_area for i in datasets]
+	original_counters = [i.raw_ch1_cells_by_area for i in datasets]
 
 	parent, children = bt.children_from(parent_name, depth)
 
 	list_cells = [] # 2D array of number of cells in each child area for each dataset
 	for counter in new_counters:
 		try:
-			names, _, cells = bt.get_area_info(children, counter)
+			area_labels, _, cells = bt.get_area_info(children, counter)
 		except IndexError:
 			print('Cannot zoom into an area with no children.')
 			return
@@ -141,7 +103,7 @@ def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None
 			list_cells[idx] = list(map(lambda x: (x / bt.datasets[idx].num_cells(ch1=True))*100, cells))
 
 	cells_sort_by = [sum(x) for x in zip(*list_cells)] # sum each area for each dataset
-	cells_sort_by, names, *list_cells = zip(*sorted(zip(cells_sort_by, names, *list_cells), reverse=True))
+	cells_sort_by, area_labels, *list_cells = zip(*sorted(zip(cells_sort_by, area_labels, *list_cells), reverse=True))
 	list_cells = [list(i) for i in list_cells]
 
 	for idx, counter in enumerate(original_counters): # add any extra cells that were assigned to the parent area
@@ -151,7 +113,7 @@ def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None
 		else:
 			p_cells = list(map(lambda x: (x / bt.datasets[idx].num_cells(ch1=True))*100, p_cells))
 		list_cells[idx] = list_cells[idx] + p_cells
-	names = names + tuple(['Rest of ' + p_name[0]])
+	area_labels = area_labels + tuple(['Rest of ' + p_name[0]])
 
 	list_cells_2d = np.array(list_cells) # exclude brain areas where the average of all datasets is less than threshold
 	thresh = np.repeat(threshold, len(list_cells_2d[0]))
@@ -161,28 +123,14 @@ def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None
 	for idx, cells in enumerate(list_cells):
 		list_cells[idx] = [v for i, v in enumerate(cells) if i not in idxs_to_remove]
 	if bt.debug:
-		names_removed = [v for i, v in enumerate(names) if i in idxs_to_remove]
+		names_removed = [v for i, v in enumerate(area_labels) if i in idxs_to_remove]
 		string = ', '.join(names_removed)
 		print(f'Areas excluded: {names_removed}')
-	names = [v for i, v in enumerate(names) if i not in idxs_to_remove]
+	area_labels = [v for i, v in enumerate(area_labels) if i not in idxs_to_remove]
 	
 	prop_title = 'all' if prop_all else p_name[0]
-	if ax is None:
-		f, ax = plt.subplots(figsize=(8,6))
-		f.set_facecolor('lightgrey')
-		f.subplots_adjust(bottom=0.3)
-	if bt.grouped:
-		_plot_grouped_points(ax, list_cells, group_names, names, parent_name=prop_title)
-	else:
-		names, list_datasets, list_cells = _prep_for_sns(names, dataset_names, list_cells)
-		column_titles = ['Area', 'Dataset', f'Proportion of {prop_title} cells / %']
-		df = pd.DataFrame(zip(names, list_datasets, list_cells), columns=column_titles)
-		if not df.empty:
-			sns.barplot(x=column_titles[0], y=column_titles[2], hue=column_titles[1], data=df, ax=ax)
-	ax.set(xlabel=None)
-	ax.set_xticklabels(ax.get_xticklabels(), rotation='vertical')
-	ax.grid(axis='y')
-	ax.set_title(f'{parent_name}')
+	axis_title = f'Proportion of {prop_title} cells / %'
+	__draw_plot(ax, datasets, area_labels, list_cells, axis_title, fig_title=f'{parent_name}', horizontal=False, b_space=0.3)
 
 def generate_heatmap(dataset):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN', 'VTA','ORB','P-mot','P-sen','IO']
@@ -328,31 +276,29 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def generate_starter_cell_plot(ax=None):
+def generate_starter_cell_plot(ch1, ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(8,5))
 		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.get_cells_in(bt.starter_region, ch1=False) for i in bt.datasets] # green cells in starter region
+	starter_cells = [i.num_cells_in(bt.starter_region, ch1=ch1) for i in bt.datasets] # green cells in starter region
 	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
 	ax.set_yscale('log')
 	ax.set(ylabel=f'Number of starter cells in {bt.starter_region}')
 
-def generate_starter_cell_scatter(ax=None):
+def generate_starter_cell_scatter(ch1, ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(8,5))
 		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.get_cells_in(bt.starter_region, ch1=False) for i in bt.datasets] # green cells in starter region
-	total_cells = np.array([i.num_cells() for i in bt.datasets])
-	assert len(starter_cells) == len(total_cells), 'Starter cells and total cells must be fetchable for all datasets.'
-	total_cells = total_cells - starter_cells
-	ax.scatter(total_cells, starter_cells)
+	starter_cells = [i.num_cells_in(bt.starter_region, ch1=ch1) for i in bt.datasets] # green cells in starter region
+	presynaptics = np.array([i.presynaptics() for i in bt.datasets])
+	assert len(starter_cells) == len(presynaptics), 'Starter cells and total cells must be fetchable for all datasets.'
+	ax.scatter(starter_cells, presynaptics)
 	for i, name in enumerate(dataset_names):
-		text = ax.annotate(name, (total_cells[i], starter_cells[i]), xytext=(3, 8), textcoords='offset points')
-		text.set_rotation(90)
-	ax.set_xlabel('All other cells in brain')
-	ax.set_ylabel('Number of starter cells in starter region')
+		text = ax.annotate(name, (starter_cells[i], presynaptics[i]), xytext=(8,3), textcoords='offset points')
+	ax.set_xlabel(f'Postsynaptic starter cells (ch1={ch1})')
+	ax.set_ylabel('Presynaptic cells (red cells excl. IO + CB)')
 	ax.grid()
 
 def _cells_in_areas_in_datasets(areas, datasets):
@@ -422,7 +368,7 @@ def _group_points(names, uncompressed_cells, groups):
 	dataset_cell = list(chain.from_iterable(dataset_cell))
 	return area_name, dataset_name, dataset_cell
 
-def _plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal=False, parent_name='all'):
+def _plot_grouped_points(ax, dataset_cells, group_names, area_names, is_horizontal, parent_name='all'):
 	pre_compressed_dataset_cells = dataset_cells
 	dataset_names, dataset_cells = _compress_into_groups(group_names, dataset_cells)
 	names, datasets, cells = _prep_for_sns(area_names, dataset_names, dataset_cells)
