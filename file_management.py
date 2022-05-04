@@ -84,6 +84,12 @@ def get_atlas():
     atlas_oriented = annotation[:,:,::-1] # flip atlas along x axis (I know it's pointless, but the cells are also flipped)
     return atlas_oriented
 
+def get_reference():
+    global atlas
+    reference = np.array(atlas.reference)
+    reference_oriented = reference[:,:,::-1] # flip reference along x axis (I know it's pointless, but the cells are also flipped)
+    return reference_oriented
+
 def get_lookup_df():
     df = atlas.lookup_df
     df = df.set_index('id')
@@ -92,10 +98,14 @@ def get_lookup_df():
 def save(file_name, as_type):
     if file_name.startswith('injection_'):
         dir_name = 'braintracer/TRIO/'
-        dir_path = os.path.join(script_dir, dir_name)
-        if not os.path.isdir(dir_path):
-            os.makedirs(dir_path)
-        file_name = dir_path + file_name
+    elif file_name.startswith('fluorescence_'):
+        dir_name = 'braintracer/fluorescence/'
+    else:
+        dir_name = 'braintracer/figures/'
+    dir_path = os.path.join(script_dir, dir_name)
+    if not os.path.isdir(dir_path):
+        os.makedirs(dir_path)
+    file_name = dir_path + file_name
 
     if as_type == 'png':
         plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')

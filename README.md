@@ -46,12 +46,12 @@ Move the sample data files into the `braintracer\cellfinder\` directory.
 You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook`
 
 ---
-To assess the classifier's performance, you will need to generate ground truth data.
-Braintracer requires ground truth coordinates in atlas space, so these should be generated in napari with the cellfinder curation plugin.
-• Open napari with `napari`
-• Navigate to `dataset\\cellfinder_[]\\registration`
-• Load the signal channel `downsampled_standard_channel_0` and background channel `downsampled_standard`
-• Open the cellfinder curation plugin and select these layers as the signal and background channels
-• Click 'Add training data layers' and select some cells in the cells layer!
-• Select both cell layers and go to File... Save selected layer(s)
-• Save the file in the following format: `groundtruth_[].xml` (you must type .xml!) within `braintracer\\ground_truth`
+To assess the classifier's performance, you will need to generate ground truth data.  
+Braintracer requires ground truth coordinates in atlas space, so these should be generated in napari with the cellfinder curation plugin.  
+• Open napari with `napari`  
+• Navigate to `dataset\\cellfinder_[]\\registration`  
+• Load the signal channel `downsampled_standard_channel_0` and background channel `downsampled_standard`  
+• Open the cellfinder curation plugin and select these layers as the signal and background channels  
+• Click 'Add training data layers' and select some cells in the cells layer!  
+• Select both cell layers and go to File... Save selected layer(s)  
+• Save the file in the following format: `groundtruth_[].xml` (you must type .xml!) within `braintracer\\ground_truth`  
