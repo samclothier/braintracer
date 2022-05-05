@@ -20,6 +20,7 @@ atlas = btf.get_atlas()
 reference = btf.get_reference()
 fluorescence = False
 starter_region = None
+starter_ch1 = False
 grouped = True
 debug = False
 
@@ -156,6 +157,8 @@ class Dataset:
         CB_red = self.num_cells_in('CB', ch1=True)
         presynaptics = red_cells - (IO_red + CB_red)
         return presynaptics
+    def postsynaptics(self):
+        return self.num_cells_in(starter_region, ch1=starter_ch1)
     '''
     def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
         ###checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10

@@ -288,7 +288,18 @@ def generate_starter_cell_scatter(ch1, ax=None):
 	starter_cells = [i.num_cells_in(bt.starter_region, ch1=ch1) for i in bt.datasets] # green cells in starter region
 	presynaptics = np.array([i.presynaptics() for i in bt.datasets])
 	assert len(starter_cells) == len(presynaptics), 'Starter cells and total cells must be fetchable for all datasets.'
-	ax.scatter(starter_cells, presynaptics)
+	def map_colours_onto_scatter():
+		group_names = [i.group for i in bt.datasets]
+		groups = list(dict.fromkeys(group_names)) # get unique values
+		c_map = {groups[0]: (0.902,0,0.494), groups[1]: (0.078,0.439,0.721)}
+		c = [c_map[i.group] for i in bt.datasets]
+		return c
+	ax.scatter(starter_cells, presynaptics, c=map_colours_onto_scatter())
+
+	z = np.polyfit(starter_cells, presynaptics, 1)
+	p = np.poly1d(z)
+	ax.plot(starter_cells, p(starter_cells), 'k')
+	
 	for i, name in enumerate(dataset_names):
 		text = ax.annotate(name, (starter_cells[i], presynaptics[i]), xytext=(8,3), textcoords='offset points')
 	ax.set_xlabel(f'Postsynaptic starter cells (ch1={ch1})')
@@ -307,7 +318,7 @@ def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
 			cells = list(map(lambda x: (x / dataset.presynaptics())*100, cells))
 		elif normalisation == 'postsynaptics': # normalise to inputs per postsynaptic cell
 			axis_title = 'Inputs / postsynaptic cell'
-			cells = list(map(lambda x: x / dataset.num_cells_in(bt.starter_region, ch1=True), cells))
+			cells = list(map(lambda x: x / dataset.postsynaptics(), cells))
 		cells_list.append(cells)
 	return cells_list, axis_title
 
