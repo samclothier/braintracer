@@ -144,12 +144,11 @@ class Dataset:
         '''
         get the number of cells in a given brain area
         '''
-        parent, children = children_from(area, depth=0)
-        areas = [parent] + children
+        area_idx = get_area_info([area])[1]
         if ch1 == None:
-            return len(_get_cells_in(areas, self, ch1=True)[0]) + len(_get_cells_in(areas, self, ch1=False)[0])
+            return len(_get_cells_in(area_idx, self, ch1=True)[0]) + len(_get_cells_in(area_idx, self, ch1=False)[0])
         else:
-            return len(_get_cells_in(areas, self, ch1=ch1)[0])
+            return len(_get_cells_in(area_idx, self, ch1=ch1)[0])
 
     def presynaptics(self):
         red_cells = self.num_cells(ch1=True)
@@ -375,7 +374,7 @@ class Dataset:
         for i in area_idxs:
             idx = int(i)
             tot_fluorescence = self.flr_totals[idx]
-            tot_area = self.area_volumes[idx]
+            tot_vol = self.area_volumes[idx]
             try:
                 names.append(area_indexes.loc[idx, 'name'])
             except KeyError:
@@ -383,14 +382,20 @@ class Dataset:
                 names.pop()
             else:
                 total_fluorescences.append(tot_fluorescence)
-                if tot_area != 0 and tot_fluorescence >= 0: # avoid zero division, and wipe out negatives
-                    av_flrsnce = tot_fluorescence / tot_area # divide fluorescence_val by num pixels
+                if tot_vol != 0 and tot_fluorescence >= 0: # avoid zero division, and wipe out negatives
+                    av_flrsnce = tot_fluorescence / tot_vol # divide fluorescence_val by num pixels
                 else:
                     av_flrsnce = 0
                 average_fluorescences.append(av_flrsnce) # add average fluorescence to average_fluorescences
         #total_fluorescences, total_names = zip(*sorted(zip(total_fluorescences, names), reverse=True))
         #average_fluorescences, average_names = zip(*sorted(zip(average_fluorescences, names), reverse=True))
         return average_fluorescences #, names
+
+    def get_mean_fluorescence(self): # mean brain fluorescence excluding outside of registered boundaries (area 0)
+        total_fluorescence = sum(self.flr_totals.values())
+        total_volume = sum(self.area_volumes.values())
+        brain_mean_fluorescence = total_fluorescence / total_volume
+        return brain_mean_fluorescence
 
 
 class _Results: # singleton object

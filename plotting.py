@@ -42,7 +42,7 @@ def generate_summary_plot(ax=None):
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
 		dataset_cells = _fluorescence_by_area_across_fl_datasets(summary_areas)
-		axis_title = 'Average normalised fluorescence'
+		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
@@ -59,7 +59,7 @@ def generate_custom_plot(area_names, title, normalisation='presynaptics', ax=Non
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
 		dataset_cells = _fluorescence_by_area_across_fl_datasets(area_names)
-		axis_title = 'Average normalised fluorescence'
+		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation)
@@ -312,9 +312,13 @@ def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
 	return cells_list, axis_title
 
 def _fluorescence_by_area_across_fl_datasets(areas):
-	flrs_list = [dataset.get_average_fluorescence(areas) for dataset in bt.datasets if dataset.fluorescence]
-	#datasets = [dataset for dataset in bt.datasets if dataset.fluorescence]
-	return flrs_list
+	normalised_area_fluorescence_fl_datasets = []
+	fl_datasets = [i for i in bt.datasets if i.fluorescence]
+	for dataset in fl_datasets:
+		area_values = dataset.get_average_fluorescence(areas)
+		area_values = list(map(lambda x: x / dataset.get_mean_fluorescence(), area_values))
+		normalised_area_fluorescence_fl_datasets.append(area_values)
+	return normalised_area_fluorescence_fl_datasets
 
 def _prep_for_sns(area_names, dataset_names, dataset_cells):
 	#area_names = list(chain.from_iterable(area_names))
