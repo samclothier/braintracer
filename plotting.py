@@ -9,6 +9,7 @@ import numpy as np
 import plotly
 from collections import Counter
 from itertools import chain
+from matplotlib import cm
 from vedo import embedWindow # for displaying bg-heatmaps
 embedWindow(None)
 
@@ -53,7 +54,7 @@ def generate_summary_plot(ax=None):
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title='Whole brain', horizontal=True, l_space=0.2)
 
-def generate_custom_plot(area_names, title, ax=None):
+def generate_custom_plot(area_names, title, normalisation='presynaptics', ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
@@ -61,7 +62,7 @@ def generate_custom_plot(area_names, title, ax=None):
 		axis_title = 'Average normalised fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation='presynaptics')
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation)
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=True, l_space=0.35)
 
@@ -133,17 +134,18 @@ def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None
 	axis_title = f'% {prop_title} cells'
 	__draw_plot(ax, datasets, area_labels, list_cells, axis_title, fig_title=f'{parent_name}', horizontal=False, b_space=0.3)
 
-def generate_heatmap_comparison(areas, orientation='sagittal', normalisation='ch1'):
+def generate_heatmap_comparison(areas, orientation='sagittal', position=None, normalisation='ch1'):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	if bt.fluorescence:
 		return
 	group_names = [i.group for i in bt.datasets]
 	values, axis_title = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
+	highest_value = np.max(cells)
 	g1_regions = dict(zip(areas, cells[0]))
 	g2_regions = dict(zip(areas, cells[1]))
-	bgh.heatmap(g1_regions, position=None, orientation=orientation, title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D',).show()
-	bgh.heatmap(g2_regions, position=None, orientation=orientation, title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D',).show()
+	bgh.heatmap(g1_regions, position=position, orientation=orientation, title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('viridis')).show()
+	bgh.heatmap(g2_regions, position=position, orientation=orientation, title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('viridis')).show()
 
 def generate_heatmap(dataset, orientation='sagittal', normalisation='ch1'):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN','IO']
