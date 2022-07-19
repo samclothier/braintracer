@@ -36,14 +36,14 @@ Usage:
 • Open Anaconda Prompt  
 • Type `bt.bat` while in `WorkingDirectory`  
 • Follow the instructions in the terminal  
-• Play with your results and save figures within Jupyter Notebook!  
+• Play with your results and save figures within Jupyter Notebook!  Be
 
 ---
 If you don't have access to any raw data, you can use the sample data provided.  
 Set up everything as above bar the `DatasetName` directories and contained files.  
 Attempt to run `bt.bat` from `WorkingDirectory` in the terminal once, so that the atlas and other files can be organised correctly.  
 Move the sample data files into the `braintracer\cellfinder\` directory.  
-You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook`
+You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook` or `jupyter-lab`  
 
 ---
 To assess the classifier's performance, you will need to generate ground truth data.  
@@ -55,3 +55,25 @@ Braintracer requires ground truth coordinates in atlas space, so these should be
 • Click 'Add training data layers' and select some cells in the cells layer!  
 • Select both cell layers and go to File... Save selected layer(s)  
 • Save the file in the following format: `groundtruth_[].xml` (you must type .xml!) within `braintracer\\ground_truth`  
+
+---
+The classifier requires some feedback to be improved, or retrained.  
+You can generate training data easily in napari.
+• Open napari with `napari`  
+• Drag the `dataset\\cellfinder_[]` folder onto the napari workspace  
+• Drag the folders containing your signal and background channels  
+• Move the signal and background channel layers down to the bottom of the layer manager (with signal channel above the background!)  
+• Make the atlas layer (`allen_mouse_10um`) visible and decrease the opacity to reveal areas during curation  
+• Go to `Plugins > cellfinder > Curation`  
+• Set the signal and background image fields to your signal and background layers
+• Click `Add training data layers`  
+• Select the layer you are interested in (`Cells` to mark false positives; `Non cells` for false negatives)
+• Select the magnifying glass to move the FOV such that the entire area to be curated is visible but cell markers can still large enough
+• You are then able to select the arrow icon to make markers selectable and not have to switch back and forth between the two tools
+• Begin curation from the caudal end (towards slice #0) and work your way through each slice, switching between the `Cells` and `Non cells` layers depending on the type of false label
+• Depending on the strategy, either review all cells (even confirming correct classifications by selecting `Mark as cell(s)` for the `Cells` layer or `Mark as non cell(s)` for the `Non cells` layer) or only the subset of cells that appear to be classified incorrectly
+• When finished, click `Save training data` and select the output folder
+• The plugin will create a file called `training.yml` and folders called `cells` and `non_cells` containing the TIFFs that the classifier will be shown
+• Additionally, select both training data layers and go to File... Save selected layer(s)  
+• Save the file as `name.xml` (you must type .xml!)
+The YML file can then be used to retrain the network.

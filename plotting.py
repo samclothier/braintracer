@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import plotly
 from collections import Counter
+from matplotlib import colors
 from itertools import chain
 from matplotlib import cm
 from vedo import embedWindow # for displaying bg-heatmaps
@@ -20,7 +21,7 @@ def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=F
 		f.set_facecolor('white')
 	if bt.grouped:
 		groups = [i.group for i in datasets]
-		_plot_grouped_points(ax, values, groups, areas, axis_title, is_horizontal=horizontal)
+		df = _plot_grouped_points(ax, values, groups, areas, axis_title, is_horizontal=horizontal)
 	else:
 		dataset_names = [i.name for i in datasets]
 		a_names, d_names, values = _prep_for_sns(areas, dataset_names, values)
@@ -35,17 +36,18 @@ def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=F
 	grid_orientation = 'x' if horizontal else 'y'
 	ax.grid(axis=grid_orientation)
 	ax.set_title(fig_title)
+	return df
 
 def generate_summary_plot(ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
 	area_labels, _, _ = bt.get_area_info(summary_areas)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
-		dataset_cells = _fluorescence_by_area_across_fl_datasets(summary_areas)
+		dataset_cells = _fluorescence_by_area_across_fl_datasets(summary_areas, datasets)
 		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1', minus_IO=True)
 	
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	if bt.debug:
@@ -54,15 +56,15 @@ def generate_summary_plot(ax=None):
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title='Whole brain', horizontal=True, l_space=0.2)
 
-def generate_custom_plot(area_names, title, normalisation='presynaptics', ax=None):
+def generate_custom_plot(area_names, title, normalisation='presynaptics', minus_IO=False, ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
-		dataset_cells = _fluorescence_by_area_across_fl_datasets(area_names)
+		dataset_cells = _fluorescence_by_area_across_fl_datasets(area_names, datasets)
 		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation)
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation, minus_IO=minus_IO)
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=True, l_space=0.35)
 
@@ -134,28 +136,91 @@ def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None
 	axis_title = f'% {prop_title} cells'
 	__draw_plot(ax, datasets, area_labels, list_cells, axis_title, fig_title=f'{parent_name}', horizontal=False, b_space=0.3)
 
-def generate_heatmap_comparison(areas, orientation='sagittal', position=None, normalisation='ch1'):
+def generate_heatmap_comparison(areas, orientation, position=None, normalisation='ch1', cmap='Reds', legend=True):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
-	if bt.fluorescence:
-		return
 	group_names = [i.group for i in bt.datasets]
-	values, axis_title = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
+	if bt.fluorescence:
+		values = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets)
+		cbar_label = 'Mean normalised fluorescence'
+	else:
+		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
 	highest_value = np.max(cells)
 	g1_regions = dict(zip(areas, cells[0]))
 	g2_regions = dict(zip(areas, cells[1]))
-	bgh.heatmap(g1_regions, position=position, orientation=orientation, title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('viridis')).show()
-	bgh.heatmap(g2_regions, position=position, orientation=orientation, title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('viridis')).show()
+	bgh.heatmap(g1_regions, position=position, orientation=orientation, title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	bgh.heatmap(g2_regions, position=position, orientation=orientation, title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 
-def generate_heatmap(dataset, orientation='sagittal', normalisation='ch1'):
+def generate_heatmap_difference(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None):
+	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
+	group_names = [i.group for i in bt.datasets]
+	if bt.fluorescence:
+		values = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets)
+		cbar_label = 'Mean normalised fluorescence'
+	else:
+		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
+	groups, cells = _compress_into_groups(group_names, values)
+	cells = np.array(cells)
+	differences = cells[0] - cells[1]
+	bounds = np.abs(differences).max()
+	regions = dict(zip(areas, differences))
+	cbar_label = 'LS - LV inputs / postsynaptic cell'
+	if limit is not None:
+		bounds = np.abs(limit)
+	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+
+def generate_heatmap(dataset, orientation='sagittal', vmax=None, position=None, normalisation='ch1', cmap='Reds', legend=True):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN','IO']
 	if dataset.fluorescence:
-		return
+		values = _fluorescence_by_area_across_fl_datasets(summary_areas, [dataset])
+		cbar_label = 'Mean normalised fluorescence'
 	else:
-		values, axis_title = _cells_in_areas_in_datasets(summary_areas, [dataset], normalisation=normalisation)
-		values = np.array(values)[0]/100
-	regions = dict(zip(summary_areas, values.T))
-	bgh.heatmap(regions, position=None, orientation=orientation, title=dataset.name, thickness=1000, atlas_name='allen_mouse_10um',format='2D',).show()
+		values, cbar_label = _cells_in_areas_in_datasets(summary_areas, [dataset], normalisation=normalisation)
+	regions = dict(zip(summary_areas, np.array(values[0]).T))
+	bgh.heatmap(regions, position=position, orientation=orientation, title=dataset.name, thickness=1000, atlas_name='allen_mouse_10um',format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+
+def generate_slice_heatmap(position, normalisation='ch1', depth=3):
+	group_names = [i.group for i in bt.datasets]
+	'''
+	slice_num = int((position / 14000) * 1320)
+	atlas_slice = bt.atlas[slice_num,:,:]
+	areas = np.unique(atlas_slice)
+	areas = list(np.delete(areas, np.where(areas == 0)).astype(int))
+	areas = bt.area_indexes.loc[areas, 'acronym'].tolist()
+	areas.remove('root','fiber tracts')
+	#print(areas)
+	'''
+	_, areas = bt.children_from('root', depth=depth)
+	areas = bt.area_indexes.loc[areas, 'acronym'].tolist()
+
+	values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
+	groups, cells = _compress_into_groups(group_names, values)
+	print(areas)
+	highest_value = np.max(cells) # remove regions in the bottom 1% from plot
+	g1_regions = dict(zip(areas, cells[0]))
+	g2_regions = dict(zip(areas, cells[1]))
+	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
+	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
+
+def generate_brain_overview(dataset, vmin=5, top_down=False, ax=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(10,6))
+		f.set_facecolor('white')
+	stack = dataset.ch1
+	'''
+	nz = np.nonzero(stack)
+	z_min, y_min, x_min = nz[0].min(), nz[1].min(), nz[2].min()
+	z_max, y_max, x_max = nz[0].max(), nz[1].max(), nz[2].max()
+	if bt.debug:
+		print('x:'+str(x_min)+' '+str(x_max)+' y:'+str(y_min)+' '+str(y_max)+' z:'+str(z_min)+' '+str(z_max))
+	#cropped_stack = stack[z_min : z_max, y_min : y_max, x_min : x_max]
+	'''
+	axis = 1 if top_down else 2
+	projection = np.log(stack.max(axis=axis))
+	projection = projection.astype(int).T
+	im = ax.imshow(projection, vmin=vmin, cmap='gray')
+	f.colorbar(im, label='log max px value along axis')
+	plt.axis('off')
 
 def generate_mega_overview_figure(title):
 	f = plt.figure(figsize=(24, 35))
@@ -270,46 +335,68 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def generate_starter_cell_plot(ch1, ax=None):
+def generate_starter_cell_plot(ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(8,5))
 		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.num_cells_in(bt.starter_region, ch1=ch1) for i in bt.datasets] # green cells in starter region
+	starter_cells = [i.postsynaptics() for i in bt.datasets] # green cells in starter region
 	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
 	ax.set_yscale('log')
-	ax.set(ylabel=f'Number of starter cells in {bt.starter_region}')
+	if bt.datasets[0].true_postsynaptics:
+		ax.set(ylabel=f'Starter cells in {bt.starter_region} (corrected)')
+	else:
+		ax.set(ylabel=f'Starter cells in {bt.starter_region} (ch1={bt.starter_ch1})')
 
-def generate_starter_cell_scatter(ch1, ax=None):
+def generate_starter_cell_scatter(exclude_from_fit=[], ax=None):
+	# exclude_from_fit: list of ints referring to indexes of datasets in bt.datasets
+	for dataset in bt.datasets:
+		dataset.true_postsynaptics = None # ensure this is reset for each new calculation
 	if ax is None:
-		f, ax = plt.subplots(figsize=(8,5))
+		f, ax = plt.subplots(figsize=(6,6))
 		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.num_cells_in(bt.starter_region, ch1=ch1) for i in bt.datasets] # green cells in starter region
-	presynaptics = np.array([i.presynaptics() for i in bt.datasets])
-	assert len(starter_cells) == len(presynaptics), 'Starter cells and total cells must be fetchable for all datasets.'
+	if not bt.fluorescence:
+		postsynaptics = [i.postsynaptics() for i in bt.datasets] # green cells in starter region
+		presynaptics = np.array([i.presynaptics() for i in bt.datasets])
+	else:
+		postsynaptics = [i.postsynaptics() for i in bt.datasets] # CB brightness
+		presynaptics = np.array([i.presynaptics() for i in bt.datasets]) # non CB brightness
+	assert len(postsynaptics) == len(presynaptics), 'Starter cells and total cells must be fetchable for all datasets.'
 	def map_colours_onto_scatter():
 		group_names = [i.group for i in bt.datasets]
 		groups = list(dict.fromkeys(group_names)) # get unique values
 		c_map = {groups[0]: (0.902,0,0.494), groups[1]: (0.078,0.439,0.721)}
 		c = [c_map[i.group] for i in bt.datasets]
 		return c
-	ax.scatter(starter_cells, presynaptics, c=map_colours_onto_scatter())
+	ax.scatter(presynaptics, postsynaptics, c=map_colours_onto_scatter())
 
-	z = np.polyfit(starter_cells, presynaptics, 1)
+	postsynaptics_to_fit = [ele for idx, ele in enumerate(postsynaptics) if idx not in exclude_from_fit]
+	presynaptics_to_fit = [ele for idx, ele in enumerate(presynaptics) if idx not in exclude_from_fit]
+	postsynaptics_to_fit = np.pad(postsynaptics_to_fit, [(0,100)])
+	presynaptics_to_fit = np.pad(presynaptics_to_fit, [(0,100)]) # pad with (0,0) values to force fit through origin
+	z = np.polyfit(presynaptics_to_fit, postsynaptics_to_fit, 1)
 	p = np.poly1d(z)
-	ax.plot(starter_cells, p(starter_cells), 'k')
-	
+	line_X = np.pad(presynaptics, [(1,0)])
+	ax.plot(line_X, p(line_X), 'k')
+	for idx, cells in enumerate(presynaptics):
+		bt.datasets[idx].true_postsynaptics = p(cells) # set true presynaptics value
+	ax.scatter(presynaptics, p(presynaptics), c='gray')
+	print(f'{presynaptics[0]/p(presynaptics[0])} inputs per {bt.starter_region} neuron.')
+
 	for i, name in enumerate(dataset_names):
-		text = ax.annotate(name, (starter_cells[i], presynaptics[i]), xytext=(8,3), textcoords='offset points')
-	ax.set_xlabel(f'Postsynaptic starter cells (ch1={ch1})')
-	ax.set_ylabel('Presynaptic cells (red cells excl. IO + CB)')
+		text = ax.annotate(name, (presynaptics[i], postsynaptics[i]), xytext=(8,3), textcoords='offset points')
+	ax.set_ylabel(f'Postsynaptic starter cells (ch1={bt.starter_ch1})')
+	ax.set_xlabel('Presynaptic inputs (red cells excluding IO + CBX)')
 	ax.grid()
 
-def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
+def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics', minus_IO=False):
 	cells_list = []
 	for dataset in datasets:
 		_, _, cells = bt.get_area_info(areas, dataset.ch1_cells_by_area)
+		if minus_IO:
+			IO_cells = bt.get_area_info('IO', dataset.ch1_cells_by_area)[2][0]
+			cells[5] = cells[5] - IO_cells
 		if normalisation == 'ch1': # normalise to total cells in ch1
 			axis_title = '% channel 1 cells'
 			cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, cells))
@@ -318,16 +405,18 @@ def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
 			cells = list(map(lambda x: (x / dataset.presynaptics())*100, cells))
 		elif normalisation == 'postsynaptics': # normalise to inputs per postsynaptic cell
 			axis_title = 'Inputs / postsynaptic cell'
-			cells = list(map(lambda x: x / dataset.postsynaptics(), cells))
+			try:
+				cells = list(map(lambda x: x / dataset.postsynaptics(), cells))
+			except ZeroDivisionError:
+				print('Dividing by zero cells. Ensure postsynaptic correction has been applied.')
 		cells_list.append(cells)
 	return cells_list, axis_title
 
-def _fluorescence_by_area_across_fl_datasets(areas):
+def _fluorescence_by_area_across_fl_datasets(areas, datasets):
 	normalised_area_fluorescence_fl_datasets = []
-	fl_datasets = [i for i in bt.datasets if i.fluorescence]
-	for dataset in fl_datasets:
+	for dataset in datasets:
 		area_values = dataset.get_average_fluorescence(areas)
-		area_values = list(map(lambda x: x / dataset.get_mean_fluorescence(), area_values))
+		area_values = list(map(lambda x: x / dataset.get_average_fluorescence(['CBX'])[0], area_values))
 		normalised_area_fluorescence_fl_datasets.append(area_values)
 	return normalised_area_fluorescence_fl_datasets
 
@@ -349,7 +438,7 @@ def _compress_into_groups(group_names, dataset_cells):
 	group_counter = Counter(group_names)
 	group1 = []
 	group2 = []
-	for idx, group in enumerate(group_names):
+	for idx, group in enumerate(group_names): # lists of dataset cells by group
 		if group == groups[0]:
 			group1.append(dataset_cells[idx])
 		else:
@@ -400,6 +489,29 @@ def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title,
 		sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], data=df, ax=ax)
 		sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
 	_display_legend_subset(ax, (2,3))
+	return df
+
+def get_stats_df(areas, normalisation='postsynaptics'):
+	datasets = [i for i in bt.datasets]
+	if not bt.fluorescence:
+		dataset_cells, _ = _cells_in_areas_in_datasets(areas, datasets, normalisation=normalisation)
+	else:
+		dataset_cells = _fluorescence_by_area_across_fl_datasets(areas, datasets)
+	dataset_groups = [i.group for i in bt.datasets]
+
+	num_datasets = len(datasets)
+	num_areas = len(areas)
+	area_labels = areas * num_datasets
+	groups = []
+	for group in dataset_groups:
+		groups = groups + [f'{group}']*num_areas
+	cells = []
+	for counts in dataset_cells:
+		cells = cells + counts
+	
+	column_titles = ['Area', 'Dataset', 'Cells']
+	df = pd.DataFrame(zip(area_labels, groups, cells), columns=column_titles)
+	return df
 
 def _display_legend_subset(ax, idx_tup):
 	handles, labels = ax.get_legend_handles_labels()

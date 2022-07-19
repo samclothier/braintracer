@@ -24,7 +24,7 @@ def _get_path(file_name):
     return os.path.join(script_dir, child_dir+'\\'+file_name)
 
 # opens xml files from napari containing cell points
-def open_file(name): # open files
+def open_file(name, atlas_25=False): # open files
     all_X, all_Y, all_Z = [], [], []
     neg_X, neg_Y, neg_Z = [], [], []
     pos_X, pos_Y, pos_Z = [], [], []
@@ -67,6 +67,10 @@ def open_file(name): # open files
             z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
             y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
             x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
+            if atlas_25:
+                z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
+                y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
+                x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
             return [x_coords, y_coords, z_coords]
         elif name.startswith('structures'):
             area_indexes = pd.read_csv(file_path)
@@ -109,6 +113,8 @@ def save(file_name, as_type):
 
     if as_type == 'png':
         plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')
+    elif as_type == 'jpg':
+        plt.savefig(f'{file_name}.jpg', dpi=600, bbox_inches='tight')
     elif as_type == 'pdf':
         pp = PdfPages(f'{file_name}.pdf')
         pp.savefig()
