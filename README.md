@@ -65,15 +65,15 @@ You can generate training data easily in napari.
 • Move the signal and background channel layers down to the bottom of the layer manager (with signal channel above the background!)  
 • Make the atlas layer (`allen_mouse_10um`) visible and decrease the opacity to reveal areas during curation  
 • Go to `Plugins > cellfinder > Curation`  
-• Set the signal and background image fields to your signal and background layers
+• Set the signal and background image fields to your signal and background layers  
 • Click `Add training data layers`  
-• Select the layer you are interested in (`Cells` to mark false positives; `Non cells` for false negatives)
-• Select the magnifying glass to move the FOV such that the entire area to be curated is visible but cell markers can still large enough
-• You are then able to select the arrow icon to make markers selectable and not have to switch back and forth between the two tools
-• Begin curation from the caudal end (towards slice #0) and work your way through each slice, switching between the `Cells` and `Non cells` layers depending on the type of false label
-• Depending on the strategy, either review all cells (even confirming correct classifications by selecting `Mark as cell(s)` for the `Cells` layer or `Mark as non cell(s)` for the `Non cells` layer) or only the subset of cells that appear to be classified incorrectly
-• When finished, click `Save training data` and select the output folder
-• The plugin will create a file called `training.yml` and folders called `cells` and `non_cells` containing the TIFFs that the classifier will be shown
+• Select the layer you are interested in (`Cells` to mark false positives; `Non cells` for false negatives)  
+• Select the magnifying glass to move the FOV such that the entire area to be curated is visible but cell markers can still large enough  
+• You are then able to select the arrow icon to make markers selectable and not have to switch back and forth between the two tools  
+• Begin curation from the caudal end (towards slice #0) and work your way through each slice, switching between the `Cells` and `Non cells` layers depending on the type of false label  
+• Depending on the strategy, either review all cells (even confirming correct classifications by selecting `Mark as cell(s)` for the `Cells` layer or `Mark as non cell(s)` for the `Non cells` layer) or only the subset of cells that appear to be classified incorrectly  
+• When finished, click `Save training data` and select the output folder  
+• The plugin will create a file called `training.yml` and folders called `cells` and `non_cells` containing the TIFFs that the classifier will be shown  
 • Additionally, select both training data layers and go to File... Save selected layer(s)  
-• Save the file as `name.xml` (you must type .xml!)
-The YML file can then be used to retrain the network.
+• Save the file as `name.xml` (you must type .xml!)  
+The YML file can then be used to retrain the network.  
