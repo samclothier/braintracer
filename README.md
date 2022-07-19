@@ -2,7 +2,7 @@
 Braintracer is a processing pipeline extension for the BrainGlobe API. It enables high-throughput processing with cellfinder, quantifies cell positions and produces figures for visualising cell distributions across datasets.
 
 ---
-Installation:  
+## Installation
 First, install Anaconda on your machine.  
 Within the base environment: `pip install cellfinder`  
 Then, `pip install bg-atlasapi`  
@@ -39,6 +39,7 @@ Usage:
 • Play with your results and save figures within Jupyter Notebook!  Be
 
 ---
+## Sample data
 If you don't have access to any raw data, you can use the sample data provided.  
 Set up everything as above bar the `DatasetName` directories and contained files.  
 Attempt to run `bt.bat` from `WorkingDirectory` in the terminal once, so that the atlas and other files can be organised correctly.  
@@ -46,6 +47,7 @@ Move the sample data files into the `braintracer\cellfinder\` directory.
 You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook` or `jupyter-lab`  
 
 ---
+## Measure performance with ground truth
 To assess the classifier's performance, you will need to generate ground truth data.  
 Braintracer requires ground truth coordinates in atlas space, so these should be generated in napari with the cellfinder curation plugin.  
 • Open napari with `napari`  
@@ -57,6 +59,7 @@ Braintracer requires ground truth coordinates in atlas space, so these should be
 • Save the file in the following format: `groundtruth_[].xml` (you must type .xml!) within `braintracer\\ground_truth`  
 
 ---
+## Generate training data to improve the classifier
 The classifier requires some feedback to be improved, or retrained.  
 You can generate training data easily in napari.
 • Open napari with `napari`  
