@@ -8,7 +8,7 @@ Within the base environment: `pip install cellfinder`
 Then, `pip install bg-atlasapi`  
 View your current BrainGlobe atlases with `brainglobe list`  
 Ensure you have the 10um atlas installed.  
-If you don't, run `brainglobe install allen_mouse_10um`  
+If you don't, run `brainglobe install -a allen_mouse_10um`  
 This should download the atlas to `%USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\annotation.tiff`, along with the file `structures.csv`  
 
 Save the following files at `%USERPROFILE%\anaconda3\Lib\site-packages\braintracer`:  
