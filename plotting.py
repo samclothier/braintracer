@@ -47,7 +47,10 @@ def generate_summary_plot(ax=None):
 		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1', minus_IO=True)
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
+		# Implement IO count subtraction from MY here
+		#IO_cells = bt.get_area_info('IO', dataset.ch1_cells_by_area)[2][0]
+		#cells[5] = cells[5] - IO_cells
 	
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	if bt.debug:
@@ -56,7 +59,7 @@ def generate_summary_plot(ax=None):
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title='Whole brain', horizontal=True, l_space=0.2)
 
-def generate_custom_plot(area_names, title, normalisation='presynaptics', minus_IO=False, ax=None):
+def generate_custom_plot(area_names, title, normalisation='presynaptics', ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
@@ -64,7 +67,7 @@ def generate_custom_plot(area_names, title, normalisation='presynaptics', minus_
 		axis_title = 'Mean-normalised true fluorescence'
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation, minus_IO=minus_IO)
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation)
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=True, l_space=0.35)
 
@@ -73,6 +76,39 @@ def generate_whole_fluorescence_plot(dataset=None, values=None):
 	f, ax = plt.subplots(figsize=(10,100))
 	title = 'Propagated Fluorescence Plot'
 	generate_custom_plot(indexes, title, ax)
+
+def generate_matrix_plot(depth, normalisation='presynaptics', ax=None):
+	areas = bt.children_from('root', depth=depth)[1]
+	area_labels, _, _ = bt.get_area_info(areas)
+
+	group_names = [i.group for i in bt.datasets] # to order by group
+	groups = list(dict.fromkeys(group_names)) # get unique values 
+	datasets1 = [i for i in bt.datasets if i.group == groups[0]]
+	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
+	datasets = datasets1 + datasets2
+
+	y_labels = [i.name for i in datasets]
+	dataset_cells, axis_title = _cells_in_areas_in_datasets(area_labels, datasets, normalisation=normalisation)
+	dataset_cells = np.array(dataset_cells)
+	def minmax(col):
+		return (col - col.min()) / (col.max() - col.min())
+	dataset_cells = np.apply_along_axis(minmax, 0, dataset_cells)
+
+	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
+
+	if ax is None:
+		f, ax = plt.subplots(figsize=(35,6))
+		f.set_facecolor('white')
+		from mpl_toolkits.axes_grid1 import make_axes_locatable
+		divider = make_axes_locatable(ax)
+		cax = divider.append_axes('right', size='5%', pad=0.05)
+		im = ax.matshow(np.array(dataset_cells))
+		f.colorbar(im, cax=cax, orientation='vertical')
+	ax.set_title(axis_title)
+	ax.set_yticks(range(len(y_labels)))
+	ax.set_yticklabels(y_labels)
+	ax.set_xticks(range(len(area_labels)))
+	ax.set_xticklabels(area_labels, rotation=90)
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
@@ -390,13 +426,10 @@ def generate_starter_cell_scatter(exclude_from_fit=[], ax=None):
 	ax.set_xlabel('Presynaptic inputs (red cells excluding IO + CBX)')
 	ax.grid()
 
-def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics', minus_IO=False):
+def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
 	cells_list = []
 	for dataset in datasets:
 		_, _, cells = bt.get_area_info(areas, dataset.ch1_cells_by_area)
-		if minus_IO:
-			IO_cells = bt.get_area_info('IO', dataset.ch1_cells_by_area)[2][0]
-			cells[5] = cells[5] - IO_cells
 		if normalisation == 'ch1': # normalise to total cells in ch1
 			axis_title = '% channel 1 cells'
 			cells = list(map(lambda x: (x / dataset.num_cells(ch1=True))*100, cells))
@@ -409,6 +442,8 @@ def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics', m
 				cells = list(map(lambda x: x / dataset.postsynaptics(), cells))
 			except ZeroDivisionError:
 				print('Dividing by zero cells. Ensure postsynaptic correction has been applied.')
+		else:
+			axis_title = '# cells'
 		cells_list.append(cells)
 	return cells_list, axis_title
 
