@@ -24,15 +24,15 @@ grouped = True
 debug = False
 
 class Dataset:
-    def __init__(self, name, group, sig, bg, atlas_25=False, fluorescence=False, ignore_autofluorescence=False, modify_starter=False):
+    def __init__(self, name, group, sig, bg, starters=None, atlas_25=False, fluorescence=False, ignore_autofluorescence=False, modify_starter=False):
         self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
-        self.ch1_cells = btf.open_file(f'cells_{self.sig}_{self.name}.csv', atlas_25=atlas_25)
-        self.ch2_cells = btf.open_file(f'cells_{self.bg}_{self.name}.csv', atlas_25=atlas_25)
+        self.ch1_cells = btf.open_file(f'cells_{self.name}_{self.sig[0]}.csv', atlas_25=atlas_25)
+        self.ch2_cells = btf.open_file(f'cells_{self.name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
         self.ch1_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch1_cells[0])) # flip cells x coord along the midline
         self.ch2_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch2_cells[0]))
         self.atlas = None # becomes used if the atlas is modified
-        self.ch1 = np.array(btf.open_file(f'reg_{self.sig}_{self.name}.tiff')) # used for fluorescence analysis
-        self.ch2 = np.array(btf.open_file(f'reg_{self.bg}_{self.name}.tiff')) # used for fluorescence analysis
+        self.ch1 = np.array(btf.open_file(f'reg_{self.name}_{self.sig[0]}.tiff')) # used for fluorescence analysis
+        self.ch2 = np.array(btf.open_file(f'reg_{self.name}_{self.bg}.tiff')) # used for fluorescence analysis
         validate_dimensions(self, atlas_25=atlas_25, display=debug)
         datasets.append(self)
         self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
@@ -41,7 +41,7 @@ class Dataset:
         self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         self.flr_totals = None
         self.area_volumes = None
-        self.true_postsynaptics = None
+        self.true_postsynaptics = starters
         if fluorescence:
             try:
                 self.flr_totals = pickle.load(open(f'{self.name}_flr_totals.pkl', 'rb'))
@@ -144,6 +144,7 @@ class Dataset:
     def num_cells_in(self, area, ch1=None):
         '''
         get the number of cells in a given brain area
+        WARNING: Used by internal functions before propagation; use only to query raw data
         '''
         area_idx = get_area_info([area])[1]
         if ch1 == None:
@@ -161,37 +162,7 @@ class Dataset:
         if self.true_postsynaptics is not None:
             return self.true_postsynaptics
         return self.num_cells_in(starter_region, ch1=starter_ch1)
-    '''
-    def get_starter_cells_in(self, xy_tol_um=20, z_tol_um=20):
-        ###checks if there is a ch1 cell nearby for every ch2 cell. The atlas is 10um, so divide um tolerance by 10
-        xy_tol = np.ceil(xy_tol_um / 10)
-        z_tol = np.ceil(z_tol_um / 10)
-        if debug:
-            print(f'Atlas space xy tolerance is {xy_tol} and z tolerance is {z_tol}')
-        global starter_region
-        parent, children = children_from(starter_region, depth=0)
-        areas = [parent] + children
-        ch1_cells_in_area = _get_cells_in(areas, self, ch1=True)
-        ch2_cells_in_area = _get_cells_in(areas, self, ch1=False)
-        matching_ch1_idxs = []
-        matching_ch2_idxs = []
 
-        for ch2_idx, Z in enumerate(ch2_cells_in_area[2]):
-            X = ch2_cells_in_area[0][ch2_idx]
-            Y = ch2_cells_in_area[1][ch2_idx]
-            
-            for ch1_idx, z in enumerate(ch1_cells_in_area[2]):
-                x = ch1_cells_in_area[0][ch1_idx]
-                y = ch1_cells_in_area[1][ch1_idx]
-                if (z-z_tol <= Z <= z+z_tol) & (x-xy_tol <= X <= x+xy_tol) & (y-xy_tol <= Y <= y+xy_tol):
-                    matching_ch1_idxs.append(ch2_idx)
-                    matching_ch2_idxs.append(ch1_idx)
-                    break
-        if debug:
-            print(f'{len(ch1_cells_in_area[2])} ch1 cells and {len(ch2_cells_in_area[2])} ch2 cells in the {str(area)}.')
-            print(f'{len(matching_ch1_idxs)} starter cells found in the {str(area)}.')
-        return len(matching_ch2_idxs)
-    '''
     def adapt_starter_area(self, x_bounds, y_bounds, z_bounds):
         z_min, z_max = z_bounds
         x_min, x_max = x_bounds
@@ -429,33 +400,46 @@ def validate_dimensions(dataset, atlas_25, display=False):
     '''
     validate image dimensions
     '''
-    if atlas_25:
-        print('Warning: Dataset channel 1 is not in the same coordinate space as the 10um reference atlas. Cells being scaled up, but skipping dimension validation.')
-    atlas_dim = atlas * 2.5 if atlas_25 else atlas
-    dataset_dim = dataset.ch1 * 2.5 if atlas_25 else dataset.ch1
-    im_sets = [atlas_dim, dataset_dim]
-    first_images = list(map(lambda dataset: next(x for x in dataset if True), im_sets))
-    def check_image_dimensions(images):
-        for first_im in images:
-            for second_im in images:
-                if first_im.shape != second_im.shape:
-                    return False
-        return True
-    def check_dataset_length(datasets):
+    def check_dataset_size(datasets):
         for first_dataset in datasets:
             for second_dataset in datasets:
                 if len(first_dataset) != len(second_dataset):
+                    if debug:
+                        print('Datasets are not the same length in z-axis.')
+                    return False
+                if first_dataset[0].shape != second_dataset[0].shape:
+                    if debug:
+                        print('Datasets are not the same shape in xy plane.')
                     return False
         return True
-    if not atlas_25:
-        assert check_image_dimensions(first_images), 'Images do not have the same dimensions.'
-        assert check_dataset_length(im_sets), 'Datasets are not the same length in z-axis.'
+    def set_data_dims(datasets, squeeze=False):
+        im_sets = datasets
+        if squeeze:
+            return list(map(lambda x: np.squeeze(x), im_sets))
+        return im_sets
+
+    if atlas_25:
+        print('Warning: Dataset channel 1 is not in the same coordinate space as the 10um reference atlas. Cells being scaled up, but skipping dimension validation.')
+    atlas_scaled = atlas * 2.5 if atlas_25 else atlas
+    dataset_scaled = dataset.ch1 * 2.5 if atlas_25 else dataset.ch1
+    im_sets = set_data_dims([atlas_scaled, dataset_scaled])
+    
+    if not atlas_25: ## TODO: make check work for 25um atlas
+        try:
+            assert check_dataset_size(im_sets), 'Failed dimension validation.'
+        except AssertionError as e:
+            if debug:
+                print(e, 'Attempting np.squeeze...')
+            im_sets = set_data_dims([atlas_scaled, dataset_scaled], squeeze=True)
+            assert check_dataset_size(im_sets), 'Failed dimension validation.'
+
     if display:
-        print(f'Resolutions: {list(map(lambda x: x.shape, first_images))}')
+        print(f'Stack resolutions: {list(map(lambda x: x.shape, im_sets))}')
         fig, axes = plt.subplots(1, len(im_sets), figsize=(8,5))
         for idx, ax in enumerate(axes):
             dist = int(len(im_sets[idx])*0.7)
             ax.imshow(im_sets[idx][dist], norm=colors.LogNorm())
+    
 
 def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
     '''
