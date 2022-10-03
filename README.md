@@ -36,7 +36,7 @@ Usage:
 • Open Anaconda Prompt  
 • Type `bt.bat` while in `WorkingDirectory`  
 • Follow the instructions in the terminal  
-• Play with your results and save figures within Jupyter Notebook!  Be
+• Play with your results and save figures within Jupyter Notebook!  
 
 ---
 ## Sample data
