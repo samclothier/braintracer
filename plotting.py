@@ -90,9 +90,8 @@ def generate_matrix_plot(depth, normalisation='presynaptics', ax=None):
 	y_labels = [i.name for i in datasets]
 	dataset_cells, axis_title = _cells_in_areas_in_datasets(area_labels, datasets, normalisation=normalisation)
 	dataset_cells = np.array(dataset_cells)
-	def minmax(col):
-		return (col - col.min()) / (col.max() - col.min())
-	dataset_cells = np.apply_along_axis(minmax, 0, dataset_cells)
+	from scipy import stats
+	dataset_cells = stats.zscore(dataset_cells, axis=0)
 
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 
@@ -102,13 +101,18 @@ def generate_matrix_plot(depth, normalisation='presynaptics', ax=None):
 		from mpl_toolkits.axes_grid1 import make_axes_locatable
 		divider = make_axes_locatable(ax)
 		cax = divider.append_axes('right', size='5%', pad=0.05)
-		im = ax.matshow(np.array(dataset_cells))
+		im = ax.matshow(np.array(dataset_cells), cmap='bwr', vmin=-3, vmax=3)
+		#ax.set_clim(3, 3)
 		f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 	ax.set_yticks(range(len(y_labels)))
 	ax.set_yticklabels(y_labels)
 	ax.set_xticks(range(len(area_labels)))
 	ax.set_xticklabels(area_labels, rotation=90)
+	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
+	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
+	[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
+	[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''

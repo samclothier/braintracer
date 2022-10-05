@@ -215,9 +215,9 @@ class Dataset:
         plot_dist(ax3, 1, xlabel='Distance from image top / um')
 
     def analyse_fluorescence(self, ylim=1250):
-        binary_thresh = 1000
+        binary_thresh = np.sqrt(1000)
         med_filter_iters = 3
-        """
+        
         if debug:
             f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,5))
             pos1 = ax1.imshow(self.ch1[0][:,:,600].T)
@@ -226,7 +226,7 @@ class Dataset:
         if debug:
             print(self.ch1.shape, self.ch2.shape)
 
-        f, axs = plt.subplots(2, 2, figsize=(14,10), sharey=False)
+        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
         plt.style = plt.tight_layout()
 
         def fit_model(model, y, x, name, ax=None):
@@ -243,43 +243,33 @@ class Dataset:
                     ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
                 return model.estimator_.coef_, model.estimator_.intercept_
 
-        def do_subtraction(ax, sqrt_first):
+        def do_subtraction(ax):
 
             backg = self.ch2[0]
             foreg = self.ch1[0]
-
             ref_vals = backg.flatten()[::10_000] # every 1000 values of the array
             sig_vals = foreg.flatten()[::10_000] # same coordinates chosen from both image stacks
 
-            #if sqrt_first:
-                #ref_vals = np.sqrt(ref_vals)
-                #sig_vals = np.sqrt(sig_vals)
-
             ax.hist2d(ref_vals, sig_vals, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-            if not sqrt_first:
-                ax.set_ylim(0,7000)
-                ax.set_xlim(0,2000)
+            ax.set_ylim(0,7000)
+            ax.set_xlim(0,2000)
 
             ransac = linear_model.RANSACRegressor(max_trials=30)
             m, c = fit_model(ransac, sig_vals, ref_vals, 'RANSAC', ax=ax)
             m = m[0] # extract from array
             subtracted_im = foreg - ((backg * m) + c)
 
-            return subtracted_im if sqrt_first else np.sqrt(subtracted_im)
+            return subtracted_im
 
-        sub_im1 = do_subtraction(axs[0,0], sqrt_first=False)
-        bin_im1 = np.where(sub_im1 > binary_thresh, 1, 0)
-        mfl_im1 = ndimage.median_filter(bin_im1, med_filter_iters)
-
-        sub_im2 = do_subtraction(axs[0,1], sqrt_first=True) # no sqrt at all
-        bin_im2 = np.where(sub_im2 > binary_thresh, 1, 0)
-        mfl_im2 = ndimage.median_filter(bin_im2, med_filter_iters)
+        sub_im = do_subtraction(ax1)
+        sqt_im = np.sqrt(sub_im)
+        bin_im = np.where(sqt_im > binary_thresh, 1, 0)
+        mfl_im = ndimage.median_filter(bin_im, med_filter_iters)
 
         color_list = [(1,0,0,c) for c in np.linspace(0,1,100)]
         cmapred = colors.LinearSegmentedColormap.from_list('mycmap', color_list, N=5)
-        axs[1,0].imshow(mfl_im1[int((1410/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
-        axs[1,1].imshow(mfl_im2[int((1410/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
-        """
+        ax2.imshow(mfl_im[int((1850/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
+        
         """
         if not ignore_autofluorescence:
             sch_values = []
