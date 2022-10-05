@@ -28,8 +28,6 @@ class Dataset:
         self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
         self.ch1_cells = btf.open_file(f'cells_{self.name}_{self.sig[0]}.csv', atlas_25=atlas_25)
         self.ch2_cells = btf.open_file(f'cells_{self.name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
-        self.ch1_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch1_cells[0])) # flip cells x coord along the midline
-        self.ch2_cells[0] = list(map(lambda x: atlas.shape[2]-x, self.ch2_cells[0]))
         self.atlas = None # becomes used if the atlas is modified
         self.ch1 = np.array(btf.open_file(f'reg_{self.name}_{self.sig[0]}.tiff')) # used for fluorescence analysis
         self.ch2 = np.array(btf.open_file(f'reg_{self.name}_{self.bg}.tiff')) # used for fluorescence analysis
@@ -49,7 +47,7 @@ class Dataset:
                 print(f'Successfully opened saved fluorescence data for {self.name}')
             except (OSError, IOError) as e:
                 print(f'Failed to open saved fluorescence data for {self.name}. Analysing fluorescence...')
-                self.analyse_fluorescence(backg=self.ch2, ignore_autofluorescence=ignore_autofluorescence) # or global reference
+                self.analyse_fluorescence()
                 if self.flr_totals != None and self.area_volumes != None:
                     pickle.dump(self.flr_totals, open(f'{self.name}_flr_totals.pkl', 'wb'))
                     pickle.dump(self.area_volumes, open(f'{self.name}_area_volumes.pkl', 'wb'))
@@ -216,19 +214,73 @@ class Dataset:
         plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
         plot_dist(ax3, 1, xlabel='Distance from image top / um')
 
-    def analyse_fluorescence(self, backg, ignore_autofluorescence, ylim=1250):
+    def analyse_fluorescence(self, ylim=1250):
+        binary_thresh = 1000
+        med_filter_iters = 3
+        """
         if debug:
             f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,5))
-            pos1 = ax1.imshow(self.ch1[:,:,600].T)
-            pos2 = ax2.imshow(self.ch1[760,:,:])
-
-        assert backg.shape == self.ch1.shape, 'Reference atlas must have the same dimensions as the registered dataset.'
+            pos1 = ax1.imshow(self.ch1[0][:,:,600].T)
+            pos2 = ax2.imshow(self.ch1[0][:,600,:])
+        assert self.ch1.shape == self.ch2.shape, 'Reference must have the same dimensions as the registered dataset.'
         if debug:
-            print(backg.shape, self.ch1.shape)
-        
-        backg = np.sqrt(backg)
-        foreg = np.sqrt(self.ch1) if not ignore_autofluorescence else self.ch1 #reference if want to use atlas as control
+            print(self.ch1.shape, self.ch2.shape)
 
+        f, axs = plt.subplots(2, 2, figsize=(14,10), sharey=False)
+        plt.style = plt.tight_layout()
+
+        def fit_model(model, y, x, name, ax=None):
+            X = np.array(x).reshape(len(x),1)
+            line_X = np.arange(min(x), max(x))[:, np.newaxis]
+            model.fit(X, y)
+            line_y = model.predict(line_X)
+            try:
+                if ax != None:
+                    ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
+                return model.coef_, model.intercept_
+            except Exception:
+                if ax != None:
+                    ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
+                return model.estimator_.coef_, model.estimator_.intercept_
+
+        def do_subtraction(ax, sqrt_first):
+
+            backg = self.ch2[0]
+            foreg = self.ch1[0]
+
+            ref_vals = backg.flatten()[::10_000] # every 1000 values of the array
+            sig_vals = foreg.flatten()[::10_000] # same coordinates chosen from both image stacks
+
+            #if sqrt_first:
+                #ref_vals = np.sqrt(ref_vals)
+                #sig_vals = np.sqrt(sig_vals)
+
+            ax.hist2d(ref_vals, sig_vals, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
+            if not sqrt_first:
+                ax.set_ylim(0,7000)
+                ax.set_xlim(0,2000)
+
+            ransac = linear_model.RANSACRegressor(max_trials=30)
+            m, c = fit_model(ransac, sig_vals, ref_vals, 'RANSAC', ax=ax)
+            m = m[0] # extract from array
+            subtracted_im = foreg - ((backg * m) + c)
+
+            return subtracted_im if sqrt_first else np.sqrt(subtracted_im)
+
+        sub_im1 = do_subtraction(axs[0,0], sqrt_first=False)
+        bin_im1 = np.where(sub_im1 > binary_thresh, 1, 0)
+        mfl_im1 = ndimage.median_filter(bin_im1, med_filter_iters)
+
+        sub_im2 = do_subtraction(axs[0,1], sqrt_first=True) # no sqrt at all
+        bin_im2 = np.where(sub_im2 > binary_thresh, 1, 0)
+        mfl_im2 = ndimage.median_filter(bin_im2, med_filter_iters)
+
+        color_list = [(1,0,0,c) for c in np.linspace(0,1,100)]
+        cmapred = colors.LinearSegmentedColormap.from_list('mycmap', color_list, N=5)
+        axs[1,0].imshow(mfl_im1[int((1410/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
+        axs[1,1].imshow(mfl_im2[int((1410/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
+        """
+        """
         if not ignore_autofluorescence:
             sch_values = []
             ref_values = []
@@ -254,62 +306,59 @@ class Dataset:
             #ax2.scatter(coords_excl[:,2], coords_excl[:,1], s=0.5, color='r')
             #ax2.scatter(coords_incl[:,2], coords_incl[:,1], s=0.5, color='magenta')
 
-            X = np.array(ref_values).reshape(len(ref_values),1)
-            y = np.array(sch_values)
-            line_X = np.arange(min(ref_values), max(ref_values))[:, np.newaxis]
-            ref_x = np.array(ref_values)
-            sch_y = np.array(sch_values)
+        X = np.array(ref_values).reshape(len(ref_values),1)
+        y = np.array(sch_values)
+        line_X = np.arange(min(ref_values), max(ref_values))[:, np.newaxis]
+        ref_x = np.array(ref_values)
+        sch_y = np.array(sch_values)
 
-            def fit_model(model, y, ax, name):
-                model.fit(X, y)
-                line_y = model.predict(line_X)
-                try:
-                    if debug:
-                        print(f'{name} coefficient = {model.coef_}')
-                    ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
-                    return model.coef_, model.intercept_
-                except Exception:
-                    if debug:
-                        print(f'{name} coefficient = {model.estimator_.coef_}')
-                    ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
-                    return model.estimator_.coef_, model.estimator_.intercept_
-            #inlier_mask = ransac.inlier_mask_
-            #outlier_mask = np.logical_not(inlier_mask)
+        def fit_model(model, y, ax, name):
+            model.fit(X, y)
+            line_y = model.predict(line_X)
+            try:
+                if debug:
+                    print(f'{name} coefficient = {model.coef_}')
+                ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
+                return model.coef_, model.intercept_
+            except Exception:
+                if debug:
+                    print(f'{name} coefficient = {model.estimator_.coef_}')
+                ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
+                return model.estimator_.coef_, model.estimator_.intercept_
+        #inlier_mask = ransac.inlier_mask_
+        #outlier_mask = np.logical_not(inlier_mask)
 
-            f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,5), sharey=False)
-            plt.style = plt.tight_layout()
+        lr = linear_model.LinearRegression()
+        fit_model(lr, sch_y, ax1, 'Prior Linear')
 
-            lr = linear_model.LinearRegression()
-            fit_model(lr, sch_y, ax1, 'Prior Linear')
+        ransac = linear_model.RANSACRegressor(max_trials=30)
+        m, c = fit_model(ransac, sch_y, ax1, 'Prior RANSAC')
+        m = m[0] # extract from array
+        norm_y = sch_y - ((ref_x * m) + c)
+        print(f'Transformed by SIG_norm = SIG - ({m}*ref + {c})')
 
-            ransac = linear_model.RANSACRegressor(max_trials=30)
-            m, c = fit_model(ransac, sch_y, ax1, 'Prior RANSAC')
-            m = m[0] # extract from array
-            norm_y = sch_y - ((ref_x * m) + c)
-            print(f'Transformed by SIG_norm = SIG - ({m}*ref + {c})')
+        lr_norm = linear_model.LinearRegression()
+        fit_model(lr_norm, norm_y, ax2, 'Post Linear')
 
-            lr_norm = linear_model.LinearRegression()
-            fit_model(lr_norm, norm_y, ax2, 'Post Linear')
+        ransac_norm = linear_model.RANSACRegressor(max_trials=30)
+        fit_model(ransac_norm, norm_y, ax2, 'Post RANSAC')
 
-            ransac_norm = linear_model.RANSACRegressor(max_trials=30)
-            fit_model(ransac_norm, norm_y, ax2, 'Post RANSAC')
-
-            ax1.hist2d(ref_x, sch_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-            ax2.hist2d(ref_x, norm_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-            ax1.set_title(f'{self.name} Signal vs Reference Brightness')
-            ax2.set_title(f'{self.name} Normalised Signal vs Reference Brightness')
-            ax1.set_ylabel('Signal value')
-            ax1.set_xlabel('Reference value')
-            ax2.set_xlabel('Reference value')
-            ax1.legend(loc='best')
-            ax2.legend(loc='best')
-            ax1.grid()
-            #ax1.set_ylim(-0,ylim)
-            #ax1.set_xlim(-10,525)
-            ax2.grid()
-            #ax2.set_ylim(top=ylim)
-            #ax2.set_xlim(-10,525)
-            btf.save(f'fluorescence_normalisation_{self.name}', as_type='png')
+        ax1.hist2d(ref_x, sch_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
+        ax2.hist2d(ref_x, norm_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
+        ax1.set_title(f'{self.name} Signal vs Reference Brightness')
+        ax2.set_title(f'{self.name} Normalised Signal vs Reference Brightness')
+        ax1.set_ylabel('Signal value')
+        ax1.set_xlabel('Reference value')
+        ax2.set_xlabel('Reference value')
+        ax1.legend(loc='best')
+        ax2.legend(loc='best')
+        ax1.grid()
+        #ax1.set_ylim(-0,ylim)
+        #ax1.set_xlim(-10,525)
+        ax2.grid()
+        #ax2.set_ylim(top=ylim)
+        #ax2.set_xlim(-10,525)
+        btf.save(f'fluorescence_normalisation_{self.name}', as_type='png')
 
         def normalisation_func(sig, ref):
             return sig - (m*ref + c)
@@ -348,6 +397,7 @@ class Dataset:
                     self.flr_totals[area_id] += sig_val
                     self.area_volumes.setdefault(area_id, 0)
                     self.area_volumes[area_id] += child_volume
+        """
 
     def get_average_fluorescence(self, area_idxs):
         if any(n < 0 for n in self.flr_totals):

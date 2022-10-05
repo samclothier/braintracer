@@ -84,15 +84,11 @@ def open_file(name, atlas_25=False): # open files
 
 def get_atlas():
     global atlas
-    annotation = np.array(atlas.annotation)
-    atlas_oriented = annotation[:,:,::-1] # flip atlas along x axis (I know it's pointless, but the cells are also flipped)
-    return atlas_oriented
+    return np.array(atlas.annotation)
 
 def get_reference():
     global atlas
-    reference = np.array(atlas.reference)
-    reference_oriented = reference[:,:,::-1] # flip reference along x axis (I know it's pointless, but the cells are also flipped)
-    return reference_oriented
+    return np.array(atlas.reference)
 
 def get_lookup_df():
     df = atlas.lookup_df
