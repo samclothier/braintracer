@@ -9,6 +9,7 @@ from IPython.display import clear_output
 from sklearn import linear_model
 from collections import Counter
 from skimage import morphology
+from tqdm.notebook import tqdm
 from matplotlib import colors
 from itertools import chain
 from scipy import ndimage
@@ -17,6 +18,7 @@ datasets = []
 area_indexes = btf.open_file('structures.csv')
 atlas = btf.get_atlas()
 reference = btf.get_reference()
+network_name = 'Unet'
 fluorescence = False
 starter_region = None
 starter_ch1 = False
@@ -26,17 +28,15 @@ debug = False
 class Dataset:
     def __init__(self, name, group, sig, bg, starters=None, atlas_25=False, fluorescence=False, ignore_autofluorescence=False, modify_starter=False):
         self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
-        self.ch1_cells = btf.open_file(f'cells_{self.name}_{self.sig[0]}.csv', atlas_25=atlas_25)
-        self.ch2_cells = btf.open_file(f'cells_{self.name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
-        self.atlas = None # becomes used if the atlas is modified
-        self.ch1 = np.array(btf.open_file(f'reg_{self.name}_{self.sig[0]}.tiff')) # used for fluorescence analysis
-        self.ch2 = np.array(btf.open_file(f'reg_{self.name}_{self.bg}.tiff')) # used for fluorescence analysis
-        validate_dimensions(self, atlas_25=atlas_25, display=debug)
+        self.atlas = None # becomes used if the atlas is modified or fluorescence analysed
+        if not fluorescence:
+            self.ch1_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[0]}.csv', atlas_25=atlas_25)
+            self.ch2_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
+            self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
+            self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
+            self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
+            self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         datasets.append(self)
-        self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
-        self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
-        self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
-        self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
         self.flr_totals = None
         self.area_volumes = None
         self.true_postsynaptics = starters
@@ -111,6 +111,7 @@ class Dataset:
         for idx, z in enumerate(z_vals):
             x = x_vals[idx]
             y = y_vals[idx]
+            print(z)
             area_index = _get_area_index(self, z, x, y)
             counter.setdefault(area_index, 0)
             counter[area_index] = counter[area_index] + 1
@@ -214,145 +215,37 @@ class Dataset:
         plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
         plot_dist(ax3, 1, xlabel='Distance from image top / um')
 
-    def analyse_fluorescence(self, ylim=1250):
-        binary_thresh = np.sqrt(1000)
-        med_filter_iters = 3
+    def analyse_fluorescence(self):
+        self.atlas = np.array(btf.open_file(f'atlas_{self.name}_r.tiff'))[0]
+        print(self.atlas.shape)
         
-        if debug:
-            f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10,5))
-            pos1 = ax1.imshow(self.ch1[0][:,:,600].T)
-            pos2 = ax2.imshow(self.ch1[0][:,600,:])
-        assert self.ch1.shape == self.ch2.shape, 'Reference must have the same dimensions as the registered dataset.'
-        if debug:
-            print(self.ch1.shape, self.ch2.shape)
+        subtracted_stack_files = btf.open_transformed_brain(self)
+        num_slices = len(subtracted_stack_files)
+        print(num_slices)
+        first_im = np.load(subtracted_stack_files[0])
+        print(first_im.shape)
 
-        f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
-        plt.style = plt.tight_layout()
+        # get values to scale pixels into registered atlas space
+        z_scalar = self.atlas.shape[0] / num_slices
+        y_scalar = self.atlas.shape[1] / first_im.shape[0]
+        x_scalar = self.atlas.shape[2] / first_im.shape[1]
+        print(z_scalar,y_scalar,x_scalar)
 
-        def fit_model(model, y, x, name, ax=None):
-            X = np.array(x).reshape(len(x),1)
-            line_X = np.arange(min(x), max(x))[:, np.newaxis]
-            model.fit(X, y)
-            line_y = model.predict(line_X)
-            try:
-                if ax != None:
-                    ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
-                return model.coef_, model.intercept_
-            except Exception:
-                if ax != None:
-                    ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
-                return model.estimator_.coef_, model.estimator_.intercept_
-
-        def do_subtraction(ax):
-
-            backg = self.ch2[0]
-            foreg = self.ch1[0]
-            ref_vals = backg.flatten()[::10_000] # every 1000 values of the array
-            sig_vals = foreg.flatten()[::10_000] # same coordinates chosen from both image stacks
-
-            ax.hist2d(ref_vals, sig_vals, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-            ax.set_ylim(0,7000)
-            ax.set_xlim(0,2000)
-
-            ransac = linear_model.RANSACRegressor(max_trials=30)
-            m, c = fit_model(ransac, sig_vals, ref_vals, 'RANSAC', ax=ax)
-            m = m[0] # extract from array
-            subtracted_im = foreg - ((backg * m) + c)
-
-            return subtracted_im
-
-        sub_im = do_subtraction(ax1)
-        sqt_im = np.sqrt(sub_im)
-        bin_im = np.where(sqt_im > binary_thresh, 1, 0)
-        mfl_im = ndimage.median_filter(bin_im, med_filter_iters)
-
-        color_list = [(1,0,0,c) for c in np.linspace(0,1,100)]
-        cmapred = colors.LinearSegmentedColormap.from_list('mycmap', color_list, N=5)
-        ax2.imshow(mfl_im[int((1850/2082)*self.ch1.shape[1]),:,:], cmap=cmapred)
+        z_coords, y_coords, x_coords = np.array([]), np.array([]), np.array([])
+        for z, im in enumerate(tqdm(subtracted_stack_files)):
+            # take reverse of z
+            atlas_z = int((num_slices - z) * z_scalar) - 1 # pick the closest atlas slice, -1 to start from zero
+            y_pxs, x_pxs = np.nonzero(np.load(im)) # get coordinates of 1s in this slice
+            x_coords = np.append(x_coords, list(map(lambda x: int(x * x_scalar), x_pxs)))
+            y_coords = np.append(y_coords, list(map(lambda y: int(y * y_scalar), y_pxs)))
+            z_coords = np.append(z_coords, [atlas_z] * len(x_pxs)) # add all the repeating z coordinates for this slice
+        coords = [list(x_coords. astype(int)), list(y_coords. astype(int)), list(z_coords. astype(int))]
         
+        raw_fluorescence_by_area = self.__count_cells(coords)
+        fluorescence_by_area = self.__propagate_cells_through_inheritance_tree(raw_fluorescence_by_area)
+        self.ch1_cells_by_area = fluorescence_by_area
+
         """
-        if not ignore_autofluorescence:
-            sch_values = []
-            ref_values = []
-            coords_excl = []
-            coords_incl = []
-            while len(ref_values) < np.size(foreg)*0.001: # keep generating new coordinates until 0.1% of pixels have been sampled (~120,000 points)
-                z = np.random.randint(0, foreg.shape[0]-1)
-                y = np.random.randint(0, foreg.shape[1]-1)
-                x = np.random.randint(0, foreg.shape[2]-1)
-                fluorescence_val = int(foreg[z,y,x])
-                autofluorescence = int(backg[z,y,x])
-                if _get_area_index(self, z, x, y) != 0:
-                    sch_values.append(fluorescence_val)
-                    ref_values.append(autofluorescence)
-                    coords_incl.append([z, y, x])
-                else:
-                    #print(f'Pixel value at {z} {y} {x} discarded')
-                    coords_excl.append([z, y, x])
-            coords_excl = np.array(coords_excl)
-            coords_incl = np.array(coords_incl)
-            #ax1.scatter(coords_excl[:,0], coords_excl[:,1], s=0.5, color='r')
-            #ax1.scatter(coords_incl[:,0], coords_incl[:,1], s=0.5, color='magenta')
-            #ax2.scatter(coords_excl[:,2], coords_excl[:,1], s=0.5, color='r')
-            #ax2.scatter(coords_incl[:,2], coords_incl[:,1], s=0.5, color='magenta')
-
-        X = np.array(ref_values).reshape(len(ref_values),1)
-        y = np.array(sch_values)
-        line_X = np.arange(min(ref_values), max(ref_values))[:, np.newaxis]
-        ref_x = np.array(ref_values)
-        sch_y = np.array(sch_values)
-
-        def fit_model(model, y, ax, name):
-            model.fit(X, y)
-            line_y = model.predict(line_X)
-            try:
-                if debug:
-                    print(f'{name} coefficient = {model.coef_}')
-                ax.plot(line_X, line_y, color='r', linewidth=1, label=name)
-                return model.coef_, model.intercept_
-            except Exception:
-                if debug:
-                    print(f'{name} coefficient = {model.estimator_.coef_}')
-                ax.plot(line_X, line_y, color='m', linewidth=1, label=name)
-                return model.estimator_.coef_, model.estimator_.intercept_
-        #inlier_mask = ransac.inlier_mask_
-        #outlier_mask = np.logical_not(inlier_mask)
-
-        lr = linear_model.LinearRegression()
-        fit_model(lr, sch_y, ax1, 'Prior Linear')
-
-        ransac = linear_model.RANSACRegressor(max_trials=30)
-        m, c = fit_model(ransac, sch_y, ax1, 'Prior RANSAC')
-        m = m[0] # extract from array
-        norm_y = sch_y - ((ref_x * m) + c)
-        print(f'Transformed by SIG_norm = SIG - ({m}*ref + {c})')
-
-        lr_norm = linear_model.LinearRegression()
-        fit_model(lr_norm, norm_y, ax2, 'Post Linear')
-
-        ransac_norm = linear_model.RANSACRegressor(max_trials=30)
-        fit_model(ransac_norm, norm_y, ax2, 'Post RANSAC')
-
-        ax1.hist2d(ref_x, sch_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-        ax2.hist2d(ref_x, norm_y, bins=500, cmap=plt.cm.jet, norm=colors.LogNorm())
-        ax1.set_title(f'{self.name} Signal vs Reference Brightness')
-        ax2.set_title(f'{self.name} Normalised Signal vs Reference Brightness')
-        ax1.set_ylabel('Signal value')
-        ax1.set_xlabel('Reference value')
-        ax2.set_xlabel('Reference value')
-        ax1.legend(loc='best')
-        ax2.legend(loc='best')
-        ax1.grid()
-        #ax1.set_ylim(-0,ylim)
-        #ax1.set_xlim(-10,525)
-        ax2.grid()
-        #ax2.set_ylim(top=ylim)
-        #ax2.set_xlim(-10,525)
-        btf.save(f'fluorescence_normalisation_{self.name}', as_type='png')
-
-        def normalisation_func(sig, ref):
-            return sig - (m*ref + c)
-        
         area_list = atlas.ravel()
         ch1 = foreg.ravel()
         ch2 = backg.ravel()
@@ -461,7 +354,7 @@ def validate_dimensions(dataset, atlas_25, display=False):
     if atlas_25:
         print('Warning: Dataset channel 1 is not in the same coordinate space as the 10um reference atlas. Cells being scaled up, but skipping dimension validation.')
     atlas_scaled = atlas * 2.5 if atlas_25 else atlas
-    dataset_scaled = dataset.ch1 * 2.5 if atlas_25 else dataset.ch1
+    dataset_scaled = dataset.transform * 2.5 if atlas_25 else dataset.transform
     im_sets = set_data_dims([atlas_scaled, dataset_scaled])
     
     if not atlas_25: ## TODO: make check work for 25um atlas

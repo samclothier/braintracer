@@ -7,10 +7,13 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 import plotly
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from mpl_toolkits.mplot3d import Axes3D
 from collections import Counter
 from matplotlib import colors
 from itertools import chain
 from matplotlib import cm
+from scipy import stats
 from vedo import embedWindow # for displaying bg-heatmaps
 embedWindow(None)
 
@@ -77,7 +80,7 @@ def generate_whole_fluorescence_plot(dataset=None, values=None):
 	title = 'Propagated Fluorescence Plot'
 	generate_custom_plot(indexes, title, ax)
 
-def generate_matrix_plot(depth, normalisation='presynaptics', ax=None):
+def generate_matrix_plot(depth, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False):
 	areas = bt.children_from('root', depth=depth)[1]
 	area_labels, _, _ = bt.get_area_info(areas)
 
@@ -90,25 +93,126 @@ def generate_matrix_plot(depth, normalisation='presynaptics', ax=None):
 	y_labels = [i.name for i in datasets]
 	dataset_cells, axis_title = _cells_in_areas_in_datasets(area_labels, datasets, normalisation=normalisation)
 	dataset_cells = np.array(dataset_cells)
-	from scipy import stats
-	dataset_cells = stats.zscore(dataset_cells, axis=0)
+	if div:
+		dataset_cells = dataset_cells / 100
+	if zscore:
+		dataset_cells = stats.zscore(dataset_cells, axis=0)
 
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 
-	if ax is None:
-		f, ax = plt.subplots(figsize=(35,6))
+	f, ax = plt.subplots(figsize=(35,6))
+	f.set_facecolor('white')
+	divider = make_axes_locatable(ax)
+	cax = divider.append_axes('right', size='5%', pad=0.05)
+	if covmat:
+		cov = np.corrcoef(dataset_cells, rowvar=rowvar)
+		if vbounds is None:
+			im = ax.matshow(cov, cmap='bwr')
+		else:
+			im = ax.matshow(cov, cmap='bwr', vmin=vbounds[0], vmax=vbounds[1])
+		if rowvar == 0:
+			ax.set_yticks(range(len(area_labels)))
+			ax.set_yticklabels(area_labels)
+			ax.set_xticks(range(len(area_labels)))
+			ax.set_xticklabels(area_labels, rotation=90)
+		elif rowvar == 1:
+			ax.set_yticks(range(len(y_labels)))
+			ax.set_yticklabels(y_labels)
+			ax.set_xticks(range(len(y_labels)))
+			ax.set_xticklabels(y_labels, rotation=90)
+			[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklines()) if i < len(datasets1)]
+			[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklabels()) if i < len(datasets1)]
+			[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklines()) if i >= len(datasets1)]
+			[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklabels()) if i >= len(datasets1)]
+			[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
+			[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
+			[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
+			[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
+	else:
+		if vbounds is None:
+			im = ax.matshow(dataset_cells, cmap='bwr')
+		else:
+			im = ax.matshow(dataset_cells, cmap='bwr', vmin=vbounds[0], vmax=vbounds[1])
+		ax.set_yticks(range(len(y_labels)))
+		ax.set_yticklabels(y_labels)
+		ax.set_xticks(range(len(area_labels)))
+		ax.set_xticklabels(area_labels, rotation=90)
+		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
+		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
+		[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
+		[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
+	f.colorbar(im, cax=cax, orientation='vertical')
+	ax.set_title(axis_title)
+
+def bin_3D_matrix(figsize, aspect='equal', vbounds=None, min_cells=3, cmap='Reds', covmat=False):
+	
+	def get_bin_size(dim, slices=False):
+		split = 500 # um
+		atlas_res = 10
+		if dim == 2: # z 1320
+			num_slices = len(bt.atlas)
+		elif dim == 1: # y 800
+			num_slices = bt.atlas[0].shape[0]
+		elif dim == 0: # x 1140
+			num_slices = bt.atlas[0].shape[1]
+		bin_size = int(split / atlas_res)
+		if slices: # return num bins
+			return len([i for i in range(0, num_slices + bin_size, bin_size)])
+		return range(0, num_slices + bin_size, bin_size)
+	x_bins, y_bins, z_bins = get_bin_size(0, slices=True), get_bin_size(1, slices=True), get_bin_size(2, slices=True)
+
+	group_names = [i.group for i in bt.datasets] # to order by group
+	groups = list(dict.fromkeys(group_names)) # get unique values 
+	datasets1 = [i for i in bt.datasets if i.group == groups[0]]
+	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
+	datasets = datasets1 + datasets2
+	y_labels = [i.name for i in datasets]
+
+	voxels = []
+	for d in datasets:
+		points = np.array(d.ch1_cells).T
+		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), normed=False)
+		cell_voxels = hist.flatten() # generates list of cell numbers within defined voxels
+		voxels.append(cell_voxels)
+	all_voxels = np.array(voxels)
+	print(all_voxels.shape)
+	voxels = all_voxels[:,~np.all(all_voxels < min_cells, axis=0)] # exclude voxels with no cells in any datasets
+	print(voxels.shape)
+
+	if not covmat:
+		f, ax = plt.subplots(figsize=figsize)
 		f.set_facecolor('white')
-		from mpl_toolkits.axes_grid1 import make_axes_locatable
+		divider = make_axes_locatable(ax)
+		cax = divider.append_axes('right', size='1%', pad=0.02)
+		if vbounds is None:
+			im = ax.matshow(voxels, aspect=aspect, cmap=cmap)
+		else:
+			im = ax.matshow(voxels, aspect=aspect, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
+		f.colorbar(im, cax=cax, orientation='vertical')
+		ax.set_title('Matrix of 500um voxels')
+		ax.set_yticks(range(len(y_labels)))
+		ax.set_yticklabels(y_labels)
+	else:
+		f, ax = plt.subplots(figsize=(8,8))
+		f.set_facecolor('white')
 		divider = make_axes_locatable(ax)
 		cax = divider.append_axes('right', size='5%', pad=0.05)
-		im = ax.matshow(np.array(dataset_cells), cmap='bwr', vmin=-3, vmax=3)
-		#ax.set_clim(3, 3)
+
+		cov = np.corrcoef(all_voxels, rowvar=1)
+		if vbounds is None:
+			im = ax.matshow(cov, cmap=cmap)
+		else:
+			im = ax.matshow(cov, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		f.colorbar(im, cax=cax, orientation='vertical')
-	ax.set_title(axis_title)
-	ax.set_yticks(range(len(y_labels)))
-	ax.set_yticklabels(y_labels)
-	ax.set_xticks(range(len(area_labels)))
-	ax.set_xticklabels(area_labels, rotation=90)
+		ax.set_title('Correlation matrix of 500um voxels')
+		ax.set_yticks(range(len(y_labels)))
+		ax.set_yticklabels(y_labels)
+		ax.set_xticks(range(len(y_labels)))
+		ax.set_xticklabels(y_labels, rotation=90)
+		[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklines()) if i < len(datasets1)]
+		[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklabels()) if i < len(datasets1)]
+		[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklines()) if i >= len(datasets1)]
+		[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklabels()) if i >= len(datasets1)]
 	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
 	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
 	[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]

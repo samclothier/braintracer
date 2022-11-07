@@ -5,8 +5,10 @@ import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
 from bs4 import BeautifulSoup
+import glob
+from tqdm.notebook import tqdm
 
-script_dir = os.getcwd() #path.dirname(os.path.abspath(__file__)) #<-- absolute dir the script is in
+script_dir = os.getcwd() #<-- absolute dir the script is in
 atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name):
@@ -18,6 +20,8 @@ def _get_path(file_name):
         child_dir = 'braintracer\\ground_truth'
     elif file_name.startswith('structures'):
         child_dir = 'braintracer'
+    elif file_name.startswith('atlas'):
+        child_dir = 'braintracer\\registered_atlases'
     else:
         print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
         return None
@@ -82,6 +86,23 @@ def open_file(name, atlas_25=False): # open files
         print('Unexpected file extension')
         return None
 
+def open_transformed_brain(dataset):
+    name = dataset.name
+    path = os.path.join(script_dir, name+'\\'+'transform\\*')
+    files = glob.glob(path)
+    return files
+    """
+    transform = np.load(files[0]) # open the first image
+    print(f'Dataset size: {transform.shape}, {len(files)})')
+    print(f'Loading {name} transformed stack from {path}')
+    for i in tqdm(range(len(files))):
+        if i != 0:
+            im = np.load(files[i])
+            transform = np.concatenate([transform, im])
+    print(transform.shape)
+    return transform
+    """
+
 def get_atlas():
     global atlas
     return np.array(atlas.annotation)
@@ -95,7 +116,7 @@ def get_lookup_df():
     df = df.set_index('id')
     return df
 
-def save(file_name, as_type):
+def save(file_name, as_type, dpi=600):
     if file_name.startswith('injection_'):
         dir_name = 'braintracer/TRIO/'
     elif file_name.startswith('fluorescence_'):
