@@ -16,6 +16,8 @@ from matplotlib import cm
 from scipy import stats
 from vedo import embedWindow # for displaying bg-heatmaps
 embedWindow(None)
+from scipy.spatial.distance import pdist, squareform
+from fastcluster import linkage
 
 def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=False, l_space=None, b_space=None):
 	if ax is None:
@@ -46,8 +48,7 @@ def generate_summary_plot(ax=None):
 	area_labels, _, _ = bt.get_area_info(summary_areas)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
-		dataset_cells = _fluorescence_by_area_across_fl_datasets(summary_areas, datasets)
-		axis_title = 'Mean-normalised true fluorescence'
+		dataset_cells, axis_title = _fluorescence_by_area_across_fl_datasets(summary_areas, datasets, normalisation='ch1')
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
@@ -62,37 +63,125 @@ def generate_summary_plot(ax=None):
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title='Whole brain', horizontal=True, l_space=0.2)
 
-def generate_custom_plot(area_names, title, normalisation='presynaptics', ax=None):
+def generate_custom_plot(area_names, title, normalisation='presynaptics', flr_log=False, horizontal=True, ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
 	if bt.fluorescence:
 		datasets = [i for i in bt.datasets if i.fluorescence]
-		dataset_cells = _fluorescence_by_area_across_fl_datasets(area_names, datasets)
-		axis_title = 'Mean-normalised true fluorescence'
+		dataset_cells, axis_title = _fluorescence_by_area_across_fl_datasets(area_names, datasets, normalisation=normalisation, log=flr_log)
 	else:
 		datasets = [i for i in bt.datasets if not i.fluorescence]
 		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_names, datasets, normalisation=normalisation)
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
-	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=True, l_space=0.35)
+	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=horizontal, l_space=0.35)
 
 def generate_whole_fluorescence_plot(dataset=None, values=None):
 	indexes = list(bt.area_indexes.index)
 	f, ax = plt.subplots(figsize=(10,100))
 	title = 'Propagated Fluorescence Plot'
-	generate_custom_plot(indexes, title, ax)
+	generate_custom_plot(indexes, title, flr_log=True, ax=ax)
 
-def generate_matrix_plot(depth, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False):
-	areas = bt.children_from('root', depth=depth)[1]
-	area_labels, _, _ = bt.get_area_info(areas)
+def seriation(Z,N,cur_index):
+    '''
+        input:
+            - Z is a hierarchical tree (dendrogram)
+            - N is the number of points given to the clustering process
+            - cur_index is the position in the tree for the recursive traversal
+        output:
+            - order implied by the hierarchical tree Z
+            
+        seriation computes the order implied by a hierarchical tree (dendrogram)
+    '''
+    if cur_index < N:
+        return [cur_index]
+    else:
+        left = int(Z[cur_index-N,0])
+        right = int(Z[cur_index-N,1])
+        return (seriation(Z,N,left) + seriation(Z,N,right))
+    
+def compute_serial_matrix(dist_mat,method="ward"):
+    '''
+        input:
+            - dist_mat is a distance matrix
+            - method = ["ward","single","average","complete"]
+        output:
+            - seriated_dist is the input dist_mat,
+              but with re-ordered rows and columns
+              according to the seriation, i.e. the
+              order implied by the hierarchical tree
+            - res_order is the order implied by
+              the hierarhical tree
+            - res_linkage is the hierarhical tree (dendrogram)
+        
+        compute_serial_matrix transforms a distance matrix into 
+        a sorted distance matrix according to the order implied 
+        by the hierarchical tree (dendrogram)
+    '''
+    N = len(dist_mat)
+    flat_dist_mat = dist_mat #squareform(dist_mat)
+    res_linkage = linkage(flat_dist_mat, method=method,preserve_input=True)
+    res_order = seriation(res_linkage, N, N + N-2)
+    seriated_dist = np.zeros((N,N))
+    a,b = np.triu_indices(N,k=1)
+    seriated_dist[a,b] = dist_mat[ [res_order[i] for i in a], [res_order[j] for j in b]]
+    seriated_dist[b,a] = seriated_dist[a,b]
+    
+    return seriated_dist, res_order, res_linkage
 
+def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore=None, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False, order_method=None, cmap='bwr', figsize=(35,6), aspect='equal'):
+	if areas is None and depth is not None:
+		area_idxs = bt.children_from('root', depth=depth)[1]
+	if areas is None and depth is None:
+		area_idxs = bt.children_from('root', depth=0)[1] # get all children and remove the ignored regions
+		for i in ignore:
+			try:
+				area_idxs.remove(i)
+			except (ValueError, TypeError):
+				print(f'Warning: Could not remove area index')
+	if areas is not None and depth is None:
+		area_idxs = areas
+	
 	group_names = [i.group for i in bt.datasets] # to order by group
 	groups = list(dict.fromkeys(group_names)) # get unique values 
 	datasets1 = [i for i in bt.datasets if i.group == groups[0]]
 	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
 	datasets = datasets1 + datasets2
-
 	y_labels = [i.name for i in datasets]
-	dataset_cells, axis_title = _cells_in_areas_in_datasets(area_labels, datasets, normalisation=normalisation)
+
+	area_labels = np.array(bt.get_area_info(area_idxs)[0])
+	if bt.fluorescence:
+		dataset_cells, axis_title = _fluorescence_by_area_across_fl_datasets(area_labels, datasets, normalisation=normalisation)
+	else:
+		dataset_cells, axis_title = _cells_in_areas_in_datasets(area_labels, datasets, normalisation=normalisation)
 	dataset_cells = np.array(dataset_cells)
+
+	if areas is None:
+		summed = np.sum(dataset_cells, axis=0) # delete columns where mean is below threshold
+		averaged = summed / dataset_cells.shape[0]
+		idxs_to_remove = np.where(averaged <= threshold)[0]
+		dataset_cells = np.delete(dataset_cells, idxs_to_remove, axis=1)
+		area_labels = np.delete(area_labels, idxs_to_remove)
+		area_idxs = np.delete(area_idxs, idxs_to_remove) # also remove idxs so sort can work
+
+	if sort is True:
+		#col_sorter = np.sum(dataset_cells, axis=0).argsort()[::-1] # sort columns by sum
+		#dataset_cells, area_labels = dataset_cells[:,col_sorter], area_labels[col_sorter]
+		new_labels = np.array([])
+		new_matrix = []
+		sorted_already = np.array([])
+		for i in area_idxs:
+			if i not in sorted_already:
+				children = bt.children_from(i, depth=0)[1]
+				present_children = [i for i in area_idxs if i in children and i not in sorted_already]
+				print(i, present_children)
+				paired_arr = np.append(i, present_children)
+				new_labels = np.append(new_labels, paired_arr)
+				sorted_already = np.append(sorted_already, paired_arr)
+				for index in paired_arr:
+					i = np.where(area_idxs == index)[0]
+					new_matrix.append(list(dataset_cells[:,i].flatten()))
+		area_labels = bt.get_area_info(new_labels.astype(int))[0]
+		dataset_cells = np.array(new_matrix).T
+
 	if div:
 		dataset_cells = dataset_cells / 100
 	if zscore:
@@ -100,16 +189,18 @@ def generate_matrix_plot(depth, vbounds=None, normalisation='presynaptics', covm
 
 	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
 
-	f, ax = plt.subplots(figsize=(35,6))
+	f, ax = plt.subplots(figsize=figsize)
 	f.set_facecolor('white')
 	divider = make_axes_locatable(ax)
 	cax = divider.append_axes('right', size='5%', pad=0.05)
 	if covmat:
 		cov = np.corrcoef(dataset_cells, rowvar=rowvar)
+		if order_method is not None:
+			cov, res_order, res_linkage = compute_serial_matrix(cov,order_method)
 		if vbounds is None:
-			im = ax.matshow(cov, cmap='bwr')
+			im = ax.matshow(cov, aspect=aspect, cmap=cmap)
 		else:
-			im = ax.matshow(cov, cmap='bwr', vmin=vbounds[0], vmax=vbounds[1])
+			im = ax.matshow(cov, aspect=aspect, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		if rowvar == 0:
 			ax.set_yticks(range(len(area_labels)))
 			ax.set_yticklabels(area_labels)
@@ -130,13 +221,14 @@ def generate_matrix_plot(depth, vbounds=None, normalisation='presynaptics', covm
 			[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
 	else:
 		if vbounds is None:
-			im = ax.matshow(dataset_cells, cmap='bwr')
+			im = ax.matshow(dataset_cells, aspect=aspect, cmap=cmap)
 		else:
-			im = ax.matshow(dataset_cells, cmap='bwr', vmin=vbounds[0], vmax=vbounds[1])
+			im = ax.matshow(dataset_cells, aspect=aspect, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		ax.set_yticks(range(len(y_labels)))
 		ax.set_yticklabels(y_labels)
 		ax.set_xticks(range(len(area_labels)))
-		ax.set_xticklabels(area_labels, rotation=90)
+		ax.set_xticklabels(area_labels, rotation=135, ha='left')
+		ax.tick_params(axis="x", bottom=True, top=False, labelbottom=True, labeltop=False)
 		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
 		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
 		[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
@@ -144,10 +236,9 @@ def generate_matrix_plot(depth, vbounds=None, normalisation='presynaptics', covm
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_matrix(figsize, aspect='equal', vbounds=None, min_cells=3, cmap='Reds', covmat=False):
+def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbounds=None, threshold=1, order_method=None, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
 	
 	def get_bin_size(dim, slices=False):
-		split = 500 # um
 		atlas_res = 10
 		if dim == 2: # z 1320
 			num_slices = len(bt.atlas)
@@ -155,7 +246,7 @@ def bin_3D_matrix(figsize, aspect='equal', vbounds=None, min_cells=3, cmap='Reds
 			num_slices = bt.atlas[0].shape[0]
 		elif dim == 0: # x 1140
 			num_slices = bt.atlas[0].shape[1]
-		bin_size = int(split / atlas_res)
+		bin_size = int(binsize / atlas_res)
 		if slices: # return num bins
 			return len([i for i in range(0, num_slices + bin_size, bin_size)])
 		return range(0, num_slices + bin_size, bin_size)
@@ -170,14 +261,24 @@ def bin_3D_matrix(figsize, aspect='equal', vbounds=None, min_cells=3, cmap='Reds
 
 	voxels = []
 	for d in datasets:
-		points = np.array(d.ch1_cells).T
-		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), normed=False)
+		if area_num is None:
+			points = np.array(d.ch1_cells).T
+		else:
+			points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
+		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
 		cell_voxels = hist.flatten() # generates list of cell numbers within defined voxels
 		voxels.append(cell_voxels)
 	all_voxels = np.array(voxels)
+
 	print(all_voxels.shape)
-	voxels = all_voxels[:,~np.all(all_voxels < min_cells, axis=0)] # exclude voxels with no cells in any datasets
+	summed = np.sum(all_voxels, axis=0) # delete columns where mean is below threshold
+	averaged = summed / all_voxels.shape[0]
+	idxs_to_remove = np.where(averaged <= threshold)[0]
+	voxels = np.delete(all_voxels, idxs_to_remove, axis=1)
 	print(voxels.shape)
+
+	if zscore:
+		voxels = stats.zscore(voxels, axis=0)
 
 	if not covmat:
 		f, ax = plt.subplots(figsize=figsize)
@@ -189,22 +290,36 @@ def bin_3D_matrix(figsize, aspect='equal', vbounds=None, min_cells=3, cmap='Reds
 		else:
 			im = ax.matshow(voxels, aspect=aspect, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		f.colorbar(im, cax=cax, orientation='vertical')
-		ax.set_title('Matrix of 500um voxels')
+		ax.set_title(f'Matrix of {binsize} um voxels')
 		ax.set_yticks(range(len(y_labels)))
 		ax.set_yticklabels(y_labels)
 	else:
-		f, ax = plt.subplots(figsize=(8,8))
+		f, ax = plt.subplots(figsize=figsize)
 		f.set_facecolor('white')
 		divider = make_axes_locatable(ax)
 		cax = divider.append_axes('right', size='5%', pad=0.05)
 
 		cov = np.corrcoef(all_voxels, rowvar=1)
+		if order_method is not None:
+			d1b, d2b = len(datasets1), len(datasets2)
+			print(d1b, d2b)
+			mat1 = cov[:d1b,:d1b]
+			mat2 = cov[d1b:,d1b:]
+			mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1,order_method)
+			mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2,order_method)
+			print(res_order1, res_order2)
+			res_order2 = list(np.array(res_order2) + d1b)
+			res_order = res_order1 + res_order2
+			print(res_order)
+			sorted_mat = cov[res_order,:]
+			cov = sorted_mat[:,res_order]
+			y_labels = list(np.array(y_labels)[res_order])
 		if vbounds is None:
 			im = ax.matshow(cov, cmap=cmap)
 		else:
 			im = ax.matshow(cov, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		f.colorbar(im, cax=cax, orientation='vertical')
-		ax.set_title('Correlation matrix of 500um voxels')
+		ax.set_title(f'Correlation matrix of {binsize} um voxels')
 		ax.set_yticks(range(len(y_labels)))
 		ax.set_yticklabels(y_labels)
 		ax.set_xticks(range(len(y_labels)))
@@ -284,8 +399,7 @@ def generate_heatmap_comparison(areas, orientation, position=None, normalisation
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	group_names = [i.group for i in bt.datasets]
 	if bt.fluorescence:
-		values = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets)
-		cbar_label = 'Mean normalised fluorescence'
+		values, cbar_label = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets, normalisation=normalisation)
 	else:
 		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
@@ -299,8 +413,7 @@ def generate_heatmap_difference(areas, orientation, position=None, normalisation
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	group_names = [i.group for i in bt.datasets]
 	if bt.fluorescence:
-		values = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets)
-		cbar_label = 'Mean normalised fluorescence'
+		values, cbar_label = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets, normalisation=normalisation)
 	else:
 		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
@@ -316,8 +429,7 @@ def generate_heatmap_difference(areas, orientation, position=None, normalisation
 def generate_heatmap(dataset, orientation='sagittal', vmax=None, position=None, normalisation='ch1', cmap='Reds', legend=True):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN','IO']
 	if dataset.fluorescence:
-		values = _fluorescence_by_area_across_fl_datasets(summary_areas, [dataset])
-		cbar_label = 'Mean normalised fluorescence'
+		values, cbar_label = _fluorescence_by_area_across_fl_datasets(summary_areas, [dataset], normalisation=normalisation)
 	else:
 		values, cbar_label = _cells_in_areas_in_datasets(summary_areas, [dataset], normalisation=normalisation)
 	regions = dict(zip(summary_areas, np.array(values[0]).T))
@@ -346,11 +458,11 @@ def generate_slice_heatmap(position, normalisation='ch1', depth=3):
 	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 
-def generate_brain_overview(dataset, vmin=5, top_down=False, ax=None):
+def generate_brain_overview(dataset, vmin=5, top_down=False, cmap='gray', ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(10,6))
 		f.set_facecolor('white')
-	stack = dataset.ch1
+	stack = np.array(btf.open_file(f'reg_{dataset.name}_{dataset.sig[0]}.tiff'))[0]
 	'''
 	nz = np.nonzero(stack)
 	z_min, y_min, x_min = nz[0].min(), nz[1].min(), nz[2].min()
@@ -362,7 +474,7 @@ def generate_brain_overview(dataset, vmin=5, top_down=False, ax=None):
 	axis = 1 if top_down else 2
 	projection = np.log(stack.max(axis=axis))
 	projection = projection.astype(int).T
-	im = ax.imshow(projection, vmin=vmin, cmap='gray')
+	im = ax.imshow(projection, vmin=vmin, cmap=cmap)
 	f.colorbar(im, label='log max px value along axis')
 	plt.axis('off')
 
@@ -409,16 +521,16 @@ def generate_mega_overview_figure(title):
 		generate_zoom_plot(summary_areas[idx], threshold=0.1, ax=ax)
 	generate_zoom_plot(summary_areas[-1], depth=1, threshold=0, ax=ax10)
 
-def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, s=2, contour=True):
+def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=None, colours=['r','g'], s=2, contour=True, legend=True):
 	group1, group2 = __get_bt_groups()
-	f, axs = plt.subplots(2, 2, figsize=(12,9), sharex=True)
+	f, axs = plt.subplots(2, 2, figsize=(12,9), sharex=False)
 	f.set_facecolor('white')
 	plt.rcParams['grid.color'] = (0.5, 0.5, 0.5, 0.1)
 	for dataset in bt.datasets:
 		xax = 0 if dataset.group == group1 else 1
-		x, y, z = bt._project(axs[0,xax], dataset, area, padding, ch1, s, contour, all_cells=include_surrounding)
+		x, y, z = bt._project(axs[0,xax], dataset, area, padding, ch1, s, contour, colours=colours, all_cells=include_surrounding)
 		f.suptitle(f'Cell distribution in {area} where x={x}, y={y}, z={z} across '+'_'.join([i.name for i in bt.datasets]))
-		bt._project(axs[1,xax], dataset, area, padding, ch1, s, contour, axis=1, all_cells=include_surrounding)
+		bt._project(axs[1,xax], dataset, area, padding, ch1, s, contour, axis=1, colours=colours, all_cells=include_surrounding)
 	axs[0,0].set_title(f'Cells inside {group1} datasets')
 	axs[0,1].set_title(f'Cells inside {group2} datasets')
 	axs[0,0].set_ylabel('Y axis distance from dorsal end of region / px')
@@ -429,8 +541,9 @@ def generate_projection_plot(area, include_surrounding=False, padding=10, ch1=No
 			ax.invert_yaxis()
 			ax.grid()
 	f.tight_layout()
-	_display_legend_subset(axs[0,0], (0,1,))
-	_display_legend_subset(axs[0,1], (0,1,))
+	if legend:
+		_display_legend_subset(axs[0,0], (0,1,))
+		_display_legend_subset(axs[0,1], (0,1,))
 	
 def _generate_starter_validation_plot(padding=10, ch1=None, s=2, contour=True):
 	area = bt.starter_region
@@ -492,10 +605,11 @@ def generate_starter_cell_plot(ax=None):
 	else:
 		ax.set(ylabel=f'Starter cells in {bt.starter_region} (ch1={bt.starter_ch1})')
 
-def generate_starter_cell_scatter(exclude_from_fit=[], ax=None):
+def generate_starter_cell_scatter(exclude_from_fit=[], use_manual_count=False, show_extras=True, ax=None):
 	# exclude_from_fit: list of ints referring to indexes of datasets in bt.datasets
-	for dataset in bt.datasets:
-		dataset.true_postsynaptics = None # ensure this is reset for each new calculation
+	if not use_manual_count:
+		for dataset in bt.datasets:
+			dataset.true_postsynaptics = None # ensure this is reset for each new calculation
 	if ax is None:
 		f, ax = plt.subplots(figsize=(6,6))
 		f.set_facecolor('white')
@@ -525,7 +639,8 @@ def generate_starter_cell_scatter(exclude_from_fit=[], ax=None):
 	ax.plot(line_X, p(line_X), 'k')
 	for idx, cells in enumerate(presynaptics):
 		bt.datasets[idx].true_postsynaptics = p(cells) # set true presynaptics value
-	ax.scatter(presynaptics, p(presynaptics), c='gray')
+	if show_extras:
+		ax.scatter(presynaptics, p(presynaptics), c='gray')
 	print(f'{presynaptics[0]/p(presynaptics[0])} inputs per {bt.starter_region} neuron.')
 
 	for i, name in enumerate(dataset_names):
@@ -555,13 +670,26 @@ def _cells_in_areas_in_datasets(areas, datasets, normalisation='presynaptics'):
 		cells_list.append(cells)
 	return cells_list, axis_title
 
-def _fluorescence_by_area_across_fl_datasets(areas, datasets):
+def _fluorescence_by_area_across_fl_datasets(areas, datasets, normalisation='presynaptics', log=False):
 	normalised_area_fluorescence_fl_datasets = []
 	for dataset in datasets:
-		area_values = dataset.get_average_fluorescence(areas)
-		area_values = list(map(lambda x: x / dataset.get_average_fluorescence(['CBX'])[0], area_values))
+		area_values = dataset.get_tot_fluorescence(areas)
+		def do_norm_to_none(area_values):
+			axis_title = '# pixels'
+			if log:
+				area_values = list(map(lambda x: np.log(x), area_values))
+				axis_title = 'log(# pixels)'
+			return axis_title, area_values
+		if normalisation == None:
+			axis_title, area_values = do_norm_to_none(area_values)
+		elif normalisation == 'ch1':
+			axis_title = '% pixels'
+			area_values = list(map(lambda x: (x / dataset.get_tot_fluorescence(['root'])[0]) * 100, area_values))
+		else:
+			print(f'Normalisation set to {normalisation}, defaulting to None')
+			axis_title, area_values = do_norm_to_none(area_values)
 		normalised_area_fluorescence_fl_datasets.append(area_values)
-	return normalised_area_fluorescence_fl_datasets
+	return normalised_area_fluorescence_fl_datasets, axis_title
 
 def _prep_for_sns(area_names, dataset_names, dataset_cells):
 	#area_names = list(chain.from_iterable(area_names))
@@ -639,7 +767,7 @@ def get_stats_df(areas, normalisation='postsynaptics'):
 	if not bt.fluorescence:
 		dataset_cells, _ = _cells_in_areas_in_datasets(areas, datasets, normalisation=normalisation)
 	else:
-		dataset_cells = _fluorescence_by_area_across_fl_datasets(areas, datasets)
+		dataset_cells, _ = _fluorescence_by_area_across_fl_datasets(areas, datasets, normalisation=normalisation)
 	dataset_groups = [i.group for i in bt.datasets]
 
 	num_datasets = len(datasets)
