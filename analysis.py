@@ -1,9 +1,10 @@
+import pickle, time, cv2
 import braintracer.file_management as btf
 import braintracer.plotting as btp
 import matplotlib.pyplot as plt
+import shortuuid as uid
 import pandas as pd
 import numpy as np
-import pickle
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
 from IPython.display import clear_output
 from sklearn import linear_model
@@ -321,6 +322,35 @@ class Dataset:
         f, ax = plt.subplots(figsize=figsize)
         ax.imshow(binary_proj)
         plt.imsave(f'olive_proj_{self.name}.jpeg', binary_proj, cmap=cm.gray)
+
+    def show_slice_sequence(self, region, figsize=(10,6), save=False):
+        def bin_array(data, axis, binstep, binsize, func=np.nanmean):
+            data = np.array(data)
+            dims = np.array(data.shape)
+            argdims = np.arange(data.ndim)
+            argdims[0], argdims[axis]= argdims[axis], argdims[0]
+            data = data.transpose(argdims)
+            data = [func(np.take(data,np.arange(int(i*binstep),int(i*binstep+binsize)),0),0) for i in np.arange(dims[axis]//binstep)]
+            data = np.array(data).transpose(argdims)
+            return data
+        
+        start, end = region
+        subtracted_stack_files = btf.open_transformed_brain(self)
+        seq_id = uid.uuid()
+        
+        for i in tqdm(range(start, end)):
+            im = np.load(subtracted_stack_files[i])
+            im = im.astype(int)
+            res = bin_array(im, 0, 25, 25, func=np.sum)
+            res = bin_array(res, 1, 25, 25, func=np.sum)
+
+            clear_output(wait=True)
+            plt.show()
+            plt.figure(figsize=figsize)
+            plt.axis('off')
+            plt.imshow(res, cmap='binary', vmin=0, vmax=625)
+            if save:
+                btf.save(f'video_{self.name}_frame_{i}', as_type='png', dpi=80, vID=seq_id)
 
     def get_tot_fluorescence(self, area_idxs):
         if any(n < 0 for n in self.flr_by_area):

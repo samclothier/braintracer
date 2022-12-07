@@ -1,12 +1,12 @@
-import os, sys, imageio
+import os, sys, imageio, cv2, glob, contextlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
-from bs4 import BeautifulSoup
-import glob
 from tqdm.notebook import tqdm
+from bs4 import BeautifulSoup
+from PIL import Image
 
 script_dir = os.getcwd() #<-- absolute dir the script is in
 atlas = BrainGlobeAtlas('allen_mouse_10um')
@@ -91,17 +91,6 @@ def open_transformed_brain(dataset):
     path = os.path.join(script_dir, name+'\\'+'transform\\*')
     files = glob.glob(path)
     return files
-    """
-    transform = np.load(files[0]) # open the first image
-    print(f'Dataset size: {transform.shape}, {len(files)})')
-    print(f'Loading {name} transformed stack from {path}')
-    for i in tqdm(range(len(files))):
-        if i != 0:
-            im = np.load(files[i])
-            transform = np.concatenate([transform, im])
-    print(transform.shape)
-    return transform
-    """
 
 def get_atlas():
     global atlas
@@ -116,11 +105,14 @@ def get_lookup_df():
     df = df.set_index('id')
     return df
 
-def save(file_name, as_type, dpi=600):
+def save(file_name, as_type, dpi=600, vID=None):
     if file_name.startswith('injection_'):
         dir_name = 'braintracer/TRIO/'
     elif file_name.startswith('fluorescence_'):
         dir_name = 'braintracer/fluorescence/'
+    elif file_name.startswith('video_'):
+        assert vID is not None, 'video ID variable must be supplied for saving video frames'
+        dir_name = f'braintracer/videos/{file_name.split("_")[1]}_{vID}/'
     else:
         dir_name = 'braintracer/figures/'
     dir_path = os.path.join(script_dir, dir_name)
@@ -129,13 +121,48 @@ def save(file_name, as_type, dpi=600):
     file_name = dir_path + file_name
 
     if as_type == 'png':
-        plt.savefig(f'{file_name}.png', dpi=600, bbox_inches='tight')
+        if vID is None:
+            plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight')
+        else:
+            plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight', pad_inches=0)
     elif as_type == 'jpg':
-        plt.savefig(f'{file_name}.jpg', dpi=600, bbox_inches='tight')
+        plt.savefig(f'{file_name}.jpg', dpi=dpi, bbox_inches='tight')
     elif as_type == 'pdf':
         pp = PdfPages(f'{file_name}.pdf')
         pp.savefig()
         pp.close()
+
+def create_video(dataset_name, vID, fps=30):
+    dir_name = f'braintracer/videos/{dataset_name}_{vID}/'
+    dir_path = os.path.join(script_dir, dir_name)
+    video_name = f'video_{dataset_name}_{vID}_{fps}fps.avi'
+
+    images = [img for img in os.listdir(dir_path) if img.endswith(".png")]
+    frame = cv2.imread(os.path.join(dir_path, images[0]))
+    height, width, layers = frame.shape
+
+    video = cv2.VideoWriter(f'braintracer/videos/{video_name}', 0, fps, (width,height))
+
+    for image in images:
+        video.write(cv2.imread(os.path.join(dir_path, image)))
+
+    cv2.destroyAllWindows()
+    video.release()
+
+def create_gif(dataset_name, vID, fps=30):
+    fp_in = f'/braintracer/videos/{dataset_name}_{vID}/video_*.png'
+    fp_out = f'/braintracer/videos/video_{dataset_name}_{vID}_{fps}fps.gif'
+
+    # use exit stack to automatically close opened images
+    with contextlib.ExitStack() as stack:
+        # lazily load images
+        imgs = (stack.enter_context(Image.open(f))
+                for f in sorted(glob.glob(fp_in)))
+        # extract  first image from iterator
+        img = next(imgs)
+        # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
+        img.save(fp=fp_out, format='GIF', append_images=imgs,
+                 save_all=True, duration=int((1/fps)*1000), loop=0)
 
 class HiddenPrints:
     def __enter__(self):

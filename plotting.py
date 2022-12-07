@@ -1,3 +1,4 @@
+import plotly
 import braintracer.file_management as btf
 import braintracer.analysis as bt
 import matplotlib.pyplot as plt
@@ -6,7 +7,6 @@ import bgheatmaps as bgh
 import seaborn as sns
 import pandas as pd
 import numpy as np
-import plotly
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 from collections import Counter
@@ -270,15 +270,15 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 		voxels.append(cell_voxels)
 	all_voxels = np.array(voxels)
 
-	print(all_voxels.shape)
 	summed = np.sum(all_voxels, axis=0) # delete columns where mean is below threshold
 	averaged = summed / all_voxels.shape[0]
 	idxs_to_remove = np.where(averaged <= threshold)[0]
+	print(f'{len(idxs_to_remove)} voxels removed by threshold={threshold}, unless showing correlation matrix.')
 	voxels = np.delete(all_voxels, idxs_to_remove, axis=1)
-	print(voxels.shape)
 
 	if zscore:
 		voxels = stats.zscore(voxels, axis=0)
+		all_voxels = stats.zscore(all_voxels, axis=0)
 
 	if not covmat:
 		f, ax = plt.subplots(figsize=figsize)
@@ -302,15 +302,14 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 		cov = np.corrcoef(all_voxels, rowvar=1)
 		if order_method is not None:
 			d1b, d2b = len(datasets1), len(datasets2)
-			print(d1b, d2b)
+			print(f'Group 1: {d1b}, Group 2: {d2b}')
 			mat1 = cov[:d1b,:d1b]
 			mat2 = cov[d1b:,d1b:]
-			mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1,order_method)
-			mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2,order_method)
-			print(res_order1, res_order2)
+			mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1, order_method)
+			mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2, order_method)
 			res_order2 = list(np.array(res_order2) + d1b)
 			res_order = res_order1 + res_order2
-			print(res_order)
+			print(f'Sorted order: {res_order}')
 			sorted_mat = cov[res_order,:]
 			cov = sorted_mat[:,res_order]
 			y_labels = list(np.array(y_labels)[res_order])
@@ -419,6 +418,23 @@ def generate_heatmap_difference(areas, orientation, position=None, normalisation
 	groups, cells = _compress_into_groups(group_names, values)
 	cells = np.array(cells)
 	differences = cells[0] - cells[1]
+	bounds = np.abs(differences).max()
+	regions = dict(zip(areas, differences))
+	cbar_label = 'LS - LV inputs / postsynaptic cell'
+	if limit is not None:
+		bounds = np.abs(limit)
+	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+
+def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None):
+	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
+	group_names = [i.group for i in bt.datasets]
+	if bt.fluorescence:
+		values, cbar_label = _fluorescence_by_area_across_fl_datasets(areas, bt.datasets, normalisation=normalisation)
+	else:
+		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
+	groups, cells = _compress_into_groups(group_names, values)
+	cells = np.array(cells)
+	differences = np.log10(cells[0] / cells[1]) # calculate log ratio rather than absolute difference
 	bounds = np.abs(differences).max()
 	regions = dict(zip(areas, differences))
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
