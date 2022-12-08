@@ -19,6 +19,8 @@ embedWindow(None)
 from scipy.spatial.distance import pdist, squareform
 from fastcluster import linkage
 
+g1_clr, g2_clr = (0.902,0,0.494), (0.078,0.439,0.721)
+
 def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=False, l_space=None, b_space=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(8,6))
@@ -141,7 +143,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 		area_idxs = areas
 	
 	group_names = [i.group for i in bt.datasets] # to order by group
-	groups = list(dict.fromkeys(group_names)) # get unique values 
+	groups = __get_bt_groups()
 	datasets1 = [i for i in bt.datasets if i.group == groups[0]]
 	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
 	datasets = datasets1 + datasets2
@@ -211,14 +213,9 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 			ax.set_yticklabels(y_labels)
 			ax.set_xticks(range(len(y_labels)))
 			ax.set_xticklabels(y_labels, rotation=90)
-			[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklines()) if i < len(datasets1)]
-			[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklabels()) if i < len(datasets1)]
-			[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklines()) if i >= len(datasets1)]
-			[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklabels()) if i >= len(datasets1)]
-			[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
-			[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
-			[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
-			[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
+			colours = _colours_from_labels(y_labels)
+			[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
+			[t.set_color(colours[i]) for i, t in enumerate(ax.yaxis.get_ticklabels())]
 	else:
 		if vbounds is None:
 			im = ax.matshow(dataset_cells, aspect=aspect, cmap=cmap)
@@ -229,14 +226,12 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 		ax.set_xticks(range(len(area_labels)))
 		ax.set_xticklabels(area_labels, rotation=135, ha='left')
 		ax.tick_params(axis="x", bottom=True, top=False, labelbottom=True, labeltop=False)
-		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
-		[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
-		[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
-		[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
+		colours = _colours_from_labels(y_labels)
+		[t.set_color(colours[i]) for i, t in enumerate(ax.yaxis.get_ticklabels())]
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbounds=None, threshold=1, order_method=None, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
+def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbounds=None, threshold=1, order_method=None, blind_order=False, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
 	
 	def get_bin_size(dim, slices=False):
 		atlas_res = 10
@@ -253,7 +248,7 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 	x_bins, y_bins, z_bins = get_bin_size(0, slices=True), get_bin_size(1, slices=True), get_bin_size(2, slices=True)
 
 	group_names = [i.group for i in bt.datasets] # to order by group
-	groups = list(dict.fromkeys(group_names)) # get unique values 
+	groups = __get_bt_groups()
 	datasets1 = [i for i in bt.datasets if i.group == groups[0]]
 	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
 	datasets = datasets1 + datasets2
@@ -291,8 +286,6 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 			im = ax.matshow(voxels, aspect=aspect, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		f.colorbar(im, cax=cax, orientation='vertical')
 		ax.set_title(f'Matrix of {binsize} um voxels')
-		ax.set_yticks(range(len(y_labels)))
-		ax.set_yticklabels(y_labels)
 	else:
 		f, ax = plt.subplots(figsize=figsize)
 		f.set_facecolor('white')
@@ -301,16 +294,19 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 
 		cov = np.corrcoef(all_voxels, rowvar=1)
 		if order_method is not None:
-			d1b, d2b = len(datasets1), len(datasets2)
-			print(f'Group 1: {d1b}, Group 2: {d2b}')
-			mat1 = cov[:d1b,:d1b]
-			mat2 = cov[d1b:,d1b:]
-			mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1, order_method)
-			mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2, order_method)
-			res_order2 = list(np.array(res_order2) + d1b)
-			res_order = res_order1 + res_order2
+			if not blind_order:
+				d1b, d2b = len(datasets1), len(datasets2)
+				print(f'Group 1: {d1b}, Group 2: {d2b}')
+				mat1 = cov[:d1b,:d1b]
+				mat2 = cov[d1b:,d1b:] # split the matrix up into two sub-matrices
+				mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1, order_method)
+				mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2, order_method)
+				res_order2 = list(np.array(res_order2) + d1b) # offset dataset indexes
+				res_order = res_order1 + res_order2 # create final order array
+			else:
+				mat, res_order, res_linkage = compute_serial_matrix(cov, order_method)
 			print(f'Sorted order: {res_order}')
-			sorted_mat = cov[res_order,:]
+			sorted_mat = cov[res_order,:] # sort both axes of the matrix by the computed order
 			cov = sorted_mat[:,res_order]
 			y_labels = list(np.array(y_labels)[res_order])
 		if vbounds is None:
@@ -319,18 +315,19 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 			im = ax.matshow(cov, cmap=cmap, vmin=vbounds[0], vmax=vbounds[1])
 		f.colorbar(im, cax=cax, orientation='vertical')
 		ax.set_title(f'Correlation matrix of {binsize} um voxels')
-		ax.set_yticks(range(len(y_labels)))
-		ax.set_yticklabels(y_labels)
 		ax.set_xticks(range(len(y_labels)))
 		ax.set_xticklabels(y_labels, rotation=90)
-		[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklines()) if i < len(datasets1)]
-		[t.set_color('magenta') for i, t in enumerate(ax.xaxis.get_ticklabels()) if i < len(datasets1)]
-		[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklines()) if i >= len(datasets1)]
-		[t.set_color('blue') 	for i, t in enumerate(ax.xaxis.get_ticklabels()) if i >= len(datasets1)]
-	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklines()) if i < len(datasets1)]
-	[t.set_color('magenta') for i, t in enumerate(ax.yaxis.get_ticklabels()) if i < len(datasets1)]
-	[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklines()) if i >= len(datasets1)]
-	[t.set_color('blue') 	for i, t in enumerate(ax.yaxis.get_ticklabels()) if i >= len(datasets1)]
+	ax.set_yticks(range(len(y_labels)))
+	ax.set_yticklabels(y_labels)
+	colours = _colours_from_labels(y_labels)
+	if covmat:
+		[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
+	[t.set_color(colours[i]) for i, t in enumerate(ax.yaxis.get_ticklabels())]
+
+def _colours_from_labels(names):
+	datasets = [next((d for d in bt.datasets if d.name==i), None) for i in names] # get datasets by ordered labels
+	groups = [i.group for i in datasets] # get their groups and return list of row/column label colours
+	return list(map(lambda x: g1_clr if x == __get_bt_groups()[0] else g2_clr, groups)) # list of colours
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
@@ -637,13 +634,8 @@ def generate_starter_cell_scatter(exclude_from_fit=[], use_manual_count=False, s
 		postsynaptics = [i.postsynaptics() for i in bt.datasets] # CB brightness
 		presynaptics = np.array([i.presynaptics() for i in bt.datasets]) # non CB brightness
 	assert len(postsynaptics) == len(presynaptics), 'Starter cells and total cells must be fetchable for all datasets.'
-	def map_colours_onto_scatter():
-		group_names = [i.group for i in bt.datasets]
-		groups = list(dict.fromkeys(group_names)) # get unique values
-		c_map = {groups[0]: (0.902,0,0.494), groups[1]: (0.078,0.439,0.721)}
-		c = [c_map[i.group] for i in bt.datasets]
-		return c
-	ax.scatter(presynaptics, postsynaptics, c=map_colours_onto_scatter())
+
+	ax.scatter(presynaptics, postsynaptics, c=_colours_from_labels(dataset_names))
 
 	postsynaptics_to_fit = [ele for idx, ele in enumerate(postsynaptics) if idx not in exclude_from_fit]
 	presynaptics_to_fit = [ele for idx, ele in enumerate(presynaptics) if idx not in exclude_from_fit]
@@ -721,7 +713,7 @@ def _prep_for_sns(area_names, dataset_names, dataset_cells):
 	return names, datasets, cells
 
 def _compress_into_groups(group_names, dataset_cells):
-	groups = list(dict.fromkeys(group_names)) # get unique values
+	groups = __get_bt_groups()
 	group_counter = Counter(group_names)
 	group1 = []
 	group2 = []
@@ -770,11 +762,11 @@ def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title,
 	area_name, dataset_name, dataset_cell = _group_points(names, pre_compressed_dataset_cells, group_names)
 	points_df = pd.DataFrame(zip(area_name, dataset_name, dataset_cell), columns=titles)
 	if is_horizontal:
-		sns.barplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], data=df, ax=ax)
-		sns.stripplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
+		sns.barplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], data=df, ax=ax)
+		sns.stripplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
 	else:
-		sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], data=df, ax=ax)
-		sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[(0.902,0,0.494),(0.078,0.439,0.721)], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
+		sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], data=df, ax=ax)
+		sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
 	_display_legend_subset(ax, (2,3))
 	return df
 
@@ -806,11 +798,6 @@ def _display_legend_subset(ax, idx_tup):
 				[label for i,label in enumerate(labels) if i in idx_tup])
 
 def __get_bt_groups():
-	group_names = set([dataset.group for dataset in bt.datasets])
-	if len(group_names) != 2:
-		print('Comparison plots can only be generated for two dataset groups.')
-		return
-	left_group = bt.datasets[0].group
-	group_names.remove(left_group)
-	right_group = list(group_names)[0]
-	return left_group, right_group
+	groups = list(dict.fromkeys([dataset.group for dataset in bt.datasets])) # get unique values
+	assert len(groups) == 2, 'Comparison plots can only be generated for two dataset groups.'
+	return groups
