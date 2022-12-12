@@ -82,53 +82,6 @@ def generate_whole_fluorescence_plot(dataset=None, values=None):
 	title = 'Propagated Fluorescence Plot'
 	generate_custom_plot(indexes, title, flr_log=True, ax=ax)
 
-def seriation(Z,N,cur_index):
-    '''
-        input:
-            - Z is a hierarchical tree (dendrogram)
-            - N is the number of points given to the clustering process
-            - cur_index is the position in the tree for the recursive traversal
-        output:
-            - order implied by the hierarchical tree Z
-            
-        seriation computes the order implied by a hierarchical tree (dendrogram)
-    '''
-    if cur_index < N:
-        return [cur_index]
-    else:
-        left = int(Z[cur_index-N,0])
-        right = int(Z[cur_index-N,1])
-        return (seriation(Z,N,left) + seriation(Z,N,right))
-    
-def compute_serial_matrix(dist_mat,method="ward"):
-    '''
-        input:
-            - dist_mat is a distance matrix
-            - method = ["ward","single","average","complete"]
-        output:
-            - seriated_dist is the input dist_mat,
-              but with re-ordered rows and columns
-              according to the seriation, i.e. the
-              order implied by the hierarchical tree
-            - res_order is the order implied by
-              the hierarhical tree
-            - res_linkage is the hierarhical tree (dendrogram)
-        
-        compute_serial_matrix transforms a distance matrix into 
-        a sorted distance matrix according to the order implied 
-        by the hierarchical tree (dendrogram)
-    '''
-    N = len(dist_mat)
-    flat_dist_mat = dist_mat #squareform(dist_mat)
-    res_linkage = linkage(flat_dist_mat, method=method,preserve_input=True)
-    res_order = seriation(res_linkage, N, N + N-2)
-    seriated_dist = np.zeros((N,N))
-    a,b = np.triu_indices(N,k=1)
-    seriated_dist[a,b] = dist_mat[ [res_order[i] for i in a], [res_order[j] for j in b]]
-    seriated_dist[b,a] = seriated_dist[a,b]
-    
-    return seriated_dist, res_order, res_linkage
-
 def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore=None, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False, order_method=None, cmap='bwr', figsize=(35,6), aspect='equal'):
 	if areas is None and depth is not None:
 		area_idxs = bt.children_from('root', depth=depth)[1]
@@ -231,21 +184,57 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
+def bin_3D_show(area_num=None, binsize=500, axis=2, cmap='Reds', projcol='k', padding=10, vlim=None, ch1=True):
+	atlas_res = 10
+	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
+	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
+	axes = [x for x in [0, 1, 2] if x != axis]
+	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
+
+	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,5))
+
+	projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = bt.get_projection(area_num, padding=padding, axis=2-axis)
+	ax1.contour(projection, colors=projcol, alpha=0.1)
+	ax1.set_aspect('equal')
+	ax2.contour(projection, colors=projcol, alpha=0.1)
+	ax2.set_aspect('equal')
+
+	def plot_binned_average(ax, axis, group, cmap):
+		hist_list = []
+		for d in [d for d in bt.datasets if d.group == group]:
+			if area_num is None:
+				points = np.array(d.ch1_cells).T
+			else:
+				points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
+			hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
+
+			hist = hist / hist.sum() # turn into probability density distribution
+			hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
+
+			scale = int(binsize / atlas_res) ## make ready for plotting
+			hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
+			at_shp = bt.atlas.shape
+			if axis == 2:
+				hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
+				hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
+			elif axis == 1:
+				hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[0] :]
+				hist = hist[px_min : px_max, pz_min : pz_max]
+			else:
+				hist = hist[hist.shape[0]-at_shp[1] :, hist.shape[1]-at_shp[0] :]
+				hist = hist[py_min : py_max, pz_min : pz_max]
+			hist_list.append(hist)
+		all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
+		av_im = np.mean(all_hists, axis=0) # get the mean cell distribution
+		cax = ax.imshow(av_im.T, cmap=cmap, vmax=vlim)
+		plt.colorbar(cax)
+		ax.set_title(f'{group} cell detection probability')
+
+	plot_binned_average(ax1, axis, __get_bt_groups()[0], cmap=cmap)
+	plot_binned_average(ax2, axis, __get_bt_groups()[1], cmap=cmap)
+
 def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbounds=None, threshold=1, order_method=None, blind_order=False, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
-	
-	def get_bin_size(dim, slices=False):
-		atlas_res = 10
-		if dim == 2: # z 1320
-			num_slices = len(bt.atlas)
-		elif dim == 1: # y 800
-			num_slices = bt.atlas[0].shape[0]
-		elif dim == 0: # x 1140
-			num_slices = bt.atlas[0].shape[1]
-		bin_size = int(binsize / atlas_res)
-		if slices: # return num bins
-			return len([i for i in range(0, num_slices + bin_size, bin_size)])
-		return range(0, num_slices + bin_size, bin_size)
-	x_bins, y_bins, z_bins = get_bin_size(0, slices=True), get_bin_size(1, slices=True), get_bin_size(2, slices=True)
+	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 
 	group_names = [i.group for i in bt.datasets] # to order by group
 	groups = __get_bt_groups()
@@ -323,11 +312,6 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 	if covmat:
 		[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
 	[t.set_color(colours[i]) for i, t in enumerate(ax.yaxis.get_ticklabels())]
-
-def _colours_from_labels(names):
-	datasets = [next((d for d in bt.datasets if d.name==i), None) for i in names] # get datasets by ordered labels
-	groups = [i.group for i in datasets] # get their groups and return list of row/column label colours
-	return list(map(lambda x: g1_clr if x == __get_bt_groups()[0] else g2_clr, groups)) # list of colours
 
 def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
 	'''
@@ -801,3 +785,66 @@ def __get_bt_groups():
 	groups = list(dict.fromkeys([dataset.group for dataset in bt.datasets])) # get unique values
 	assert len(groups) == 2, 'Comparison plots can only be generated for two dataset groups.'
 	return groups
+
+def _colours_from_labels(names):
+	datasets = [next((d for d in bt.datasets if d.name==i), None) for i in names] # get datasets by ordered labels
+	groups = [i.group for i in datasets] # get their groups and return list of row/column label colours
+	return list(map(lambda x: g1_clr if x == __get_bt_groups()[0] else g2_clr, groups)) # list of colours
+
+def seriation(Z,N,cur_index):
+	'''
+		input:
+			- Z is a hierarchical tree (dendrogram)
+			- N is the number of points given to the clustering process
+			- cur_index is the position in the tree for the recursive traversal
+		output:
+			- order implied by the hierarchical tree Z
+			
+		seriation computes the order implied by a hierarchical tree (dendrogram)
+	'''
+	if cur_index < N:
+		return [cur_index]
+	else:
+		left = int(Z[cur_index-N,0])
+		right = int(Z[cur_index-N,1])
+		return (seriation(Z,N,left) + seriation(Z,N,right))
+	
+def compute_serial_matrix(dist_mat,method="ward"):
+	'''
+		input:
+			- dist_mat is a distance matrix
+			- method = ["ward","single","average","complete"]
+		output:
+			- seriated_dist is the input dist_mat,
+			  but with re-ordered rows and columns
+			  according to the seriation, i.e. the
+			  order implied by the hierarchical tree
+			- res_order is the order implied by
+			  the hierarhical tree
+			- res_linkage is the hierarhical tree (dendrogram)
+		
+		compute_serial_matrix transforms a distance matrix into 
+		a sorted distance matrix according to the order implied 
+		by the hierarchical tree (dendrogram)
+	'''
+	N = len(dist_mat)
+	flat_dist_mat = dist_mat #squareform(dist_mat)
+	res_linkage = linkage(flat_dist_mat, method=method,preserve_input=True)
+	res_order = seriation(res_linkage, N, N + N-2)
+	seriated_dist = np.zeros((N,N))
+	a,b = np.triu_indices(N,k=1)
+	seriated_dist[a,b] = dist_mat[ [res_order[i] for i in a], [res_order[j] for j in b]]
+	seriated_dist[b,a] = seriated_dist[a,b]
+	
+	return seriated_dist, res_order, res_linkage
+
+def get_bins(dim, size):
+	atlas_res = 10
+	if dim == 2: # z 1320
+		num_slices = len(bt.atlas)
+	elif dim == 1: # y 800
+		num_slices = bt.atlas[0].shape[0]
+	elif dim == 0: # x 1140
+		num_slices = bt.atlas[0].shape[1]
+	bin_size = int(size / atlas_res)
+	return len([i for i in range(0, num_slices + bin_size, bin_size)]) # return num bins

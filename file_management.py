@@ -12,163 +12,163 @@ script_dir = os.getcwd() #<-- absolute dir the script is in
 atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name):
-    if file_name.startswith('cells_'):
-        child_dir = 'braintracer\\cellfinder'
-    elif file_name.startswith('reg_'):
-        child_dir = 'braintracer\\downsampled_data'
-    elif file_name.startswith('groundtruth_'):
-        child_dir = 'braintracer\\ground_truth'
-    elif file_name.startswith('structures'):
-        child_dir = 'braintracer'
-    elif file_name.startswith('atlas'):
-        child_dir = 'braintracer\\registered_atlases'
-    else:
-        print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
-        return None
-    return os.path.join(script_dir, child_dir+'\\'+file_name)
+	if file_name.startswith('cells_'):
+		child_dir = 'braintracer\\cellfinder'
+	elif file_name.startswith('reg_'):
+		child_dir = 'braintracer\\downsampled_data'
+	elif file_name.startswith('groundtruth_'):
+		child_dir = 'braintracer\\ground_truth'
+	elif file_name.startswith('structures'):
+		child_dir = 'braintracer'
+	elif file_name.startswith('atlas'):
+		child_dir = 'braintracer\\registered_atlases'
+	else:
+		print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
+		return None
+	return os.path.join(script_dir, child_dir+'\\'+file_name)
 
 # opens xml files from napari containing cell points
 def open_file(name, atlas_25=False): # open files
-    all_X, all_Y, all_Z = [], [], []
-    neg_X, neg_Y, neg_Z = [], [], []
-    pos_X, pos_Y, pos_Z = [], [], []
-    file_path = _get_path(name)
-    ext = name.split('.')[-1]
-    if ext == 'xml':
-        # may be cellfinder output or ground truth # TODO: add throw for opening ground truth dir
-        with open(file_path, 'r') as f:
-            data = BeautifulSoup(f, 'xml')
-        types = data.find_all('Marker_Type')
-        for t in types:
-            type_num = int(t.Type.string) #print(len(list(typ.children)))
-            markers = t.find_all('Marker')
-            for marker in markers:
-                all_X.append(int(marker.MarkerX.contents[0]))
-                all_Y.append(int(marker.MarkerY.contents[0]))
-                all_Z.append(int(marker.MarkerZ.contents[0]))
-                if type_num == 1:
-                    neg_X.append(int(marker.MarkerX.contents[0]))
-                    neg_Y.append(int(marker.MarkerY.contents[0]))
-                    neg_Z.append(int(marker.MarkerZ.contents[0]))
-                elif type_num == 2:
-                    pos_X.append(int(marker.MarkerX.contents[0]))
-                    pos_Y.append(int(marker.MarkerY.contents[0]))
-                    pos_Z.append(int(marker.MarkerZ.contents[0]))
-                else:
-                    print(f'Unexpected marker type number: {type_num}')
-        return ([all_X, all_Y, all_Z],
-                [neg_X, neg_Y, neg_Z],
-                [pos_X, pos_Y, pos_Z])
-    elif ext == 'tiff':
-        reader = imageio.get_reader(file_path)
-        images = []
-        for frame in reader:
-            images.append(frame)
-        return images
-    elif ext == 'csv':
-        if name.startswith('cells_'):
-            cell_df = pd.read_csv(file_path)
-            z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
-            y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
-            x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
-            if atlas_25:
-                z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
-                y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
-                x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
-            return [x_coords, y_coords, z_coords]
-        elif name.startswith('structures'):
-            area_indexes = pd.read_csv(file_path)
-            area_indexes = area_indexes.set_index('id')
-            return area_indexes
-        else:
-            print(f'Cannot load CSV with name {file_name}')
-    else:
-        print('Unexpected file extension')
-        return None
+	all_X, all_Y, all_Z = [], [], []
+	neg_X, neg_Y, neg_Z = [], [], []
+	pos_X, pos_Y, pos_Z = [], [], []
+	file_path = _get_path(name)
+	ext = name.split('.')[-1]
+	if ext == 'xml':
+		# may be cellfinder output or ground truth # TODO: add throw for opening ground truth dir
+		with open(file_path, 'r') as f:
+			data = BeautifulSoup(f, 'xml')
+		types = data.find_all('Marker_Type')
+		for t in types:
+			type_num = int(t.Type.string) #print(len(list(typ.children)))
+			markers = t.find_all('Marker')
+			for marker in markers:
+				all_X.append(int(marker.MarkerX.contents[0]))
+				all_Y.append(int(marker.MarkerY.contents[0]))
+				all_Z.append(int(marker.MarkerZ.contents[0]))
+				if type_num == 1:
+					neg_X.append(int(marker.MarkerX.contents[0]))
+					neg_Y.append(int(marker.MarkerY.contents[0]))
+					neg_Z.append(int(marker.MarkerZ.contents[0]))
+				elif type_num == 2:
+					pos_X.append(int(marker.MarkerX.contents[0]))
+					pos_Y.append(int(marker.MarkerY.contents[0]))
+					pos_Z.append(int(marker.MarkerZ.contents[0]))
+				else:
+					print(f'Unexpected marker type number: {type_num}')
+		return ([all_X, all_Y, all_Z],
+				[neg_X, neg_Y, neg_Z],
+				[pos_X, pos_Y, pos_Z])
+	elif ext == 'tiff':
+		reader = imageio.get_reader(file_path)
+		images = []
+		for frame in reader:
+			images.append(frame)
+		return images
+	elif ext == 'csv':
+		if name.startswith('cells_'):
+			cell_df = pd.read_csv(file_path)
+			z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
+			y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
+			x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
+			if atlas_25:
+				z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
+				y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
+				x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
+			return [x_coords, y_coords, z_coords]
+		elif name.startswith('structures'):
+			area_indexes = pd.read_csv(file_path)
+			area_indexes = area_indexes.set_index('id')
+			return area_indexes
+		else:
+			print(f'Cannot load CSV with name {file_name}')
+	else:
+		print('Unexpected file extension')
+		return None
 
 def open_transformed_brain(dataset):
-    name = dataset.name
-    path = os.path.join(script_dir, name+'\\'+'transform\\*')
-    files = glob.glob(path)
-    return files
+	name = dataset.name
+	path = os.path.join(script_dir, name+'\\'+'transform\\*')
+	files = glob.glob(path)
+	return files
 
 def get_atlas():
-    global atlas
-    return np.array(atlas.annotation)
+	global atlas
+	return np.array(atlas.annotation)
 
 def get_reference():
-    global atlas
-    return np.array(atlas.reference)
+	global atlas
+	return np.array(atlas.reference)
 
 def get_lookup_df():
-    df = atlas.lookup_df
-    df = df.set_index('id')
-    return df
+	df = atlas.lookup_df
+	df = df.set_index('id')
+	return df
 
 def save(file_name, as_type, dpi=600, vID=None):
-    if file_name.startswith('injection_'):
-        dir_name = 'braintracer/TRIO/'
-    elif file_name.startswith('fluorescence_'):
-        dir_name = 'braintracer/fluorescence/'
-    elif file_name.startswith('video_'):
-        assert vID is not None, 'video ID variable must be supplied for saving video frames'
-        dir_name = f'braintracer/videos/{file_name.split("_")[1]}_{vID}/'
-    else:
-        dir_name = 'braintracer/figures/'
-    dir_path = os.path.join(script_dir, dir_name)
-    if not os.path.isdir(dir_path):
-        os.makedirs(dir_path)
-    file_name = dir_path + file_name
+	if file_name.startswith('injection_'):
+		dir_name = 'braintracer/TRIO/'
+	elif file_name.startswith('fluorescence_'):
+		dir_name = 'braintracer/fluorescence/'
+	elif file_name.startswith('video_'):
+		assert vID is not None, 'video ID variable must be supplied for saving video frames'
+		dir_name = f'braintracer/videos/{file_name.split("_")[1]}_{vID}/'
+	else:
+		dir_name = 'braintracer/figures/'
+	dir_path = os.path.join(script_dir, dir_name)
+	if not os.path.isdir(dir_path):
+		os.makedirs(dir_path)
+	file_name = dir_path + file_name
 
-    if as_type == 'png':
-        if vID is None:
-            plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight')
-        else:
-            plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight', pad_inches=0)
-    elif as_type == 'jpg':
-        plt.savefig(f'{file_name}.jpg', dpi=dpi, bbox_inches='tight')
-    elif as_type == 'pdf':
-        pp = PdfPages(f'{file_name}.pdf')
-        pp.savefig()
-        pp.close()
+	if as_type == 'png':
+		if vID is None:
+			plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight')
+		else:
+			plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight', pad_inches=0)
+	elif as_type == 'jpg':
+		plt.savefig(f'{file_name}.jpg', dpi=dpi, bbox_inches='tight')
+	elif as_type == 'pdf':
+		pp = PdfPages(f'{file_name}.pdf')
+		pp.savefig()
+		pp.close()
 
 def create_video(dataset_name, vID, fps=30):
-    dir_name = f'braintracer/videos/{dataset_name}_{vID}/'
-    dir_path = os.path.join(script_dir, dir_name)
-    video_name = f'video_{dataset_name}_{vID}_{fps}fps.avi'
+	dir_name = f'braintracer/videos/{dataset_name}_{vID}/'
+	dir_path = os.path.join(script_dir, dir_name)
+	video_name = f'video_{dataset_name}_{vID}_{fps}fps.avi'
 
-    images = [img for img in os.listdir(dir_path) if img.endswith(".png")]
-    frame = cv2.imread(os.path.join(dir_path, images[0]))
-    height, width, layers = frame.shape
+	images = [img for img in os.listdir(dir_path) if img.endswith(".png")]
+	frame = cv2.imread(os.path.join(dir_path, images[0]))
+	height, width, layers = frame.shape
 
-    video = cv2.VideoWriter(f'braintracer/videos/{video_name}', 0, fps, (width,height))
+	video = cv2.VideoWriter(f'braintracer/videos/{video_name}', 0, fps, (width,height))
 
-    for image in images:
-        video.write(cv2.imread(os.path.join(dir_path, image)))
+	for image in images:
+		video.write(cv2.imread(os.path.join(dir_path, image)))
 
-    cv2.destroyAllWindows()
-    video.release()
+	cv2.destroyAllWindows()
+	video.release()
 
 def create_gif(dataset_name, vID, fps=30):
-    fp_in = f'/braintracer/videos/{dataset_name}_{vID}/video_*.png'
-    fp_out = f'/braintracer/videos/video_{dataset_name}_{vID}_{fps}fps.gif'
+	fp_in = f'/braintracer/videos/{dataset_name}_{vID}/video_*.png'
+	fp_out = f'/braintracer/videos/video_{dataset_name}_{vID}_{fps}fps.gif'
 
-    # use exit stack to automatically close opened images
-    with contextlib.ExitStack() as stack:
-        # lazily load images
-        imgs = (stack.enter_context(Image.open(f))
-                for f in sorted(glob.glob(fp_in)))
-        # extract  first image from iterator
-        img = next(imgs)
-        # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
-        img.save(fp=fp_out, format='GIF', append_images=imgs,
-                 save_all=True, duration=int((1/fps)*1000), loop=0)
+	# use exit stack to automatically close opened images
+	with contextlib.ExitStack() as stack:
+		# lazily load images
+		imgs = (stack.enter_context(Image.open(f))
+				for f in sorted(glob.glob(fp_in)))
+		# extract  first image from iterator
+		img = next(imgs)
+		# https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
+		img.save(fp=fp_out, format='GIF', append_images=imgs,
+				 save_all=True, duration=int((1/fps)*1000), loop=0)
 
 class HiddenPrints:
-    def __enter__(self):
-        self._original_stdout = sys.stdout
-        sys.stdout = open(os.devnull, 'w')
+	def __enter__(self):
+		self._original_stdout = sys.stdout
+		sys.stdout = open(os.devnull, 'w')
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        sys.stdout.close()
-        sys.stdout = self._original_stdout
+	def __exit__(self, exc_type, exc_val, exc_tb):
+		sys.stdout.close()
+		sys.stdout = self._original_stdout
