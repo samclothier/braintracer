@@ -13,6 +13,7 @@ from collections import Counter
 from matplotlib import colors
 from itertools import chain
 from matplotlib import cm
+from scipy import signal
 from scipy import stats
 from vedo import embedWindow # for displaying bg-heatmaps
 embedWindow(None)
@@ -184,7 +185,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_show(area_num=None, binsize=500, axis=2, cmap='Reds', projcol='k', padding=10, vlim=None, ch1=True):
+def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, cmap='Reds', projcol='k', padding=10, vlim=None, ch1=True):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
@@ -194,6 +195,7 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, cmap='Reds', projcol='k', pa
 	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,5))
 
 	projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = bt.get_projection(area_num, padding=padding, axis=2-axis)
+	projection = projection.T if axis is 0 else projection # side-on orientation does not need axis swapping
 	ax1.contour(projection, colors=projcol, alpha=0.1)
 	ax1.set_aspect('equal')
 	ax2.contour(projection, colors=projcol, alpha=0.1)
@@ -209,6 +211,13 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, cmap='Reds', projcol='k', pa
 			hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
 
 			hist = hist / hist.sum() # turn into probability density distribution
+
+			if sigma is not None: # 3D smooth # sigma = width of kernel
+				x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
+				xx, yy, zz = np.meshgrid(x,y,z)
+				kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
+				hist = signal.convolve(hist, kernel, mode='same')
+
 			hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
 
 			scale = int(binsize / atlas_res) ## make ready for plotting
@@ -226,7 +235,8 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, cmap='Reds', projcol='k', pa
 			hist_list.append(hist)
 		all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
 		av_im = np.mean(all_hists, axis=0) # get the mean cell distribution
-		cax = ax.imshow(av_im.T, cmap=cmap, vmax=vlim)
+		av_im = av_im if axis is 0 else av_im.T # side-on orientation does not need axis swapping
+		cax = ax.imshow(av_im, cmap=cmap, vmax=vlim)
 		plt.colorbar(cax)
 		ax.set_title(f'{group} cell detection probability')
 

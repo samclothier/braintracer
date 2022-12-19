@@ -1,4 +1,4 @@
-import os, sys, imageio, cv2, glob, contextlib
+import os, sys, imageio, cv2, glob, contextlib, pickle
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -11,7 +11,7 @@ from PIL import Image
 script_dir = os.getcwd() #<-- absolute dir the script is in
 atlas = BrainGlobeAtlas('allen_mouse_10um')
 
-def _get_path(file_name):
+def _get_path(file_name, vID=None):
 	if file_name.startswith('cells_'):
 		child_dir = 'braintracer\\cellfinder'
 	elif file_name.startswith('reg_'):
@@ -22,10 +22,23 @@ def _get_path(file_name):
 		child_dir = 'braintracer'
 	elif file_name.startswith('atlas'):
 		child_dir = 'braintracer\\registered_atlases'
+	elif file_name.startswith('fluorescence'):
+		child_dir = 'braintracer\\fluorescence'
+	elif file_name.startswith('injection_'):
+		child_dir = 'braintracer\\TRIO'
+	elif file_name.startswith('video_'):
+		assert vID is not None, 'video ID variable must be supplied for saving video frames'
+		child_dir = f'braintracer\\videos\\{file_name.split("_")[1]}_{vID}'
 	else:
 		print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
 		return None
+	if not os.path.isdir(child_dir):
+		os.makedirs(child_dir)
 	return os.path.join(script_dir, child_dir+'\\'+file_name)
+
+def verify_image_integrity(dataset):
+	for i in range(3):
+		print(i+1)
 
 # opens xml files from napari containing cell points
 def open_file(name, atlas_25=False): # open files
@@ -81,7 +94,9 @@ def open_file(name, atlas_25=False): # open files
 			area_indexes = area_indexes.set_index('id')
 			return area_indexes
 		else:
-			print(f'Cannot load CSV with name {file_name}')
+			print(f'Cannot load CSV with name {name}')
+	elif ext == 'pkl':
+		return pickle.load(open(f'{file_path}', 'rb'))
 	else:
 		print('Unexpected file extension')
 		return None
@@ -89,6 +104,7 @@ def open_file(name, atlas_25=False): # open files
 def open_transformed_brain(dataset):
 	name = dataset.name
 	path = os.path.join(script_dir, name+'\\'+'transform\\*')
+	assert os.path.isdir(path), f'Please provide transformed stack at {path}'
 	files = glob.glob(path)
 	return files
 
@@ -105,20 +121,11 @@ def get_lookup_df():
 	df = df.set_index('id')
 	return df
 
-def save(file_name, as_type, dpi=600, vID=None):
-	if file_name.startswith('injection_'):
-		dir_name = 'braintracer/TRIO/'
-	elif file_name.startswith('fluorescence_'):
-		dir_name = 'braintracer/fluorescence/'
-	elif file_name.startswith('video_'):
-		assert vID is not None, 'video ID variable must be supplied for saving video frames'
-		dir_name = f'braintracer/videos/{file_name.split("_")[1]}_{vID}/'
-	else:
-		dir_name = 'braintracer/figures/'
-	dir_path = os.path.join(script_dir, dir_name)
-	if not os.path.isdir(dir_path):
-		os.makedirs(dir_path)
-	file_name = dir_path + file_name
+def save(file_name, as_type, dpi=600, vID=None, file=None):
+	try:
+		dir_path = _get_path(file_name, vID)
+	except:
+		dir_path =  os.path.join(script_dir, 'braintracer/figures/', file_name) 
 
 	if as_type == 'png':
 		if vID is None:
@@ -131,6 +138,9 @@ def save(file_name, as_type, dpi=600, vID=None):
 		pp = PdfPages(f'{file_name}.pdf')
 		pp.savefig()
 		pp.close()
+	elif as_type == 'pkl':
+		assert file != None, 'pkl file must be provided when saving pickle files.'
+		pickle.dump(file, open(f'{file_name}.pkl', 'wb'))
 
 def create_video(dataset_name, vID, fps=30):
 	dir_name = f'braintracer/videos/{dataset_name}_{vID}/'

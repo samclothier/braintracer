@@ -44,7 +44,7 @@ class Dataset:
 		self.true_postsynaptics = starters
 		if fluorescence:
 			try:
-				self.flr_by_area = pickle.load(open(f'{self.name}_fluorescence.pkl', 'rb'))
+				self.flr_by_area = btf.open_file(f'fluorescence_{self.name}.pkl')
 				print(f'Successfully opened saved fluorescence data for {self.name}')
 			except (OSError, IOError) as e:
 				print(f'Failed to open saved fluorescence data for {self.name}. Analysing fluorescence...')
@@ -53,7 +53,7 @@ class Dataset:
 				else:
 					self.analyse_fluorescence()
 				if self.flr_by_area != None:
-					pickle.dump(self.flr_by_area, open(f'{self.name}_fluorescence.pkl', 'wb'))
+					btf.save(f'fluorescence_{self.name}', 'pkl', file=self.flr_by_area)
 					print(f'Saved fluorescence data for {self.name}.')
 				else:
 					print(f'Fluorescence data for {self.name} not saved because fluorescence not quantified correctly.')
