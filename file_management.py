@@ -30,15 +30,41 @@ def _get_path(file_name, vID=None):
 		assert vID is not None, 'video ID variable must be supplied for saving video frames'
 		child_dir = f'braintracer\\videos\\{file_name.split("_")[1]}_{vID}'
 	else:
-		print('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
-		return None
+		raise ValueError('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
 	if not os.path.isdir(child_dir):
 		os.makedirs(child_dir)
 	return os.path.join(script_dir, child_dir+'\\'+file_name)
 
 def verify_image_integrity(dataset):
+	def code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2):
+		pre_code1, cur_code1 = int(pre_code1), int(cur_code1)
+		pre_code2, cur_code2 = int(pre_code2), int(cur_code2) # convert all string codes to ints for comparison
+		if cur_code1 == pre_code1:
+			pass
+		elif (cur_code1 == pre_code1 + 1) and cur_code2 == 1:
+			pass
+		else:
+			return False
+		if cur_code2 == pre_code2 + 1:
+			return True
+		elif cur_code2 == 1 and pre_code2 == 8:
+			return True
+		else:
+			return False
 	for i in range(3):
-		print(i+1)
+		channel_num = i + 1
+		path = os.path.join(script_dir, dataset, str(channel_num))
+		for root, dirs, files in os.walk(path):
+			prev_name = 'section_000_00.tif'
+			for file in files:
+				pre_code1 = prev_name.split('_')[1]
+				pre_code2 = prev_name.split('_')[-1][1]
+				cur_code1 = file.split('_')[1]
+				cur_code2 = file.split('_')[-1][1]
+				assert code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2), f'Channel {i+1} warning: {file} does not follow previous file: {prev_name}'
+				prev_name = file
+			
+		print(f'Channel {i+1} successfully verified.')
 
 # opens xml files from napari containing cell points
 def open_file(name, atlas_25=False): # open files
@@ -73,7 +99,7 @@ def open_file(name, atlas_25=False): # open files
 				[neg_X, neg_Y, neg_Z],
 				[pos_X, pos_Y, pos_Z])
 	elif ext == 'tiff':
-		reader = imageio.get_reader(file_path)
+		reader = imageio.get_reader(file_path) # importing with tifffile appears to occasionally lead to wrong dimensions
 		images = []
 		for frame in reader:
 			images.append(frame)
@@ -122,25 +148,25 @@ def get_lookup_df():
 	return df
 
 def save(file_name, as_type, dpi=600, vID=None, file=None):
-	try:
+	if vID is not None:
 		dir_path = _get_path(file_name, vID)
-	except:
-		dir_path =  os.path.join(script_dir, 'braintracer/figures/', file_name) 
+	else:
+		dir_path =  os.path.join(script_dir, 'braintracer/figures/', file_name)
 
 	if as_type == 'png':
 		if vID is None:
-			plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight')
+			plt.savefig(f'{dir_path}.png', dpi=dpi, bbox_inches='tight')
 		else:
-			plt.savefig(f'{file_name}.png', dpi=dpi, bbox_inches='tight', pad_inches=0)
+			plt.savefig(f'{dir_path}.png', dpi=dpi, bbox_inches='tight', pad_inches=0)
 	elif as_type == 'jpg':
-		plt.savefig(f'{file_name}.jpg', dpi=dpi, bbox_inches='tight')
+		plt.savefig(f'{dir_path}.jpg', dpi=dpi, bbox_inches='tight')
 	elif as_type == 'pdf':
-		pp = PdfPages(f'{file_name}.pdf')
+		pp = PdfPages(f'{dir_path}.pdf')
 		pp.savefig()
 		pp.close()
 	elif as_type == 'pkl':
 		assert file != None, 'pkl file must be provided when saving pickle files.'
-		pickle.dump(file, open(f'{file_name}.pkl', 'wb'))
+		pickle.dump(file, open(f'{dir_path}.pkl', 'wb'))
 
 def create_video(dataset_name, vID, fps=30):
 	dir_name = f'braintracer/videos/{dataset_name}_{vID}/'

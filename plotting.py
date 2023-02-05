@@ -2,6 +2,7 @@ import plotly
 import braintracer.file_management as btf
 import braintracer.analysis as bt
 import matplotlib.pyplot as plt
+import matplotlib.colors as clrs
 import plotly.graph_objs as go
 import bgheatmaps as bgh
 import seaborn as sns
@@ -83,7 +84,7 @@ def generate_whole_fluorescence_plot(dataset=None, values=None):
 	title = 'Propagated Fluorescence Plot'
 	generate_custom_plot(indexes, title, flr_log=True, ax=ax)
 
-def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore=None, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False, order_method=None, cmap='bwr', figsize=(35,6), aspect='equal'):
+def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore=None, override_order=None, vbounds=None, normalisation='presynaptics', covmat=False, rowvar=1, zscore=True, div=False, order_method=None, cmap='bwr', figsize=(35,6), aspect='equal'):
 	if areas is None and depth is not None:
 		area_idxs = bt.children_from('root', depth=depth)[1]
 	if areas is None and depth is None:
@@ -102,6 +103,10 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	datasets2 = [i for i in bt.datasets if i.group == groups[1]]
 	datasets = datasets1 + datasets2
 	y_labels = [i.name for i in datasets]
+
+	if override_order is not None:
+		datasets = list(np.array(datasets)[override_order]) # sort both axes of the matrix by the computed order
+		y_labels = list(np.array(y_labels)[override_order])
 
 	area_labels = np.array(bt.get_area_info(area_idxs)[0])
 	if bt.fluorescence:
@@ -185,7 +190,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, cmap='Reds', projcol='k', padding=10, vlim=None, ch1=True):
+def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, projcol='k', padding=10, vlim=None, ch1=True):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
@@ -207,10 +212,13 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, cmap='Reds', pro
 			if area_num is None:
 				points = np.array(d.ch1_cells).T
 			else:
-				points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
+				parent, children = bt.children_from(area_num, depth=0)
+				areas = [parent] + children
+				points = np.array(bt._get_cells_in(areas, d, ch1=ch1)).T
 			hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
-
-			hist = hist / hist.sum() # turn into probability density distribution
+			
+			if hist.sum() != 0:
+				hist = hist / hist.sum() # turn into probability density distribution
 
 			if sigma is not None: # 3D smooth # sigma = width of kernel
 				x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
@@ -234,16 +242,21 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, cmap='Reds', pro
 				hist = hist[py_min : py_max, pz_min : pz_max]
 			hist_list.append(hist)
 		all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
-		av_im = np.mean(all_hists, axis=0) # get the mean cell distribution
+		av_im = np.median(all_hists, axis=0) # get the mean cell distribution
 		av_im = av_im if axis is 0 else av_im.T # side-on orientation does not need axis swapping
-		cax = ax.imshow(av_im, cmap=cmap, vmax=vlim)
+		cax = ax.imshow(av_im, cmap=cmap, vmin=0, vmax=vlim)
 		plt.colorbar(cax)
 		ax.set_title(f'{group} cell detection probability')
 
-	plot_binned_average(ax1, axis, __get_bt_groups()[0], cmap=cmap)
-	plot_binned_average(ax2, axis, __get_bt_groups()[1], cmap=cmap)
+	orig_cmap = plt.cm.RdBu
+	clrs_blue = orig_cmap(np.linspace(0.5, 1.0, 10))
+	clrs_reds = orig_cmap(np.linspace(0.0, 0.5, 10)[::-1])
+	cmap_blue = clrs.LinearSegmentedColormap.from_list("mycmap", clrs_blue)
+	cmap_reds = clrs.LinearSegmentedColormap.from_list("mycmap", clrs_reds)
+	plot_binned_average(ax1, axis, __get_bt_groups()[0], cmap=cmap_reds)
+	plot_binned_average(ax2, axis, __get_bt_groups()[1], cmap=cmap_blue)
 
-def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbounds=None, threshold=1, order_method=None, blind_order=False, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
+def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigma=None, vbounds=None, threshold=1, override_order=None, order_method=None, blind_order=False, ch1=True, cmap='Reds', covmat=False, figsize=(8,8)):
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 
 	group_names = [i.group for i in bt.datasets] # to order by group
@@ -254,15 +267,32 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 	y_labels = [i.name for i in datasets]
 
 	voxels = []
-	for d in datasets:
+	num_nonzero_bins = []
+	for i, d in enumerate(datasets):
 		if area_num is None:
 			points = np.array(d.ch1_cells).T
+			old_num_points = points.shape
+			points = points[points.min(axis=1)>=0,:] # remove coordinates with negative values so the next step works
+			neg_num_points = points.shape
+			points_IO = np.array(bt._get_cells_in([83,528], d, ch1=ch1)).T
+			dims = np.maximum(points_IO.max(0),points.max(0))+1 # this and following line are to filter out IO points from points
+			points = points[~np.in1d(np.ravel_multi_index(points.T,dims),np.ravel_multi_index(points_IO.T,dims))]
+			if bt.debug:
+				print(f'Num neg points removed: {old_num_points[0] - neg_num_points[0]}, num IO+CBX points removed: {neg_num_points[0] - points.shape[0]}, num acc values: {points_IO.shape[0]}')
 		else:
 			points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
 		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
+		num_nonzero_bins.append(np.count_nonzero(hist)) # just debug stuff
+		last_hist_shape = hist.shape			
+		if sigma is not None: # 3D smooth # sigma = width of kernel
+			x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
+			xx, yy, zz = np.meshgrid(x,y,z)
+			kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
+			hist = signal.convolve(hist, kernel, mode='same')
 		cell_voxels = hist.flatten() # generates list of cell numbers within defined voxels
 		voxels.append(cell_voxels)
 	all_voxels = np.array(voxels)
+	print(f'Bins of last dataset: {last_hist_shape}, average number of bins containing cells: {np.mean(num_nonzero_bins)}')
 
 	summed = np.sum(all_voxels, axis=0) # delete columns where mean is below threshold
 	averaged = summed / all_voxels.shape[0]
@@ -292,22 +322,27 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, vbou
 		cax = divider.append_axes('right', size='5%', pad=0.05)
 
 		cov = np.corrcoef(all_voxels, rowvar=1)
-		if order_method is not None:
-			if not blind_order:
-				d1b, d2b = len(datasets1), len(datasets2)
-				print(f'Group 1: {d1b}, Group 2: {d2b}')
-				mat1 = cov[:d1b,:d1b]
-				mat2 = cov[d1b:,d1b:] # split the matrix up into two sub-matrices
-				mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1, order_method)
-				mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2, order_method)
-				res_order2 = list(np.array(res_order2) + d1b) # offset dataset indexes
-				res_order = res_order1 + res_order2 # create final order array
-			else:
-				mat, res_order, res_linkage = compute_serial_matrix(cov, order_method)
-			print(f'Sorted order: {res_order}')
-			sorted_mat = cov[res_order,:] # sort both axes of the matrix by the computed order
-			cov = sorted_mat[:,res_order]
-			y_labels = list(np.array(y_labels)[res_order])
+		if override_order is None:
+			if order_method is not None:
+				if not blind_order:
+					d1b, d2b = len(datasets1), len(datasets2)
+					print(f'Group 1: {d1b}, Group 2: {d2b}')
+					mat1 = cov[:d1b,:d1b]
+					mat2 = cov[d1b:,d1b:] # split the matrix up into two sub-matrices
+					mat1, res_order1, res_linkage1 = compute_serial_matrix(mat1, order_method)
+					mat2, res_order2, res_linkage2 = compute_serial_matrix(mat2, order_method)
+					res_order2 = list(np.array(res_order2) + d1b) # offset dataset indexes
+					res_order = res_order1 + res_order2 # create final order array
+				else:
+					mat, res_order, res_linkage = compute_serial_matrix(cov, order_method)
+				print(f'Sorted order: {res_order}')
+				sorted_mat = cov[res_order,:] # sort both axes of the matrix by the computed order
+				cov = sorted_mat[:,res_order]
+				y_labels = list(np.array(y_labels)[res_order])
+		else:
+			sorted_mat = cov[override_order,:] # sort both axes of the matrix by the computed order
+			cov = sorted_mat[:,override_order]
+			y_labels = list(np.array(y_labels)[override_order])
 		if vbounds is None:
 			im = ax.matshow(cov, cmap=cmap)
 		else:
@@ -425,7 +460,9 @@ def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch
 		values, cbar_label = _cells_in_areas_in_datasets(areas, bt.datasets, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
 	cells = np.array(cells)
-	differences = np.log10(cells[0] / cells[1]) # calculate log ratio rather than absolute difference
+	print(cells[cells==0])
+	ratios = cells[0] / cells[1]
+	differences = np.log10(ratios, where=ratios > 0) # calculate log ratio rather than absolute difference
 	bounds = np.abs(differences).max()
 	regions = dict(zip(areas, differences))
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
@@ -599,18 +636,21 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def generate_starter_cell_plot(ax=None):
+def generate_starter_cell_plot(ax=None, true_only=False, log=False):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(8,5))
 		f.set_facecolor('white')
 	dataset_names = [i.name for i in bt.datasets]
-	starter_cells = [i.postsynaptics() for i in bt.datasets] # green cells in starter region
-	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
-	ax.set_yscale('log')
-	if bt.datasets[0].true_postsynaptics:
-		ax.set(ylabel=f'Starter cells in {bt.starter_region} (corrected)')
-	else:
+	if true_only:
 		ax.set(ylabel=f'Starter cells in {bt.starter_region} (ch1={bt.starter_ch1})')
+		starter_cells = [i.num_cells_in(bt.starter_region, ch1=bt.starter_ch1) for i in bt.datasets]
+	else:
+		ax.set(ylabel=f'Starter cells in {bt.starter_region} (corrected)')
+		starter_cells = [i.postsynaptics() for i in bt.datasets] # green cells in starter region
+	sns.barplot(x=dataset_names, y=starter_cells, ax=ax)
+	if log:
+		ax.set_yscale('log')
+	ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 
 def generate_starter_cell_scatter(exclude_from_fit=[], use_manual_count=False, show_extras=True, ax=None):
 	# exclude_from_fit: list of ints referring to indexes of datasets in bt.datasets
@@ -762,28 +802,6 @@ def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title,
 		sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], data=df, ax=ax)
 		sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=[g1_clr, g2_clr], dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
 	_display_legend_subset(ax, (2,3))
-	return df
-
-def get_stats_df(areas, normalisation='postsynaptics'):
-	datasets = [i for i in bt.datasets]
-	if not bt.fluorescence:
-		dataset_cells, _ = _cells_in_areas_in_datasets(areas, datasets, normalisation=normalisation)
-	else:
-		dataset_cells, _ = _fluorescence_by_area_across_fl_datasets(areas, datasets, normalisation=normalisation)
-	dataset_groups = [i.group for i in bt.datasets]
-
-	num_datasets = len(datasets)
-	num_areas = len(areas)
-	area_labels = areas * num_datasets
-	groups = []
-	for group in dataset_groups:
-		groups = groups + [f'{group}']*num_areas
-	cells = []
-	for counts in dataset_cells:
-		cells = cells + counts
-	
-	column_titles = ['Area', 'Dataset', 'Cells']
-	df = pd.DataFrame(zip(area_labels, groups, cells), columns=column_titles)
 	return df
 
 def _display_legend_subset(ax, idx_tup):

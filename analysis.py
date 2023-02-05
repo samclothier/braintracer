@@ -618,3 +618,44 @@ def get_projection(area, padding, dataset=None, dilate=False, all_cells=False, a
 	projection = perimeter.any(axis=axis)
 	projected_area = projection.astype(int)
 	return projected_area, (x_min, y_min, z_min), (x_max, y_max, z_max)
+
+
+
+### STATS
+# from scipy.stats import tukey_hsd
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from scipy import stats
+def anova(areas, norm='postsynaptics'):
+	df = get_stats_df(areas, normalisation=norm)
+	print(df.head())
+	df['Cells'] = stats.rankdata(df['Cells'])
+	print(df.head())
+	model = ols('Cells ~ C(Area) + C(Dataset)', data=df).fit()
+	return sm.stats.anova_lm(model, typ=2)
+def mwu(area, norm='postsynaptics'):
+	df = get_stats_df([area], normalisation=norm)
+	LS_group = df.loc[df['Dataset']=='LS', 'Cells'].tolist()
+	LV_group = df.loc[df['Dataset']=='LV', 'Cells'].tolist()
+	return stats.mannwhitneyu(LS_group, LV_group)
+
+def get_stats_df(areas, normalisation='postsynaptics'):
+	if not fluorescence:
+		dataset_cells, _ = btp._cells_in_areas_in_datasets(areas, datasets, normalisation=normalisation)
+	else:
+		dataset_cells, _ = btp._fluorescence_by_area_across_fl_datasets(areas, datasets, normalisation=normalisation)
+	dataset_groups = [i.group for i in datasets]
+
+	num_datasets = len(datasets)
+	num_areas = len(areas)
+	area_labels = areas * num_datasets
+	groups = []
+	for group in dataset_groups:
+		groups = groups + [f'{group}']*num_areas
+	cells = []
+	for counts in dataset_cells:
+		cells = cells + counts
+	
+	column_titles = ['Area', 'Dataset', 'Cells']
+	df = pd.DataFrame(zip(area_labels, groups, cells), columns=column_titles)
+	return df
