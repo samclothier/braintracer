@@ -3,25 +3,21 @@ Braintracer is a processing pipeline extension for the BrainGlobe API. It enable
 
 ---
 ## Installation
-First, install Anaconda on your machine.  
-Within the base environment: `pip install cellfinder`  
-Then, `pip install bg-atlasapi`  
-View your current BrainGlobe atlases with `brainglobe list`  
-Ensure you have the 10um atlas installed.  
-If you don't, run `brainglobe install -a allen_mouse_10um`  
-This should download the atlas to `%USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\annotation.tiff`, along with the file `structures.csv`  
+First, install Anaconda or Miniconda on your machine.  
+Open Anaconda Prompt.  
+Create a Python environment and install braintracer:  
+`conda create -n env_name python=3.10.6`  
+`conda activate env_name`  
+`pip install braintracer`  
 
-Save the following files at `%USERPROFILE%\anaconda3\Lib\site-packages\braintracer`:  
-• `__init__.py`  
-• `analysis.py`  
-• `file_management.py`  
-• `plotting.py`  
+View your downloaded BrainGlobe atlases with `brainglobe list`  
+Install the 10um Allen mouse brain atlas: `brainglobe install -a allen_mouse_10um`  
 
 Add your data into your working directory as follows:  
 ```
 ├── WorkingDirectory
 │   ├── bt.bat
-│   ├── bt_visualiser.py
+│   ├── bt_visualiser.ipynb
 │   ├── DatasetName1
 │   |   ├── SignalChannelName
 │   |   |   ├── section_001_01
@@ -30,13 +26,30 @@ Add your data into your working directory as follows:
 │   ├── DatasetName2
 ```
 
-`SignalChannelName` and `BackgroundChannelName` should be folders containing the images that make up the stack.  
+As you can see, for now `bt.bat` and `bt_visualiser.py` must be copied into the working directory.  
+On Windows, these files are found here:  
+`Users/USERNAME/miniconda3/envs/ENV_NAME/Lib/site-packages/braintracer/braintracer`  
 
-Usage:  
+---
+## Usage
+braintracer has two main workflows - pre-processing and visualisation.  
+
+### Pre-processing
 • Open Anaconda Prompt  
-• Type `bt.bat` while in `WorkingDirectory`  
+• Activate your environment: `conda activate env_name`  
+• Navigate to `WorkingDirectory`  
+• Run the braintracer pre-processing tool: `bt.bat`  
 • Follow the instructions in the terminal  
-• Play with your results and save figures within Jupyter Notebook!  
+
+If you already have a .csv from cellfinder containing cell coordinates, follow the above steps but answer `y` when asked `Do results already exist ready for copying?`  
+
+### Visualisation
+• Open Anaconda Prompt  
+• Activate your environment: `conda activate env_name`  
+• Navigate to `WorkingDirectory`  
+• Open Jupyter with `jupyter-lab`  
+• In the browser tab that appears, open `bt_visualiser.ipynb`  
+• Play with your results and save figures all within Jupyter Notebook!  
 
 ---
 ## Sample data
