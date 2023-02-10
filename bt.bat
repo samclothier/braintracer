@@ -35,12 +35,12 @@ set /p reverse=Also perform cell detection in background channel against the sig
 	cd %dataset%
 	if [%np%] == [] ( :: if no trained network
 		if not exist cellfinder_%s% (
-			cellfinder -s %%s -b %b% -o cellfinder_%%s -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --batch-size 64 --ball-xy-size 10
+			cellfinder -s %%s -b %b% -o cellfinder_%%s -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size 10
 		) else (
 			ECHO Results already exist for signal channel %%s!
 	)) else (
 		if not exist cellfinder_%s%_%nn% (
-			cellfinder -s %%s -b %b% -o cellfinder_%%s_%nn% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --batch-size 64 --trained-model %np% --ball-xy-size 10
+			cellfinder -s %%s -b %b% -o cellfinder_%%s_%nn% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size 10
 	))
 	cd ..
 	ECHO Copying results...
@@ -54,12 +54,12 @@ if reverse EQU "Y" (
 	cd %dataset%
 	if [%np%] == [] ( :: if no trained network
 		if not exist cellfinder_%b% (
-			cellfinder -s %b% -b %s_chs% -o cellfinder_%b% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --batch-size 64 --ball-xy-size 10
+			cellfinder -s %b% -b %s_chs% -o cellfinder_%b% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size 10
 		) else (
 			ECHO Results already exist for background channel %b%!
 	)) else (
 		if not exist cellfinder_%b%_%n_n% (
-			cellfinder -s %b% -b %s_chs% -o cellfinder_%b%_%nn% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --batch-size 64 --trained-model %np% --ball-xy-size 10
+			cellfinder -s %b% -b %s_chs% -o cellfinder_%b%_%nn% -v %res% --orientation psr --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size 10
 	))
 	cd ..
 	ECHO Copying results...

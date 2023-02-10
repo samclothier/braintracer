@@ -190,7 +190,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, projcol='k', padding=10, vlim=None, ch1=True):
+def bin_3D_show(area_num=None, binsize=200, axis=2, sigma=None, subregion_depth=None, projcol='k', padding=10, vlim=None, ch1=True):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
@@ -198,12 +198,24 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, projcol='k', pad
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
 
 	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,5))
-
-	projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = bt.get_projection(area_num, padding=padding, axis=2-axis)
-	projection = projection.T if axis is 0 else projection # side-on orientation does not need axis swapping
-	ax1.contour(projection, colors=projcol, alpha=0.1)
+	parent_projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = bt.get_projection(area_num, padding=padding, axis=2-axis)
+	parent_projection = parent_projection.T if axis == 0 else parent_projection # side-on orientation does not need axis swapping
+	if subregion_depth is not None:
+		for child in bt.children_from(area_num, depth=subregion_depth)[1]:
+			child_projection, (cx_min, cy_min, cz_min), _ = bt.get_projection(child, padding=padding, axis=2-axis)
+			cx_offset, cy_offset, cz_offset = cx_min - px_min, cy_min - py_min, cz_min - pz_min
+			if axis == 2:
+				child_projection = np.pad(child_projection, ((cy_offset,0),(cx_offset,0)))
+			elif axis == 1:
+				child_projection = np.pad(child_projection, ((cz_offset,0),(cx_offset,0)))
+			else:
+				child_projection = np.pad(child_projection, ((cz_offset,0),(cy_offset,0)))
+			child_projection = child_projection.T if axis == 0 else child_projection # side-on orientation does not need axis swapping
+			ax1.contour(child_projection, colors=projcol, alpha=0.05)
+			ax2.contour(child_projection, colors=projcol, alpha=0.05)
+	ax1.contour(parent_projection, colors=projcol, alpha=0.1)
+	ax2.contour(parent_projection, colors=projcol, alpha=0.1)
 	ax1.set_aspect('equal')
-	ax2.contour(projection, colors=projcol, alpha=0.1)
 	ax2.set_aspect('equal')
 
 	def plot_binned_average(ax, axis, group, cmap):
@@ -243,7 +255,7 @@ def bin_3D_show(area_num=None, binsize=500, axis=2, sigma=None, projcol='k', pad
 			hist_list.append(hist)
 		all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
 		av_im = np.median(all_hists, axis=0) # get the mean cell distribution
-		av_im = av_im if axis is 0 else av_im.T # side-on orientation does not need axis swapping
+		av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
 		cax = ax.imshow(av_im, cmap=cmap, vmin=0, vmax=vlim)
 		plt.colorbar(cax)
 		ax.set_title(f'{group} cell detection probability')
