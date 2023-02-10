@@ -1,0 +1,6 @@
+# ignore pycache
+__pycache__/
+# ignore files created by builds
+*.egg-info
+build/
+dist/
