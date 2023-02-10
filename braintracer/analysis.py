@@ -17,7 +17,7 @@ from scipy import ndimage
 from matplotlib import cm
 
 datasets = []
-area_indexes = btf.open_file('structures.csv')
+area_indexes = btf.get_lookup_df()
 atlas = btf.get_atlas()
 reference = btf.get_reference()
 network_name = 'Unet'
