@@ -30,6 +30,20 @@ As you can see, for now `bt.bat` and `bt_visualiser.py` must be copied into the 
 On Windows, these files are found here:  
 `Users/USERNAME/miniconda3/envs/ENV_NAME/Lib/site-packages/braintracer/braintracer`  
 
+It is also recommended to install CUDA for usage of the GPU in cellfinder:  
+`conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0`  
+Then confirm the GPU is detected by tensorflow:  
+`python`
+`import tensorflow as tf`  
+`tf.config.list_physical_devices('GPU')`    
+
+To generate the braintracer directory structure inside `WorkingDirectory`:  
+• Open Anaconda Prompt  
+• Activate your environment: `conda activate env_name`  
+• Navigate to `WorkingDirectory`  
+• Run the braintracer pre-processing tool: `bt.bat`  
+• The tool can then be closed - the directories are generated immediately  
+
 ---
 ## Usage
 braintracer has two main workflows - pre-processing and visualisation.  
@@ -54,9 +68,7 @@ If you already have a .csv from cellfinder containing cell coordinates, follow t
 ---
 ## Sample data
 If you don't have access to any raw data, you can use the sample data provided.  
-Set up everything as above bar the `DatasetName` directories and contained files.  
-Attempt to run `bt.bat` from `WorkingDirectory` in the terminal once, so that the atlas and other files can be organised correctly.  
-Move the sample data files into the `braintracer\cellfinder\` directory.  
+Move the sample data files into the `WorkingDirectory\braintracer\cellfinder\` directory.  
 You should then be able to explore this data with the bt_visualiser.ipynb notebook with `jupyter notebook` or `jupyter-lab`  
 
 ---
