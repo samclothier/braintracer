@@ -8,7 +8,8 @@ from tqdm.notebook import tqdm
 from bs4 import BeautifulSoup
 from PIL import Image
 
-script_dir = os.getcwd() #<-- absolute dir the script is in
+script_dir = os.getcwd() #<-- dir of the notebook file
+package_dir = os.path.dirname(os.path.realpath(__file__)) #<-- dir of the package itself
 atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name, vID=None):
@@ -19,7 +20,7 @@ def _get_path(file_name, vID=None):
 	elif file_name.startswith('groundtruth_'):
 		child_dir = 'braintracer\\ground_truth'
 	elif file_name.startswith('structures'):
-		child_dir = 'braintracer'
+		child_dir = None # local file, now part of the package
 	elif file_name.startswith('atlas'):
 		child_dir = 'braintracer\\registered_atlases'
 	elif file_name.startswith('fluorescence'):
@@ -31,9 +32,15 @@ def _get_path(file_name, vID=None):
 		child_dir = f'braintracer\\videos\\{file_name.split("_")[1]}_{vID}'
 	else:
 		raise ValueError('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
-	if not os.path.isdir(child_dir):
-		os.makedirs(child_dir)
-	return os.path.join(script_dir, child_dir+'\\'+file_name)
+
+	if child_dir is not None:
+		if not os.path.isdir(child_dir):
+			os.makedirs(child_dir)
+		path = os.path.join(script_dir, child_dir+'\\'+file_name)
+	else:
+		
+		path = os.path.join(package_dir, file_name)
+	return path
 
 def verify_image_integrity(dataset):
 	def code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2):

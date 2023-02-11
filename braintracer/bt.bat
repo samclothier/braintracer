@@ -10,7 +10,6 @@ if not exist %folder%\cellfinder mkdir %folder%\cellfinder
 if not exist %folder%\figures mkdir %folder%\figures
 if not exist %folder%\registered_atlases mkdir %folder%\registered_atlases
 if not exist %folder%\videos mkdir %folder%\videos
-if not exist %folder%\structures.csv copy %USERPROFILE%\.brainglobe\allen_mouse_10um_v1.2\structures.csv %folder%
 
 set /p dataset=Dataset name: 
 set /p s_chs=Signal channels (include spaces for multiple): 
