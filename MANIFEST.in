@@ -2,3 +2,4 @@ include braintracer/*.ipynb
 include braintracer/*.sh
 include braintracer/*.bat
 include braintracer/sample_data/*.csv
+include braintracer/*.csv
