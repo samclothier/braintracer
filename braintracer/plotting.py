@@ -1,6 +1,23 @@
+"""
+Copyright (C) 2021-2023  Sam Clothier
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import plotly
-import braintracer.file_management as btf
-import braintracer.analysis as bt
+import braintracer.braintracer.file_management as btf
+import braintracer.braintracer.analysis as bt
 import matplotlib.pyplot as plt
 import matplotlib.colors as clrs
 import plotly.graph_objs as go
@@ -122,6 +139,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 		dataset_cells = np.delete(dataset_cells, idxs_to_remove, axis=1)
 		area_labels = np.delete(area_labels, idxs_to_remove)
 		area_idxs = np.delete(area_idxs, idxs_to_remove) # also remove idxs so sort can work
+	print(list(area_idxs))
 
 	if sort is True:
 		#col_sorter = np.sum(dataset_cells, axis=0).argsort()[::-1] # sort columns by sum
@@ -190,18 +208,23 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 	f.colorbar(im, cax=cax, orientation='vertical')
 	ax.set_title(axis_title)
 
-def bin_3D_show(area_num=None, binsize=200, axis=2, sigma=None, subregion_depth=None, projcol='k', padding=10, vlim=None, ch1=True):
+def bin_3D_show(area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vlim=None, ch1=True):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 	axes = [x for x in [0, 1, 2] if x != axis]
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
+	regions = None
+	if subregion_depth is not None:
+		regions = bt.children_from(area_num, depth=subregion_depth)[1]
+	elif subregions is not None:
+		regions = subregions
 
 	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,5))
 	parent_projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = bt.get_projection(area_num, padding=padding, axis=2-axis)
 	parent_projection = parent_projection.T if axis == 0 else parent_projection # side-on orientation does not need axis swapping
-	if subregion_depth is not None:
-		for child in bt.children_from(area_num, depth=subregion_depth)[1]:
+	if regions is not None:
+		for child in regions:
 			child_projection, (cx_min, cy_min, cz_min), _ = bt.get_projection(child, padding=padding, axis=2-axis)
 			cx_offset, cy_offset, cz_offset = cx_min - px_min, cy_min - py_min, cz_min - pz_min
 			if axis == 2:
@@ -370,7 +393,7 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigm
 		[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
 	[t.set_color(colours[i]) for i, t in enumerate(ax.yaxis.get_ticklabels())]
 
-def generate_zoom_plot(parent_name, depth=2, threshold=1, prop_all=True, ax=None):
+def generate_zoom_plot(parent_name, depth=0, threshold=0, prop_all=True, ax=None):
 	'''
 	prop_all: True; cell counts as fraction of total cells in signal channel. False; cell counts as fraction in parent area
 	'''
