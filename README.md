@@ -33,7 +33,7 @@ On Windows, these files are found here:
 It is also recommended to install CUDA for usage of the GPU in cellfinder:  
 `conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0`  
 Then confirm the GPU is detected by tensorflow:  
-`python`
+`python`  
 `import tensorflow as tf`  
 `tf.config.list_physical_devices('GPU')`    
 
