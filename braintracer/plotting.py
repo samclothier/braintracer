@@ -139,7 +139,8 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 		dataset_cells = np.delete(dataset_cells, idxs_to_remove, axis=1)
 		area_labels = np.delete(area_labels, idxs_to_remove)
 		area_idxs = np.delete(area_idxs, idxs_to_remove) # also remove idxs so sort can work
-	print(list(area_idxs))
+	if bt.debug:
+		print(f'All areas: {list(area_idxs)}')
 
 	if sort is True:
 		#col_sorter = np.sum(dataset_cells, axis=0).argsort()[::-1] # sort columns by sum
@@ -151,7 +152,8 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 			if i not in sorted_already:
 				children = bt.children_from(i, depth=0)[1]
 				present_children = [i for i in area_idxs if i in children and i not in sorted_already]
-				print(i, present_children)
+				if bt.debug:
+					print(f'Area {i} contains: {present_children}')
 				paired_arr = np.append(i, present_children)
 				new_labels = np.append(new_labels, paired_arr)
 				sorted_already = np.append(sorted_already, paired_arr)
@@ -315,7 +317,9 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigm
 			if bt.debug:
 				print(f'Num neg points removed: {old_num_points[0] - neg_num_points[0]}, num IO+CBX points removed: {neg_num_points[0] - points.shape[0]}, num acc values: {points_IO.shape[0]}')
 		else:
-			points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
+			parent, children = bt.children_from(area_num, depth=0)
+			areas = [parent] + children
+			points = np.array(bt._get_cells_in(areas, d, ch1=ch1)).T
 		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
 		num_nonzero_bins.append(np.count_nonzero(hist)) # just debug stuff
 		last_hist_shape = hist.shape			
@@ -357,6 +361,9 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigm
 		cax = divider.append_axes('right', size='5%', pad=0.05)
 
 		cov = np.corrcoef(all_voxels, rowvar=1)
+		if np.isnan(np.sum(cov)):
+			cov = np.nan_to_num(cov, copy=True, nan=0.0)
+			print('Warning: All correlations probably NaN. Specified region likely contains no cells.')
 		if override_order is None:
 			if order_method is not None:
 				if not blind_order:
@@ -486,7 +493,7 @@ def generate_heatmap_difference(areas, orientation, position=None, normalisation
 		bounds = np.abs(limit)
 	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 
-def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None):
+def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None, add=False):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	group_names = [i.group for i in bt.datasets]
 	if bt.fluorescence:
@@ -497,6 +504,8 @@ def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch
 	cells = np.array(cells)
 	print(cells[cells==0])
 	ratios = cells[0] / cells[1]
+	if add:
+		ratios = (cells[0] / cells[1]) + 1
 	differences = np.log10(ratios, where=ratios > 0) # calculate log ratio rather than absolute difference
 	bounds = np.abs(differences).max()
 	regions = dict(zip(areas, differences))

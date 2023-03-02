@@ -523,7 +523,7 @@ def children_from(parent, depth):
 		children = parents
 	return parent, children
 
-def get_area_info(codes, new_counter=None):
+def get_area_info(codes, new_counter=None): # TODO: create functions where requested representation type is returned and starting type is not specified
 	'''
 	return area full-names, area indexes, and area cell count given short-letter codes or area indexes
 	'''

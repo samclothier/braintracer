@@ -78,17 +78,19 @@ def verify_image_integrity(dataset):
 	for i in range(3):
 		channel_num = i + 1
 		path = os.path.join(script_dir, dataset, str(channel_num))
-		for root, dirs, files in os.walk(path):
-			prev_name = 'section_000_00.tif'
-			for file in files:
-				pre_code1 = prev_name.split('_')[1]
-				pre_code2 = prev_name.split('_')[-1][1]
-				cur_code1 = file.split('_')[1]
-				cur_code2 = file.split('_')[-1][1]
-				assert code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2), f'Channel {i+1} warning: {file} does not follow previous file: {prev_name}'
-				prev_name = file
-			
-		print(f'Channel {i+1} successfully verified.')
+		if os.path.isdir(path):
+			for root, dirs, files in os.walk(path):
+				prev_name = 'section_000_00.tif'
+				for file in files:
+					pre_code1 = prev_name.split('_')[1]
+					pre_code2 = prev_name.split('_')[-1][1]
+					cur_code1 = file.split('_')[1]
+					cur_code2 = file.split('_')[-1][1]
+					assert code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2), f'Channel {channel_num} warning: {file} does not follow previous file: {prev_name}'
+					prev_name = file
+			print(f'Channel {channel_num} successfully verified.')
+		else:
+			print(f'Channel {channel_num} does not exist. Try renaming channels to 1,2, and 3.')
 
 # opens xml files from napari containing cell points
 def open_file(name, atlas_25=False): # open files
