@@ -40,7 +40,7 @@ def _get_path(file_name, vID=None):
 		child_dir = None # local file, now part of the package
 	elif file_name.startswith('atlas'):
 		child_dir = 'braintracer\\registered_atlases'
-	elif file_name.startswith('fluorescence'):
+	elif file_name.startswith('binary_'):
 		child_dir = 'braintracer\\fluorescence'
 	elif file_name.startswith('injection_'):
 		child_dir = 'braintracer\\TRIO'
@@ -55,42 +55,8 @@ def _get_path(file_name, vID=None):
 			os.makedirs(child_dir)
 		path = os.path.join(script_dir, child_dir+'\\'+file_name)
 	else:
-		
 		path = os.path.join(package_dir, file_name)
 	return path
-
-def verify_image_integrity(dataset):
-	def code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2):
-		pre_code1, cur_code1 = int(pre_code1), int(cur_code1)
-		pre_code2, cur_code2 = int(pre_code2), int(cur_code2) # convert all string codes to ints for comparison
-		if cur_code1 == pre_code1:
-			pass
-		elif (cur_code1 == pre_code1 + 1) and cur_code2 == 1:
-			pass
-		else:
-			return False
-		if cur_code2 == pre_code2 + 1:
-			return True
-		elif cur_code2 == 1 and pre_code2 == 8:
-			return True
-		else:
-			return False
-	for i in range(3):
-		channel_num = i + 1
-		path = os.path.join(script_dir, dataset, str(channel_num))
-		if os.path.isdir(path):
-			for root, dirs, files in os.walk(path):
-				prev_name = 'section_000_00.tif'
-				for file in files:
-					pre_code1 = prev_name.split('_')[1]
-					pre_code2 = prev_name.split('_')[-1][1]
-					cur_code1 = file.split('_')[1]
-					cur_code2 = file.split('_')[-1][1]
-					assert code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2), f'Channel {channel_num} warning: {file} does not follow previous file: {prev_name}'
-					prev_name = file
-			print(f'Channel {channel_num} successfully verified.')
-		else:
-			print(f'Channel {channel_num} does not exist. Try renaming channels to 1,2, and 3.')
 
 # opens xml files from napari containing cell points
 def open_file(name, atlas_25=False): # open files
@@ -136,17 +102,22 @@ def open_file(name, atlas_25=False): # open files
 			z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
 			y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
 			x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
+			hemisphere = cell_df['hemisphere'].to_list()
 			if atlas_25:
 				z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
 				y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
 				x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
-			return [x_coords, y_coords, z_coords]
+			return [x_coords, y_coords, z_coords, hemisphere]
 		elif name.startswith('structures'):
 			area_indexes = pd.read_csv(file_path)
 			area_indexes = area_indexes.set_index('id')
 			return area_indexes
 		else:
 			print(f'Cannot load CSV with name {name}')
+	elif ext == 'npy':
+		coordinates = np.load(file_path)
+		coordinates = np.flip(coordinates.T, axis=0) # x, y, z
+		return coordinates.tolist()
 	elif ext == 'pkl':
 		return pickle.load(open(f'{file_path}', 'rb'))
 	else:
@@ -159,6 +130,15 @@ def open_transformed_brain(dataset):
 	assert os.path.isdir(path), f'Please provide transformed stack at {path}'
 	files = glob.glob(path)
 	return files
+
+def open_registered_stack(dataset):
+	if dataset.fluorescence:
+		name = f'binary_registered_stack_{dataset.name}.npy'
+		path = _get_path(name)
+		return np.load(path)
+	else:
+		stack = np.array(btf.open_file(f'reg_{dataset.name}_{dataset.sig[0]}.tiff'))[0]
+		return stack
 
 def get_atlas():
 	global atlas
@@ -225,6 +205,39 @@ def create_gif(dataset_name, vID, fps=30):
 		# https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
 		img.save(fp=fp_out, format='GIF', append_images=imgs,
 				 save_all=True, duration=int((1/fps)*1000), loop=0)
+
+def verify_image_integrity(dataset):
+	def code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2):
+		pre_code1, cur_code1 = int(pre_code1), int(cur_code1)
+		pre_code2, cur_code2 = int(pre_code2), int(cur_code2) # convert all string codes to ints for comparison
+		if cur_code1 == pre_code1:
+			pass
+		elif (cur_code1 == pre_code1 + 1) and cur_code2 == 1:
+			pass
+		else:
+			return False
+		if cur_code2 == pre_code2 + 1:
+			return True
+		elif cur_code2 == 1 and pre_code2 == 8:
+			return True
+		else:
+			return False
+	for i in range(3):
+		channel_num = i + 1
+		path = os.path.join(script_dir, dataset, str(channel_num))
+		if os.path.isdir(path):
+			for root, dirs, files in os.walk(path):
+				prev_name = 'section_000_00.tif'
+				for file in files:
+					pre_code1 = prev_name.split('_')[1]
+					pre_code2 = prev_name.split('_')[-1][1]
+					cur_code1 = file.split('_')[1]
+					cur_code2 = file.split('_')[-1][1]
+					assert code_comparisons(pre_code1, cur_code1, pre_code2, cur_code2), f'Channel {channel_num} warning: {file} does not follow previous file: {prev_name}'
+					prev_name = file
+			print(f'Channel {channel_num} successfully verified.')
+		else:
+			print(f'Channel {channel_num} does not exist. Try renaming channels to 1,2, and 3.')
 
 class HiddenPrints:
 	def __enter__(self):
