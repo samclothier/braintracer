@@ -16,8 +16,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import plotly
-import braintracer.braintracer.file_management as btf
-import braintracer.braintracer.analysis as bt
+import braintracer.file_management as btf
+import braintracer.analysis as bt
 import matplotlib.pyplot as plt
 import matplotlib.colors as clrs
 import plotly.graph_objs as go
@@ -67,17 +67,11 @@ def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=F
 def generate_summary_plot(ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
 	area_labels, _, _ = bt.get_area_info(summary_areas)
-	if bt.fluorescence:
-		datasets = [i for i in bt.datasets if i.fluorescence]
-		dataset_cells, axis_title = _fluorescence_by_area_across_fl_datasets(summary_areas, datasets, normalisation='ch1')
-	else:
-		datasets = [i for i in bt.datasets if not i.fluorescence]
-		dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
-		# Implement IO count subtraction from MY here
-		#IO_cells = bt.get_area_info('IO', dataset.ch1_cells_by_area)[2][0]
-		#cells[5] = cells[5] - IO_cells
-	
-	assert len(datasets) != 0, f'No datasets exist of type fluorescence={bt.fluorescence}'
+	datasets = [i for i in bt.datasets]# if not i.fluorescence]
+	dataset_cells, axis_title = _cells_in_areas_in_datasets(summary_areas, datasets, normalisation='ch1')
+	# Implement IO count subtraction from MY here
+	#IO_cells = bt.get_area_info('IO', dataset.ch1_cells_by_area)[2][0]
+	#cells[5] = cells[5] - IO_cells
 	if bt.debug:
 		print(dataset_cells)
 		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
@@ -139,7 +133,8 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 		dataset_cells = np.delete(dataset_cells, idxs_to_remove, axis=1)
 		area_labels = np.delete(area_labels, idxs_to_remove)
 		area_idxs = np.delete(area_idxs, idxs_to_remove) # also remove idxs so sort can work
-	print(list(area_idxs))
+	if bt.debug:
+		print(f'All areas: {list(area_idxs)}')
 
 	if sort is True:
 		#col_sorter = np.sum(dataset_cells, axis=0).argsort()[::-1] # sort columns by sum
@@ -151,7 +146,8 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
 			if i not in sorted_already:
 				children = bt.children_from(i, depth=0)[1]
 				present_children = [i for i in area_idxs if i in children and i not in sorted_already]
-				print(i, present_children)
+				if bt.debug:
+					print(f'Area {i} contains: {present_children}')
 				paired_arr = np.append(i, present_children)
 				new_labels = np.append(new_labels, paired_arr)
 				sorted_already = np.append(sorted_already, paired_arr)
@@ -214,7 +210,9 @@ def bin_3D_show(area_num=None, binsize=200, axis=2, sigma=None, subregions=None,
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 	axes = [x for x in [0, 1, 2] if x != axis]
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
-	regions = None
+	if area_num is None:
+		area_num = 997
+	regions = None # only define regions when subregion_depth and subregions = None
 	if subregion_depth is not None:
 		regions = bt.children_from(area_num, depth=subregion_depth)[1]
 	elif subregions is not None:
@@ -281,7 +279,11 @@ def bin_3D_show(area_num=None, binsize=200, axis=2, sigma=None, subregions=None,
 		av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
 		cax = ax.imshow(av_im, cmap=cmap, vmin=0, vmax=vlim)
 		plt.colorbar(cax)
-		ax.set_title(f'{group} cell detection probability')
+
+		sum_cells = 0
+		for d in [d for d in bt.datasets if d.group == group]:
+			sum_cells = sum_cells + bt.get_area_info(area_num, d.ch1_cells_by_area)[2][0]
+		ax.set_title(f'{group} P(cell) (tot={av_im.shape[0]}, from={sum_cells})')
 
 	orig_cmap = plt.cm.RdBu
 	clrs_blue = orig_cmap(np.linspace(0.5, 1.0, 10))
@@ -315,7 +317,9 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigm
 			if bt.debug:
 				print(f'Num neg points removed: {old_num_points[0] - neg_num_points[0]}, num IO+CBX points removed: {neg_num_points[0] - points.shape[0]}, num acc values: {points_IO.shape[0]}')
 		else:
-			points = np.array(bt._get_cells_in(area_num, d, ch1=ch1)).T
+			parent, children = bt.children_from(area_num, depth=0)
+			areas = [parent] + children
+			points = np.array(bt._get_cells_in(areas, d, ch1=ch1)).T
 		hist, binedges = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
 		num_nonzero_bins.append(np.count_nonzero(hist)) # just debug stuff
 		last_hist_shape = hist.shape			
@@ -357,6 +361,9 @@ def bin_3D_matrix(area_num=None, binsize=500, aspect='equal', zscore=False, sigm
 		cax = divider.append_axes('right', size='5%', pad=0.05)
 
 		cov = np.corrcoef(all_voxels, rowvar=1)
+		if np.isnan(np.sum(cov)):
+			cov = np.nan_to_num(cov, copy=True, nan=0.0)
+			print('Warning: All correlations probably NaN. Specified region likely contains no cells.')
 		if override_order is None:
 			if order_method is not None:
 				if not blind_order:
@@ -486,7 +493,7 @@ def generate_heatmap_difference(areas, orientation, position=None, normalisation
 		bounds = np.abs(limit)
 	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 
-def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None):
+def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch1', cmap='bwr', legend=True, limit=None, add=False):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	group_names = [i.group for i in bt.datasets]
 	if bt.fluorescence:
@@ -497,6 +504,8 @@ def generate_heatmap_ratios(areas, orientation, position=None, normalisation='ch
 	cells = np.array(cells)
 	print(cells[cells==0])
 	ratios = cells[0] / cells[1]
+	if add:
+		ratios = (cells[0] / cells[1]) + 1
 	differences = np.log10(ratios, where=ratios > 0) # calculate log ratio rather than absolute difference
 	bounds = np.abs(differences).max()
 	regions = dict(zip(areas, differences))
@@ -537,25 +546,30 @@ def generate_slice_heatmap(position, normalisation='ch1', depth=3):
 	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 
-def generate_brain_overview(dataset, vmin=5, top_down=False, cmap='gray', ax=None):
+def generate_brain_overview(dataset, vmin=None, top_down=False, cmap='gray', ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(10,6))
 		f.set_facecolor('white')
-	stack = np.array(btf.open_file(f'reg_{dataset.name}_{dataset.sig[0]}.tiff'))[0]
-	'''
-	nz = np.nonzero(stack)
-	z_min, y_min, x_min = nz[0].min(), nz[1].min(), nz[2].min()
-	z_max, y_max, x_max = nz[0].max(), nz[1].max(), nz[2].max()
-	if bt.debug:
-		print('x:'+str(x_min)+' '+str(x_max)+' y:'+str(y_min)+' '+str(y_max)+' z:'+str(z_min)+' '+str(z_max))
-	#cropped_stack = stack[z_min : z_max, y_min : y_max, x_min : x_max]
-	'''
+	stack = btf.open_registered_stack(dataset)
+	
 	axis = 1 if top_down else 2
-	projection = np.log(stack.max(axis=axis))
+	if dataset.fluorescence:
+		projection = np.log(np.sum(stack, axis=axis))
+	else:
+		projection = np.log(stack.max(axis=axis))
 	projection = projection.astype(int).T
 	im = ax.imshow(projection, vmin=vmin, cmap=cmap)
 	f.colorbar(im, label='log max px value along axis')
 	plt.axis('off')
+
+def generate_anterograde_stack(dataset, axis=0, vbounds=(None,None)):
+	vmin, vmax = vbounds
+	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,6))
+	f.set_facecolor('white')
+	stack = btf.open_registered_stack(dataset)
+	ax1.imshow(np.max(bt.atlas, axis=0), norm='log', cmap='Reds')
+	ax2.imshow(np.max(bt.reference, axis=0), norm='log', cmap='Reds')
+	ax2.imshow(np.sum(stack, axis=0), norm='log', vmin=vmin, vmax=vmax, cmap='Greys')
 
 def generate_mega_overview_figure(title):
 	f = plt.figure(figsize=(24, 35))

@@ -16,8 +16,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import pickle, time, cv2
-import braintracer.braintracer.file_management as btf
-import braintracer.braintracer.plotting as btp
+import braintracer.file_management as btf
+import braintracer.plotting as btp
 import matplotlib.pyplot as plt
 import shortuuid as uid
 import pandas as pd
@@ -38,42 +38,28 @@ area_indexes = btf.open_file('structures.csv')
 atlas = btf.get_atlas()
 reference = btf.get_reference()
 network_name = 'Unet'
-fluorescence = False
 starter_region = None
 starter_ch1 = False
 grouped = True
 debug = False
 
 class Dataset:
-	def __init__(self, name, group, sig, bg, starters=None, atlas_25=False, fluorescence=False, ignore_autofluorescence=False, modify_starter=False, fluorescence_parameters=False):
+	def __init__(self, name, group, sig, bg, fluorescence=False, starters=None, atlas_25=False, modify_starter=False):
 		self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
-		self.atlas = None # becomes used if the atlas is modified or fluorescence analysed
+		self.atlas = None # becomes used if the atlas is modified
 		if not fluorescence:
 			self.ch1_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[0]}.csv', atlas_25=atlas_25)
-			#self.ch2_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
-			self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
-			#self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
-			self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
-			#self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+		else:
+			self.ch1_cells = btf.open_file(f'binary_registered_{self.name}.npy', atlas_25=atlas_25) # check if atlas 25 works with anterograde pipeline
+		#self.ch2_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
+		self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
+		#self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
+		self.ch1_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch1_cells_by_area)
+		#self.ch2_cells_by_area = self.__propagate_cells_through_inheritance_tree(self.raw_ch2_cells_by_area)
+
 		datasets.append(self)
-		self.flr_by_area = None
 		self.area_volumes = None
 		self.true_postsynaptics = starters
-		if fluorescence:
-			try:
-				self.flr_by_area = btf.open_file(f'fluorescence_{self.name}.pkl')
-				print(f'Successfully opened saved fluorescence data for {self.name}')
-			except (OSError, IOError) as e:
-				print(f'Failed to open saved fluorescence data for {self.name}. Analysing fluorescence...')
-				if fluorescence_parameters:
-					self.analyse_fluorescence(correct_x_flip=True, check_after=400)
-				else:
-					self.analyse_fluorescence()
-				if self.flr_by_area != None:
-					btf.save(f'fluorescence_{self.name}', 'pkl', file=self.flr_by_area)
-					print(f'Saved fluorescence data for {self.name}.')
-				else:
-					print(f'Fluorescence data for {self.name} not saved because fluorescence not quantified correctly.')
 		global starter_region
 		if modify_starter: # starter region is always the global starter region
 			if starter_region is None:
@@ -159,16 +145,16 @@ class Dataset:
 					new_counter[area_index] += count
 		return new_counter
 
-	def num_cells_in(self, area, ch1=None):
+	def num_cells_in(self, area, ch1=None, left=None):
 		'''
 		get the number of cells in a given brain area
 		WARNING: Used by internal functions before propagation; use only to query raw data
 		'''
 		area_idx = get_area_info([area])[1]
 		if ch1 == None:
-			return len(_get_cells_in(area_idx, self, ch1=True)[0]) + len(_get_cells_in(area_idx, self, ch1=False)[0])
+			return len(_get_cells_in(area_idx, self, ch1=True, left=left)[0]) + len(_get_cells_in(area_idx, self, ch1=False, left=left)[0])
 		else:
-			return len(_get_cells_in(area_idx, self, ch1=ch1)[0])
+			return len(_get_cells_in(area_idx, self, ch1=ch1, left=left)[0])
 
 	def presynaptics(self):
 		red_cells = self.num_cells(ch1=True)
@@ -234,95 +220,6 @@ class Dataset:
 		plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
 		plot_dist(ax3, 1, xlabel='Distance from image top / um')
 
-	def check_fluorescence(self, num, correct_z_flip=False, correct_x_flip=False, restrict_to_idx=None):
-		self.atlas = np.array(btf.open_file(f'atlas_{self.name}_r.tiff'))[0]
-		if correct_x_flip:
-			self.atlas = np.flip(self.atlas, axis=2)
-		if correct_z_flip:
-			self.atlas = np.flip(self.atlas, axis=0)
-		print(atlas.shape)
-		
-		subtracted_stack_files = btf.open_transformed_brain(self)
-		num_slices = len(subtracted_stack_files)
-		print(num_slices)
-		im = np.load(subtracted_stack_files[num])
-		print(im.shape)
-
-		# get values to scale pixels into registered atlas space
-		z_scalar = self.atlas.shape[0] / num_slices
-		y_scalar = self.atlas.shape[1] / im.shape[0]
-		x_scalar = self.atlas.shape[2] / im.shape[1]
-		print(z_scalar,y_scalar,x_scalar)
-
-		z_coords, y_coords, x_coords = np.array([]), np.array([]), np.array([])
-		atlas_z = int((num_slices - num) * z_scalar) - 1 # pick the closest atlas slice, -1 to start from zero
-		print(atlas_z)
-		y_pxs, x_pxs = np.nonzero(im) # get coordinates of 1s in this slice
-		x_coords = np.append(x_coords, list(map(lambda x: int(x * x_scalar), x_pxs)))
-		y_coords = np.append(y_coords, list(map(lambda y: int(y * y_scalar), y_pxs)))
-		z_coords = np.append(z_coords, [atlas_z] * len(x_pxs)) # add all the repeating z coordinates for this slice
-		coords = [list(x_coords.astype(int)), list(y_coords.astype(int)), list(z_coords.astype(int))]
-
-		x_vals, y_vals, z_vals = coords[0], coords[1], coords[2]
-		x_IO, y_IO, z_IO = np.array([]), np.array([]), np.array([])
-		seen_vals = []
-		for idx, z in enumerate(z_vals):
-			x = x_vals[idx]
-			y = y_vals[idx]
-			area_index = _get_area_index(self, z, x, y)
-			if area_index == restrict_to_idx:
-				x_IO = np.append(x_IO, x)
-				y_IO = np.append(y_IO, y)
-
-		atlas_im = self.atlas[atlas_z]
-		f, ax = plt.subplots(figsize=(10, 10))
-		ax.imshow(atlas_im, cmap='Greens', vmax=1000)
-		if restrict_to_idx is None:
-			ax.scatter(coords[0], coords[1], s=0.2)
-		else:
-			ax.scatter(x_IO, y_IO, s=0.2)
-
-	def analyse_fluorescence(self, correct_z_flip=False, correct_x_flip=False, check_after=200):
-		self.atlas = np.array(btf.open_file(f'atlas_{self.name}_r.tiff'))[0]
-		if correct_x_flip:
-			self.atlas = np.flip(self.atlas, axis=2)
-		if correct_z_flip:
-			self.atlas = np.flip(self.atlas, axis=0)
-		print(self.atlas.shape)
-		
-		subtracted_stack_files = btf.open_transformed_brain(self)
-		num_slices = len(subtracted_stack_files)
-		print(num_slices)
-		first_im = np.load(subtracted_stack_files[0])
-		print(first_im.shape)
-
-		# get values to scale pixels into registered atlas space
-		z_scalar = self.atlas.shape[0] / num_slices
-		y_scalar = self.atlas.shape[1] / first_im.shape[0]
-		x_scalar = self.atlas.shape[2] / first_im.shape[1]
-		print(z_scalar,y_scalar,x_scalar)
-
-		z_coords, y_coords, x_coords = np.array([]), np.array([]), np.array([])
-		for z, im in enumerate(tqdm(subtracted_stack_files)):
-			# take reverse of z
-			atlas_z = int((num_slices - z) * z_scalar) - 1 # pick the closest atlas slice, -1 to start from zero
-			y_pxs, x_pxs = np.nonzero(np.load(im)) # get coordinates of 1s in this slice
-			x_atlas = list(map(lambda x: int(x * x_scalar), x_pxs))
-			y_atlas = list(map(lambda y: int(y * y_scalar), y_pxs))
-			x_coords = np.append(x_coords, x_atlas)
-			y_coords = np.append(y_coords, y_atlas)
-			z_coords = np.append(z_coords, [atlas_z] * len(x_pxs)) # add all the repeating z coordinates for this slice
-			if check_after == z:
-				atlas_im = np.where(self.atlas[atlas_z] > 0, 1, 0)
-				f, ax = plt.subplots(figsize=(10, 10))
-				ax.imshow(atlas_im, cmap='Greens', interpolation=None)
-				ax.scatter(x_atlas, y_atlas, s=1)
-		coords = [list(x_coords.astype(int)), list(y_coords.astype(int)), list(z_coords.astype(int))]
-		
-		raw_fluorescence_by_area = self.__count_cells(coords)
-		fluorescence_by_area = self.__propagate_cells_through_inheritance_tree(raw_fluorescence_by_area)
-		self.flr_by_area = fluorescence_by_area
-
 	def project_slices(self, region, figsize=(10,6)):
 		start, end = region
 		subtracted_stack_files = btf.open_transformed_brain(self)
@@ -369,13 +266,20 @@ class Dataset:
 			if save:
 				btf.save(f'video_{self.name}_frame_{i}', as_type='png', dpi=80, vID=seq_id)
 
-	def get_tot_fluorescence(self, area_idxs):
-		if any(n < 0 for n in self.flr_by_area):
-			print(f'Warning: Brain regions have {sum(n < 0 for n in self.flr_by_area)} negative fluorescence values.')
-		_, area_idxs, _ = get_area_info(area_idxs) # make sure string area names are indexes
+	def get_cells_in_hemisphere(self, area): #, left=True):
+		# to query raw data:
+		num_total = self.num_cells_in(area, ch1=True, left=None)
+		num_left = self.num_cells_in(area, ch1=True, left=True)
+		num_right = self.num_cells_in(area, ch1=True, left=False)
 
-		return [self.flr_by_area[int(i)] for i in area_idxs]
-		# TODO: get area volumes with API
+		# to get real answer:
+		parent, children = children_from(area, depth=0)
+		areas = [parent] + children
+		true_num_total = len(_get_cells_in(areas, self, ch1=True, left=None)[0])
+		true_num_left = len(_get_cells_in(areas, self, ch1=True, left=True)[0])
+		true_num_right = len(_get_cells_in(areas, self, ch1=True, left=False)[0])
+
+		return (num_total, num_left, num_right), (true_num_total, true_num_left, true_num_right)
 
 
 class _Results: # singleton object
@@ -460,7 +364,8 @@ def _get_area_index(dataset, z, x, y):
 		### USE atlas.structure_from_coords
 		#print(btf.atlas.structure_from_coords((z, y, x), as_acronym=True), area_index) # this works, but returns name 'IO'
 	else:
-		print('Warning: Point out of bounds')
+		if dataset.fluorescence is False: # don't warn if fluorescence because many transformed coordinates will be out of bounds
+			print('Warning: Point out of bounds')
 		return 0
 	if area_index >= 0:
 		return area_index
@@ -468,11 +373,18 @@ def _get_area_index(dataset, z, x, y):
 		print('Warning: Area index is < 0')
 		return 0
 
-def _get_cells_in(region, dataset, ch1=True):
+def _get_cells_in(region, dataset, ch1=True, left=None):
 	'''
 	return coordinates of cells within a defined region.
 	region: can be a list of area indexes, numpy array of a 3D area, or a tuple containing the coordinates bounding a cube
 	'''
+	def hemisphere_predicate(hemi):
+		if left == None:
+			return hemi == 'left' or hemi == 'right' # return true regardless of hemisphere
+		elif left == True:
+			return hemi == 'left'
+		elif left == False:
+			return hemi == 'right'
 	def is_in_region(z, x, y):
 		if isinstance(region, list):
 			areas = region
@@ -490,11 +402,11 @@ def _get_cells_in(region, dataset, ch1=True):
 			print(f'Unable to identify region type {type(region)} for returning cell coordinates.')
 	cells_x, cells_y, cells_z = [], [], []
 	cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
-	cls_x, cls_y, cls_z = cell_coords[0], cell_coords[1], cell_coords[2]
+	cls_x, cls_y, cls_z, cls_h = cell_coords[0], cell_coords[1], cell_coords[2], cell_coords[3]
 	for idx, z in enumerate(cls_z):
 		x = cls_x[idx]
 		y = cls_y[idx]
-		if is_in_region(z,x,y):
+		if is_in_region(z,x,y) and hemisphere_predicate(cls_h[idx]):
 			cells_x.append(x)
 			cells_y.append(y)
 			cells_z.append(z)
@@ -523,7 +435,7 @@ def children_from(parent, depth):
 		children = parents
 	return parent, children
 
-def get_area_info(codes, new_counter=None):
+def get_area_info(codes, new_counter=None): # TODO: create functions where requested representation type is returned and starting type is not specified
 	'''
 	return area full-names, area indexes, and area cell count given short-letter codes or area indexes
 	'''
