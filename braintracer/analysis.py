@@ -15,9 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import importlib # import other braintracer files using relative path, agnostic to directory inheritance
+bt_path = '.'.join(__name__.split('.')[:-1]) # get module path (folder containing this file)
+btf = importlib.import_module(bt_path+'.file_management')
+btp = importlib.import_module(bt_path+'.plotting')
+
 import pickle, time, cv2
-import braintracer.file_management as btf
-import braintracer.plotting as btp
 import matplotlib.pyplot as plt
 import shortuuid as uid
 import pandas as pd

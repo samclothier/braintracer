@@ -15,9 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import importlib # import other braintracer files using relative path, agnostic to directory inheritance
+bt_path = '.'.join(__name__.split('.')[:-1]) # get module path (folder containing this file)
+btf = importlib.import_module(bt_path+'.file_management')
+bt = importlib.import_module(bt_path+'.analysis')
+
 import plotly
-import braintracer.file_management as btf
-import braintracer.analysis as bt
 import matplotlib.pyplot as plt
 import matplotlib.colors as clrs
 import plotly.graph_objs as go
@@ -546,30 +549,23 @@ def generate_slice_heatmap(position, normalisation='ch1', depth=3):
 	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 
-def generate_brain_overview(dataset, vmin=None, top_down=False, cmap='gray', ax=None):
-	if ax is None:
-		f, ax = plt.subplots(figsize=(10,6))
-		f.set_facecolor('white')
-	stack = btf.open_registered_stack(dataset)
-	
-	axis = 1 if top_down else 2
-	if dataset.fluorescence:
-		projection = np.log(np.sum(stack, axis=axis))
-	else:
-		projection = np.log(stack.max(axis=axis))
-	projection = projection.astype(int).T
-	im = ax.imshow(projection, vmin=vmin, cmap=cmap)
-	f.colorbar(im, label='log max px value along axis')
-	plt.axis('off')
-
-def generate_anterograde_stack(dataset, axis=0, vbounds=(None,None)):
-	vmin, vmax = vbounds
-	f, (ax1, ax2) = plt.subplots(1,2, figsize=(10,6))
-	f.set_facecolor('white')
-	stack = btf.open_registered_stack(dataset)
-	ax1.imshow(np.max(bt.atlas, axis=0), norm='log', cmap='Reds')
-	ax2.imshow(np.max(bt.reference, axis=0), norm='log', cmap='Reds')
-	ax2.imshow(np.sum(stack, axis=0), norm='log', vmin=vmin, vmax=vmax, cmap='Greys')
+def generate_brain_overview(dataset, vmin=None, vmax=None, top_down=False, cmap='gray', ax=None):
+    if ax is None:
+        f, ax = plt.subplots(figsize=(10,6))
+        f.set_facecolor('white')
+    stack = btf.open_registered_stack(dataset)
+    
+    axis = 1 if top_down else 2
+    if dataset.fluorescence:
+        projection = np.sum(stack, axis=axis)
+        title = '#px along axis'
+    else:
+        projection = np.log(stack.max(axis=axis))
+        title = 'log max px value along axis'
+    projection = projection.astype(int).T
+    im = ax.imshow(projection, vmin=vmin, vmax=vmax, cmap=cmap)
+    f.colorbar(im, label=title)
+    plt.axis('off')
 
 def generate_mega_overview_figure(title):
 	f = plt.figure(figsize=(24, 35))
