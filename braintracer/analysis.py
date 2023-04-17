@@ -49,11 +49,11 @@ debug = False
 class Dataset:
 	def __init__(self, name, group, sig, bg, fluorescence=False, starters=None, atlas_25=False, modify_starter=False):
 		self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
-		self.atlas = None # becomes used if the atlas is modified
+
 		if not fluorescence:
 			self.ch1_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[0]}.csv', atlas_25=atlas_25)
 		else:
-			self.ch1_cells = btf.open_file(f'binary_registered_{self.name}.npy', atlas_25=atlas_25) # check if atlas 25 works with anterograde pipeline
+			self.ch1_cells = btf.open_file(f'binary_registered_{self.name}.npy', atlas_25=atlas_25) #TODO: check if atlas 25 works with anterograde pipeline
 		#self.ch2_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
 		self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
 		#self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
@@ -64,12 +64,7 @@ class Dataset:
 		self.area_volumes = None
 		self.true_postsynaptics = starters
 		global starter_region
-		if modify_starter: # starter region is always the global starter region
-			if starter_region is None:
-				print('Starter region unknown. Define it with bt.starter_region = \'IO\'')
-			with btf.HiddenPrints():
-				self.atlas = btf.get_atlas() #TODO: allow custom starter region modification
-			self.adapt_starter_area((452+175, 452+225), (627+90, 627+125), (1098+100, 1098+180))
+		
 		if debug:
 			try:
 				_, _, IO_cells1 = get_area_info([starter_region], self.ch1_cells_by_area)
@@ -120,7 +115,7 @@ class Dataset:
 		for idx, z in enumerate(z_vals):
 			x = x_vals[idx]
 			y = y_vals[idx]
-			area_index = _get_area_index(self, z, x, y)
+			area_index = _get_area_index(z, x, y)
 			counter.setdefault(area_index, 0)
 			counter[area_index] = counter[area_index] + 1
 		if debug:
@@ -169,15 +164,6 @@ class Dataset:
 		if self.true_postsynaptics is not None:
 			return self.true_postsynaptics
 		return self.num_cells_in(starter_region, ch1=starter_ch1)
-
-	def adapt_starter_area(self, x_bounds, y_bounds, z_bounds):
-		z_min, z_max = z_bounds
-		x_min, x_max = x_bounds
-		y_min, y_max = y_bounds
-		with btf.HiddenPrints():
-			self.atlas = btf.get_atlas()
-		_, area_index, _ = get_area_info([starter_region])
-		self.atlas[z_min:z_max,y_min:y_max,x_min:x_max] = area_index
 
 	def assess_performance(self, gt_name, xy_tol=10, z_tol=10):
 		gt_cells = btf.open_file(gt_name)[0]
@@ -285,17 +271,6 @@ class Dataset:
 		return (num_total, num_left, num_right), (true_num_total, true_num_left, true_num_right)
 
 
-class _Results: # singleton object
-	_instance = None
-	def __new__(cls):
-		if cls._instance is None:
-			cls._instance = super(_Results, cls).__new__(cls)
-			# Put any initialization here.
-			cls.summary_cells = []
-			cls.nrmdltn_cells = []
-		return cls._instance
-results = _Results()
-
 def validate_dimensions(dataset, atlas_25, display=False):
 	'''
 	validate image dimensions
@@ -357,18 +332,17 @@ def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
 	z_vals = list(map(z_to_downsampled, z_vals))
 	return x_vals, y_vals, z_vals
 
-def _get_area_index(dataset, z, x, y):
+def _get_area_index(z, x, y):
 	'''
 	get the index referring to the brain area in which a cell is located
 	'''
-	im = atlas[z] if dataset.atlas is None else dataset.atlas[z] # happens when a dataset's atlas has been modified
+	im = atlas[z]
 	if x < im.shape[1] and y < im.shape[0]: # not <= because index is (shape - 1)
 		area_index = int(im[y,x])
 		### USE atlas.structure_from_coords
 		#print(btf.atlas.structure_from_coords((z, y, x), as_acronym=True), area_index) # this works, but returns name 'IO'
 	else:
-		if dataset.fluorescence is False: # don't warn if fluorescence because many transformed coordinates will be out of bounds
-			print('Warning: Point out of bounds')
+		print('Warning: Point out of bounds')
 		return 0
 	if area_index >= 0:
 		return area_index
@@ -391,10 +365,10 @@ def _get_cells_in(region, dataset, ch1=True, left=None):
 	def is_in_region(z, x, y):
 		if isinstance(region, list):
 			areas = region
-			return _get_area_index(dataset, z, x, y) in areas
+			return _get_area_index(z, x, y) in areas
 		elif isinstance(region, int):
 			area = region
-			return _get_area_index(dataset, z, x, y) == area
+			return _get_area_index(z, x, y) == area
 		elif isinstance(region, tuple):
 			(x_min, x_max), (y_min, y_max), (z_min, z_max) = region
 			return x_min <= x <= x_max and y_min <= y <= y_max and z_min <= z <= z_max
@@ -403,6 +377,7 @@ def _get_cells_in(region, dataset, ch1=True, left=None):
 			return dilation[z,y,x] == 1
 		else:
 			print(f'Unable to identify region type {type(region)} for returning cell coordinates.')
+	
 	cells_x, cells_y, cells_z = [], [], []
 	cell_coords = dataset.ch1_cells if ch1 else dataset.ch2_cells
 	cls_x, cls_y, cls_z, cls_h = cell_coords[0], cell_coords[1], cell_coords[2], cell_coords[3]
