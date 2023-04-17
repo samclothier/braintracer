@@ -47,13 +47,16 @@ grouped = True
 debug = False
 
 class Dataset:
-	def __init__(self, name, group, sig, bg, fluorescence=False, starters=None, atlas_25=False, modify_starter=False):
-		self.name, self.group, self.sig, self.bg, self.fluorescence = name, group, sig, bg, fluorescence
+	def __init__(self, name, group, sig, bg, fluorescence=False, skimmed=False, starters=None, atlas_25=False):
+		self.name, self.group, self.sig, self.bg, self.fluorescence, self.skimmed = name, group, sig, bg, fluorescence, skimmed
 
 		if not fluorescence:
 			self.ch1_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[0]}.csv', atlas_25=atlas_25)
 		else:
-			self.ch1_cells = btf.open_file(f'binary_registered_{self.name}.npy', atlas_25=atlas_25) #TODO: check if atlas 25 works with anterograde pipeline
+			if skimmed: #TODO: check if atlas 25 works with anterograde pipeline
+				self.ch1_cells = btf.open_file(f'binary_registered_skimmed_{self.name}.npy', atlas_25=atlas_25)
+			else:
+				self.ch1_cells = btf.open_file(f'binary_registered_{self.name}.npy', atlas_25=atlas_25)
 		#self.ch2_cells = btf.open_file(f'cells_{self.name}_{network_name}_{self.sig[-1]}.csv', atlas_25=atlas_25)
 		self.raw_ch1_cells_by_area = self.__count_cells(self.ch1_cells)
 		#self.raw_ch2_cells_by_area = self.__count_cells(self.ch2_cells)
@@ -115,7 +118,7 @@ class Dataset:
 		for idx, z in enumerate(z_vals):
 			x = x_vals[idx]
 			y = y_vals[idx]
-			area_index = _get_area_index(z, x, y)
+			area_index = _get_area_index(z, y, x)
 			counter.setdefault(area_index, 0)
 			counter[area_index] = counter[area_index] + 1
 		if debug:
@@ -332,7 +335,7 @@ def _raw_to_downsampled(raw_dim, downsampled_dim, cell_coords):
 	z_vals = list(map(z_to_downsampled, z_vals))
 	return x_vals, y_vals, z_vals
 
-def _get_area_index(z, x, y):
+def _get_area_index(z, y, x):
 	'''
 	get the index referring to the brain area in which a cell is located
 	'''
@@ -362,13 +365,13 @@ def _get_cells_in(region, dataset, ch1=True, left=None):
 			return hemi == 'left'
 		elif left == False:
 			return hemi == 'right'
-	def is_in_region(z, x, y):
+	def is_in_region(z, y, x):
 		if isinstance(region, list):
 			areas = region
-			return _get_area_index(z, x, y) in areas
+			return _get_area_index(z, y, x) in areas
 		elif isinstance(region, int):
 			area = region
-			return _get_area_index(z, x, y) == area
+			return _get_area_index(z, y, x) == area
 		elif isinstance(region, tuple):
 			(x_min, x_max), (y_min, y_max), (z_min, z_max) = region
 			return x_min <= x <= x_max and y_min <= y <= y_max and z_min <= z <= z_max
@@ -384,7 +387,7 @@ def _get_cells_in(region, dataset, ch1=True, left=None):
 	for idx, z in enumerate(cls_z):
 		x = cls_x[idx]
 		y = cls_y[idx]
-		if is_in_region(z,x,y) and hemisphere_predicate(cls_h[idx]):
+		if is_in_region(z,y,x) and hemisphere_predicate(cls_h[idx]):
 			cells_x.append(x)
 			cells_y.append(y)
 			cells_z.append(z)

@@ -107,7 +107,7 @@ def open_file(name, atlas_25=False): # open files
 				z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
 				y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
 				x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
-			return [x_coords, y_coords, z_coords, hemisphere]
+			return [x_coords, y_coords, z_coords, hemisphere] # flip to x, y, z
 		elif name.startswith('structures'):
 			area_indexes = pd.read_csv(file_path)
 			area_indexes = area_indexes.set_index('id')
@@ -116,7 +116,8 @@ def open_file(name, atlas_25=False): # open files
 			print(f'Cannot load CSV with name {name}')
 	elif ext == 'npy':
 		coordinates = np.load(file_path)
-		coordinates = np.flip(coordinates.T, axis=0) # x, y, z
+		coordinates = np.flip(coordinates.T, axis=0) # flip to x, y, z
+		// TODO: include hemisphere column of None value
 		return coordinates.tolist()
 	elif ext == 'pkl':
 		return pickle.load(open(f'{file_path}', 'rb'))
@@ -133,7 +134,10 @@ def open_transformed_brain(dataset):
 
 def open_registered_stack(dataset):
 	if dataset.fluorescence:
-		name = f'binary_registered_stack_{dataset.name}.npy'
+		if dataset.skimmed:
+			name = f'binary_registered_stack_skimmed_{dataset.name}.npy'
+		else:
+			name = f'binary_registered_stack_{dataset.name}.npy'
 		path = _get_path(name)
 		return np.load(path)
 	else:
