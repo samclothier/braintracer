@@ -21,7 +21,6 @@ import pandas as pd
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
 from bg_atlasapi.bg_atlas import BrainGlobeAtlas
-from tqdm.notebook import tqdm
 from bs4 import BeautifulSoup
 from PIL import Image
 
@@ -64,6 +63,7 @@ def open_file(name, atlas_25=False): # open files
 	neg_X, neg_Y, neg_Z = [], [], []
 	pos_X, pos_Y, pos_Z = [], [], []
 	file_path = _get_path(name)
+	assert os.path.isfile(file_path), f'Could not find file: {file_path}'
 	ext = name.split('.')[-1]
 	if ext == 'xml':
 		# may be cellfinder output or ground truth # TODO: add throw for opening ground truth dir
@@ -116,8 +116,8 @@ def open_file(name, atlas_25=False): # open files
 			print(f'Cannot load CSV with name {name}')
 	elif ext == 'npy':
 		coordinates = np.load(file_path)
+		coordinates = np.c_[ np.repeat(None, coordinates.shape[0]), coordinates ] # Add an extra column for hemisphere = None
 		coordinates = np.flip(coordinates.T, axis=0) # flip to x, y, z
-		// TODO: include hemisphere column of None value
 		return coordinates.tolist()
 	elif ext == 'pkl':
 		return pickle.load(open(f'{file_path}', 'rb'))
@@ -135,9 +135,9 @@ def open_transformed_brain(dataset):
 def open_registered_stack(dataset):
 	if dataset.fluorescence:
 		if dataset.skimmed:
-			name = f'binary_registered_stack_skimmed_{dataset.name}.npy'
+			name = f'binary_registered_stack_skimmed_{dataset.name}_{dataset.channels[0]}.npy'
 		else:
-			name = f'binary_registered_stack_{dataset.name}.npy'
+			name = f'binary_registered_stack_{dataset.name}_{dataset.channels[0]}.npy'
 		path = _get_path(name)
 		return np.load(path)
 	else:
