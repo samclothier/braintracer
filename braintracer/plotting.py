@@ -220,7 +220,7 @@ def generate_matrix_plot(depth=None, areas=None, threshold=10, sort=True, ignore
     f.colorbar(im, cax=cax, orientation='vertical')
     ax.set_title(axis_title)
 
-def probability_map(channel, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vlim=None):
+def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vlim=None):
     atlas_res = 10
     assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
     assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -232,13 +232,16 @@ def probability_map(channel, area_num=None, binsize=200, axis=2, sigma=None, sub
     elif subregions is not None:
         regions = subregions
 
-    f, (ax1, ax2) = plt.subplots(1,2, figsize=(12,6))
-    parent_projection, (px_min, py_min, pz_min), (px_max, py_max, pz_max) = get_projection(area_num, padding=padding, axis=2-axis)
+    groups = __get_bt_groups()
+    f, axs = plt.subplots(1, len(groups), figsize=(12,6))
+
+    parent_projection, min_bounds, max_bounds = get_projection(area_num, padding=padding, axis=2-axis)
     parent_projection = parent_projection.T if axis == 0 else parent_projection # side-on orientation does not need axis swapping
+    projections = []
     if regions is not None:
         for child in regions:
             child_projection, (cx_min, cy_min, cz_min), _ = get_projection(child, padding=padding, axis=2-axis)
-            cx_offset, cy_offset, cz_offset = cx_min - px_min, cy_min - py_min, cz_min - pz_min
+            cx_offset, cy_offset, cz_offset = cx_min - min_bounds[0], cy_min - min_bounds[1], cz_min - min_bounds[2]
             if axis == 2:
                 child_projection = np.pad(child_projection, ((cy_offset,0),(cx_offset,0)))
             elif axis == 1:
@@ -246,69 +249,26 @@ def probability_map(channel, area_num=None, binsize=200, axis=2, sigma=None, sub
             else:
                 child_projection = np.pad(child_projection, ((cz_offset,0),(cy_offset,0)))
             child_projection = child_projection.T if axis == 0 else child_projection # side-on orientation does not need axis swapping
-            ax1.contour(child_projection, colors=projcol, alpha=0.05)
-            ax2.contour(child_projection, colors=projcol, alpha=0.05)
-    ax1.contour(parent_projection, colors=projcol, alpha=0.1)
-    ax2.contour(parent_projection, colors=projcol, alpha=0.1)
-    ax1.set_aspect('equal')
-    ax2.set_aspect('equal')
+            projections.append(child_projection)
 
     def plot_binned_average(ax, channel, area_num, axis, binsize, sigma, group, cmap):
-        hist_list = []
-        datasets_to_bin = [d for d in bt.datasets if d.group == group]
-        for d in datasets_to_bin:
-            if area_num is None:
-                points = np.array(d.cell_coords[channel]).T
-            else:
-                parent, children = bt.children_from(area_num, depth=0)
-                areas = [parent] + children
-                points = np.array(bt._get_cells_in(areas, d, channel)).T
-            x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
-            hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
-            
-            if hist.sum() != 0:
-                hist = hist / hist.sum() # turn into probability density distribution
-
-            if sigma is not None: # 3D smooth # sigma = width of kernel
-                x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
-                xx, yy, zz = np.meshgrid(x,y,z)
-                kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
-                hist = signal.convolve(hist, kernel, mode='same')
-
-            hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
-
-            scale = int(binsize / atlas_res) ## make ready for plotting
-            hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
-            at_shp = bt.atlas.shape
-            if axis == 2:
-                hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
-                hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
-            elif axis == 1:
-                hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[0] :]
-                hist = hist[px_min : px_max, pz_min : pz_max]
-            else:
-                hist = hist[hist.shape[0]-at_shp[1] :, hist.shape[1]-at_shp[0] :]
-                hist = hist[py_min : py_max, pz_min : pz_max]
-            hist_list.append(hist)
-        all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
-        av_im = np.median(all_hists, axis=0) # get the mean cell distribution
-        av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
+        dmap = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[0], min_bounds, max_bounds, fluorescence)
         
         divider = make_axes_locatable(ax)
         cax = divider.append_axes("right", size="5%", pad=0.05)
-        im = ax.imshow(av_im, cmap=cmap, vmin=0, vmax=vlim)
+        im = ax.imshow(dmap, cmap=cmap, vmin=0, vmax=vlim)
         plt.colorbar(im, cax)
         ax.set_xticklabels([])
         ax.set_yticklabels([])
+        ax.set_title(f'{group} in Fl={fluorescence} datasets')
 
-        sum_cells = 0
-        for d in datasets_to_bin:
-            sum_cells = sum_cells + bt.get_area_info(area_num, d, channel)[2][0]
-            data_type = 'pixel' if d.fluorescence else 'cell'
-        ax.set_title(f'{group} P({data_type}), {sum_cells} {data_type}s in {len(datasets_to_bin)} datasets')
-
-    plot_binned_average(ax1, channel, area_num, axis, binsize, sigma, __get_bt_groups()[0], cmap=cmaps_group[0])
-    plot_binned_average(ax2, channel, area_num, axis, binsize, sigma, __get_bt_groups()[1], cmap=cmaps_group[1])
+    for i, g in enumerate(groups):
+        ax = axs if len(groups) > 1 else axs[i]
+        for child in projections:
+            ax.contour(child, colors=projcol, alpha=0.05)
+        ax.contour(parent_projection, colors=projcol, alpha=0.1)
+        ax.set_aspect('equal')
+        plot_binned_average(ax, channel, area_num, axis, binsize, sigma, g, cmap=cmaps_group[i])
 
 def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=False, sigma=None, vbounds=None, threshold=1, override_order=None, order_method=None, blind_order=False, cmap='Reds', covmat=False, figsize=(8,8)):
     x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
@@ -785,7 +745,7 @@ def generate_starter_cell_scatter(exclude_from_fit=[], use_manual_count=False, s
     :exclude_from_fit: list of ints referring to indexes of datasets as they would appear in 'datasets' array below
     :use_manual_count: set to True to use the values provided when setting up datasets instead of calculating anew in the postsynaptics() function
     '''
-    datasets = [i for i in bt.datasets if fluorescence]
+    datasets = [i for i in bt.datasets if i.fluorescence == False]
     if not use_manual_count:
         for dataset in datasets:
             dataset.true_postsynaptics = None # ensure this is reset for each new calculation
@@ -869,7 +829,7 @@ def get_projection(area, padding, axis=0):
     z_max = nz[0].max() + padding+1
     y_max = nz[1].max() + padding+1
     x_max = nz[2].max() + padding+1
-    if (z_max > atlas_ar.size[0]) or (y_max > atlas_ar.size[1]) or (x_max > atlas_ar.size[2]):
+    if (z_max > atlas_ar.shape[0]) or (y_max > atlas_ar.shape[1]) or (x_max > atlas_ar.shape[2]):
         print('Watch out! Remove padding for areas that touch the edge of the atlas.')
     if (z_min < 0) or (y_min < 0) or (x_min < 0):
         print('Watch out! Remove padding for areas that touch the edge of the atlas.')
@@ -939,7 +899,7 @@ def _group_points(names, uncompressed_cells, groups):
     dataset_cell = list(chain.from_iterable(dataset_cell))
     return area_name, dataset_name, dataset_cell
 
-def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title, is_horizontal, parent_name='all'):
+def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title, is_horizontal):
     pre_compressed_dataset_cells = dataset_cells
     dataset_names, dataset_cells = _compress_into_groups(group_names, dataset_cells)
     names, datasets, cells = _prep_for_sns(area_names, dataset_names, dataset_cells)
@@ -948,11 +908,11 @@ def _plot_grouped_points(ax, dataset_cells, group_names, area_names, axis_title,
     area_name, dataset_name, dataset_cell = _group_points(names, pre_compressed_dataset_cells, group_names)
     points_df = pd.DataFrame(zip(area_name, dataset_name, dataset_cell), columns=titles)
     if is_horizontal:
-        sns.barplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=cmaps_group, data=df, ax=ax)
-        sns.stripplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=cmaps_group, dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
+        sns.barplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=csolid_group, data=df, ax=ax)
+        sns.stripplot(x=titles[2], y=titles[0], hue=titles[1], hue_order=dataset_names, palette=csolid_group, dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
     else:
-        sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=cmaps_group, data=df, ax=ax)
-        sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=cmaps_group, dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
+        sns.barplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=csolid_group, data=df, ax=ax)
+        sns.stripplot(x=titles[0], y=titles[2], hue=titles[1], hue_order=dataset_names, palette=csolid_group, dodge=True, edgecolor='w', linewidth=0.5, data=points_df, ax=ax)
     _display_legend_subset(ax, (2,3))
     return df
 
@@ -1117,59 +1077,64 @@ def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=
 
 
 
-# modified to not plot the outline and to return the data
-def probability_map_data(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, vlim=None):
+# don't plot the outline, just return the data
+def probability_map_data(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, padding=10):
     atlas_res = 10
     assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
     assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
     if area_num is None:
         area_num = 997
+
+    _, min_bounds, max_bounds = get_projection(area_num, padding=padding, axis=2-axis)
+    print('projection fetched') 
     
-    def plot_binned_average(ax, channel, area_num, axis, binsize, sigma, group, fluorescence, cmap):
-        hist_list = []
-        datasets_to_bin = [d for d in bt.datasets if d.group == group and d.fluorescence == fluorescence]
-        for d in datasets_to_bin:
-            if area_num is None:
-                points = np.array(d.cell_coords[channel]).T
-            else:
-                parent, children = bt.children_from(area_num, depth=0)
-                areas = [parent] + children
-                points = np.array(bt._get_cells_in(areas, d, channel)).T
-            x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
-            hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
-            
-            if hist.sum() != 0:
-                hist = hist / hist.sum() # turn into probability density distribution
-
-            if sigma is not None: # 3D smooth # sigma = width of kernel
-                x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
-                xx, yy, zz = np.meshgrid(x,y,z)
-                kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
-                hist = signal.convolve(hist, kernel, mode='same')
-
-            hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
-
-            hist_list.append(hist)
-        all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
-        av_im = np.median(all_hists, axis=0) # get the mean cell distribution
-        av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
-        
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes("right", size="5%", pad=0.05)
-        im = ax.imshow(av_im, cmap=cmap, vmin=0, vmax=vlim)
-        plt.colorbar(im, cax)
-        ax.set_xticklabels([])
-        ax.set_yticklabels([])
-
-        sum_cells = 0
-        for d in datasets_to_bin:
-            sum_cells = sum_cells + bt.get_area_info(area_num, d, channel)[2][0]
-            data_type = 'pixel' if d.fluorescence else 'cell'
-        ax.set_title(f'{group} P({data_type}), {sum_cells} {data_type}s in {len(datasets_to_bin)} datasets')
-        
-        return av_im
-    
-    f, (ax1, ax2) = plt.subplots(1,2, figsize=(12,6))
-    ax1_data = plot_binned_average(ax1, channel, area_num, axis, binsize, sigma, __get_bt_groups()[0], fluorescence, cmap=cmaps_group[0])
-    ax2_data = plot_binned_average(ax2, channel, area_num, axis, binsize, sigma, __get_bt_groups()[1], fluorescence, cmap=cmaps_group[1])
+    ax1_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[0], min_bounds, max_bounds, fluorescence)
+    ax2_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[1], min_bounds, max_bounds, fluorescence)
     return ax1_data, ax2_data
+
+
+def get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, group, min_bounds, max_bounds, fluorescence):
+    (px_min, py_min, pz_min), (px_max, py_max, pz_max) = min_bounds, max_bounds
+
+    hist_list = []
+    datasets_to_bin = [d for d in bt.datasets if d.group == group and d.fluorescence == fluorescence]
+    for d in datasets_to_bin:
+        if area_num is None:
+            points = np.array(d.cell_coords[channel]).T
+        else:
+            parent, children = bt.children_from(area_num, depth=0)
+            areas = [parent] + children
+            points = np.array(bt._get_cells_in(areas, d, channel)).T
+        x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
+        hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
+        
+        if hist.sum() != 0:
+            hist = hist / hist.sum() # turn into probability density distribution
+
+        if sigma is not None: # 3D smooth # sigma = width of kernel
+            x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
+            xx, yy, zz = np.meshgrid(x,y,z)
+            kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
+            hist = signal.convolve(hist, kernel, mode='same')
+
+        hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
+
+        scale = int(binsize / atlas_res) ## make ready for plotting
+        hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
+        at_shp = bt.atlas.shape
+        if axis == 2:
+            hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
+            hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
+        elif axis == 1:
+            hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[0] :]
+            hist = hist[px_min : px_max, pz_min : pz_max]
+        else:
+            hist = hist[hist.shape[0]-at_shp[1] :, hist.shape[1]-at_shp[0] :]
+            hist = hist[py_min : py_max, pz_min : pz_max] 
+
+        hist_list.append(hist)
+    all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
+    av_im = np.median(all_hists, axis=0) # get the mean cell distribution
+    av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
+    
+    return av_im
