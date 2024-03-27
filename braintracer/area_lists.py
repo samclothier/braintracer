@@ -57,10 +57,18 @@ def inputs_antero_MF_roi_crop():
     areas = [item for sublist in areas for item in sublist]
     return areas, areas_title
 
-def inputs_antero_CF():
-    areas_title = "CF Inputs (anterograde)"
-    parent, children = bt.children_from('IO', depth=0)
-    io_areas = [parent] + children
+def inputs_antero_CF(split):
+    split_options = ['rc', 'ml', 'both']
+    if split == split_options[0]:
+        io_areas = ['Rostral IO', 'Caudal IO']
+    elif split == split_options[1]:
+        io_areas = ['Medial IO', 'Lateral IO']
+    elif split == split_options[2]:
+        io_areas = ['Rostral-medial IO', 'Rostral-lateral IO', 'Caudal-medial IO', 'Caudal-lateral IO']
+    else:
+        return None
+
+    areas_title = f"CF Inputs (anterograde)"
     return io_areas, areas_title
 
 def cerebellar_cortex_antero():

@@ -140,13 +140,16 @@ class Dataset:
 			else:
 				return len(self.cell_coords[channel][0])
 
-	def num_cells_in(self, area, channel=None, left=None):
+	def num_cells_in(self, area, channel=None, left=None, include_children=False):
 		'''
 		Gets the number of cells in a given brain area.
 		WARNING: Used by internal functions before propagation; use only to query raw data
 		'''
 		channels = self._set_channels(channel)
 		area_idx = get_area_info([area])[1] if area != 0 else 0 # if we are checking counts outside of brain, don't need to fetch index (0 is not available in hierarchy)
+		if include_children:
+			parent, children = children_from(area_idx, depth=0)
+			area_idx = [parent] + children
 		return sum([len(_get_cells_in(area_idx, self, channel=ch, left=left)[0]) for ch in channels])
 
 	def show_coronal_section(self, channels=None, section=750, cells_pm=0):
@@ -165,17 +168,16 @@ class Dataset:
 				plt.scatter(self.cell_coords[ch][0][ci], self.cell_coords[ch][1][ci], c=channel_colours[i], s=0.8)
 
 
-	def presynaptics(self): # Presynaptic cells are the total cells in presyn_ch - (postsyn_region + presyn_regions_exclude)
-		presyn_cells = self.num_cells(presyn_ch)
-		presyn_cells = presyn_cells - self.postsynaptics()
+	def presynaptics(self): # Presynaptic cells are the total cells inside atlas in presyn_ch - (postsyn_region + presyn_regions_exclude)
+		presyn_cells = self.num_cells(presyn_ch) - self.num_cells_in(0) - self.postsynaptics()
 		for region in presyn_regions_exclude:
-			presyn_cells = presyn_cells - self.num_cells_in(region, presyn_ch)
+			presyn_cells = presyn_cells - self.num_cells_in(region, presyn_ch, include_children=True)
 		return presyn_cells
 
 	def postsynaptics(self):
 		if self.true_postsynaptics is not None:
 			return self.true_postsynaptics
-		return self.num_cells_in(postsyn_region, postsyn_ch)
+		return self.num_cells_in(postsyn_region, postsyn_ch, include_children=True)
 
 	def project_slices(self, region, figsize=(10,6)):
 		start, end = region

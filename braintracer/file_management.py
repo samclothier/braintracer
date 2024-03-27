@@ -141,7 +141,7 @@ def open_registered_stack(dataset):
 		path = _get_path(name)
 		return np.load(path)
 	else:
-		stack = np.array(btf.open_file(f'reg_{dataset.name}_{dataset.sig[0]}.tiff'))[0]
+		stack = np.array(open_file(f'reg_{dataset.name}_{dataset.channels[0]}.tiff'))[0]
 		return stack
 
 def get_atlas():
@@ -172,7 +172,7 @@ def save(file_name, as_type, dpi=600, vID=None, file=None):
 		plt.savefig(f'{dir_path}.jpg', dpi=dpi, bbox_inches='tight')
 	elif as_type == 'pdf':
 		pp = PdfPages(f'{dir_path}.pdf')
-		pp.savefig()
+		pp.savefig(dpi=dpi)
 		pp.close()
 	elif as_type == 'pkl':
 		assert file != None, 'pkl file must be provided when saving pickle files.'
