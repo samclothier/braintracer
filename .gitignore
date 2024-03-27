@@ -4,3 +4,6 @@ __pycache__/
 *.egg-info
 build/
 dist/
+/.vs/braintracer/FileContentIndex
+/.vs/braintracer/v17
+/.vs
