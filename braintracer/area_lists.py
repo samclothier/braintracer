@@ -26,7 +26,13 @@ import numpy as np
 
 def custom_rois(areas):
     areas_title = 'Custom merged ROIs'
-    area_idxs = bt.get_area_info(areas)[0]
+    area_idxs = bt.get_area_info(areas)[1]
+    return area_idxs, areas_title
+
+def summary_regions():
+    areas_title = 'Summary regions'
+    areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN','IO']
+    area_idxs = bt.get_area_info(areas)[1]
     return area_idxs, areas_title
 
 # Anterograde areas
@@ -45,17 +51,15 @@ def inputs_antero_MF_roi():
     areas_title = "MF Inputs (anterograde)"
     #         <----------------------Pons---------------------------->   <------------------------------------------Medulla------------------------------------------>   <-------Midbrain------->  <-----Cortex------->
     areas = ['TRN', 'PRNc', 'PG', 'PGRN', 'PSV', 'PB', 'V', 'CS', 'NLL', 'LRN', 'VNC', 'ICB', 'PARN', 'VCO', 'MDRN', 'SPVI', 'SPVO', 'GRN', 'PRP', 'IRN', 'MARN', 'DCO', 'IC', 'MRN', 'SAG', 'PAG', 'AUD', 'ORB', 'ECT']
-    areas = list(map(lambda x: [bt.children_from(x, depth=0)[0]], areas))
-    areas = [item for sublist in areas for item in sublist]
-    return areas, areas_title
+    area_idxs = bt.get_area_info(areas)[1]
+    return area_idxs, areas_title
 
 def inputs_antero_MF_roi_crop():
     areas_title = "MF Inputs (anterograde)"
     #         <----------------------Pons---------------------->   <------------------------------------------Medulla------------------------------------------>  <----Midbrain--->  <Cortex>
-    areas = ['TRN', 'PRNc', 'PG', 'PGRN', 'PSV', 'PB', 'V', 'CS', 'LRN', 'VNC', 'ICB', 'PARN', 'VCO', 'MDRN', 'SPVI', 'SPVO', 'GRN', 'PRP', 'IRN', 'MARN', 'DCO', 'IC', 'MRN', 'PAG', 'AUD']
-    areas = list(map(lambda x: [bt.children_from(x, depth=0)[0]], areas))
-    areas = [item for sublist in areas for item in sublist]
-    return areas, areas_title
+    areas = ['TRN', 'PRNc', 'PG', 'PGRN', 'PSV', 'PB', 'V', 'CS', 'LRN', 'VNC', 'ICB', 'PARN', 'VCO', 'MDRN', 'SPVI', 'SPVO', 'GRN', 'PRP', 'IRN', 'MARN', 'DCO', 'IC', 'MRN', 'PAG', 'AUD','IO']
+    area_idxs = bt.get_area_info(areas)[1]
+    return area_idxs, areas_title
 
 def inputs_antero_CF(split):
     split_options = ['rc', 'ml', 'both']
@@ -74,14 +78,14 @@ def inputs_antero_CF(split):
 def cerebellar_cortex_antero():
     areas_title = "Cbx (anterograde)"
     parent, children = bt.children_from('CBX', depth=2)
-    cbx_areas = children
-    return cbx_areas, areas_title
+    cbx_area_idxs = children
+    return cbx_area_idxs, areas_title
 
 def mono_outputs_antero():
     areas_title = "Monosynaptic Outputs"
     parent, children = bt.children_from('CBN', depth=0)
-    cb_areas = children
-    return cb_areas, areas_title
+    cb_area_idxs = children
+    return cb_area_idxs, areas_title
 
 def di_outputs_antero(threshold, select_norm, fluorescence):
     datasets = [i for i in bt.datasets if i.fluorescence == fluorescence]
@@ -100,9 +104,9 @@ def di_outputs_antero_roi(threshold, select_norm, fluorescence): # threshold = 0
     datasets = [i for i in bt.datasets if i.fluorescence == fluorescence]
     areas_title = "Disynaptic Outputs (ROIs)"
     areas = ['TH', 'SCs', 'SCm', 'RN', 'PAG', 'VTA']
-    area_idxs = list(map(lambda x: bt.children_from(x, depth=0)[1], areas))
+    area_idxs = list(map(lambda x: [bt.children_from(x, depth=0)[0]] + bt.children_from(x, depth=0)[1], areas))
     area_idxs = [item for sublist in area_idxs for item in sublist]
-    area_idxs = np.array([ i for i in area_idxs if bt.area_predicate(i, threshold, select_norm, datasets) ])
+    area_idxs = [ i for i in area_idxs if bt.area_predicate(i, threshold, select_norm, datasets) ]
     return area_idxs, areas_title
 
 #endregion
@@ -114,8 +118,8 @@ def di_outputs_antero_roi(threshold, select_norm, fluorescence): # threshold = 0
 def mono_inputs_retro():
     areas_title = "Monosynaptic Inputs"
     parent, children = bt.children_from('IO', depth=0)
-    io_areas = [parent] + children
-    return io_areas, areas_title
+    io_area_idxs = [parent] + children
+    return io_area_idxs, areas_title
 
 def di_inputs_retro(threshold, select_norm, fluorescence):
     datasets = [i for i in bt.datasets if i.fluorescence == fluorescence]
@@ -127,14 +131,13 @@ def di_inputs_retro(threshold, select_norm, fluorescence):
     area_idxs = list(filter(lambda x: x not in cb_areas, area_idxs)) # remove areas in cerebellum
     dcn_areas = bt.children_from('CBN', depth=0)[1] # add DCN back in
     area_idxs = area_idxs + dcn_areas
-    area_idxs = np.array([ i for i in area_idxs if bt.area_predicate(i, threshold, select_norm, datasets) ])
+    area_idxs = [ i for i in area_idxs if bt.area_predicate(i, threshold, select_norm, datasets) ]
     return area_idxs, areas_title
 
 def di_inputs_retro_roi():
     areas_title = "Disynaptic Inputs (ROIs)"
     areas = ['PH', 'ZI', 'SCm', 'MRN', 'PF', 'MM', 'VTA', 'IPN', 'PRNc', 'MV', 'IP', 'SPIV', 'SPVO', 'SPVI', 'PARN']
-    areas = list(map(lambda x: [bt.children_from(x, depth=0)[0]], areas))
-    areas = [item for sublist in areas for item in sublist]
-    return areas, areas_title
+    area_idxs = bt.get_area_info(areas)[1]
+    return area_idxs, areas_title
 
 #endregion

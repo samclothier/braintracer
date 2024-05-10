@@ -355,6 +355,7 @@ def _get_cells_in(region, dataset, channel, left=None):
 	'''
 	Returns coordinates of cells within a defined region.
 	region: can be a list of area indexes, numpy array of a 3D area, or a tuple containing the coordinates bounding a cube
+	If you only need the number of cells in a region, use dataset.cells_by_area[ch][area]
 	'''
 	def hemisphere_predicate(hemi):
 		if left == None:
@@ -425,8 +426,6 @@ def get_area_info(codes, dataset=None, channels=None): # TODO: create functions 
 	if isinstance(codes[0], (int, np.int32, np.int64)):
 		names = area_indexes.loc[codes, 'name'].tolist()
 		idxes = codes
-		if dataset is not None: # for each area index, get the number of cells in the given areas in the given channels
-			cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes))
 	elif isinstance(codes[0], str):
 		try:
 			names = list(map(lambda x: area_indexes.loc[area_indexes['acronym']==x, 'name'].item(), codes))
@@ -434,13 +433,17 @@ def get_area_info(codes, dataset=None, channels=None): # TODO: create functions 
 		except ValueError:
 			names = list(map(lambda x: area_indexes.loc[area_indexes['name']==x, 'name'].item(), codes))
 			idxes = list(map(lambda x: area_indexes.loc[area_indexes['name']==x, 'name'].index[0], codes))
-		if dataset is not None: # for each area index, get the number of cells in the given areas in the given channels
-			cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes))
 	else:
-		'Unknown area reference format.'
-	if dataset is None:
-		cells = None
+		print('Unknown area reference format.')
+	# for each area index, get the number of cells in the given areas in the given channels
+	cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes)) if dataset is not None else None
 	return names, idxes, cells
+
+def get_area_acronyms(codes):
+	if not isinstance(codes, (list, np.ndarray)):
+		codes = [codes]
+	assert isinstance(codes[0], (int, np.int32, np.int64)), 'Please provide area code(s).'
+	return area_indexes.loc[codes, 'acronym'].tolist()
 
 def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presynaptics', log=False):
 	cells_list = []
@@ -460,10 +463,10 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 			except ZeroDivisionError:
 				print(f'Dividing by zero f{data_type}s. Ensure postsynaptic correction has been applied.')
 		elif normalisation == 'custom_division':
-			axis_title = f'{data_type} / division normalisation'
+			axis_title = f'{data_type} / cerebellar px (division normalised)'
 			cells = list(map(lambda x: (x / dataset.starter_normaliser), cells))
 		elif normalisation == 'custom_pedestal':
-			axis_title = f'{data_type} / pedestal normalisation'
+			axis_title = f'{data_type} / cerebellar px (pedestal normalised)'
 			cells = list(map(lambda x: (x - (dataset.starter_pedestal_norm * x)) / dataset.starter_normaliser, cells))
 		else:
 			if debug:
