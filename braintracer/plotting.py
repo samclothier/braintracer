@@ -331,7 +331,7 @@ def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, s
             elif axis == 1:
                 child_projection = np.pad(child_projection, ((cz_offset,0),(cx_offset,0)))
             else:
-                child_projection = np.pad(child_projection, ((cz_offset,0),(cy_offset,0)))
+                child_projection = np.pad(child_projection, ((cy_offset,0),(cz_offset,0)))
             projections.append(child_projection)
 
     def plot_binned_average(ax, channel, area_num, axis, binsize, sigma, group, cmap):
@@ -1051,8 +1051,8 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
             elif axis == 1:
                 child_projection = np.pad(child_projection, ((cz_offset,0),(cx_offset,0)))
             else:
-                child_projection = np.pad(child_projection, ((cz_offset,0),(cy_offset,0)))
-            child_projection = child_projection.T if axis == 0 else child_projection # side-on orientation does not need axis swapping
+                child_projection = np.pad(child_projection, ((cy_offset,0),(cz_offset,0)))
+            #child_projection = child_projection.T if axis == 0 else child_projection # side-on orientation does not need axis swapping
             ax.contour(child_projection, colors=projcol, alpha=0.05)
     
     group1_data, group2_data = probability_map_data(channel, fluorescence, area_num, binsize, axis, sigma, padding)
@@ -1413,16 +1413,36 @@ def get_matrix_data(area_func, postprocess_for_scatter=False, fluorescence=False
     
     return area_labels, dataset_cells, std_g1, std_g2, datasets, areas_title, axis_title
 
-def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None):
+def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None,
+                         areas_to_combine=None):
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
     area_labels, dataset_cells, _, _, datasets, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=postprocess_for_scatter, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
     x_labels = [i.name for i in datasets]
     if postprocess_for_scatter:
         x_labels = __get_bt_groups()
+
+
+    def replace_areas_with_combined_area(area_labels, dataset_cells, areas_to_combine):
+        for new_area_name, old_area_codes in areas_to_combine.items():
+            old_area_names = bt.get_area_info(old_area_codes)[0]
+            print(old_area_names)
+            indexes_to_remove = [area_labels.index(name) for name in old_area_names]
+
+            combined_sum = np.array([np.sum(dataset_cells[:, indexes_to_remove], axis=1)])
+
+            dataset_cells = np.delete(dataset_cells, indexes_to_remove, axis=1)
+            area_labels = [ label for i, label in enumerate(area_labels) if i not in indexes_to_remove ]
+
+            dataset_cells = np.concatenate((dataset_cells, combined_sum.T), axis=1)
+            area_labels.append(new_area_name)
+        return area_labels, dataset_cells
+
+    if areas_to_combine is not None:
+        area_labels, dataset_cells = replace_areas_with_combined_area(area_labels, dataset_cells, areas_to_combine)
     
     if sorting:
-        sort_order = get_sorting_from_SI(area_func, value_norm, fluorescence)
+        sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
         dataset_cells = dataset_cells[:, sort_order[::-1]]
         area_labels = [area_labels[i] for i in reversed(sort_order)]
     
@@ -1462,7 +1482,6 @@ def probability_map_data(channel, fluorescence, area_num=None, binsize=200, axis
         area_num = 997
 
     _, min_bounds, max_bounds = _get_projection(area_num, padding=padding, axis=axis)
-    print('projection fetched') 
     
     ax1_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[0], min_bounds, max_bounds, fluorescence, no_alignment_to_region_bounds)
     ax2_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[1], min_bounds, max_bounds, fluorescence, no_alignment_to_region_bounds)
@@ -1581,8 +1600,7 @@ def calculate_SI_with_errors(g1_matrix, g2_matrix):
     
     return avgs, stds, colours
 
-def get_sorting_from_SI(area_func, value_norm, fluorescence, mean=False):
-    _, dataset_cells, _, _, _, _, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+def get_sorting_from_SI(dataset_cells, fluorescence, mean=False):
     _, num_g1 = fetch_groups(fluorescence) # get sum across each group
     LS, LV = dataset_cells[0:num_g1,:], dataset_cells[num_g1:,:]
     
