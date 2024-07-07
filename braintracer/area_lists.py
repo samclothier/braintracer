@@ -56,8 +56,8 @@ def inputs_antero_MF_roi():
 
 def inputs_antero_MF_roi_crop():
     areas_title = "MF Inputs (anterograde)"
-    #         <----------------------Pons---------------------->   <------------------------------------------Medulla------------------------------------------>  <----Midbrain--->  <Cortex>
-    areas = ['TRN', 'PRNc', 'PG', 'PGRN', 'PSV', 'PB', 'V', 'CS', 'LRN', 'VNC', 'ICB', 'PARN', 'VCO', 'MDRN', 'SPVI', 'SPVO', 'GRN', 'PRP', 'IRN', 'MARN', 'DCO', 'IC', 'MRN', 'PAG', 'AUD','IO']
+    #         <----------------------Pons---------------------->   <------------------------------------------Medulla------------------------------------------>  <----Midbrain--->
+    areas = ['TRN', 'PRNc', 'PG', 'PGRN', 'PSV', 'PB', 'V', 'CS', 'LRN', 'VNC', 'ICB', 'PARN', 'VCO', 'MDRN', 'SPVI', 'SPVO', 'GRN', 'PRP', 'IRN', 'MARN', 'DCO', 'IC', 'MRN', 'PAG','IO']
     area_idxs = bt.get_area_info(areas)[1]
     return area_idxs, areas_title
 

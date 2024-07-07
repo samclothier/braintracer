@@ -49,11 +49,11 @@ debug					= False
 #region Dataset
 class Dataset:
 
-	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, starters=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1):
+	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, starters=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1, custom_division_norm=1):
 		'''
 		Initialise a dataset object.
 		'''
-		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser
+		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser, self.custom_division_norm = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser, custom_division_norm
 		self.true_postsynaptics = starters
 		global postsyn_region
 		datasets.append(self)
@@ -463,10 +463,10 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 			except ZeroDivisionError:
 				print(f'Dividing by zero f{data_type}s. Ensure postsynaptic correction has been applied.')
 		elif normalisation == 'custom_division':
-			axis_title = f'{data_type} / cerebellar px (division normalised)'
-			cells = list(map(lambda x: (x / dataset.starter_normaliser), cells))
+			axis_title = f'{data_type} / noise-normalised labelling'
+			cells = list(map(lambda x: (x / dataset.custom_division_norm), cells))
 		elif normalisation == 'custom_pedestal':
-			axis_title = f'{data_type} / cerebellar px (pedestal normalised)'
+			axis_title = f'{data_type} / cerebellar-normalised labelling'
 			cells = list(map(lambda x: (x - (dataset.starter_pedestal_norm * x)) / dataset.starter_normaliser, cells))
 		else:
 			if debug:
@@ -475,6 +475,9 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 		if log:
 			cells = list(map(lambda x: np.log(x), cells))
 			axis_title = f'log({axis_title})'
+		if dataset.fluorescence:
+			cells = list(map(lambda x: x * (20 / 10**9), cells))
+			axis_title = f'{axis_title} (mm^3)'
 		cells_list.append(cells)
 	return cells_list, axis_title
 
@@ -505,6 +508,11 @@ def area_predicate(area, threshold, normalisation, datasets):
             any_child_has_threshold = True
     return area_has_threshold and not any_child_has_threshold
 
+def get_area_size(area):
+	area_code = get_area_info(area)[1][0]
+	area_mask = btf.atlas.get_structure_mask(area_code)
+	return area_mask[area_mask == area_code].size
+
 
 
 ### STATS
@@ -531,7 +539,7 @@ def mwu(channel, fluorescence, area, norm=None):
 	LV_group = df.loc[df['Dataset']=='LV', 'Cells'].tolist()
 	return stats.mannwhitneyu(LS_group, LV_group)
 
-def get_stats_df(channel, fluorescence, areas, normalisation=None, ):
+def get_stats_df(channel, fluorescence, areas, normalisation=None):
 	dsets = [i for i in datasets if i.fluorescence == fluorescence]
 	dataset_cells, _ = _cells_in_areas_in_datasets(areas, dsets, channel, normalisation=normalisation)
 	dataset_groups = [i.group for i in dsets]
