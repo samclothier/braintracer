@@ -597,7 +597,7 @@ def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradi
 	correlations = get_corr_indexes(channel, areas, gradient, fluorescence=fluorescence)
 	if areas_to_combine is not None:
 		area_labels = bt.get_area_info(areas)[0]
-		_, _, _, _, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, correlations=correlations, do_not_merge=True)
+		_, _, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, correlations=correlations, do_not_merge=True)
 
 	regions = dict(zip(areas, correlations))
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
@@ -798,15 +798,19 @@ def generate_3D_shape(areas, colours):
 
 def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, fluorescence=False, log=False, areas_to_combine=None):
 	cm = plt.get_cmap('nipy_spectral')
-	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=True, fluorescence=fluorescence, value_norm=value_norm)
+	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
+	collapsed_g1 = np.mean(dataset_cells[0:num_g1,:], axis=0)
+	collapsed_g2 = np.mean(dataset_cells[num_g1:,:], axis=0)
+	dataset_cells_mean = np.concatenate([[collapsed_g1, collapsed_g2]], axis=1)
+
 	std1 = np.std(dataset_cells[0:num_g1,:], axis=0)
 	std2 = np.std(dataset_cells[num_g1:,:], axis=0)
 
 	f, ax = plt.subplots(figsize=(6,6))
-	x, y = dataset_cells[0], dataset_cells[1]
+	x, y = dataset_cells_mean[0], dataset_cells_mean[1]
 
 	ax.errorbar(x, y, xerr=std1, yerr=std2, fmt='o', color='grey', elinewidth=0.2, ms=1.5)
 	ax.set_xlabel(f'LS  / mean {axis_title}')
@@ -819,16 +823,16 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	ax.spines['right'].set_visible(False)
 	
 	if not custom_lim:
-		max_xy = np.max(dataset_cells) * 10 if log else np.max(dataset_cells) * 1.1
+		max_xy = np.max(dataset_cells_mean) * 10 if log else np.max(dataset_cells_mean) * 1.1
 	else:
 		max_xy = custom_lim
-	min_xy = np.min(dataset_cells) * 0.1 if log else np.min(dataset_cells) * 0.9
+	min_xy = np.min(dataset_cells_mean) * 0.1 if log else np.min(dataset_cells_mean) * 0.9
 	ax.set_ylim(min_xy, max_xy)
 	
 	ax.set_xlim(min_xy, max_xy)
 	ax.axline((0, 0), (max_xy, max_xy), linestyle=(0, (5, 10))) # add y=x line
 	
-	r, p = stats.pearsonr(dataset_cells[0], dataset_cells[1])
+	r, p = stats.pearsonr(dataset_cells_mean[0], dataset_cells_mean[1])
 	ax.annotate(f'r = {r:.2f}, p = {p:.2g}', xy=(0.05, 0.95), xycoords='axes fraction')
 	
 	points_to_plot = 0
@@ -1447,7 +1451,7 @@ def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=
 		x_labels = __get_bt_groups()
 
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, _, _, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
 	
 	if sorting:
 		sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
@@ -1580,14 +1584,12 @@ def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cell
 
 		if dataset_cells is not None: # sum cell counts for areas being merged. But to maintain ability to display child regions set do_not_merge=True
 			combined_sum = np.array([np.sum(dataset_cells[:, indexes_to_remove], axis=1)])
-			print(dataset_cells)
 			if do_not_merge:
 				for i in indexes_to_remove:
 					dataset_cells[:, i] = combined_sum
 			else:
 				dataset_cells = np.delete(dataset_cells, indexes_to_remove, axis=1)
 				dataset_cells = np.concatenate((dataset_cells, combined_sum.T), axis=1)
-			print(dataset_cells)
 
 		def get_old_area_weights():
 			area_sizes = [bt.get_area_size(code) for code in old_area_codes]
@@ -1597,7 +1599,6 @@ def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cell
 		size_norms = get_old_area_weights()
 
 		if correlations is not None:
-			print(correlations)
 			corrs_to_remove = [ corr for i, corr in enumerate(correlations) if i in indexes_to_remove ]
 			combined_corrs = np.average(corrs_to_remove, weights=size_norms)
 			if do_not_merge:
@@ -1606,7 +1607,6 @@ def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cell
 			else:
 				correlations = [ corr for i, corr in enumerate(correlations) if i not in indexes_to_remove ] # like np.delete stage
 				correlations.append(combined_corrs)
-			print(correlations)
 	return area_labels, dataset_cells, correlations
 
 
