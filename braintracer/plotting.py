@@ -806,13 +806,13 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	collapsed_g2 = np.mean(dataset_cells[num_g1:,:], axis=0)
 	dataset_cells_mean = np.concatenate([[collapsed_g1, collapsed_g2]], axis=1)
 
-	std1 = np.std(dataset_cells[0:num_g1,:], axis=0)
-	std2 = np.std(dataset_cells[num_g1:,:], axis=0)
+	ste1 = bt.ste(dataset_cells[0:num_g1,:], axis=0)
+	ste2 = bt.ste(dataset_cells[num_g1:,:], axis=0)
 
 	f, ax = plt.subplots(figsize=(6,6))
 	x, y = dataset_cells_mean[0], dataset_cells_mean[1]
 
-	ax.errorbar(x, y, xerr=std1, yerr=std2, fmt='o', color='grey', elinewidth=0.2, ms=1.5)
+	ax.errorbar(x, y, xerr=ste1, yerr=ste2, fmt='o', color='grey', elinewidth=0.2, ms=1.5)
 	ax.set_xlabel(f'LS  / mean {axis_title}')
 	ax.set_ylabel(f'LV  / mean {axis_title}')
 	if log:
@@ -838,20 +838,20 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	points_to_plot = 0
 	for i, (ix, iy) in enumerate(zip(x, y)): # first cycle through to count number of points to be plotted
 		if ix > iy: # if point is below the line
-			if ix - std1[i] > iy and iy + std2[i] < ix: # if bounds of error bars are below the line
+			if ix - ste1[i] > iy and iy + ste2[i] < ix: # if bounds of error bars are below the line
 				points_to_plot += 1
 		else: # if point is above the line
-			if ix + std1[i] < iy and iy - std2[i] > ix: # if bounds of error bars are above the line
+			if ix + ste1[i] < iy and iy - ste2[i] > ix: # if bounds of error bars are above the line
 				points_to_plot += 1
 				
 	ax.set_prop_cycle(color=[cm(1.*i/points_to_plot) for i in range(points_to_plot)]) # set the colours for the extra points
 	
 	for i, (ix, iy) in enumerate(zip(x, y)): # then actually plot
 		if ix > iy: # if point is below the line
-			if ix - std1[i] > iy and iy + std2[i] < ix: # if bounds of error bars are below the line
+			if ix - ste1[i] > iy and iy + ste2[i] < ix: # if bounds of error bars are below the line
 				ax.scatter([ix], [iy], s=30, label=area_labels[i])
 		else: # if point is above the line
-			if ix + std1[i] < iy and iy - std2[i] > ix: # if bounds of error bars are above the line
+			if ix + ste1[i] < iy and iy - ste2[i] > ix: # if bounds of error bars are above the line
 				ax.scatter([ix], [iy], s=30, label=area_labels[i])
 				
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
@@ -931,8 +931,8 @@ def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, are
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
-	std1 = np.std(dataset_cells[0:num_g1,:], axis=0)
-	std2 = np.std(dataset_cells[num_g1:,:], axis=0)
+	ste1 = bt.ste(dataset_cells[0:num_g1,:], axis=0)
+	ste2 = bt.ste(dataset_cells[num_g1:,:], axis=0)
 
 	collapsed_g1 = np.mean(dataset_cells[0:num_g1,:], axis=0)
 	collapsed_g2 = np.mean(dataset_cells[num_g1:,:], axis=0)
@@ -941,8 +941,8 @@ def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, are
 	area_labels = [area_labels[i] for i in sort_order]
 	collapsed_g1 = collapsed_g1[sort_order[::1]]
 	collapsed_g2 = collapsed_g2[sort_order[::1]]
-	std1 = std1[sort_order[::1]]
-	std2 = std2[sort_order[::1]]
+	ste1 = ste1[sort_order[::1]]
+	ste2 = ste2[sort_order[::1]]
 	
 	f, ax = plt.subplots(figsize=(6,6))
 	# add offset to error bars
@@ -950,8 +950,8 @@ def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, are
 	trans2 = Affine2D().translate(0.0, +0.1) + ax.transData
 	
 	groups = __get_bt_groups()
-	ax.barh(area_labels, collapsed_g1, xerr=std1, error_kw={'transform':trans1}, label=groups[0], color=csolid_group[0])
-	ax.barh(area_labels, collapsed_g2, xerr=std2, error_kw={'transform':trans2}, label=groups[1], color=csolid_group[1], left=collapsed_g1)
+	ax.barh(area_labels, collapsed_g1, xerr=ste1, error_kw={'transform':trans1}, label=groups[0], color=csolid_group[0])
+	ax.barh(area_labels, collapsed_g2, xerr=ste2, error_kw={'transform':trans2}, label=groups[1], color=csolid_group[1], left=collapsed_g1)
 	ax.set_ylabel(f'Area')
 	ax.set_xlabel(f'norm={value_norm}')
 	ax.spines['top'].set_visible(False)
@@ -990,16 +990,16 @@ def area_selectivity_with_errors(area_func, value_norm='total', fluorescence=Fal
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
 
 	LS, LV = dataset_cells[0:num_g1,:], dataset_cells[num_g1:,:]
-	avgs, stds, colours = calculate_SI_with_errors(LS, LV)
+	avgs, stes, colours = calculate_SI_with_errors(LS, LV)
 	
 	sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
 	area_labels = [area_labels[i] for i in sort_order]
 	avgs = [avgs[i] for i in sort_order]
-	stds = [stds[i] for i in sort_order]
+	stes = [stes[i] for i in sort_order]
 	colours = [colours[i] for i in sort_order]
 	
 	f, ax = plt.subplots(figsize=(6,6))
-	ax.barh(area_labels, avgs, color=colours, xerr=stds) #, ecolor=error_colours)
+	ax.barh(area_labels, avgs, color=colours, xerr=stes) #, ecolor=error_colours)
 	ax.set_ylabel(f'Area')
 	ax.set_xlabel(f'% selectivity  ({axis_title})')
 	ax.set_xlim(-1,1)
@@ -1645,10 +1645,10 @@ def calculate_SI_with_errors(g1_matrix, g2_matrix):
 		SI_combos_array.append(SI_combinations)
 		
 	avgs = [np.mean(i) for i in SI_combos_array]
-	stds = [np.std(i) / np.sqrt(len(i)) for i in SI_combos_array] # convert standard deviation to error
+	stes = [bt.ste(i) for i in SI_combos_array] # convert standard deviation to error
 	colours = colours_from_SI_array(avgs)
 	
-	return avgs, stds, colours
+	return avgs, stes, colours
 
 def get_sorting_from_SI(dataset_cells, fluorescence, mean=False):
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group

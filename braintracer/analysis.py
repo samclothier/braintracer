@@ -557,4 +557,10 @@ def get_stats_df(channel, fluorescence, areas, normalisation=None):
 	column_titles = ['Area', 'Dataset', 'Cells']
 	df = pd.DataFrame(zip(area_labels, groups, cells), columns=column_titles)
 	return df
+
+def ste(input_list, axis=None):
+	if axis is None: # if list
+		return np.std(input_list) / np.sqrt(len(input_list))
+	else: # if numpy array
+		return np.std(input_list, axis=axis) / np.sqrt(np.shape(input_list)[axis])
 #endregion
