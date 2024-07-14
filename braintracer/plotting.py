@@ -594,10 +594,11 @@ def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=No
 
 def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, areas_to_combine=None):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
-	correlations = get_corr_indexes(channel, areas, gradient, fluorescence=fluorescence)
+	correlations = get_corr_indexes(channel, fluorescence, areas, gradient)
 	if areas_to_combine is not None:
 		area_labels = bt.get_area_info(areas)[0]
-		_, _, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, correlations=correlations, do_not_merge=True)
+		_, _, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, do_not_merge=True, 
+														correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient)
 
 	regions = dict(zip(areas, correlations))
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
@@ -654,7 +655,7 @@ def generate_slice_heatmap(channel, position, normalisation='total', depth=3):
 
 	values, cbar_label = bt._cells_in_areas_in_datasets(areas, bt.datasets, channel, normalisation=normalisation)
 	groups, cells = _compress_into_groups(group_names, values)
-	print(areas)
+
 	highest_value = np.max(cells) # remove regions in the bottom 1% from plot
 	g1_regions = dict(zip(areas, cells[0]))
 	g2_regions = dict(zip(areas, cells[1]))
@@ -800,7 +801,7 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	cm = plt.get_cmap('nipy_spectral')
 	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
 	collapsed_g1 = np.mean(dataset_cells[0:num_g1,:], axis=0)
 	collapsed_g2 = np.mean(dataset_cells[num_g1:,:], axis=0)
@@ -929,7 +930,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
 	area_labels, dataset_cells, _, areas_title, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
 	ste1 = bt.ste(dataset_cells[0:num_g1,:], axis=0)
 	ste2 = bt.ste(dataset_cells[num_g1:,:], axis=0)
@@ -963,11 +964,12 @@ def density_map_corr_bar(channel, fluorescence, area_func, gradient=0.1, value_n
 	area_labels, areas_title = area_func
 	if areas_title != 'CF Inputs (anterograde)':
 		area_labels = bt.get_area_info(area_labels)[0]
-	correlations = get_corr_indexes(channel, area_labels, gradient, fluorescence=fluorescence)
+	correlations = get_corr_indexes(channel, fluorescence, area_labels, gradient)
 	_, dataset_cells, _, _, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells, correlations=correlations)
+		area_labels, dataset_cells, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells,
+																   correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient)
 
 	sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
 	area_labels = [area_labels[i] for i in sort_order]
@@ -986,7 +988,7 @@ def density_map_corr_bar(channel, fluorescence, area_func, gradient=0.1, value_n
 def area_selectivity_with_errors(area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
 	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
 
 	LS, LV = dataset_cells[0:num_g1,:], dataset_cells[num_g1:,:]
@@ -1155,9 +1157,15 @@ def __map_for_data(ax1_data, ax2_data, lower_lim=0.0001, saturation_multiplier=1
 
 
 def _get_projection(area, padding=None, axis=0):
-	area = 83 if area in ['Rostral-medial IO', 'Rostral-lateral IO', 'Caudal-medial IO', 'Caudal-lateral IO', 'Medial IO', 'Lateral IO', 'Rostral IO', 'Caudal IO'] else area
-	parent, children = bt.children_from(area, depth=0)
-	areas = [parent] + children
+	if isinstance(area, list):
+		areas = []
+		for i in area:
+			parent, children = bt.children_from(i, depth=0)
+			areas = areas + [parent] + children
+	else:
+		area = 83 if area in ['Rostral-medial IO', 'Rostral-lateral IO', 'Caudal-medial IO', 'Caudal-lateral IO', 'Medial IO', 'Lateral IO', 'Rostral IO', 'Caudal IO'] else area
+		parent, children = bt.children_from(area, depth=0)
+		areas = [parent] + children
 	
 	atlas_ar = np.isin(bt.atlas, areas)
 
@@ -1451,7 +1459,7 @@ def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=
 		x_labels = __get_bt_groups()
 
 	if areas_to_combine is not None:
-		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells)
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	
 	if sorting:
 		sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
@@ -1507,36 +1515,43 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 	datasets_to_bin = [d for d in bt.datasets if d.group == group and d.fluorescence == fluorescence]
 	assert len(datasets_to_bin) > 0, 'Could not find any datasets matching group and fluorescence setting.'
 	for d in datasets_to_bin:
-		if area is None:
-			points = np.array(d.cell_coords[channel]).T
-		elif area == 'Rostral IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True])
-		elif area == 'Caudal IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False])
-		elif area == 'Medial IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == True])
-		elif area == 'Caudal IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == False])
-		elif area == 'Rostral-medial IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == True])
-		elif area == 'Rostral-lateral IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == False])
-		elif area == 'Caudal-medial IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == True])
-		elif area == 'Caudal-lateral IO':
-			points = bt._get_cells_in(83, d, channel)
-			points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == False])
-		else:
-			parent, children = bt.children_from(area, depth=0)
-			areas = [parent] + children
+		if isinstance(area, list):
+			areas = []
+			for i in area:
+				parent, children = bt.children_from(i, depth=0)
+				areas = areas + [parent] + children
 			points = np.array(bt._get_cells_in(areas, d, channel)).T
+		else:
+			if area is None:
+				points = np.array(d.cell_coords[channel]).T
+			elif area == 'Rostral IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True])
+			elif area == 'Caudal IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False])
+			elif area == 'Medial IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == True])
+			elif area == 'Caudal IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == False])
+			elif area == 'Rostral-medial IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == True])
+			elif area == 'Rostral-lateral IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == False])
+			elif area == 'Caudal-medial IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == True])
+			elif area == 'Caudal-lateral IO':
+				points = bt._get_cells_in(83, d, channel)
+				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == False])
+			else:
+				parent, children = bt.children_from(area, depth=0)
+				areas = [parent] + children
+				points = np.array(bt._get_cells_in(areas, d, channel)).T
 
 		x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
@@ -1573,7 +1588,8 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 	
 	return av_im
 
-def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=None, correlations=None, do_not_merge=False):
+def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=None, do_not_merge=False,
+									 correlations=None, corr_channel=None, corr_fl=None, corr_gradient=None):
 	for new_area_name, old_area_codes in areas_to_combine.items():
 		old_area_names = bt.get_area_info(old_area_codes)[0]
 		print(old_area_names)
@@ -1591,22 +1607,15 @@ def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cell
 				dataset_cells = np.delete(dataset_cells, indexes_to_remove, axis=1)
 				dataset_cells = np.concatenate((dataset_cells, combined_sum.T), axis=1)
 
-		def get_old_area_weights():
-			area_sizes = [bt.get_area_size(code) for code in old_area_codes]
-			mean_size = np.mean(area_sizes)
-			size_norms = [area_size / mean_size for area_size in area_sizes]
-			return size_norms
-		size_norms = get_old_area_weights()
-
 		if correlations is not None:
-			corrs_to_remove = [ corr for i, corr in enumerate(correlations) if i in indexes_to_remove ]
-			combined_corrs = np.average(corrs_to_remove, weights=size_norms)
+			corr = get_corr_index_mult(corr_channel, corr_fl, old_area_codes, corr_gradient)
 			if do_not_merge:
 				for i in indexes_to_remove:
-					correlations[i] = combined_corrs
+					correlations[i] = corr
 			else:
-				correlations = [ corr for i, corr in enumerate(correlations) if i not in indexes_to_remove ] # like np.delete stage
-				correlations.append(combined_corrs)
+				correlations = [ corr for i, corr in enumerate(correlations) if i not in indexes_to_remove ]
+				correlations.append(corr)
+
 	return area_labels, dataset_cells, correlations
 
 
@@ -1676,7 +1685,7 @@ def get_corr_index(LS_data, LV_data, gradient):
 	index = sum_in_boxes / (sum_in_boxes + sum_in_centre)
 	return index
 
-def get_corr_indexes(channel, area_idxs, gradient, fluorescence=False):
+def get_corr_indexes(channel, fluorescence, area_idxs, gradient):
 	coefs = []
 	for area in area_idxs:
 		LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=area, binsize=50, axis=2, sigma=1, no_alignment_to_region_bounds=True)
@@ -1684,6 +1693,11 @@ def get_corr_indexes(channel, area_idxs, gradient, fluorescence=False):
 		coef = get_corr_index(LS_data, LV_data, gradient)
 		coefs.append(coef)
 	return coefs
+
+def get_corr_index_mult(channel, fluorescence, areas, gradient):
+	LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=areas, binsize=50, axis=2, sigma=1, no_alignment_to_region_bounds=True)
+	LS_data, LV_data, _ = remove_corner_points(LS_data, LV_data, 0.05)
+	return get_corr_index(LS_data, LV_data, gradient)
 
 def remove_corner_points(ax1_data, ax2_data, percentile):
 	max_xy = min(np.max(ax1_data), np.max(ax2_data))
