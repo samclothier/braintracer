@@ -798,7 +798,6 @@ def generate_3D_shape(areas, colours):
 	plotly.offline.iplot(plot_figure)
 
 def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, fluorescence=False, log=False, areas_to_combine=None):
-	cm = plt.get_cmap('nipy_spectral')
 	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
@@ -831,29 +830,31 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	ax.set_ylim(min_xy, max_xy)
 	
 	ax.set_xlim(min_xy, max_xy)
-	ax.axline((0, 0), (max_xy, max_xy), linestyle=(0, (5, 10))) # add y=x line
+	ax.axline((0, 0), (max_xy, max_xy), c='orange', linestyle=(0, (5, 10))) # add y=x line
 	
 	r, p = stats.pearsonr(dataset_cells_mean[0], dataset_cells_mean[1])
 	ax.annotate(f'r = {r:.2f}, p = {p:.2g}', xy=(0.05, 0.95), xycoords='axes fraction')
 	
-	points_to_plot = 0
-	for i, (ix, iy) in enumerate(zip(x, y)): # first cycle through to count number of points to be plotted
-		if ix > iy: # if point is below the line
-			if ix - ste1[i] > iy and iy + ste2[i] < ix: # if bounds of error bars are below the line
-				points_to_plot += 1
-		else: # if point is above the line
-			if ix + ste1[i] < iy and iy - ste2[i] > ix: # if bounds of error bars are above the line
-				points_to_plot += 1
-				
-	ax.set_prop_cycle(color=[cm(1.*i/points_to_plot) for i in range(points_to_plot)]) # set the colours for the extra points
+	markers = ['s', 'D', '^', '>', '2', 'H', '.', 'P', '*']
+	markers_used_g1 = []
+	markers_used_g2 = []
+	def select_marker(used_markers):
+		for marker in markers:
+			if marker not in used_markers:
+				used_markers.append(marker)
+				return marker
+		print('Couldn\'t find unused marker')
+		return 'o'
 	
 	for i, (ix, iy) in enumerate(zip(x, y)): # then actually plot
 		if ix > iy: # if point is below the line
 			if ix - ste1[i] > iy and iy + ste2[i] < ix: # if bounds of error bars are below the line
-				ax.scatter([ix], [iy], s=30, label=area_labels[i])
+				marker = select_marker(markers_used_g1)
+				ax.scatter([ix], [iy], s=30, c=csolid_group[0], marker=marker, label=area_labels[i])
 		else: # if point is above the line
 			if ix + ste1[i] < iy and iy - ste2[i] > ix: # if bounds of error bars are above the line
-				ax.scatter([ix], [iy], s=30, label=area_labels[i])
+				marker = select_marker(markers_used_g2)
+				ax.scatter([ix], [iy], s=30, c=csolid_group[1], marker=marker, label=area_labels[i])
 				
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 	btf.save(f'areaSelectivityScatter_{areas_title}_log={log}', as_type='pdf')
