@@ -64,6 +64,9 @@ plt.rcParams["font.family"] = "Arial"
 from myterial import white
 bgh.heatmaps.settings.ROOT_COLOR = white
 
+colour_arbitrary = '#08A045'
+cmap_arbtry = clrs.LinearSegmentedColormap.from_list('DA', ['#FFFFFF', colour_arbitrary])
+
 colour_LS = '#ED008C'
 colour_LV = '#1E74BD'
 colblk = [0/255, 0/255, 0/255, 1]
@@ -74,7 +77,7 @@ LV_LS_mix_colour = (RGB.from_str(colour_LV) + RGB.from_str(colour_LS)) / 2
 cmap_LV_LS_mix = clrs.LinearSegmentedColormap.from_list('Global', ['#FFFFFF', str(LV_LS_mix_colour)])
 cmap_LV_LS_pmap_cbar = clrs.LinearSegmentedColormap.from_list('LV to LS', [get_angle_for_cmap(0, 1), get_angle_for_cmap(1, 1), get_angle_for_cmap(1, 0)])
 csolid_group = [colour_LS, colour_LV]
-cmaps_group = [cmap_LS, cmap_LV]
+cmaps_group = [cmap_arbtry, cmap_LS, cmap_LV] # the first of these will be used for plots with only one group
 
 
 
@@ -305,7 +308,7 @@ def pmap_corr_scatter_binned(pmap_params, lower_lim=0.05, binsize=0.005, gradien
 	
 	btf.save(f'dmap_corr_scatter_binned_{pmap_params[2]}_fl={pmap_params[1]}', as_type='pdf')
 
-def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vmax=None):
+def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vmax=None, log=False, log_min=0.0001):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -339,7 +342,11 @@ def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, s
 		
 		divider = make_axes_locatable(ax)
 		cax = divider.append_axes("right", size="5%", pad=0.05)
-		im = ax.imshow(dmap, cmap=cmap, vmin=0, vmax=vmax)
+		if log:
+			im = ax.imshow(dmap, cmap=cmap, norm=clrs.LogNorm(vmin=log_min, vmax=vmax))
+		else:
+			im = ax.imshow(dmap, cmap=cmap, vmin=0, vmax=vmax)
+			
 		plt.colorbar(im, cax)
 		ax.set_xticklabels([])
 		ax.set_yticklabels([])
@@ -835,7 +842,7 @@ def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, flu
 	r, p = stats.pearsonr(dataset_cells_mean[0], dataset_cells_mean[1])
 	ax.annotate(f'r = {r:.2f}, p = {p:.2g}', xy=(0.05, 0.95), xycoords='axes fraction')
 	
-	markers = ['s', 'D', '^', '>', '2', 'H', '.', 'P', '*']
+	markers = ['s', 'D', '^', '>', 'd', 'x', '.', 'P', '*']
 	markers_used_g1 = []
 	markers_used_g2 = []
 	def select_marker(used_markers):
