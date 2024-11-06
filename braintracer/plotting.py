@@ -115,9 +115,9 @@ def custom_plot(channel, area_names, title='Custom plot', normalisation=None, lo
 		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
 
-def summary_plot(channel, log=False, horizontal=True, ax=None):
+def summary_plot(channel, log=False, norm=None, horizontal=True, ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
-	custom_plot(channel, summary_areas, title='Whole brain', normalisation='ch1', log=log, horizontal=horizontal, ax=ax)
+	custom_plot(channel, summary_areas, title='Whole brain', normalisation=norm, log=log, horizontal=horizontal, ax=ax)
 
 def matrix_plot(channel, fluorescence, area_func, value_norm='custom_pedestal', cmap='Reds', vbounds=(None, None)):
 	area_idxs, areas_title = area_func
@@ -669,13 +669,15 @@ def generate_slice_heatmap(channel, position, normalisation='total', depth=3):
 	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 
-def generate_brain_overview(dataset, vmin=None, vmax=None, axis=0, padding=0, cmap='gray', logmax=True, ax=None):
+def generate_brain_overview(dataset, areas=None, vmin=None, vmax=None, axis=0, padding=0, cmap='gray', logmax=True, ax=None):
 	if ax is None:
 		f, ax = plt.subplots(figsize=(10,6))
 		f.set_facecolor('white')
 	stack = btf.open_registered_stack(dataset)
 
 	plot_projection(ax, 997, padding=padding, axis=axis)
+	for i in areas:
+		plot_projection(ax, i, padding=padding, axis=axis)
 	
 	if not logmax:
 		data_projection = np.sum(stack, axis=2-axis)

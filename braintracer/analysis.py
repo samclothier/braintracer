@@ -473,10 +473,10 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 				print(f'Normalisation set to {normalisation}, defaulting to {data_type} count.')
 			axis_title = f'# {data_type}s'
 		if log:
-			cells = list(map(lambda x: np.log(x), cells))
+			cells = list(map(lambda x: np.log(x), cells)) # this doesn't work for flourescence=True datasets!
 			axis_title = f'log({axis_title})'
 		if dataset.fluorescence:
-			cells = list(map(lambda x: x * (20 / 10**9), cells))
+			cells = list(map(lambda x: x * (20 / 10**9), cells)) # works only for datasets at 2x2x5 um resolution!
 			axis_title = f'{axis_title} (mm^3)'
 		cells_list.append(cells)
 	return cells_list, axis_title
