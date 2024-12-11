@@ -49,16 +49,16 @@ set /p atres=Atlas resolution (um; eg. 10):
 set /p reverse=Also perform cell detection in background channel against the signal channel (only works for one signal channel)? 
 
 (for %%s in (%s_chs%) do (
-	ECHO Running cellfinder...
+	ECHO Running brainmapper...
 	cd %dataset%
 	if [%np%] == [] ( :: if no trained network
 		if not exist cellfinder_%s% (
-			cellfinder -s %%s -b %b% -o cellfinder_%%s -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size %bxy%
+			brainmapper -s %%s -b %b% -o cellfinder_%%s -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size %bxy%
 		) else (
 			ECHO Results already exist for signal channel %%s!
 	)) else (
 		if not exist cellfinder_%s%_%nn% (
-			cellfinder -s %%s -b %b% -o cellfinder_%%s_%nn% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size %bxy%
+			brainmapper -s %%s -b %b% -o cellfinder_%%s_%nn% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size %bxy%
 	))
 	cd ..
 	ECHO Copying results...
@@ -68,16 +68,16 @@ set /p reverse=Also perform cell detection in background channel against the sig
 ))
 :: do the same but without copying the downsampled images (they are identical to the forward run)
 if reverse EQU "Y" (
-	ECHO Running cellfinder...
+	ECHO Running brainmapper...
 	cd %dataset%
 	if [%np%] == [] ( :: if no trained network
 		if not exist cellfinder_%b% (
-			cellfinder -s %b% -b %s_chs% -o cellfinder_%b% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size %bxy%
+			brainmapper -s %b% -b %s_chs% -o cellfinder_%b% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --ball-xy-size %bxy%
 		) else (
 			ECHO Results already exist for background channel %b%!
 	)) else (
 		if not exist cellfinder_%b%_%n_n% (
-			cellfinder -s %b% -b %s_chs% -o cellfinder_%b%_%nn% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size %bxy%
+			brainmapper -s %b% -b %s_chs% -o cellfinder_%b%_%nn% -v %res% --orientation %orient% --threshold %t% --atlas allen_mouse_%atres%um --trained-model %np% --ball-xy-size %bxy%
 	))
 	cd ..
 	ECHO Copying results...
