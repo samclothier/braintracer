@@ -49,11 +49,11 @@ debug					= False
 #region Dataset
 class Dataset:
 
-	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, starters=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1):
+	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, starters=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1, custom_division_norm=1):
 		'''
 		Initialise a dataset object.
 		'''
-		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser
+		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser, self.custom_division_norm = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser, custom_division_norm
 		self.true_postsynaptics = starters
 		global postsyn_region
 		datasets.append(self)
@@ -355,6 +355,7 @@ def _get_cells_in(region, dataset, channel, left=None):
 	'''
 	Returns coordinates of cells within a defined region.
 	region: can be a list of area indexes, numpy array of a 3D area, or a tuple containing the coordinates bounding a cube
+	If you only need the number of cells in a region, use dataset.cells_by_area[ch][area]
 	'''
 	def hemisphere_predicate(hemi):
 		if left == None:
@@ -425,8 +426,6 @@ def get_area_info(codes, dataset=None, channels=None): # TODO: create functions 
 	if isinstance(codes[0], (int, np.int32, np.int64)):
 		names = area_indexes.loc[codes, 'name'].tolist()
 		idxes = codes
-		if dataset is not None: # for each area index, get the number of cells in the given areas in the given channels
-			cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes))
 	elif isinstance(codes[0], str):
 		try:
 			names = list(map(lambda x: area_indexes.loc[area_indexes['acronym']==x, 'name'].item(), codes))
@@ -434,13 +433,17 @@ def get_area_info(codes, dataset=None, channels=None): # TODO: create functions 
 		except ValueError:
 			names = list(map(lambda x: area_indexes.loc[area_indexes['name']==x, 'name'].item(), codes))
 			idxes = list(map(lambda x: area_indexes.loc[area_indexes['name']==x, 'name'].index[0], codes))
-		if dataset is not None: # for each area index, get the number of cells in the given areas in the given channels
-			cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes))
 	else:
-		'Unknown area reference format.'
-	if dataset is None:
-		cells = None
+		print('Unknown area reference format.')
+	# for each area index, get the number of cells in the given areas in the given channels
+	cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes)) if dataset is not None else None
 	return names, idxes, cells
+
+def get_area_acronyms(codes):
+	if not isinstance(codes, (list, np.ndarray)):
+		codes = [codes]
+	assert isinstance(codes[0], (int, np.int32, np.int64)), 'Please provide area code(s).'
+	return area_indexes.loc[codes, 'acronym'].tolist()
 
 def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presynaptics', log=False):
 	cells_list = []
@@ -460,18 +463,21 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 			except ZeroDivisionError:
 				print(f'Dividing by zero f{data_type}s. Ensure postsynaptic correction has been applied.')
 		elif normalisation == 'custom_division':
-			axis_title = f'{data_type} / division normalisation'
-			cells = list(map(lambda x: (x / dataset.starter_normaliser), cells))
+			axis_title = f'{data_type} / noise-normalised labelling'
+			cells = list(map(lambda x: (x / dataset.custom_division_norm), cells))
 		elif normalisation == 'custom_pedestal':
-			axis_title = f'{data_type} / pedestal normalisation'
+			axis_title = f'{data_type} / cerebellar-normalised labelling'
 			cells = list(map(lambda x: (x - (dataset.starter_pedestal_norm * x)) / dataset.starter_normaliser, cells))
 		else:
 			if debug:
 				print(f'Normalisation set to {normalisation}, defaulting to {data_type} count.')
 			axis_title = f'# {data_type}s'
 		if log:
-			cells = list(map(lambda x: np.log(x), cells))
+			cells = list(map(lambda x: np.log(x), cells)) # this doesn't work for flourescence=True datasets!
 			axis_title = f'log({axis_title})'
+		if dataset.fluorescence:
+			cells = list(map(lambda x: x * (20 / 10**9), cells)) # works only for datasets at 2x2x5 um resolution!
+			axis_title = f'{axis_title} (mm^3)'
 		cells_list.append(cells)
 	return cells_list, axis_title
 
@@ -502,6 +508,11 @@ def area_predicate(area, threshold, normalisation, datasets):
             any_child_has_threshold = True
     return area_has_threshold and not any_child_has_threshold
 
+def get_area_size(area):
+	area_code = get_area_info(area)[1][0]
+	area_mask = btf.atlas.get_structure_mask(area_code)
+	return area_mask[area_mask == area_code].size
+
 
 
 ### STATS
@@ -528,7 +539,7 @@ def mwu(channel, fluorescence, area, norm=None):
 	LV_group = df.loc[df['Dataset']=='LV', 'Cells'].tolist()
 	return stats.mannwhitneyu(LS_group, LV_group)
 
-def get_stats_df(channel, fluorescence, areas, normalisation=None, ):
+def get_stats_df(channel, fluorescence, areas, normalisation=None):
 	dsets = [i for i in datasets if i.fluorescence == fluorescence]
 	dataset_cells, _ = _cells_in_areas_in_datasets(areas, dsets, channel, normalisation=normalisation)
 	dataset_groups = [i.group for i in dsets]
@@ -546,4 +557,10 @@ def get_stats_df(channel, fluorescence, areas, normalisation=None, ):
 	column_titles = ['Area', 'Dataset', 'Cells']
 	df = pd.DataFrame(zip(area_labels, groups, cells), columns=column_titles)
 	return df
+
+def ste(input_list, axis=None):
+	if axis is None: # if list
+		return np.std(input_list) / np.sqrt(len(input_list))
+	else: # if numpy array
+		return np.std(input_list, axis=axis) / np.sqrt(np.shape(input_list)[axis])
 #endregion

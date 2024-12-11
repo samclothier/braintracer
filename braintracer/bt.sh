@@ -41,17 +41,17 @@ while true; do
             read -p "Atlas resolution (um; eg. 10): " atres
             read -p "Also perform cell detection in background channel against the signal channel (only works for one signal channel)? (y/n) " reverse
             for s in $s_chs; do
-                echo "Running cellfinder..."
+                echo "Running brainmapper..."
                 cd $dataset
                 if [ -z "$np" ]; then
                     if [ ! -d "cellfinder_$s" ]; then
-                        cellfinder -s $s -b $b -o cellfinder_${s} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --ball-xy-size 10
+                        brainmapper -s $s -b $b -o cellfinder_${s} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --ball-xy-size 10
                     else
                         echo "Results already exist for signal channel $s!"
                     fi
                 else
                     if [ ! -d "cellfinder_${s}_${nn}" ]; then
-                        cellfinder -s $s -b $b -o cellfinder_${s}_${nn} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --trained-model $np --ball-xy-size 10
+                        brainmapper -s $s -b $b -o cellfinder_${s}_${nn} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --trained-model $np --ball-xy-size 10
                     fi
                 fi
                 cd ..
@@ -61,17 +61,17 @@ while true; do
 		cp $dataset\cellfinder_${s}_${nn}/analysis/all_points.csv $FOLDER/cellfinder/cells_${dataset}_${nn}_${s}.csv
             done
             if [ "$reverse" == "y" ]; then
-                echo "Running cellfinder..."
+                echo "Running brainmapper..."
                 cd $dataset
                 if [ -z "$np" ]; then
                     if [ ! -d "cellfinder_$b" ]; then
-                        cellfinder -s $b -b $s_chs -o cellfinder_${b} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --ball-xy-size 10
+                        brainmapper -s $b -b $s_chs -o cellfinder_${b} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --ball-xy-size 10
                     else
                         echo "Results already exist for background channel $b!"
                     fi
                 else
                     if [ ! -d "cellfinder_${b}_${nn}" ]; then
-                        cellfinder -s $b -b $s_chs -o cellfinder_${b}_${nn} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --trained-model $np --ball-xy-size 10
+                        brainmapper -s $b -b $s_chs -o cellfinder_${b}_${nn} -v $res --orientation psr --threshold $t --atlas allen_mouse_${atres}um --trained-model $np --ball-xy-size 10
                     fi
                 fi
                 cd ..
