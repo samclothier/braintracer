@@ -15,7 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import importlib # import other braintracer files using relative path, agnostic to directory inheritance
+import importlib
+import xxlimited # import other braintracer files using relative path, agnostic to directory inheritance
 bt_path = '.'.join(__name__.split('.')[:-1]) # get module path (folder containing this file)
 btf = importlib.import_module(bt_path+'.file_management')
 bta = importlib.import_module(bt_path+'.area_lists')
@@ -885,7 +886,7 @@ def generate_starter_cell_bar(ax=None, true_only=False, log=False):
 		ax.set_yscale('log')
 	ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 	
-def region_comparison_scatter(fluorescence, config=None, areas=None, labels=False, set_postsyn_values_to_line=False, exclude_dataset_idx_from_line_fit=[]):
+def region_comparison_scatter(fluorescence, config=None, areas=None, labels=False, set_postsyn_values_to_line=False, exclude_dataset_idx_from_line_fit=[], swap_axes=False):
 	datasets, _ = fetch_groups(fluorescence=fluorescence)
 	dataset_names = [i.name for i in datasets]
 	
@@ -928,6 +929,9 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 	
 	f, ax = plt.subplots(figsize=(6,6))
 	f.set_facecolor('white')
+	if swap_axes:
+		x_axis, y_axis = y_axis, x_axis
+		x_label, y_label = y_label, x_label
 	sns.regplot(x=x_axis, y=y_axis, ci=95, robust=True, line_kws=dict(color='gray'), scatter_kws=dict(color=_colours_from_labels(dataset_names)), ax=ax)
 	if labels:
 		for i, name in enumerate(dataset_names):
