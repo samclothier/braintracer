@@ -809,8 +809,8 @@ def generate_3D_shape(areas, colours):
 	plot_figure = go.Figure(data=data, layout=layout)
 	plotly.offline.iplot(plot_figure)
 
-def area_selectivity_scatter(area_func, value_norm='total', custom_lim=None, fluorescence=False, log=False, areas_to_combine=None):
-	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, fluorescence=fluorescence, value_norm=value_norm)
+def area_selectivity_scatter(channel, area_func, value_norm='total', custom_lim=None, fluorescence=False, log=False, areas_to_combine=None):
+	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
@@ -944,8 +944,8 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 	btf.save(f'regionComparison_c={config}_a={areas}_F={fluorescence}', as_type='pdf')
 	return (x_axis, y_axis)
 
-def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
-	area_labels, dataset_cells, _, areas_title, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+def area_total_signal_bar(channel, area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
+	area_labels, dataset_cells, _, areas_title, _ = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
@@ -982,7 +982,7 @@ def density_map_corr_bar(channel, fluorescence, area_func, gradient=0.1, value_n
 	if areas_title != 'CF Inputs (anterograde)':
 		area_labels = bt.get_area_info(area_labels)[0]
 	correlations = get_corr_indexes(channel, fluorescence, area_labels, gradient)
-	_, dataset_cells, _, _, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+	_, dataset_cells, _, _, _ = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells,
@@ -1002,8 +1002,8 @@ def density_map_corr_bar(channel, fluorescence, area_func, gradient=0.1, value_n
 	ax.axvline(x=0, c='k')
 	btf.save(f'density_map_corr_bar_{areas_title}', as_type='pdf')
 
-def area_selectivity_with_errors(area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
-	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+def area_selectivity_with_errors(channel, area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
+	area_labels, dataset_cells, _, areas_title, axis_title = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
 	_, num_g1 = fetch_groups(fluorescence) # get sum across each group
@@ -1376,12 +1376,12 @@ def is_IO_pixel_rostral(x, y, z):
 def is_IO_pixel_medial(x, y, z):
 	return x < 604
 
-def get_matrix_data_for_io(datasets, split, norm):
+def get_matrix_data_for_io(channel, datasets, split, norm):
 	cells_list = []
 	norm_options = ['none', 'IO', 'CBX', 'total']
 
 	for d in datasets:
-		points = bt._get_cells_in([83], d, 'r')
+		points = bt._get_cells_in([83], d, channel)
 		cells = []
 		if split == 'ml':
 			split_mask = [is_IO_pixel_medial(x, y, z) for x, y, z in zip(*points)]
@@ -1408,7 +1408,7 @@ def get_matrix_data_for_io(datasets, split, norm):
 		elif norm == norm_options[2]:
 			cells = [(count - (d.starter_pedestal_norm * count)) / d.starter_normaliser for count in cells]
 		elif norm == norm_options[3]:
-			brain_labelling = d.num_cells(channel='r')
+			brain_labelling = d.num_cells(channel=channel)
 			cells = [(count / brain_labelling) * 100 for count in cells]
 		else:
 			print('Normalisation was not performed.')
@@ -1423,7 +1423,7 @@ def get_matrix_data_for_io(datasets, split, norm):
 	return cells_list, axis_title
 
 
-def get_matrix_data(area_func, postprocess_for_scatter=False, fluorescence=False, value_norm=None, sort_matrix=True):
+def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluorescence=False, value_norm=None, sort_matrix=True):
 	datasets, num_g1 = fetch_groups(fluorescence)
 	if postprocess_for_scatter == False:
 		print('Warning: This function does not sort, even if postprocess_for_scatter=False')
@@ -1441,7 +1441,7 @@ def get_matrix_data(area_func, postprocess_for_scatter=False, fluorescence=False
 			print('Error getting IO split information.')
 	else:
 		area_labels = bt.get_area_info(area_idxs)[0]
-		dataset_cells, axis_title = bt._cells_in_areas_in_datasets(area_labels, datasets, 'r', normalisation=value_norm)
+		dataset_cells, axis_title = bt._cells_in_areas_in_datasets(area_labels, datasets, channel, normalisation=value_norm)
 	
 	dataset_cells = np.array(dataset_cells)
 
@@ -1466,11 +1466,11 @@ def get_matrix_data(area_func, postprocess_for_scatter=False, fluorescence=False
 	
 	return area_labels, dataset_cells, datasets, areas_title, axis_title
 
-def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None,
+def region_signal_matrix(channel, area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None,
 						 areas_to_combine=None):
 	if ax is None:
 		_, ax = plt.subplots(figsize=figsize)
-	area_labels, dataset_cells, datasets, areas_title, axis_title = get_matrix_data(area_func=area_func, postprocess_for_scatter=postprocess_for_scatter, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+	area_labels, dataset_cells, datasets, areas_title, axis_title = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=postprocess_for_scatter, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	x_labels = [i.name for i in datasets]
 	if postprocess_for_scatter:
 		x_labels = __get_bt_groups()
