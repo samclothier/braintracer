@@ -69,7 +69,7 @@ colour_arbitrary = '#08A045'
 cmap_arbtry = clrs.LinearSegmentedColormap.from_list('DA', ['#FFFFFF', colour_arbitrary])
 
 colour_LS = '#ED008C'
-colour_LV = '#1E74BD'
+colour_LV = '#1E74BD' # C1 alt colour = #FF9909
 colblk = [0/255, 0/255, 0/255, 1]
 cmap_LS = clrs.LinearSegmentedColormap.from_list('LS', ['#FFFFFF', colour_LS])
 cmap_LV = clrs.LinearSegmentedColormap.from_list('LV', ['#FFFFFF', colour_LV])
