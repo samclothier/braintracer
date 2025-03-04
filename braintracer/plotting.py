@@ -359,6 +359,8 @@ def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, s
 			ax.contour(child, colors=projcol, alpha=0.05)
 		ax.contour(parent_projection, colors=projcol, alpha=0.1)
 		ax.set_aspect('equal')
+		if len(groups) > 1:
+			i += 1
 		plot_binned_average(ax, channel, area_num, axis, binsize, sigma, g, cmap=cmaps_group[i])
 
 def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=False, sigma=None, vbounds=None, threshold=1, override_order=None, order_method=None, blind_order=False, cmap='Reds', covmat=False, figsize=(8,8)):
@@ -940,6 +942,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 	ax.set_ylabel(y_label)
 	ax.set_xlim(0, None)
 	btf.save(f'regionComparison_c={config}_a={areas}_F={fluorescence}', as_type='pdf')
+	return (x_axis, y_axis)
 
 def area_total_signal_bar(area_func, value_norm='total', fluorescence=False, areas_to_combine=None):
 	area_labels, dataset_cells, _, areas_title, _ = get_matrix_data(area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
@@ -1489,11 +1492,11 @@ def region_signal_matrix(area_func, value_norm='total', postprocess_for_scatter=
 	
 	if log_plot:
 		norm = clrs.LogNorm(vmin=1, vmax=vmax) # seems like both halves render with same vmin vmax without specifying
-		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)
-		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[0], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)# , cbar_kws=dict(ticks=[])
+		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)
+		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)# , cbar_kws=dict(ticks=[])
 	else:
-		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)
-		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[0], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)# , cbar_kws=dict(ticks=[])
+		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)
+		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)# , cbar_kws=dict(ticks=[])
 	
 	if postprocess_for_scatter:
 		colours = _colours_from_labels([datasets[0].name, datasets[-1].name])
