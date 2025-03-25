@@ -1100,6 +1100,8 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
 			ax.contour(child_projection, colors=projcol, alpha=0.05)
 	
 	group1_data, group2_data = probability_map_data(channel, fluorescence, area_num, binsize, axis, sigma, padding)
+	group1_name = __get_bt_groups()[0]
+	group2_name = __get_bt_groups()[1]
 	
 	im = __map_for_data(group1_data, group2_data, lower_lim=lower_lim, saturation_multiplier=saturation_multiplier)
 
@@ -1110,13 +1112,13 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
 	cbar = plt.colorbar(im, cax)
 
 	cbar.ax.get_yaxis().set_ticks([])
-	for j, lab in enumerate(['$LS=0, LV=1$', '$LS=1, LV=1$', '$LS=1, LV=0$']):
+	for j, lab in enumerate([f'${group1_name}=0, {group2_name}=1$', f'${group1_name}=1, {group2_name}=1$', f'${group1_name}=1, {group2_name}=0$']):
 		cbar.ax.text(2, j / 2, lab, ha='left', va='center')
 	ax.set_xticklabels([])
 	ax.set_yticklabels([])
 	
 	area_name = bt.get_area_info(area_num)[0][0]
-	ax.set_title(f'{area_name} LS+LV mix from Fl={fluorescence} datasets')
+	ax.set_title(f'{area_name} {group1_name}-{group2_name} mix from Fl={fluorescence} datasets')
 	btf.save(f'dmap_HSV_{area_name}_ax={axis}_F={fluorescence}_subrgns={subregions}_sat={saturation_multiplier}', as_type='pdf')
 
 
