@@ -26,7 +26,7 @@ from PIL import Image
 
 script_dir = os.getcwd() #<-- dir of the notebook file
 package_dir = os.path.dirname(os.path.realpath(__file__)) #<-- dir of the package itself
-atlas = BrainGlobeAtlas('allen_mouse_io_10um') # normal atlas: allen_mouse_10um
+atlas = BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
 
 def _get_path(file_name, vID=None):
 	if file_name.startswith('cells_'):

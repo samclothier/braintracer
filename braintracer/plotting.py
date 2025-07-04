@@ -912,7 +912,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 			print(f'{x_axis[0]/p(x_axis[0])} inputs per {bt.postsyn_region} neuron.')
 	elif config == 'prePostAntero': # special case for anterogradely-labelled datasets. re-add the postsynaptics back because skimmed is set to True
 		print('Warning: When running this function, it is assumed that the cells of the postsynaptic region are not included in the dataset.')
-		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) 
+		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) # add postsynaptics because presynaptics() subtracts them by default
 		y_axis = np.array([i.postsynaptics() for i in datasets])
 		x_label = f'{bt.presyn_ch} - {bt.presyn_regions_exclude}'
 		y_label = f'{bt.postsyn_region}'

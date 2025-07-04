@@ -41,6 +41,7 @@ postsyn_ch				= '' # You must set the channel(s) containing starter cells (posts
 presyn_ch				= '' # And the channel(s) containing input cells (presynaptics)
 presyn_regions_exclude	= [] # Presynaptic cells are the total cells in presyn_ch - (postsyn_region + presyn_regions_exclude)
 channel_colours			= ['r','g','b']
+resolution_total        = 20 # e.g. for 2x2x5 um datasets = 20
 network_name			= 'Unet'
 grouped					= True
 debug					= False
@@ -473,10 +474,12 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 				print(f'Normalisation set to {normalisation}, defaulting to {data_type} count.')
 			axis_title = f'# {data_type}s'
 		if log:
-			cells = list(map(lambda x: np.log(x), cells)) # this doesn't work for flourescence=True datasets!
+			if dataset.fluorescence:
+				raise Exception('log option does not work for fluorescence=True datasets!')
+			cells = list(map(lambda x: np.log(x), cells))
 			axis_title = f'log({axis_title})'
 		if dataset.fluorescence:
-			cells = list(map(lambda x: x * (20 / 10**9), cells)) # works only for datasets at 2x2x5 um resolution!
+			cells = list(map(lambda x: x * (resolution_total / 10**9), cells))
 			axis_title = f'{axis_title} (mm^3)'
 		cells_list.append(cells)
 	return cells_list, axis_title
