@@ -389,7 +389,7 @@ def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=Fa
 			parent, children = bt.children_from(area_num, depth=0)
 			areas = [parent] + children
 			points = np.array(bt._get_cells_in(areas, d, channel)).T
-		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
+		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)
 		num_nonzero_bins.append(np.count_nonzero(hist)) # just debug stuff
 		last_hist_shape = hist.shape			
 		if sigma is not None: # 3D smooth # sigma = width of kernel
@@ -1429,6 +1429,7 @@ def get_matrix_data_for_io(channel, datasets, split, norm):
 
 def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluorescence=False, value_norm=None, sort_matrix=True):
 	datasets, num_g1 = fetch_groups(fluorescence)
+	assert len(datasets) > 0, 'No datasets found!'
 	if postprocess_for_scatter == False:
 		print('Warning: This function does not sort, even if postprocess_for_scatter=False')
 	
@@ -1575,7 +1576,7 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 				points = np.array(bt._get_cells_in(areas, d, channel)).T
 
 		x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
-		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), normed=False)
+		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)
 		
 		if hist.sum() != 0:
 			hist = hist / hist.sum() # turn into probability density distribution
