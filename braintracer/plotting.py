@@ -915,7 +915,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 		print('Warning: When running this function, it is assumed that the cells of the postsynaptic region are not included in the dataset.')
 		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) # add postsynaptics because presynaptics() subtracts them by default
 		y_axis = np.array([i.postsynaptics() for i in datasets])
-		y_axis = list(map(lambda x: x * (bt.resolution_total / 10**9), y_axis)) # do the normalisation like in _cells_in_areas_in_datasets
+		x_axis = list(map(lambda x: x * (bt.resolution_total / 10**9), x_axis)) # do the normalisation like in _cells_in_areas_in_datasets
 		x_label = f'{bt.presyn_ch} - {bt.presyn_regions_exclude}'
 		y_label = f'{bt.postsyn_region} (=starters for each dataset)'
 	elif config == 'areaStarterNorm': # provide one area for this config
