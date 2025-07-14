@@ -879,7 +879,7 @@ def generate_starter_cell_bar(ax=None, true_only=False, log=False):
 	dataset_names = [i.name for i in datasets]
 	if true_only:
 		ax.set(ylabel=f'Starter cells in {bt.postsyn_region} (ch={bt.postsyn_ch})')
-		starter_cells = [i.num_cells_in(bt.postsyn_region, ch=bt.postsyn_ch) for i in datasets]
+		starter_cells = [bt.get_area_info(bt.postsyn_region, dataset=d, channels=bt.postsyn_ch)[2][0] for d in datasets]
 	else:
 		ax.set(ylabel=f'Starter cells in {bt.postsyn_region} (corrected)')
 		starter_cells = [i.postsynaptics() for i in datasets] # green cells in starter region

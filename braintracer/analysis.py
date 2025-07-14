@@ -141,16 +141,13 @@ class Dataset:
 			else:
 				return len(self.cell_coords[channel][0])
 
-	def num_cells_in(self, area, channel=None, left=None, include_children=False):
+	def num_cells_in(self, area, channel=None, left=None):
 		'''
 		Gets the number of cells in a given brain area.
 		WARNING: Used by internal functions before propagation; use only to query raw data
 		'''
 		channels = self._set_channels(channel)
 		area_idx = get_area_info([area])[1] if area != 0 else 0 # if we are checking counts outside of brain, don't need to fetch index (0 is not available in hierarchy)
-		if include_children:
-			parent, children = children_from(area_idx, depth=0)
-			area_idx = [parent] + children
 		return sum([len(_get_cells_in(area_idx, self, channel=ch, left=left)[0]) for ch in channels])
 
 	def show_coronal_section(self, channels=None, section=750, cells_pm=0):
@@ -172,13 +169,13 @@ class Dataset:
 	def presynaptics(self): # Presynaptic cells are the total cells inside atlas in presyn_ch - (postsyn_region + presyn_regions_exclude)
 		presyn_cells = self.num_cells(presyn_ch) - self.num_cells_in(0) - self.postsynaptics()
 		for region in presyn_regions_exclude:
-			presyn_cells = presyn_cells - self.num_cells_in(region, presyn_ch, include_children=True)
+			presyn_cells = presyn_cells - get_area_info(region, dataset=self, channels=postsyn_ch)[2][0]
 		return presyn_cells
 
 	def postsynaptics(self):
 		if self.true_postsynaptics is not None:
 			return self.true_postsynaptics
-		return self.num_cells_in(postsyn_region, postsyn_ch, include_children=True)
+		return get_area_info(postsyn_region, dataset=self, channels=postsyn_ch)[2][0]
 
 	def project_slices(self, region, figsize=(10,6)):
 		start, end = region
@@ -418,6 +415,7 @@ def children_from(parent, depth):
 
 def get_area_info(codes, dataset=None, channels=None): # TODO: create functions where requested representation type is returned and starting type is not specified
 	'''
+	Use this for getting cell counts that include children areas!
 	Returns area full-names, area indexes, and area cell count for a dataset given short-letter codes or area indexes.
 	:dataset: Optionally specify the dataset to fetch cells
 	:channels: If providing dataset, optionally specify which channels to fetch total for each area from
