@@ -564,7 +564,7 @@ def generate_heatmap(channel, dataset, orientation='sagittal', vmax=None, positi
 	areas, areas_title = bta.summary_regions()
 	values, cbar_label = bt._cells_in_areas_in_datasets(areas, [dataset], channel, normalisation=normalisation)
 	regions = dict(zip(areas, np.array(values[0]).T))
-	f = bgh.heatmap(regions, position=position, orientation=orientation, title=f'{areas_title}: {dataset.name}', thickness=1000, atlas_name='allen_mouse_10um',format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'{areas_title}: {dataset.name}', thickness=1000, atlas_name='allen_mouse_10um',format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 
 def generate_heatmap_comparison(channel, fluorescence, areas, orientation, vmax=None, position=None, normalisation='total', legend=True):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -577,11 +577,11 @@ def generate_heatmap_comparison(channel, fluorescence, areas, orientation, vmax=
 		vmax = np.max(np.concatenate([[mean_g1, mean_g2]], axis=1)) # get max value in the two arrays to set the same vmax for both plots
 	g1_regions = dict(zip(areas, mean_g1))
 	g2_regions = dict(zip(areas, mean_g2))
-	f1 = bgh.heatmap(g1_regions, position=position, orientation=orientation, title=__get_bt_groups()[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LS).show(show_legend=legend, cbar_label=cbar_label)
+	f1 = bgh.Heatmap(g1_regions, position=position, orientation=orientation, title=__get_bt_groups()[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LS).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f1)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[0]}', as_type='pdf')
-	f2 = bgh.heatmap(g2_regions, position=position, orientation=orientation, title=__get_bt_groups()[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LV).show(show_legend=legend, cbar_label=cbar_label)
+	f2 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=__get_bt_groups()[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LV).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f2)
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[1]}', as_type='pdf')
 
@@ -597,7 +597,7 @@ def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=No
 		bounds = np.abs(vlim)
 	regions = dict(zip(areas, avgs))
 	cbar_label = f'LS - LV ({axis_title})'
-	f = bgh.heatmap(regions, position=position, orientation=orientation, title=f'SI for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'SI for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_SI_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
@@ -612,7 +612,7 @@ def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradi
 
 	regions = dict(zip(areas, correlations))
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
-	f = bgh.heatmap(regions, position=position, orientation=orientation, title=f'Within-region spatial segregation for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'Within-region spatial segregation for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_spatialseg_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
@@ -629,7 +629,7 @@ def generate_heatmap_difference(channel, areas, orientation, position=None, norm
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
 	if limit is not None:
 		bounds = np.abs(limit)
-	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 
 def generate_heatmap_ratios(channel, areas, orientation, position=None, normalisation='total', cmap='bwr', legend=True, limit=None, add=False):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -647,7 +647,7 @@ def generate_heatmap_ratios(channel, areas, orientation, position=None, normalis
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
 	if limit is not None:
 		bounds = np.abs(limit)
-	bgh.heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
+	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap)).show(show_legend=legend, cbar_label=cbar_label)
 	
 def generate_slice_heatmap(channel, position, normalisation='total', depth=3):
 	group_names = [i.group for i in bt.datasets]
@@ -669,8 +669,8 @@ def generate_slice_heatmap(channel, position, normalisation='total', depth=3):
 	highest_value = np.max(cells) # remove regions in the bottom 1% from plot
 	g1_regions = dict(zip(areas, cells[0]))
 	g2_regions = dict(zip(areas, cells[1]))
-	bgh.heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
-	bgh.heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
+	bgh.Heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
+	bgh.Heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot')).show(show_legend=True, cbar_label=cbar_label)
 
 def generate_brain_overview(dataset, areas=None, vmin=None, vmax=None, axis=0, padding=0, cmap='gray', logmax=True, ax=None):
 	if ax is None:
@@ -915,7 +915,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) # add postsynaptics because presynaptics() subtracts them by default
 		y_axis = np.array([i.postsynaptics() for i in datasets])
 		x_label = f'{bt.presyn_ch} - {bt.presyn_regions_exclude}'
-		y_label = f'{bt.postsyn_region}'
+		y_label = f'{bt.postsyn_region} (=starters for each dataset)'
 	elif config == 'areaStarterNorm': # provide one area for this config
 		assert areas is not None, 'Provide one area to compare to the starter normaliser value.'
 		x_axis = [d.starter_normaliser for d in datasets]
