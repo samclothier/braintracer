@@ -446,6 +446,7 @@ def get_area_acronyms(codes):
 
 def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presynaptics', log=False):
 	cells_list = []
+	axis_title = ''
 	for dataset in datasets: # titles will thus be set by the final dataset
 		data_type = 'pixel' if dataset.fluorescence else 'cell'
 		_, _, cells = get_area_info(areas, dataset, channels)
