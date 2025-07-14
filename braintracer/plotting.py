@@ -888,6 +888,7 @@ def generate_starter_cell_bar(ax=None, true_only=False, log=False):
 		ax.set_yscale('log')
 	ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 	
+# TODO: make the function work properly with the normalisation of _cells_in_areas_in_datasets
 def region_comparison_scatter(fluorescence, config=None, areas=None, labels=False, set_postsyn_values_to_line=False, exclude_dataset_idx_from_line_fit=[], swap_axes=False):
 	datasets, _ = fetch_groups(fluorescence=fluorescence)
 	dataset_names = [i.name for i in datasets]
@@ -914,6 +915,7 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 		print('Warning: When running this function, it is assumed that the cells of the postsynaptic region are not included in the dataset.')
 		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) # add postsynaptics because presynaptics() subtracts them by default
 		y_axis = np.array([i.postsynaptics() for i in datasets])
+		y_axis = list(map(lambda x: x * (bt.resolution_total / 10**9), y_axis)) # do the normalisation like in _cells_in_areas_in_datasets
 		x_label = f'{bt.presyn_ch} - {bt.presyn_regions_exclude}'
 		y_label = f'{bt.postsyn_region} (=starters for each dataset)'
 	elif config == 'areaStarterNorm': # provide one area for this config
