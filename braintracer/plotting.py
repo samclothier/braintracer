@@ -581,9 +581,11 @@ def generate_heatmap_comparison(channel, fluorescence, areas, orientation, vmax=
 	plt.figure(f1)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[0]}', as_type='pdf')
+	plt.close()
 	f2 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=__get_bt_groups()[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LV, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f2)
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[1]}', as_type='pdf')
+	plt.close()
 
 def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=None, normalisation='total', cmap='bwr', legend=True, region_labels=True):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -601,6 +603,7 @@ def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=No
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_SI_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
+	plt.close()
 
 def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, region_labels=True, areas_to_combine=None):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -616,6 +619,7 @@ def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradi
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_spatialseg_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
+	plt.close()
 
 def generate_heatmap_difference(channel, areas, orientation, position=None, normalisation='total', cmap='bwr', legend=True, region_labels=True, limit=None):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -847,7 +851,7 @@ def area_selectivity_scatter(channel, area_func, value_norm='total', custom_lim=
 	r, p = stats.pearsonr(dataset_cells_mean[0], dataset_cells_mean[1])
 	ax.annotate(f'r = {r:.2f}, p = {p:.2g}', xy=(0.05, 0.95), xycoords='axes fraction')
 	
-	markers = ['s', 'D', '^', '>', 'd', 'x', '.', 'P', '*']
+	markers = ['s', 'D', '^', '>', '<', 'd', 'x', 'X', '+', '.', 'p', '*', 'h', '1', '2', '3', '4']
 	markers_used_g1 = []
 	markers_used_g2 = []
 	def select_marker(used_markers):
@@ -1437,11 +1441,11 @@ def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluoresce
 	if areas_title == 'CF Inputs (anterograde)':
 		area_labels = area_idxs
 		if 'Rostral-medial IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(datasets, 'both', value_norm)
+			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'both', value_norm)
 		elif 'Rostral IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(datasets, 'rc', value_norm)
+			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'rc', value_norm)
 		elif 'Medial IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(datasets, 'ml', value_norm)
+			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'ml', value_norm)
 		else:
 			print('Error getting IO split information.')
 	else:
