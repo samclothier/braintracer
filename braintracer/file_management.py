@@ -20,13 +20,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
-from brainglobe_atlasapi.bg_atlas import BrainGlobeAtlas
 from bs4 import BeautifulSoup
 from PIL import Image
 
 script_dir = os.getcwd() #<-- dir of the notebook file
 package_dir = os.path.dirname(os.path.realpath(__file__)) #<-- dir of the package itself
-atlas = BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
 
 def _get_path(file_name, vID=None):
 	if file_name.startswith('cells_'):
@@ -143,7 +141,7 @@ def open_registered_stack(dataset):
 	else:
 		stack = np.array(open_file(f'reg_{dataset.name}_{dataset.channels[0]}.tiff'))[0]
 		return stack
-
+'''
 def get_atlas():
 	global atlas
 	return np.array(atlas.annotation)
@@ -156,6 +154,7 @@ def get_lookup_df():
 	df = atlas.lookup_df
 	df = df.set_index('id')
 	return df
+'''
 
 def save(file_name, as_type, dpi=600, vID=None, file=None):
 	if vID is not None:

@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import shortuuid as uid
 import pandas as pd
 import numpy as np
+from brainglobe_atlasapi.bg_atlas import BrainGlobeAtlas
 from IPython.display import clear_output
 from collections import Counter
 from tqdm.notebook import tqdm
@@ -32,8 +33,9 @@ from itertools import chain
 from matplotlib import cm
 
 datasets		= []
-atlas			= btf.get_atlas()
-reference		= btf.get_reference()
+atlas = BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
+#atlas			= btf.get_atlas()
+#reference		= btf.get_reference()
 area_indexes	= btf.open_file('structures.csv')
 
 postsyn_region			= None # You must set a starter region to use some features
@@ -46,7 +48,6 @@ network_name			= 'Unet'
 grouped					= True
 debug					= False
 
-# Dataset class
 #region Dataset
 class Dataset:
 
@@ -57,6 +58,7 @@ class Dataset:
 		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser, self.custom_division_norm = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser, custom_division_norm
 		self.true_postsynaptics = starters
 		global postsyn_region
+		global btf
 		datasets.append(self)
 
 		def preprocess_coords(ch):
@@ -157,7 +159,7 @@ class Dataset:
 		channels = self._set_channels(channels)
 
 		plt.suptitle(f'{self.name} Slice {str(section)} Caudal View')
-		plt.imshow(atlas[section,:,:], norm=colors.LogNorm())
+		plt.imshow(atlas.annotation[section,:,:], norm=colors.LogNorm())
 
 		for i, ch in enumerate(channels):
 			cells_z_coords = np.array(self.cell_coords[ch][2])
@@ -244,7 +246,7 @@ class Dataset:
 		Generate ground truth coordinates in atlas space - downsampled_channel_0 is channel 1, downsampled_standard
 		'''
 		gt_cells = btf.open_file(gt_name)[0]
-		gt_cells[0] = list(map(lambda x: atlas.shape[2]-x, gt_cells[0])) # flip cells x coord along the midline
+		gt_cells[0] = list(map(lambda x: atlas.annotation.shape[2]-x, gt_cells[0])) # flip cells x coord along the midline
 		matching_gt_idxs = []
 		matching_cf_idxs = []
 		for gt_idx, Z in enumerate(gt_cells[2]):
@@ -279,7 +281,7 @@ class Dataset:
 				ax.text(0.02, 0.62, f'Ztol={z_tol}um, XYtol={xy_tol}um', ha='left', transform=ax.transAxes, color='k', fontsize=8)
 			ax.set_xlabel(xlabel)
 			ax.set_ylabel('Cell count')
-			ax.set_xlim(0, atlas.shape[axis])
+			ax.set_xlim(0, atlas.annotation.shape[axis])
 		plot_dist(ax1, 2, xlabel='Distance from caudal end / um')
 		plot_dist(ax2, 0, xlabel='Distance from image left / um', legend=True)
 		plot_dist(ax3, 1, xlabel='Distance from image top / um')
@@ -311,7 +313,7 @@ def validate_dimensions(dataset, atlas_25, display=False):
 
 	if atlas_25:
 		print('Warning: Dataset channel 1 is not in the same coordinate space as the 10um reference atlas. Cells being scaled up, but skipping dimension validation.')
-	atlas_scaled = atlas * 2.5 if atlas_25 else atlas
+	atlas_scaled = atlas.annotation * 2.5 if atlas_25 else atlas.annotation
 	dataset_scaled = dataset.transform * 2.5 if atlas_25 else dataset.transform
 	im_sets = set_data_dims([atlas_scaled, dataset_scaled])
 	
@@ -335,7 +337,7 @@ def _get_area_index(z, y, x):
 	'''
 	get the index referring to the brain area in which a cell is located
 	'''
-	im = atlas[z]
+	im = atlas.annotation[z]
 	if x < im.shape[1] and y < im.shape[0]: # not <= because index is (shape - 1)
 		area_index = int(im[y,x])
 		### USE atlas.structure_from_coords
@@ -512,7 +514,7 @@ def area_predicate(area, threshold, normalisation, datasets):
 
 def get_area_size(area):
 	area_code = get_area_info(area)[1][0]
-	area_mask = btf.atlas.get_structure_mask(area_code)
+	area_mask = atlas.get_structure_mask(area_code)
 	return area_mask[area_mask == area_code].size
 
 

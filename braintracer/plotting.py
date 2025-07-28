@@ -564,7 +564,7 @@ def generate_heatmap(channel, dataset, orientation='sagittal', vmax=None, positi
 	areas, areas_title = bta.summary_regions()
 	values, cbar_label = bt._cells_in_areas_in_datasets(areas, [dataset], channel, normalisation=normalisation)
 	regions = dict(zip(areas, np.array(values[0]).T))
-	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'{areas_title}: {dataset.name}', thickness=1000, atlas_name='allen_mouse_10um',format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'{areas_title}: {dataset.name}', thickness=1000, atlas_name=bt.atlas.atlas_name,format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 
 def generate_heatmap_comparison(channel, fluorescence, areas, orientation, vmax=None, position=None, normalisation='total', legend=True, region_labels=True):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -577,12 +577,12 @@ def generate_heatmap_comparison(channel, fluorescence, areas, orientation, vmax=
 		vmax = np.max(np.concatenate([[mean_g1, mean_g2]], axis=1)) # get max value in the two arrays to set the same vmax for both plots
 	g1_regions = dict(zip(areas, mean_g1))
 	g2_regions = dict(zip(areas, mean_g2))
-	f1 = bgh.Heatmap(g1_regions, position=position, orientation=orientation, title=__get_bt_groups()[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LS, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	f1 = bgh.Heatmap(g1_regions, position=position, orientation=orientation, title=__get_bt_groups()[0], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=vmax, cmap=cmap_LS, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f1)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[0]}', as_type='pdf')
 	plt.close()
-	f2 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=__get_bt_groups()[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cmap_LV, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	f2 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=__get_bt_groups()[1], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=vmax, cmap=cmap_LV, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f2)
 	btf.save(f'heatmap_means_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}_group={__get_bt_groups()[1]}', as_type='pdf')
 	plt.close()
@@ -599,7 +599,7 @@ def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=No
 		bounds = np.abs(vlim)
 	regions = dict(zip(areas, avgs))
 	cbar_label = f'LS - LV ({axis_title})'
-	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'SI for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'SI for Fl={fluorescence}', thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_SI_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
@@ -615,7 +615,7 @@ def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, sigma
 
 	regions = dict(zip(areas, correlations))
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
-	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'Within-region spatial segregation for Fl={fluorescence}', thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'Within-region spatial segregation for Fl={fluorescence}', thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f)
 	areas_savename = ''.join([string[0] for string in areas])
 	btf.save(f'heatmap_spatialseg_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
@@ -633,7 +633,7 @@ def generate_heatmap_difference(channel, areas, orientation, position=None, norm
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
 	if limit is not None:
 		bounds = np.abs(limit)
-	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 
 def generate_heatmap_ratios(channel, areas, orientation, position=None, normalisation='total', cmap='bwr', legend=True, region_labels=True, limit=None, add=False):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
@@ -651,19 +651,10 @@ def generate_heatmap_ratios(channel, areas, orientation, position=None, normalis
 	cbar_label = 'LS - LV inputs / postsynaptic cell'
 	if limit is not None:
 		bounds = np.abs(limit)
-	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+	bgh.Heatmap(regions, position=position, orientation=orientation, thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=-bounds, vmax=bounds, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	
 def generate_slice_heatmap(channel, position, normalisation='total', depth=3, region_labels=True):
 	group_names = [i.group for i in bt.datasets]
-	'''
-	slice_num = int((position / 14000) * 1320)
-	atlas_slice = bt.atlas[slice_num,:,:]
-	areas = np.unique(atlas_slice)
-	areas = list(np.delete(areas, np.where(areas == 0)).astype(int))
-	areas = bt.area_indexes.loc[areas, 'acronym'].tolist()
-	areas.remove('root','fiber tracts')
-	#print(areas)
-	'''
 	_, areas = bt.children_from('root', depth=depth)
 	areas = bt.area_indexes.loc[areas, 'acronym'].tolist()
 
@@ -673,8 +664,8 @@ def generate_slice_heatmap(channel, position, normalisation='total', depth=3, re
 	highest_value = np.max(cells) # remove regions in the bottom 1% from plot
 	g1_regions = dict(zip(areas, cells[0]))
 	g2_regions = dict(zip(areas, cells[1]))
-	bgh.Heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
-	bgh.Heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
+	bgh.Heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
+	bgh.Heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
 
 def generate_brain_overview(dataset, areas=None, vmin=None, vmax=None, axis=0, padding=0, cmap='gray', logmax=True, ax=None):
 	if ax is None:
@@ -803,7 +794,7 @@ def generate_3D_shape(areas, colours):
 		return x, y, z
 	data = []
 	for idx, area_num in enumerate(area_nums):
-		z_vals, y_vals, x_vals = np.nonzero(bt.atlas == area_num)
+		z_vals, y_vals, x_vals = np.nonzero(bt.atlas.annotation == area_num)
 		x_vals, y_vals, z_vals = _subsample_atlas_pixels(x_vals, y_vals, z_vals)
 		trace = go.Scatter3d(x = y_vals, y = x_vals, z = z_vals, mode='markers',
 		marker={'size': 1, 'opacity': 0.8, 'color':colours[idx]})
@@ -1192,7 +1183,7 @@ def _get_projection(area, padding=None, axis=0):
 		parent, children = bt.children_from(area, depth=0)
 		areas = [parent] + children
 	
-	atlas_ar = np.isin(bt.atlas, areas)
+	atlas_ar = np.isin(bt.atlas.annotation, areas)
 
 	nz = np.nonzero(atlas_ar)
 	z_min, y_min, x_min = nz[0].min(), nz[1].min(), nz[2].min()
@@ -1355,11 +1346,11 @@ def compute_serial_matrix(dist_mat,method="ward"):
 def get_bins(dim, size):
 	atlas_res = 10
 	if dim == 2: # z 1320
-		num_slices = len(bt.atlas)
+		num_slices = len(bt.atlas.annotation)
 	elif dim == 1: # y 800
-		num_slices = bt.atlas[0].shape[0]
+		num_slices = bt.atlas.annotation[0].shape[0]
 	elif dim == 0: # x 1140
-		num_slices = bt.atlas[0].shape[1]
+		num_slices = bt.atlas.annotation[0].shape[1]
 	bin_size = int(size / atlas_res)
 	return len([i for i in range(0, num_slices + bin_size, bin_size)]) # return num bins
 
@@ -1596,7 +1587,7 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 		if no_alignment_to_region_bounds == False:
 			scale = int(binsize / atlas_res) ## make ready for plotting
 			hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
-			at_shp = bt.atlas.shape
+			at_shp = bt.atlas.annotation.shape
 			if axis == 2:
 				hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
 				hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
