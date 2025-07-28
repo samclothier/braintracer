@@ -605,13 +605,13 @@ def heatmap_SI(channel, fluorescence, areas, orientation, vlim=None, position=No
 	btf.save(f'heatmap_SI_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
 	plt.close()
 
-def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, region_labels=True, areas_to_combine=None):
+def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, sigma, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, region_labels=True, areas_to_combine=None):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
-	correlations = get_corr_indexes(channel, fluorescence, areas, gradient)
+	correlations = get_corr_indexes(channel, fluorescence, areas, gradient, sigma)
 	if areas_to_combine is not None:
 		area_labels = bt.get_area_info(areas)[0]
 		_, _, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, do_not_merge=True, 
-														correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient)
+														correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient, corr_sigma=sigma)
 
 	regions = dict(zip(areas, correlations))
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
@@ -983,16 +983,16 @@ def area_total_signal_bar(channel, area_func, value_norm='total', fluorescence=F
 	ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 	btf.save(f'areaTotalSignalBar_{areas_title}', as_type='pdf')
 
-def density_map_corr_bar(channel, fluorescence, area_func, gradient=0.1, value_norm='total', areas_to_combine=None):
+def density_map_corr_bar(channel, fluorescence, area_func, sigma, gradient=0.1, value_norm='total', areas_to_combine=None):
 	area_labels, areas_title = area_func
 	if areas_title != 'CF Inputs (anterograde)':
 		area_labels = bt.get_area_info(area_labels)[0]
-	correlations = get_corr_indexes(channel, fluorescence, area_labels, gradient)
+	correlations = get_corr_indexes(channel, fluorescence, area_labels, gradient, sigma)
 	_, dataset_cells, _, _, _ = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, correlations = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells,
-																   correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient)
+																   correlations=correlations, corr_channel=channel, corr_fl=fluorescence, corr_gradient=gradient, corr_sigma=sigma)
 
 	sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
 	area_labels = [area_labels[i] for i in sort_order]
@@ -1615,7 +1615,7 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 	return av_im
 
 def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=None, do_not_merge=False,
-									 correlations=None, corr_channel=None, corr_fl=None, corr_gradient=None):
+									 correlations=None, corr_channel=None, corr_fl=None, corr_gradient=None, corr_sigma=None):
 	for new_area_name, old_area_codes in areas_to_combine.items():
 		old_area_names = bt.get_area_info(old_area_codes)[0]
 		print(old_area_names)
@@ -1634,7 +1634,7 @@ def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cell
 				dataset_cells = np.concatenate((dataset_cells, combined_sum.T), axis=1)
 
 		if correlations is not None:
-			corr = get_corr_index_mult(corr_channel, corr_fl, old_area_codes, corr_gradient)
+			corr = get_corr_index_mult(corr_channel, corr_fl, old_area_codes, corr_gradient, corr_sigma)
 			if do_not_merge:
 				for i in indexes_to_remove:
 					correlations[i] = corr
@@ -1711,17 +1711,17 @@ def get_corr_index(LS_data, LV_data, gradient):
 	index = sum_in_boxes / (sum_in_boxes + sum_in_centre)
 	return index
 
-def get_corr_indexes(channel, fluorescence, area_idxs, gradient):
+def get_corr_indexes(channel, fluorescence, area_idxs, gradient, sigma):
 	coefs = []
 	for area in area_idxs:
-		LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=area, binsize=50, axis=2, sigma=1, no_alignment_to_region_bounds=True)
+		LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=area, binsize=50, axis=2, sigma=sigma, no_alignment_to_region_bounds=True)
 		LS_data, LV_data, _ = remove_corner_points(LS_data, LV_data, 0.05)
 		coef = get_corr_index(LS_data, LV_data, gradient)
 		coefs.append(coef)
 	return coefs
 
-def get_corr_index_mult(channel, fluorescence, areas, gradient):
-	LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=areas, binsize=50, axis=2, sigma=1, no_alignment_to_region_bounds=True)
+def get_corr_index_mult(channel, fluorescence, areas, gradient, sigma):
+	LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=areas, binsize=50, axis=2, sigma=sigma, no_alignment_to_region_bounds=True)
 	LS_data, LV_data, _ = remove_corner_points(LS_data, LV_data, 0.05)
 	return get_corr_index(LS_data, LV_data, gradient)
 
