@@ -34,8 +34,6 @@ from matplotlib import cm
 
 datasets		= []
 atlas = BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
-#atlas			= btf.get_atlas()
-#reference		= btf.get_reference()
 area_indexes	= btf.open_file('structures.csv')
 
 postsyn_region			= None # You must set a starter region to use some features
