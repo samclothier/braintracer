@@ -32,9 +32,9 @@ from matplotlib import colors
 from itertools import chain
 from matplotlib import cm
 
-datasets		= []
-atlas = BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
-area_indexes	= btf.open_file('structures.csv')
+datasets				= []
+atlas					= BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
+area_indexes			= btf.open_file('structures.csv')
 
 postsyn_region			= None # You must set a starter region to use some features
 postsyn_ch				= '' # You must set the channel(s) containing starter cells (postsynaptics)
@@ -49,23 +49,17 @@ debug					= False
 #region Dataset
 class Dataset:
 
-	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, starters=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1, custom_division_norm=1):
+	def __init__(self, name, group, channels, fluorescence=False, skimmed=False, true_postsynaptics=None, atlas_25=False, starter_pedestal_norm=0, starter_normaliser=1, custom_division_norm=1):
 		'''
 		Initialise a dataset object.
 		'''
 		self.name, self.group, self.channels, self.fluorescence, self.skimmed, self.starter_pedestal_norm, self.starter_normaliser, self.custom_division_norm = name, group, channels, fluorescence, skimmed, starter_pedestal_norm, starter_normaliser, custom_division_norm
-		self.true_postsynaptics = starters
-		global postsyn_region
-		global btf
+		self.true_postsynaptics, self.atlas_25 = true_postsynaptics, atlas_25
+		global postsyn_region, network_name, btf
 		datasets.append(self)
 
 		def preprocess_coords(ch):
-			if self.fluorescence:
-				name = f'binary_registered_skimmed_{self.name}_{ch}.npy' if self.skimmed else f'binary_registered_{self.name}_{ch}.npy'
-			else:
-				name = f'cells_{self.name}_{network_name}_{ch}.csv'
-
-			cell_coords = btf.open_file(name, atlas_25=atlas_25) #TODO: check if atlas 25 works with anterograde pipeline
+			cell_coords = btf.open_cell_coordinates(self, ch, network_name) #TODO: check if atlas 25 works with anterograde pipeline
 			cells_by_area_raw = self.__count_cells(cell_coords) # used in generate_zoom_plot()
 			cells_by_area = self.__propagate_cells_through_inheritance_tree(cells_by_area_raw) # used in many plots
 			return cell_coords, cells_by_area, cells_by_area_raw
@@ -84,19 +78,11 @@ class Dataset:
 	# end of init
 
 	def __count_cells(self, cell_coords):
-		'''
-		returns the number of cells in each brain region
-		'''
 		x_vals, y_vals, z_vals = cell_coords[0], cell_coords[1], cell_coords[2]
-		counter = Counter()
-		for idx, z in enumerate(z_vals):
-			x = x_vals[idx]
-			y = y_vals[idx]
-			area_index = _get_area_index(z, y, x)
-			counter.setdefault(area_index, 0)
-			counter[area_index] = counter[area_index] + 1
+		area_indices = vectorised_get_area_index(z_vals, y_vals, x_vals)
+		counter = Counter(area_indices)
 		if debug:
-			total_cells = sum(counter.values()) # <-- if total cells needs to be verified
+			total_cells = sum(counter.values())
 			print(f'Cells in channel (before manipulation): {total_cells}')
 		counter = counter.most_common()
 		return counter
@@ -148,7 +134,7 @@ class Dataset:
 		'''
 		channels = self._set_channels(channel)
 		area_idx = get_area_info([area])[1] if area != 0 else 0 # if we are checking counts outside of brain, don't need to fetch index (0 is not available in hierarchy)
-		return sum([len(_get_cells_in(area_idx, self, channel=ch, left=left)[0]) for ch in channels])
+		return sum([len(_vectorised_get_cells_in(area_idx, self, channel=ch, left=left)[0]) for ch in channels])
 
 	def show_coronal_section(self, channels=None, section=750, cells_pm=0):
 		'''
@@ -232,9 +218,9 @@ class Dataset:
 		# to get real answer:
 		parent, children = children_from(area, depth=0)
 		areas = [parent] + children
-		true_num_total = len(_get_cells_in(areas, self, ch1=True, left=None)[0])
-		true_num_left = len(_get_cells_in(areas, self, ch1=True, left=True)[0])
-		true_num_right = len(_get_cells_in(areas, self, ch1=True, left=False)[0])
+		true_num_total = len(_vectorised_get_cells_in(areas, self, ch1=True, left=None)[0])
+		true_num_left = len(_vectorised_get_cells_in(areas, self, ch1=True, left=True)[0])
+		true_num_right = len(_vectorised_get_cells_in(areas, self, ch1=True, left=False)[0])
 
 		return (num_total, num_left, num_right), (true_num_total, true_num_left, true_num_right)
 
@@ -348,6 +334,108 @@ def _get_area_index(z, y, x):
 	else:
 		print('Warning: Area index is < 0')
 		return 0
+
+def vectorised_get_area_index(z_coords, y_coords, x_coords):
+	'''
+	Vectorised retrieval of brain area indices from atlas.annotation 3D array.
+	z_coords, y_coords, x_coords: 1D arrays/lists of indices
+	atlas: object with attribute 'annotation', a 3D numpy array with shape (Z,Y,X)
+	
+	Returns:
+	area_indices: 1D numpy array of int area indices, with 0 for out-of-bounds or negative indices.
+	'''
+	annotation = atlas.annotation  # Assume shape (Z, Y, X)
+	max_z, max_y, max_x = np.array(annotation.shape) - 1
+
+	z_coords = np.array(z_coords)
+	y_coords = np.array(y_coords)
+	x_coords = np.array(x_coords)
+
+	# Check bounds
+	valid_mask = (z_coords >= 0) & (z_coords <= max_z) & \
+				 (y_coords >= 0) & (y_coords <= max_y) & \
+				 (x_coords >= 0) & (x_coords <= max_x)
+
+	# Prepare output array filled with 0 (default)
+	area_indices = np.zeros(z_coords.shape, dtype=np.int32)
+
+	# For valid indices, index into annotation
+	valid_z = z_coords[valid_mask]
+	valid_y = y_coords[valid_mask]
+	valid_x = x_coords[valid_mask]
+
+	values = annotation[valid_z, valid_y, valid_x]
+
+	# Check area_index >= 0, replace negatives with 0
+	values = np.where(values >= 0, values, 0)
+
+	# Assign back to output array
+	area_indices[valid_mask] = values
+
+	return area_indices
+
+#TODO: add back ability to split by hemisphere
+def _vectorised_get_cells_in(region, dataset, channel, left=None):
+	'''
+	Returns coordinates of cells within a defined region.
+	region: can be a list of area indexes, numpy array of a 3D area, or a tuple containing the coordinates bounding a cube.
+	If you only need the number of cells in a region, use dataset.cells_by_area[ch][area].
+	'''
+	cell_coords = dataset.cell_coords[channel]
+	x_vals, y_vals, z_vals, hemi_vals = cell_coords[0], cell_coords[1], cell_coords[2], cell_coords[3]
+	'''
+	if left is None:
+		hemi_mask = np.ones_like(hemi_vals, dtype=bool)  # all True because None means apply no filter
+	elif left is True:
+		hemi_mask = (hemi_vals == 1)
+	elif left is False:
+		hemi_mask = (hemi_vals == 0)
+	else:
+		hemi_mask = np.ones_like(hemi_vals, dtype=bool)
+	'''
+	def _is_in_region_vectorized():
+		if isinstance(region, list):
+			# region is list of area indexes, so we vectorize _get_area_index for all cells and check membership
+			area_indices = vectorised_get_area_index(z_vals, y_vals, x_vals)
+			# Boolean mask for membership within region list
+			return np.isin(area_indices, region)
+		
+		elif isinstance(region, int):
+			# Single area index, return mask where area equals region
+			area_indices = vectorised_get_area_index(z_vals, y_vals, x_vals)
+			return area_indices == region
+		
+		elif isinstance(region, tuple):
+			# region is bounding cube ((x_min,x_max), (y_min,y_max), (z_min,z_max))
+			(x_min, x_max), (y_min, y_max), (z_min, z_max) = region
+			return (
+				(x_vals >= x_min) & (x_vals <= x_max) &
+				(y_vals >= y_min) & (y_vals <= y_max) &
+				(z_vals >= z_min) & (z_vals <= z_max)
+			)
+		
+		elif isinstance(region, np.ndarray):
+			# region is 3D mask (e.g. dilation array)
+			# For each cell coordinate, check if dilation[z,y,x] == 1
+			# Need to cast coordinates to int (clip if needed)
+			x_int = np.clip(x_vals.astype(int), 0, region.shape[2] - 1)
+			y_int = np.clip(y_vals.astype(int), 0, region.shape[1] - 1)
+			z_int = np.clip(z_vals.astype(int), 0, region.shape[0] - 1)
+			return region[z_int, y_int, x_int] == 1
+		else:
+			raise ValueError(f'Unable to identify region type {type(region)} for returning cell coordinates.')
+	
+	region_mask = _is_in_region_vectorized()
+
+	# Combine masks
+	combined_mask = region_mask # & hemi_mask
+
+	# Select cells matching all criteria
+	filtered_x = x_vals[combined_mask]
+	filtered_y = y_vals[combined_mask]
+	filtered_z = z_vals[combined_mask]
+
+	return filtered_x, filtered_y, filtered_z
 
 def _get_cells_in(region, dataset, channel, left=None):
 	'''
@@ -499,16 +587,16 @@ def _get_extra_cells(codes, original_counter):
 	return names, cells
 
 def area_predicate(area, threshold, normalisation, datasets):
-    dataset_cells = _cells_in_areas_in_datasets(area, datasets, 'r', normalisation=normalisation)[0]
-    mean = np.mean(np.array(dataset_cells), axis=0)[0] # calculate mean number of cells in each area
-    area_has_threshold = mean > threshold
-    any_child_has_threshold = False
-    for child in children_from(area, depth=0)[1]:
-        dataset_cells = _cells_in_areas_in_datasets(child, datasets, 'r', normalisation=normalisation)[0]
-        mean = np.mean(np.array(dataset_cells), axis=0)[0] # calculate mean number of cells in each area
-        if mean > threshold:
-            any_child_has_threshold = True
-    return area_has_threshold and not any_child_has_threshold
+	dataset_cells = _cells_in_areas_in_datasets(area, datasets, 'r', normalisation=normalisation)[0]
+	mean = np.mean(np.array(dataset_cells), axis=0)[0] # calculate mean number of cells in each area
+	area_has_threshold = mean > threshold
+	any_child_has_threshold = False
+	for child in children_from(area, depth=0)[1]:
+		dataset_cells = _cells_in_areas_in_datasets(child, datasets, 'r', normalisation=normalisation)[0]
+		mean = np.mean(np.array(dataset_cells), axis=0)[0] # calculate mean number of cells in each area
+		if mean > threshold:
+			any_child_has_threshold = True
+	return area_has_threshold and not any_child_has_threshold
 
 def get_area_size(area):
 	area_code = get_area_info(area)[1][0]

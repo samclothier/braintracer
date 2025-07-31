@@ -16,7 +16,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import importlib
-import xxlimited # import other braintracer files using relative path, agnostic to directory inheritance
 bt_path = '.'.join(__name__.split('.')[:-1]) # get module path (folder containing this file)
 btf = importlib.import_module(bt_path+'.file_management')
 bta = importlib.import_module(bt_path+'.area_lists')
@@ -32,7 +31,6 @@ import pandas as pd
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.transforms import Affine2D
-from collections import Counter
 from fastcluster import linkage
 from itertools import chain
 from matplotlib import cm
@@ -380,7 +378,7 @@ def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=Fa
 			old_num_points = points.shape
 			points = points[points.min(axis=1)>=0,:] # remove coordinates with negative values so the next step works
 			neg_num_points = points.shape
-			points_IO = np.array(bt._get_cells_in([83,528], d, ch1=ch1)).T
+			points_IO = np.array(bt._vectorised_get_cells_in([83,528], d, ch1=ch1)).T
 			dims = np.maximum(points_IO.max(0),points.max(0))+1 # this and following line are to filter out IO points from points
 			points = points[~np.in1d(np.ravel_multi_index(points.T,dims),np.ravel_multi_index(points_IO.T,dims))]
 			if bt.debug:
@@ -388,7 +386,7 @@ def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=Fa
 		else:
 			parent, children = bt.children_from(area_num, depth=0)
 			areas = [parent] + children
-			points = np.array(bt._get_cells_in(areas, d, channel)).T
+			points = np.array(bt._vectorised_get_cells_in(areas, d, channel)).T
 		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)
 		num_nonzero_bins.append(np.count_nonzero(hist)) # just debug stuff
 		last_hist_shape = hist.shape			
@@ -1036,7 +1034,7 @@ def _project_with_cells(ax, dataset, area, padding, s, channels=None, axis=0, al
 			parent, children = bt.children_from(area, depth=0)
 			areas = [parent] + children
 			region = areas
-		X_r, Y_r, Z_r = bt._get_cells_in(region, dataset, ch)
+		X_r, Y_r, Z_r = bt._vectorised_get_cells_in(region, dataset, ch)
 		X_r = [x-x_min for x in X_r]
 		Y_r = [y-y_min for y in Y_r]
 		Z_r = [z-z_min for z in Z_r]
@@ -1380,7 +1378,7 @@ def get_matrix_data_for_io(channel, datasets, split, norm):
 	norm_options = ['none', 'IO', 'CBX', 'total']
 
 	for d in datasets:
-		points = bt._get_cells_in([83], d, channel)
+		points = bt._vectorised_get_cells_in([83], d, channel)
 		cells = []
 		if split == 'ml':
 			split_mask = [is_IO_pixel_medial(x, y, z) for x, y, z in zip(*points)]
@@ -1537,38 +1535,38 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 			for i in area:
 				parent, children = bt.children_from(i, depth=0)
 				areas = areas + [parent] + children
-			points = np.array(bt._get_cells_in(areas, d, channel)).T
+			points = np.array(bt._vectorised_get_cells_in(areas, d, channel)).T
 		else:
 			if area is None:
 				points = np.array(d.cell_coords[channel]).T
 			elif area == 'Rostral IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True])
 			elif area == 'Caudal IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False])
 			elif area == 'Medial IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == True])
 			elif area == 'Caudal IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == False])
 			elif area == 'Rostral-medial IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == True])
 			elif area == 'Rostral-lateral IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == False])
 			elif area == 'Caudal-medial IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == True])
 			elif area == 'Caudal-lateral IO':
-				points = bt._get_cells_in(83, d, channel)
+				points = bt._vectorised_get_cells_in(83, d, channel)
 				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == False])
 			else:
 				parent, children = bt.children_from(area, depth=0)
 				areas = [parent] + children
-				points = np.array(bt._get_cells_in(areas, d, channel)).T
+				points = np.array(bt._vectorised_get_cells_in(areas, d, channel)).T
 
 		x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)

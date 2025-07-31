@@ -96,16 +96,23 @@ def open_file(name, atlas_25=False): # open files
 		return images
 	elif ext == 'csv':
 		if name.startswith('cells_'):
-			cell_df = pd.read_csv(file_path)
-			z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
-			y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
-			x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
-			hemisphere = cell_df['hemisphere'].to_list()
+			cell_df = pd.read_csv(file_path, usecols=['coordinate_atlas_axis_0','coordinate_atlas_axis_1','coordinate_atlas_axis_2','hemisphere'])
+			# Convert coordinate columns to a NumPy array directly (shape: (N, 3)) with flipped order
+			coords = cell_df[[
+				'coordinate_atlas_axis_2',  # x
+				'coordinate_atlas_axis_1',  # y
+				'coordinate_atlas_axis_0'   # z
+			]].to_numpy(dtype=np.int32)
+
 			if atlas_25:
-				z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
-				y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
-				x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
-			return [x_coords, y_coords, z_coords, hemisphere] # flip to x, y, z
+				coords = np.floor(coords * 2.5).astype(np.int32)
+
+			mapping = {'left': 1, 'right': 0} # convert hemisphere labels into 0, 1, 2 to save memory with np.array
+			hemisphere_int = cell_df['hemisphere'].map(mapping).fillna(2).astype(np.int32).to_numpy()
+
+			coords_and_hemisphere_array = np.hstack((coords, hemisphere_int.reshape(-1, 1))).T
+			return coords_and_hemisphere_array
+
 		elif name.startswith('structures'):
 			area_indexes = pd.read_csv(file_path)
 			area_indexes = area_indexes.set_index('id')
@@ -114,9 +121,9 @@ def open_file(name, atlas_25=False): # open files
 			print(f'Cannot load CSV with name {name}')
 	elif ext == 'npy':
 		coordinates = np.load(file_path)
-		coordinates = np.c_[ np.repeat(None, coordinates.shape[0]), coordinates ] # Add an extra column for hemisphere = None
+		coordinates = np.c_[ np.repeat(np.int32(2), coordinates.shape[0]), coordinates ] # Add an extra column for hemisphere = 2 (no hemisphere specified)
 		coordinates = np.flip(coordinates.T, axis=0) # flip to x, y, z
-		return coordinates.tolist()
+		return coordinates
 	elif ext == 'pkl':
 		return pickle.load(open(f'{file_path}', 'rb'))
 	else:
@@ -130,17 +137,17 @@ def open_transformed_brain(dataset):
 	files = glob.glob(path)
 	return files
 
-def open_registered_stack(dataset):
+def open_cell_coordinates(dataset, channel, network_name):
+	filename = ''
 	if dataset.fluorescence:
 		if dataset.skimmed:
-			name = f'binary_registered_stack_skimmed_{dataset.name}_{dataset.channels[0]}.npy'
+			filename = f'binary_registered_skimmed_{dataset.name}_{channel}.npy'
 		else:
-			name = f'binary_registered_stack_{dataset.name}_{dataset.channels[0]}.npy'
-		path = _get_path(name)
-		return np.load(path)
+			filename = f'binary_registered_{dataset.name}_{channel}.npy'
 	else:
-		stack = np.array(open_file(f'reg_{dataset.name}_{dataset.channels[0]}.tiff'))[0]
-		return stack
+		filename = f'cells_{dataset.name}_{network_name}_{channel}.csv'
+	cell_coords = open_file(filename, atlas_25=dataset.atlas_25)
+	return cell_coords
 '''
 def get_atlas():
 	global atlas
