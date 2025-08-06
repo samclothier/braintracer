@@ -61,17 +61,9 @@ def inputs_antero_MF_roi_crop():
 	area_idxs = bt.get_area_info(areas)[1]
 	return area_idxs, areas_title
 
-def inputs_antero_CF(split):
-	split_options = ['rc', 'ml', 'both']
-	if split == split_options[0]:
-		io_areas = ['Rostral IO', 'Caudal IO']
-	elif split == split_options[1]:
-		io_areas = ['Medial IO', 'Lateral IO']
-	elif split == split_options[2]:
-		io_areas = ['Rostral-medial IO', 'Rostral-lateral IO', 'Caudal-medial IO', 'Caudal-lateral IO']
-	else:
-		return None
-
+def inputs_antero_CF():
+	parent, subregions = bt.children_from('IO', depth=0)
+	io_areas = [parent] + subregions
 	areas_title = f"CF Inputs (anterograde)"
 	return io_areas, areas_title
 

@@ -163,22 +163,41 @@ class Dataset:
 			return self.true_postsynaptics
 		return get_area_info(postsyn_region, dataset=self, channels=postsyn_ch)[2][0]
 
-	def project_slices(self, region, figsize=(10,6)):
-		start, end = region
-		subtracted_stack_files = btf.open_transformed_brain(self)
-
-		stack = []
-		for i in tqdm(range(start, end)):
-			im = np.load(subtracted_stack_files[i])
-			stack.append(im)
-		stack = np.array(stack)
-		proj = np.sum(stack, axis=0)
-		binary_proj = np.where(proj > 0, 1, 0)
-		print(proj.shape, proj.dtype)
+	def get_marked_atlas_stack(self, channel, shape=(1320, 800, 1140)):
+		atlas_space = np.zeros(shape, dtype=np.uint8)  # Use bool or uint8 to save memory
+		tc = self.cell_coords[channel].T # transpose to get into correct format
 		
-		f, ax = plt.subplots(figsize=figsize)
-		ax.imshow(binary_proj)
-		plt.imsave(f'olive_proj_{self.name}.jpeg', binary_proj, cmap=cm.gray)
+		# Extract coordinate arrays
+		x, y, z = tc[:, 0], tc[:, 1], tc[:, 2]
+		
+		# Check valid coordinates in bounds
+		valid_mask = (z >= 0) & (z < shape[0]) & \
+					 (y >= 0) & (y < shape[1]) & \
+					 (x >= 0) & (x < shape[2])
+		
+		# Keep only valid coordinates
+		z_valid = z[valid_mask]
+		y_valid = y[valid_mask]
+		x_valid = x[valid_mask]
+		
+		# Set atlas_space at these positions to 1
+		atlas_space[z_valid, y_valid, x_valid] = 1
+		
+		return atlas_space
+
+	def get_points_in_channel(self, channel):
+		return np.array(self.cell_coords[channel]).T
+
+	def get_points_from_area(self, channel, area):
+		if isinstance(area, list):
+			areas = []
+			for i in area:
+				parent, children = children_from(i, depth=0)
+				areas = areas + [parent] + children
+		else:
+			parent, children = children_from(area, depth=0)
+			areas = [parent] + children
+		return np.array(_vectorised_get_cells_in(areas, self, channel)).T
 
 	def show_slice_sequence(self, region, figsize=(10,6), save=False):
 		def bin_array(data, axis, binstep, binsize, func=np.nanmean):

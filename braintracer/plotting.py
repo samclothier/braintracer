@@ -104,15 +104,16 @@ def __draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=F
 	ax.set_title(fig_title)
 	return df
 
-def custom_plot(channel, area_names, title='Custom plot', normalisation=None, log=False, horizontal=True, ax=None):
+def custom_plot(channel, fluorescence, area_names, title='Custom plot', normalisation=None, log=False, horizontal=True, ax=None):
 	area_labels, _, _ = bt.get_area_info(area_names)
-	datasets = [i for i in bt.datasets]
+	datasets = [i for i in bt.datasets if i.fluorescence == fluorescence]
 	dataset_cells, axis_title = bt._cells_in_areas_in_datasets(area_names, datasets, channel, normalisation, log)
 	__draw_plot(ax, datasets, area_labels, dataset_cells, axis_title, fig_title=title, horizontal=horizontal, l_space=0.3)
 	if bt.debug:
 		print(dataset_cells)
 		percentages = [f'{sum(dataset):.1f}% ' for dataset in dataset_cells]
 		print(', '.join(percentages)+'cells are within brain boundaries and in non-tract and non-ventricular areas')
+	btf.save(f'customPlot_{title}_ch={channel}_log={log}', as_type='pdf')
 
 def summary_plot(channel, log=False, norm=None, horizontal=True, ax=None):
 	summary_areas = ['CTX','CNU','TH','HY','MB','MY','P','CBX','CBN']
@@ -257,35 +258,24 @@ def generate_matrix_plot(channel, depth=None, areas=None, threshold=10, sort=Tru
 	ax.set_title(axis_title)
 
 """
-pmap_params = (channel, fluorescence, area_num, pmap_binsize, axis, sigma)
+pmap_params = (channel, fluorescence, area_num, pmap_binsize, sigma)
 """
-def pmap_corr_scatter_binned(pmap_params, lower_lim=0.05, binsize=0.005, gradient=0.1, kde=True, vbounds=(None, None)):
+def pmap_corr_scatter_binned(pmap_params, lower_lim=0.05, nbins=30, gradient=0.1, vbounds=(None, None)):
 	f, ax = plt.subplots(1,1, figsize=(5,5))
 	
-	ax1_data, ax2_data = probability_map_data(pmap_params[0], pmap_params[1], area_num=pmap_params[2], binsize=pmap_params[3], axis=pmap_params[4], sigma=pmap_params[5], padding=0, no_alignment_to_region_bounds=True)
-	ax1_data, ax2_data, max_xy = remove_corner_points(ax1_data, ax2_data, lower_lim)
+	ax1_data, ax2_data = probability_map_data(pmap_params[0], 
+										   pmap_params[1], 
+										   area_num=pmap_params[2], 
+										   binsize=pmap_params[3],
+										   sigma=pmap_params[4], padding=0, three_dimensions=True)
+	ax1_data, ax2_data = remove_corner_points(ax1_data, ax2_data, lower_lim)
+
+	max_xy = max(np.max(ax1_data), np.max(ax2_data))
+	bins_xy = np.linspace(0, max_xy, nbins + 1)
+
+	hist, _, _, pc = ax.hist2d(ax1_data, ax2_data, bins=(bins_xy, bins_xy), cmap='Greys', vmin=vbounds[0], vmax=vbounds[1]);
 	
-	def my_round(x, prec=2, base=0.05):
-		return (base * (np.array(x) / base).round())
-	maxlen = max(ax1_data.max(), ax2_data.max())
-	maxlen = my_round(maxlen, base=binsize)
-	
-	if kde:
-		nbins = (maxlen / binsize) + 1
-		xi, yi = np.mgrid[0:maxlen:nbins*1j, 0:maxlen:nbins*1j] # basically an np.linspace()
-		# Evaluate a gaussian kde on a regular grid of nbins x nbins over data extents
-		k = stats.gaussian_kde([ax1_data,ax2_data])
-		zi = k(np.vstack([xi.flatten(), yi.flatten()]))
-		xi, yi = xi+binsize/2, yi+binsize/2
-		pc = ax.pcolormesh(xi, yi, zi.reshape(xi.shape), shading='auto', cmap='Greys', vmin=vbounds[0], vmax=vbounds[1])
-	else:
-		# make a 2d hist
-		ax1_bins = np.arange(0, maxlen + binsize, binsize)
-		ax2_bins = np.arange(0, maxlen + binsize, binsize)
-		#norm = clrs.LogNorm(vmin=vbounds[0], vmax=vbounds[1])
-		hist, _, _, pc = ax.hist2d(ax1_data, ax2_data, bins=(ax1_bins, ax2_bins), cmap='Greys', vmin=vbounds[0], vmax=vbounds[1]);
-	
-	ax.set_xlim(0, max_xy * 1.05) # min was previously: -binsize * 2
+	ax.set_xlim(0, max_xy * 1.05)
 	ax.set_ylim(0, max_xy * 1.05)
 	ax.axline((0, 0), (max_xy, max_xy), linestyle=(0, (5, 10)), c='orange') # add y=x line
 	xaxis = [0, ax.get_xlim()[1]]
@@ -294,8 +284,8 @@ def pmap_corr_scatter_binned(pmap_params, lower_lim=0.05, binsize=0.005, gradien
 	ax.fill_between(xaxis, [0,0], shading1, alpha=.5, linewidth=0, color=csolid_group[0])
 	ax.fill_between(xaxis, [np.max(shading2), np.max(shading2)], shading2, alpha=.5, linewidth=0, color=csolid_group[1])
 	ax.set_aspect('equal', adjustable='box')
-	ax.set_xlabel('LS signal in voxel x')
-	ax.set_ylabel('LV signal in voxel x')
+	ax.set_xlabel('LS median voxel probability density')
+	ax.set_ylabel('LV median voxel probability density')
 	ax.spines['top'].set_visible(False)
 	ax.spines['right'].set_visible(False)
 	divider = make_axes_locatable(ax)
@@ -307,7 +297,7 @@ def pmap_corr_scatter_binned(pmap_params, lower_lim=0.05, binsize=0.005, gradien
 	
 	btf.save(f'dmap_corr_scatter_binned_{pmap_params[2]}_fl={pmap_params[1]}', as_type='pdf')
 
-def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, vmax=None, log=False, log_min=0.0001):
+def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=0, vmax=None, log=False, log_min=0.0001):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -357,9 +347,10 @@ def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, s
 			ax.contour(child, colors=projcol, alpha=0.05)
 		ax.contour(parent_projection, colors=projcol, alpha=0.1)
 		ax.set_aspect('equal')
-		if len(groups) > 1:
+		if len(groups) > 1: # sample cmaps_group in 2-group mode
 			i += 1
 		plot_binned_average(ax, channel, area_num, axis, binsize, sigma, g, cmap=cmaps_group[i])
+	btf.save(f'densitymap_{groups}_area={area_num}_subregions={subregions}_axis={axis}_log={log}', as_type='pdf')
 
 def bin_3D_matrix(channel, area_num=None, binsize=500, aspect='equal', zscore=False, sigma=None, vbounds=None, threshold=1, override_order=None, order_method=None, blind_order=False, cmap='Reds', covmat=False, figsize=(8,8)):
 	x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
@@ -665,28 +656,51 @@ def generate_slice_heatmap(channel, position, normalisation='total', depth=3, re
 	bgh.Heatmap(g1_regions, position=position, orientation='frontal', title=groups[0], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
 	bgh.Heatmap(g2_regions, position=position, orientation='frontal', title=groups[1], thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=highest_value, cmap=cm.get_cmap('hot'), annotate_regions=region_labels).show(show_legend=True, cbar_label=cbar_label)
 
-def generate_brain_overview(dataset, areas=None, vmin=None, vmax=None, axis=0, padding=0, cmap='gray', logmax=True, ax=None):
-	if ax is None:
-		f, ax = plt.subplots(figsize=(10,6))
-		f.set_facecolor('white')
-	stack = btf.open_registered_stack(dataset)
-
-	plot_projection(ax, 997, padding=padding, axis=axis)
-	for i in areas:
-		plot_projection(ax, i, padding=padding, axis=axis)
+def __plot_projection(ax, data, sum_rather_than_max_bool, axis, areas, padding, vmin, vmax, cmap, logmax, name, type_name):
+	f = ax.get_figure()
+	__plot_area_projection(ax, 997, padding=padding, axis=axis)
+	if areas is not None:
+		for i in areas:
+			__plot_area_projection(ax, i, padding=padding, axis=axis)
 	
 	if not logmax:
-		data_projection = np.sum(stack, axis=2-axis)
-		title = f'#px along axis={axis}'
+		if sum_rather_than_max_bool:
+			data_projection = np.sum(data, axis=2-axis)
+			title = f'#px along axis={axis}'
+		else:
+			data_projection = np.max(data, axis=2-axis)
+			title = f'max px value along axis={axis}'
 	else:
-		data_projection = np.log(stack.max(axis=2-axis))
-		title = f'log max px value along axis={axis}'
+		if sum_rather_than_max_bool:
+			data_projection = np.log(data.sum(axis=2-axis))
+			title = f'log (#px along axis={axis})'
+		else:
+			data_projection = np.log(data.max(axis=2-axis))
+			title = f'log (max px value along axis={axis})'
 	data_projection = data_projection.astype(int)
 	if axis == 0:
 		data_projection = data_projection.T
 	im = ax.imshow(data_projection, vmin=vmin, vmax=vmax, cmap=cmap)
 	f.colorbar(im, label=title)
 	plt.axis('off')
+	projection_type = 'sum' if sum_rather_than_max_bool else 'max'
+	btf.save(f'project{type_name}_{name}_{projection_type}_side={axis}_min={vmin}', dpi=1000, as_type='pdf')
+
+def project_cell_coords(channel, dataset, sum_rather_than_max=False, areas=None, vmin=None, vmax=None, axis=0, padding=None, cmap='Greys', logmax=False, ax=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(10,6))
+		f.set_facecolor('white')
+
+	stack = dataset.get_marked_atlas_stack(channel)
+	__plot_projection(ax, stack, sum_rather_than_max, axis, areas, padding, vmin, vmax, cmap, logmax, dataset.name, 'CellCoords')
+
+def project_raw_data(channel, dataset, sum_rather_than_max=False, areas=None, vmin=None, vmax=None, axis=0, padding=None, cmap='Greys', logmax=False, ax=None):
+	if ax is None:
+		f, ax = plt.subplots(figsize=(10,6))
+		f.set_facecolor('white')
+
+	stack = btf.open_atlas_registered_stack(dataset, channel)
+	__plot_projection(ax, stack, sum_rather_than_max, axis, areas, padding, vmin, vmax, cmap, logmax, dataset.name, 'RawData')
 
 def generate_mega_overview_figure(title):
 	f = plt.figure(figsize=(24, 35))
@@ -1026,7 +1040,7 @@ def _project_with_cells(ax, dataset, area, padding, s, channels=None, axis=0, al
 	'''
 	Plot a coronal or horizontal projection of a brain region with cells superimposed.
 	'''
-	_, (x_min, y_min, z_min), (x_max, y_max, z_max) = plot_projection(ax, area, padding, axis=2)
+	_, (x_min, y_min, z_min), (x_max, y_max, z_max) = __plot_area_projection(ax, area, padding, axis=2)
 	def show_cells(ch, colour):
 		if all_cells:
 			region = (x_min, x_max), (y_min, y_max), (z_min, z_max)
@@ -1050,16 +1064,11 @@ def _project_with_cells(ax, dataset, area, padding, s, channels=None, axis=0, al
 
 	return x_min, y_min, z_min
 
-def plot_projection(ax, area, padding, axis=0, projcol='k', alpha=0.1):
+def __plot_area_projection(ax, area, padding, axis=0, projcol='k', alpha=0.1):
 	projection, (x_min, y_min, z_min), (x_max, y_max, z_max) = _get_projection(area, padding=padding, axis=axis)
-	if bt.debug:
-		ax.imshow(projection)
-	else:
-		ax.contour(projection, colors=projcol, alpha=alpha)
-		ax.set_aspect('equal')
-	# add padding
-	print(ax.get_xlim(), ax.get_ylim())
-	if padding != None:
+	ax.contour(projection, colors=projcol, alpha=alpha)
+	ax.set_aspect('equal')
+	if padding != None: # add padding
 		ax.set_xlim(ax.get_xlim()[0] - padding, ax.get_xlim()[1] + padding)
 		ax.set_ylim(ax.get_ylim()[0] - padding, ax.get_ylim()[1] + padding)
 	if axis != 1:
@@ -1067,7 +1076,7 @@ def plot_projection(ax, area, padding, axis=0, projcol='k', alpha=0.1):
 
 	return (x_min, y_min, z_min), (x_max, y_max, z_max)
 
-def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=10, lower_lim=0.0001, saturation_multiplier=1):
+def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=0, lower_lim=0.0001, saturation_multiplier=1):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -1080,7 +1089,9 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
 		regions = subregions
 
 	f, ax = plt.subplots(figsize=(6,6))
-	mins, _ = plot_projection(ax, area_num, padding=padding, axis=axis, projcol=projcol, alpha=0.1)
+	if padding is None:
+		plt.axis('off')
+	mins, _ = __plot_area_projection(ax, area_num, padding=padding, axis=axis, projcol=projcol, alpha=0.1)
 	if regions is not None:
 		for child in regions:
 			child_projection, (cx_min, cy_min, cz_min), _ = _get_projection(child, padding=padding, axis=axis)
@@ -1094,7 +1105,7 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
 			#child_projection = child_projection.T if axis == 0 else child_projection # side-on orientation does not need axis swapping
 			ax.contour(child_projection, colors=projcol, alpha=0.05)
 	
-	group1_data, group2_data = probability_map_data(channel, fluorescence, area_num, binsize, axis, sigma, padding)
+	group1_data, group2_data = probability_map_data(channel, fluorescence, area_num=area_num, binsize=binsize, sigma=sigma, padding=padding, three_dimensions=False, axis=axis)
 	group1_name = __get_bt_groups()[0]
 	group2_name = __get_bt_groups()[1]
 	
@@ -1111,10 +1122,52 @@ def probability_map_overlap(channel, fluorescence, area_num=None, binsize=200, a
 		cbar.ax.text(2, j / 2, lab, ha='left', va='center')
 	ax.set_xticklabels([])
 	ax.set_yticklabels([])
-	
+
 	area_name = bt.get_area_info(area_num)[0][0]
 	ax.set_title(f'{area_name} {group1_name}-{group2_name} mix from Fl={fluorescence} datasets')
 	btf.save(f'dmap_HSV_{area_name}_ax={axis}_F={fluorescence}_subrgns={subregions}_sat={saturation_multiplier}', as_type='pdf')
+
+def region_signal_matrix(channel, area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None,
+						 areas_to_combine=None):
+	if ax is None:
+		_, ax = plt.subplots(figsize=figsize)
+	area_labels, dataset_cells, datasets, areas_title, axis_title = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=postprocess_for_scatter, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
+	x_labels = [i.name for i in datasets]
+	if postprocess_for_scatter:
+		x_labels = __get_bt_groups()
+
+	if areas_to_combine is not None:
+		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
+	
+	if sorting:
+		sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
+		dataset_cells = dataset_cells[:, sort_order[::-1]]
+		area_labels = [area_labels[i] for i in reversed(sort_order)]
+	
+	g1_mask = np.full(dataset_cells.T.shape, False)
+	g1_mask[:, int(g1_mask.shape[1]/2):] = True # array where LS datasets on left are False
+	
+	if vmax == None:
+		print('Warning: If vbounds is set to None, halves of the matrix may not have the same vmax.')
+		vmax = dataset_cells.max()
+	
+	if log_plot:
+		norm = clrs.LogNorm(vmin=1, vmax=vmax) # seems like both halves render with same vmin vmax without specifying
+		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)
+		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)# , cbar_kws=dict(ticks=[])
+	else:
+		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)
+		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)# , cbar_kws=dict(ticks=[])
+	
+	if postprocess_for_scatter:
+		colours = _colours_from_labels([datasets[0].name, datasets[-1].name])
+	else:
+		colours = _colours_from_labels(x_labels)
+	[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
+	ax.set_title(areas_title)
+	ax.set_ylabel(f'{axis_title}')
+	btf.save(f'regionSignalMatrix_{areas_title}_log={log_plot}', as_type='pdf')
+	return area_labels, dataset_cells
 
 
 
@@ -1177,13 +1230,12 @@ def _get_projection(area, padding=None, axis=0):
 			parent, children = bt.children_from(i, depth=0)
 			areas = areas + [parent] + children
 	else:
-		area = 83 if area in ['Rostral-medial IO', 'Rostral-lateral IO', 'Caudal-medial IO', 'Caudal-lateral IO', 'Medial IO', 'Lateral IO', 'Rostral IO', 'Caudal IO'] else area
 		parent, children = bt.children_from(area, depth=0)
 		areas = [parent] + children
 	
 	atlas_ar = np.isin(bt.atlas.annotation, areas)
 
-	nz = np.nonzero(atlas_ar)
+	nz = np.nonzero(atlas_ar) # indices where areas are present
 	z_min, y_min, x_min = nz[0].min(), nz[1].min(), nz[2].min()
 	z_max, y_max, x_max = nz[0].max()+1, nz[1].max()+1, nz[2].max()+1
 	
@@ -1205,7 +1257,6 @@ def _get_projection(area, padding=None, axis=0):
 	projection = projection.astype(int)
 	projection = projection.T if axis == 0 else projection # side-on orientation does not need axis swapping
 	return projection, (x_min, y_min, z_min), (x_max, y_max, z_max)
-
 
 
 def _prep_for_sns(area_names, dataset_names, dataset_cells):
@@ -1353,12 +1404,6 @@ def get_bins(dim, size):
 	return len([i for i in range(0, num_slices + bin_size, bin_size)]) # return num bins
 
 
-
-
-
-
-## Matrix plots
-
 def fetch_groups(fluorescence):
 	groups = __get_bt_groups()
 	dataset_selection = [i for i in bt.datasets if i.fluorescence == fluorescence]
@@ -1368,58 +1413,6 @@ def fetch_groups(fluorescence):
 	num_datasets_in_group1 = len(datasets1)
 	return datasets, num_datasets_in_group1
 
-def is_IO_pixel_rostral(x, y, z):
-	return z < 1225
-def is_IO_pixel_medial(x, y, z):
-	return x < 604
-
-def get_matrix_data_for_io(channel, datasets, split, norm):
-	cells_list = []
-	norm_options = ['none', 'IO', 'CBX', 'total']
-
-	for d in datasets:
-		points = bt._vectorised_get_cells_in([83], d, channel)
-		cells = []
-		if split == 'ml':
-			split_mask = [is_IO_pixel_medial(x, y, z) for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-			cells.append(split_mask.count(False))
-		elif split == 'rc':
-			split_mask = [is_IO_pixel_rostral(x, y, z) for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-			cells.append(split_mask.count(False))
-		elif split == 'both':
-			split_mask = [is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == True for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-			split_mask = [is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == False for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-			split_mask = [is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == True for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-			split_mask = [is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == False for x, y, z in zip(*points)]
-			cells.append(split_mask.count(True))
-
-		# normalise
-		if norm == norm_options[1]:
-			total_labelling = sum(cells)
-			cells = [count / total_labelling for count in cells]
-		elif norm == norm_options[2]:
-			cells = [(count - (d.starter_pedestal_norm * count)) / d.starter_normaliser for count in cells]
-		elif norm == norm_options[3]:
-			brain_labelling = d.num_cells(channel=channel)
-			cells = [(count / brain_labelling) * 100 for count in cells]
-		else:
-			print('Normalisation was not performed.')
-
-		axis_title = 'Corrected cell count in IO'
-
-		if d.fluorescence:
-			cells = list(map(lambda x: x * (20 / 10**9), cells))
-			axis_title = f'{axis_title} (mm^3)'
-
-		cells_list.append(cells)
-	return cells_list, axis_title
-
-
 def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluorescence=False, value_norm=None, sort_matrix=True):
 	datasets, num_g1 = fetch_groups(fluorescence)
 	assert len(datasets) > 0, 'No datasets found!'
@@ -1427,19 +1420,8 @@ def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluoresce
 		print('Warning: This function does not sort, even if postprocess_for_scatter=False')
 	
 	area_idxs, areas_title = area_func
-	if areas_title == 'CF Inputs (anterograde)':
-		area_labels = area_idxs
-		if 'Rostral-medial IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'both', value_norm)
-		elif 'Rostral IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'rc', value_norm)
-		elif 'Medial IO' in area_labels:
-			dataset_cells, axis_title = get_matrix_data_for_io(channel, datasets, 'ml', value_norm)
-		else:
-			print('Error getting IO split information.')
-	else:
-		area_labels = bt.get_area_info(area_idxs)[0]
-		dataset_cells, axis_title = bt._cells_in_areas_in_datasets(area_labels, datasets, channel, normalisation=value_norm)
+	area_labels = bt.get_area_info(area_idxs)[0]
+	dataset_cells, axis_title = bt._cells_in_areas_in_datasets(area_labels, datasets, channel, normalisation=value_norm)
 	
 	dataset_cells = np.array(dataset_cells)
 
@@ -1464,52 +1446,9 @@ def get_matrix_data(channel, area_func, postprocess_for_scatter=False, fluoresce
 	
 	return area_labels, dataset_cells, datasets, areas_title, axis_title
 
-def region_signal_matrix(channel, area_func, value_norm='total', postprocess_for_scatter=False, vmax=None, figsize=(3,6), fluorescence=False, log_plot=True, sorting=True, ax=None,
-						 areas_to_combine=None):
-	if ax is None:
-		_, ax = plt.subplots(figsize=figsize)
-	area_labels, dataset_cells, datasets, areas_title, axis_title = get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=postprocess_for_scatter, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
-	x_labels = [i.name for i in datasets]
-	if postprocess_for_scatter:
-		x_labels = __get_bt_groups()
-
-	if areas_to_combine is not None:
-		area_labels, dataset_cells, _ = replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
-	
-	if sorting:
-		sort_order = get_sorting_from_SI(dataset_cells, fluorescence)
-		dataset_cells = dataset_cells[:, sort_order[::-1]]
-		area_labels = [area_labels[i] for i in reversed(sort_order)]
-	
-	g1_mask = np.full(dataset_cells.T.shape, False)
-	g1_mask[:, int(g1_mask.shape[1]/2):] = True # array where LS datasets on left are False
-	
-	if vmax == None:
-		print('Warning: If vbounds is set to None, halves of the matrix may not have the same vmax.')
-		vmax = dataset_cells.max()
-	
-	if log_plot:
-		norm = clrs.LogNorm(vmin=1, vmax=vmax) # seems like both halves render with same vmin vmax without specifying
-		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)
-		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, norm=norm)# , cbar_kws=dict(ticks=[])
-	else:
-		sns.heatmap(dataset_cells.T, annot=False, mask=~g1_mask, cmap=cmaps_group[2], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)
-		sns.heatmap(dataset_cells.T, annot=False, mask=g1_mask, cmap=cmaps_group[1], xticklabels=x_labels, yticklabels=area_labels, square=True, ax=ax, vmin=0, vmax=vmax)# , cbar_kws=dict(ticks=[])
-	
-	if postprocess_for_scatter:
-		colours = _colours_from_labels([datasets[0].name, datasets[-1].name])
-	else:
-		colours = _colours_from_labels(x_labels)
-	[t.set_color(colours[i]) for i, t in enumerate(ax.xaxis.get_ticklabels())]
-	ax.set_title(areas_title)
-	ax.set_ylabel(f'{axis_title}')
-	btf.save(f'regionSignalMatrix_{areas_title}_log={log_plot}', as_type='pdf')
-	return area_labels, dataset_cells
-
-
 
 # don't plot the outline, just return the data
-def probability_map_data(channel, fluorescence, area_num=None, binsize=200, axis=0, sigma=None, padding=10, no_alignment_to_region_bounds=False):
+def probability_map_data(channel, fluorescence, area_num=None, binsize=200, sigma=None, padding=0, three_dimensions=False, axis=0):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -1518,55 +1457,26 @@ def probability_map_data(channel, fluorescence, area_num=None, binsize=200, axis
 
 	_, min_bounds, max_bounds = _get_projection(area_num, padding=padding, axis=axis)
 	
-	ax1_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[0], min_bounds, max_bounds, fluorescence, no_alignment_to_region_bounds)
-	ax2_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[1], min_bounds, max_bounds, fluorescence, no_alignment_to_region_bounds)
+	if three_dimensions:
+		ax1_data = __get_density_map_3D(channel, fluorescence, area_num, binsize, sigma, __get_bt_groups()[0])
+		ax2_data = __get_density_map_3D(channel, fluorescence, area_num, binsize, sigma, __get_bt_groups()[1])
+	else:
+		ax1_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[0], min_bounds, max_bounds, fluorescence)
+		ax2_data = get_density_map(channel, area_num, axis, atlas_res, binsize, sigma, __get_bt_groups()[1], min_bounds, max_bounds, fluorescence)
 	return ax1_data, ax2_data
 
 
-def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_bounds, max_bounds, fluorescence, no_alignment_to_region_bounds=False):
+
+
+def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_bounds, max_bounds, fluorescence):
 	(px_min, py_min, pz_min), (px_max, py_max, pz_max) = min_bounds, max_bounds
 
 	hist_list = []
 	datasets_to_bin = [d for d in bt.datasets if d.group == group and d.fluorescence == fluorescence]
 	assert len(datasets_to_bin) > 0, 'Could not find any datasets matching group and fluorescence setting.'
+
 	for d in datasets_to_bin:
-		if isinstance(area, list):
-			areas = []
-			for i in area:
-				parent, children = bt.children_from(i, depth=0)
-				areas = areas + [parent] + children
-			points = np.array(bt._vectorised_get_cells_in(areas, d, channel)).T
-		else:
-			if area is None:
-				points = np.array(d.cell_coords[channel]).T
-			elif area == 'Rostral IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True])
-			elif area == 'Caudal IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False])
-			elif area == 'Medial IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == True])
-			elif area == 'Caudal IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_medial(x, y, z) == False])
-			elif area == 'Rostral-medial IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == True])
-			elif area == 'Rostral-lateral IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == True and is_IO_pixel_medial(x, y, z) == False])
-			elif area == 'Caudal-medial IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == True])
-			elif area == 'Caudal-lateral IO':
-				points = bt._vectorised_get_cells_in(83, d, channel)
-				points = np.array([[x, y, z] for x, y, z in zip(*points) if is_IO_pixel_rostral(x, y, z) == False and is_IO_pixel_medial(x, y, z) == False])
-			else:
-				parent, children = bt.children_from(area, depth=0)
-				areas = [parent] + children
-				points = np.array(bt._vectorised_get_cells_in(areas, d, channel)).T
+		points = d.get_points_from_area(channel=channel, area=area)
 
 		x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
 		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)
@@ -1582,19 +1492,18 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 
 		hist = np.sum(hist, axis=axis) # take the maximum projection of the distribution
 
-		if no_alignment_to_region_bounds == False:
-			scale = int(binsize / atlas_res) ## make ready for plotting
-			hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
-			at_shp = bt.atlas.annotation.shape
-			if axis == 2:
-				hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
-				hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
-			elif axis == 1:
-				hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[0] :]
-				hist = hist[px_min : px_max, pz_min : pz_max]
-			else:
-				hist = hist[hist.shape[0]-at_shp[1] :, hist.shape[1]-at_shp[0] :]
-				hist = hist[py_min : py_max, pz_min : pz_max] 
+		scale = int(binsize / atlas_res) ## make ready for plotting
+		hist = hist.repeat(scale, axis=0).repeat(scale, axis=1) # multiply up to the atlas resolution
+		at_shp = bt.atlas.annotation.shape
+		if axis == 2:
+			hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[1] :] # correct the misalignment created by repeating values during scale up, by removing the first values
+			hist = hist[px_min : px_max, py_min : py_max] # crop the axes of the binned data that were scaled up to atlas resolution
+		elif axis == 1:
+			hist = hist[hist.shape[0]-at_shp[2] :, hist.shape[1]-at_shp[0] :]
+			hist = hist[px_min : px_max, pz_min : pz_max]
+		else:
+			hist = hist[hist.shape[0]-at_shp[1] :, hist.shape[1]-at_shp[0] :]
+			hist = hist[py_min : py_max, pz_min : pz_max] 
 
 		hist_list.append(hist)
 	all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
@@ -1602,6 +1511,33 @@ def get_density_map(channel, area, axis, atlas_res, binsize, sigma, group, min_b
 	av_im = av_im if axis == 0 else av_im.T # side-on orientation does not need axis swapping
 	
 	return av_im
+
+def __get_density_map_3D(channel, fluorescence, area, binsize, sigma, group):
+	# get the density map voxels unflattened and untransformed for calculating the spatial selectivity index
+	hist_list = []
+	datasets_to_bin = [d for d in bt.datasets if d.group == group and d.fluorescence == fluorescence]
+	assert len(datasets_to_bin) > 0, 'Could not find any datasets matching group and fluorescence setting.'
+	for d in datasets_to_bin:
+		points = d.get_points_from_area(channel=channel, area=area)
+
+		x_bins, y_bins, z_bins = get_bins(0, binsize), get_bins(1, binsize), get_bins(2, binsize)
+		hist, _ = np.histogramdd(points, bins=(x_bins, y_bins, z_bins), range=((0,1140),(0,800),(0,1320)), density=False)
+		
+		if hist.sum() != 0:
+			hist = hist / hist.sum() # turn into probability density distribution
+
+		if sigma is not None: # 3D smooth # sigma = width of kernel
+			x, y, z = np.arange(-3,4,1), np.arange(-3,4,1), np.arange(-3,4,1) # coordinate arrays -- make sure they include (0,0)!
+			xx, yy, zz = np.meshgrid(x,y,z)
+			kernel = np.exp(-(xx**2 + yy**2 + zz**2)/(2*sigma**2))
+			hist = signal.convolve(hist, kernel, mode='same')
+
+		hist_list.append(hist)
+	all_hists = np.array(hist_list) # get cell distributions for each dataset, ready for plotting
+	av_im = np.median(all_hists, axis=0) # get the median cell distribution
+	
+	return av_im
+
 
 def replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=None, do_not_merge=False,
 									 correlations=None, corr_channel=None, corr_fl=None, corr_gradient=None, corr_sigma=None):
@@ -1703,15 +1639,15 @@ def get_corr_index(LS_data, LV_data, gradient):
 def get_corr_indexes(channel, fluorescence, area_idxs, gradient, sigma):
 	coefs = []
 	for area in area_idxs:
-		LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=area, binsize=50, axis=2, sigma=sigma, no_alignment_to_region_bounds=True)
-		LS_data, LV_data, _ = remove_corner_points(LS_data, LV_data, 0.05)
+		LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=area, binsize=50, axis=2, sigma=sigma, three_dimensions=True)
+		LS_data, LV_data = remove_corner_points(LS_data, LV_data, 0.05)
 		coef = get_corr_index(LS_data, LV_data, gradient)
 		coefs.append(coef)
 	return coefs
 
 def get_corr_index_mult(channel, fluorescence, areas, gradient, sigma):
-	LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=areas, binsize=50, axis=2, sigma=sigma, no_alignment_to_region_bounds=True)
-	LS_data, LV_data, _ = remove_corner_points(LS_data, LV_data, 0.05)
+	LS_data, LV_data = probability_map_data(channel, fluorescence, area_num=areas, binsize=50, axis=2, sigma=sigma, three_dimensions=True)
+	LS_data, LV_data = remove_corner_points(LS_data, LV_data, 0.05)
 	return get_corr_index(LS_data, LV_data, gradient)
 
 def remove_corner_points(ax1_data, ax2_data, percentile):
@@ -1721,4 +1657,4 @@ def remove_corner_points(ax1_data, ax2_data, percentile):
 	idxs_to_remove = np.intersect1d(idxs_below_thresh1, idxs_below_thresh2)
 	ax1_data = np.delete(ax1_data.flatten(), idxs_to_remove)
 	ax2_data = np.delete(ax2_data.flatten(), idxs_to_remove)
-	return ax1_data, ax2_data, max_xy
+	return ax1_data, ax2_data

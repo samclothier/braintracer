@@ -148,20 +148,10 @@ def open_cell_coordinates(dataset, channel, network_name):
 		filename = f'cells_{dataset.name}_{network_name}_{channel}.csv'
 	cell_coords = open_file(filename, atlas_25=dataset.atlas_25)
 	return cell_coords
-'''
-def get_atlas():
-	global atlas
-	return np.array(atlas.annotation)
 
-def get_reference():
-	global atlas
-	return np.array(atlas.reference)
-
-def get_lookup_df():
-	df = atlas.lookup_df
-	df = df.set_index('id')
-	return df
-'''
+def open_atlas_registered_stack(dataset, channel):
+	stack = np.array(open_file(f'reg_{dataset.name}_{channel}.tiff'))[0]
+	return stack
 
 def save(file_name, as_type, dpi=600, vID=None, file=None):
 	if vID is not None:
