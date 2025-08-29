@@ -1,5 +1,5 @@
 """
-Copyright (C) 2021-2023  Sam Clothier
+Copyright (C) 2021-2025  Sam Clothier
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,21 +30,21 @@ from collections import Counter
 from tqdm.notebook import tqdm
 from matplotlib import colors
 from itertools import chain
-from matplotlib import cm
 
 datasets				= []
-atlas					= BrainGlobeAtlas('allen_mouse_10um') # alt: allen_mouse_io_10um
-area_indexes			= btf.open_file('structures.csv')
+atlas					= BrainGlobeAtlas('allen_mouse_io_10um') # alt: allen_mouse_io_10um allen_mouse_10um
+area_indexes			= btf.open_structures_csv(atlas.root_dir)
 
 postsyn_region			= None # You must set a starter region to use some features
 postsyn_ch				= '' # You must set the channel(s) containing starter cells (postsynaptics)
 presyn_ch				= '' # And the channel(s) containing input cells (presynaptics)
 presyn_regions_exclude	= [] # Presynaptic cells are the total cells in presyn_ch - (postsyn_region + presyn_regions_exclude)
 channel_colours			= ['r','g','b']
-resolution_total        = 20 # e.g. for 2x2x5 um datasets = 20
+resolution_total        = 20 # e.g. for 2x2x5 um datasets = 20, must be measured in um
 network_name			= 'Unet'
 grouped					= True
 debug					= False
+spatial_segregation_calculation_threshold = 0.01 # percentile at which threshold for calculating spatial segregation is taken
 
 #region Dataset
 class Dataset:
@@ -188,7 +188,7 @@ class Dataset:
 	def get_points_in_channel(self, channel):
 		return np.array(self.cell_coords[channel]).T
 
-	def get_points_from_area(self, channel, area):
+	def get_points_from_area(self, channel, area, exclude_subregions=None):
 		if isinstance(area, list):
 			areas = []
 			for i in area:
@@ -197,6 +197,12 @@ class Dataset:
 		else:
 			parent, children = children_from(area, depth=0)
 			areas = [parent] + children
+		if exclude_subregions is not None:
+			exclude_subregions_and_their_children = []
+			for i in exclude_subregions:
+				parent, children = children_from(i, depth=0)
+				exclude_subregions_and_their_children = exclude_subregions_and_their_children + [parent] + children
+			areas = [area for area in areas if area not in exclude_subregions_and_their_children]
 		return np.array(_vectorised_get_cells_in(areas, self, channel)).T
 
 	def show_slice_sequence(self, region, figsize=(10,6), save=False):
@@ -518,6 +524,8 @@ def children_from(parent, depth):
 			parents = list(map(lambda x: area_indexes.loc[area_indexes['parent_structure_id']==x].index.values.tolist(), parents))
 			parents = list(chain.from_iterable(parents))
 		children = parents
+	parent = int(parent)
+	children = [int(child) for child in children]
 	return parent, children
 
 def get_area_info(codes, dataset=None, channels=None): # TODO: create functions where requested representation type is returned and starting type is not specified

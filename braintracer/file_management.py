@@ -1,5 +1,5 @@
 """
-Copyright (C) 2021-2023  Sam Clothier
+Copyright (C) 2021-2025  Sam Clothier
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,29 +28,29 @@ package_dir = os.path.dirname(os.path.realpath(__file__)) #<-- dir of the packag
 
 def _get_path(file_name, vID=None):
 	if file_name.startswith('cells_'):
-		child_dir = 'braintracer\\cellfinder'
+		child_dir = 'braintracer' + os.sep + 'cellfinder'
 	elif file_name.startswith('reg_'):
-		child_dir = 'braintracer\\downsampled_data'
+		child_dir = 'braintracer' + os.sep + 'downsampled_data'
 	elif file_name.startswith('groundtruth_'):
-		child_dir = 'braintracer\\ground_truth'
+		child_dir = 'braintracer' + os.sep + 'ground_truth'
 	elif file_name.startswith('structures'):
 		child_dir = None # local file, now part of the package
 	elif file_name.startswith('atlas'):
-		child_dir = 'braintracer\\registered_atlases'
+		child_dir = 'braintracer' + os.sep + 'registered_atlases'
 	elif file_name.startswith('binary_'):
-		child_dir = 'braintracer\\fluorescence'
+		child_dir = 'braintracer' + os.sep + 'fluorescence'
 	elif file_name.startswith('injection_'):
-		child_dir = 'braintracer\\TRIO'
+		child_dir = 'braintracer' + os.sep + 'TRIO'
 	elif file_name.startswith('video_'):
 		assert vID is not None, 'video ID variable must be supplied for saving video frames'
-		child_dir = f'braintracer\\videos\\{file_name.split("_")[1]}_{vID}'
+		child_dir = f'braintracer' + os.sep + 'videos' + os.sep + f'{file_name.split("_")[1]}_{vID}'
 	else:
 		raise ValueError('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
 
 	if child_dir is not None:
 		if not os.path.isdir(child_dir):
 			os.makedirs(child_dir)
-		path = os.path.join(script_dir, child_dir+'\\'+file_name)
+		path = os.path.join(script_dir, child_dir + os.sep + file_name)
 	else:
 		path = os.path.join(package_dir, file_name)
 	return path
@@ -112,11 +112,6 @@ def open_file(name, atlas_25=False): # open files
 
 			coords_and_hemisphere_array = np.hstack((coords, hemisphere_int.reshape(-1, 1))).T
 			return coords_and_hemisphere_array
-
-		elif name.startswith('structures'):
-			area_indexes = pd.read_csv(file_path)
-			area_indexes = area_indexes.set_index('id')
-			return area_indexes
 		else:
 			print(f'Cannot load CSV with name {name}')
 	elif ext == 'npy':
@@ -132,7 +127,7 @@ def open_file(name, atlas_25=False): # open files
 
 def open_transformed_brain(dataset):
 	name = dataset.name
-	path = os.path.join(script_dir, name+'\\'+'transform\\*')
+	path = os.path.join(script_dir, name + os.sep + 'transform' + os.sep + '*')
 	assert os.path.isdir(path), f'Please provide transformed stack at {path}'
 	files = glob.glob(path)
 	return files
@@ -153,11 +148,16 @@ def open_atlas_registered_stack(dataset, channel):
 	stack = np.array(open_file(f'reg_{dataset.name}_{channel}.tiff'))[0]
 	return stack
 
+def open_structures_csv(path):
+	area_indexes = pd.read_csv(str(path) + os.sep + 'structures.csv')
+	area_indexes = area_indexes.set_index('id')
+	return area_indexes
+
 def save(file_name, as_type, dpi=600, vID=None, file=None):
 	if vID is not None:
 		dir_path = _get_path(file_name, vID)
 	else:
-		dir_path =  os.path.join(script_dir, 'braintracer/figures/', file_name)
+		dir_path =  os.path.join(script_dir, 'braintracer' + os.sep + 'figures' + os.sep, file_name)
 
 	if as_type == 'png':
 		if vID is None:
@@ -175,7 +175,7 @@ def save(file_name, as_type, dpi=600, vID=None, file=None):
 		pickle.dump(file, open(f'{dir_path}.pkl', 'wb'))
 
 def create_video(dataset_name, vID, fps=30):
-	dir_name = f'braintracer/videos/{dataset_name}_{vID}/'
+	dir_name = 'braintracer' + os.sep + 'videos' + os.sep + f'{dataset_name}_{vID}' + os.sep
 	dir_path = os.path.join(script_dir, dir_name)
 	video_name = f'video_{dataset_name}_{vID}_{fps}fps.avi'
 
@@ -183,7 +183,7 @@ def create_video(dataset_name, vID, fps=30):
 	frame = cv2.imread(os.path.join(dir_path, images[0]))
 	height, width, layers = frame.shape
 
-	video = cv2.VideoWriter(f'braintracer/videos/{video_name}', 0, fps, (width,height))
+	video = cv2.VideoWriter('braintracer' + os.sep + 'videos' + os.sep + video_name, 0, fps, (width,height))
 
 	for image in images:
 		video.write(cv2.imread(os.path.join(dir_path, image)))

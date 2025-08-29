@@ -1,5 +1,5 @@
 """
-Copyright (C) 2021-2023  Sam Clothier
+Copyright (C) 2021-2025  Sam Clothier
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -71,6 +71,11 @@ def cerebellar_cortex_antero():
 	areas_title = "Cbx (anterograde)"
 	parent, children = bt.children_from('CBX', depth=2)
 	cbx_area_idxs = children
+	return cbx_area_idxs, areas_title
+
+def cerebellar_cortex_antero_custom():
+	areas_title = "Cbx (anterograde)"
+	cbx_area_idxs = [1007, 1017, 936, 928, 920, 944, 1025]
 	return cbx_area_idxs, areas_title
 
 def mono_outputs_antero():
