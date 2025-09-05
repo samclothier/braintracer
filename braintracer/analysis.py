@@ -31,10 +31,8 @@ from tqdm.notebook import tqdm
 from matplotlib import colors
 from itertools import chain
 
-datasets				= []
-atlas					= BrainGlobeAtlas('allen_mouse_io_10um') # alt: allen_mouse_io_10um allen_mouse_10um
-area_indexes			= btf.open_structures_csv(atlas.root_dir)
-
+# editable values
+atlas_name				= 'allen_mouse_io_10um' # alt: allen_mouse_io_10um allen_mouse_10um
 postsyn_region			= None # You must set a starter region to use some features
 postsyn_ch				= '' # You must set the channel(s) containing starter cells (postsynaptics)
 presyn_ch				= '' # And the channel(s) containing input cells (presynaptics)
@@ -45,6 +43,11 @@ network_name			= 'Unet'
 grouped					= True
 debug					= False
 spatial_segregation_calculation_threshold = 0.01 # percentile at which threshold for calculating spatial segregation is taken
+
+# internal vars
+datasets				= []
+atlas					= BrainGlobeAtlas(atlas_name)
+area_indexes			= btf.open_structures_csv(atlas.root_dir)
 
 #region Dataset
 class Dataset:
@@ -551,6 +554,7 @@ def get_area_info(codes, dataset=None, channels=None): # TODO: create functions 
 		print('Unknown area reference format.')
 	# for each area index, get the number of cells in the given areas in the given channels
 	cells = list(map(lambda x: sum([dataset.cells_by_area[ch][int(x)] for ch in dataset._set_channels(channels)]), idxes)) if dataset is not None else None
+	idxes = [int(i) for i in idxes]
 	return names, idxes, cells
 
 def get_area_acronyms(codes):
@@ -583,6 +587,9 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 		elif normalisation == 'custom_pedestal':
 			axis_title = f'{data_type} / cerebellar-normalised labelling'
 			cells = list(map(lambda x: (x - (dataset.starter_pedestal_norm * x)) / dataset.starter_normaliser, cells))
+		elif normalisation == 'within_region':
+			cells = [cells_in_area / sum(cells) for cells_in_area in cells]
+			axis_title = f'{data_type} / parent-normalised labelling'
 		else:
 			if debug:
 				print(f'Normalisation set to {normalisation}, defaulting to {data_type} count.')

@@ -211,7 +211,7 @@ def display_legend_subset(ax, idx_tup):
 
 def get_bt_groups():
 	groups = list(dict.fromkeys([dataset.group for dataset in bt.datasets])) # get unique values
-	if len(groups) != 2:
+	if len(groups) not in [0,2]:
 		print('Warning: Comparison plots should only be generated for two dataset groups.')
 	return groups
 

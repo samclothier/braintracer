@@ -62,10 +62,9 @@ def inputs_antero_MF_roi_crop():
 	return area_idxs, areas_title
 
 def inputs_antero_CF():
-	parent, subregions = bt.children_from('IO', depth=0)
-	io_areas = [parent] + subregions
+	_, subregions = bt.children_from('IO', depth=0)
 	areas_title = f"CF Inputs (anterograde)"
-	return io_areas, areas_title
+	return subregions, areas_title
 
 def cerebellar_cortex_antero():
 	areas_title = "Cbx (anterograde)"
@@ -123,6 +122,9 @@ def di_inputs_retro(threshold, select_norm, fluorescence):
 	areas_title = "Disynaptic Inputs"
 	area_idxs = np.array(bt.children_from('root', depth=0)[1])
 	area_idxs = area_idxs[area_idxs != 83] # remove IO
+	io, io_children = bt.children_from('IO', depth=0)
+	io_regions = [io] + io_children
+	area_idxs = list(filter(lambda x: x not in io_regions, area_idxs))
 	area_idxs = [ i for i in area_idxs if bt.get_area_info(i)[0][0][0].isupper() ] # remove tracts (they start lower-case in the atlas)
 	cb_areas = bt.children_from('CB', depth=0)[1]
 	area_idxs = list(filter(lambda x: x not in cb_areas, area_idxs)) # remove areas in cerebellum

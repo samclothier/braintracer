@@ -346,8 +346,7 @@ def area_total_signal_bar(channel, area_func, value_norm='total', fluorescence=F
 
 def density_map_corr_bar(channel, fluorescence, area_func, sigma, gradient=0.1, value_norm='total', areas_to_combine=None):
 	area_labels, areas_title = area_func
-	if areas_title != 'CF Inputs (anterograde)':
-		area_labels = bt.get_area_info(area_labels)[0]
+	area_labels = bt.get_area_info(area_labels)[0]
 	correlations = helpers.get_corr_indexes(channel, fluorescence, area_labels, gradient, sigma)
 	_, dataset_cells, _, _, _ = helpers.get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 
@@ -462,8 +461,9 @@ def region_signal_matrix(channel, area_func, value_norm='total', postprocess_for
 		dataset_cells = dataset_cells[:, sort_order[::-1]]
 		area_labels = [area_labels[i] for i in reversed(sort_order)]
 	
-	g1_mask = np.full(dataset_cells.T.shape, False)
-	g1_mask[:, int(g1_mask.shape[1]/2):] = True # array where LS datasets on left are False
+	_, num_g1 = helpers.fetch_groups(fluorescence=fluorescence)
+	g1_mask = np.full(dataset_cells.T.shape, False) # get shape of the matrix
+	g1_mask[:, num_g1:] = True # array where LS datasets on left are False
 	
 	if vmax == None:
 		print('Warning: If vbounds is set to None, halves of the matrix may not have the same vmax.')
@@ -515,15 +515,15 @@ def generate_group_comparison_heatmaps(channel, fluorescence, areas, title, norm
 		global_regions = dict(zip(areas, mean_global))
 		g1_regions = dict(zip(areas, mean_g1))
 		g2_regions = dict(zip(areas, mean_g2))
-		f1 = bgh.Heatmap(global_regions, position=position, orientation=orientation, title=f'{title}: Global', atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=None, cmap=helpers.cmap_midpoint_of_both_groups, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+		f1 = bgh.Heatmap(global_regions, position=position, orientation=orientation, title=f'{title}: Global', atlas_name=bt.atlas_name, format='2D', vmin=0, vmax=None, cmap=helpers.cmap_midpoint_of_both_groups, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 		plt.figure(f1)
 		btf.save(f'heatmap_means_{title}_ch={channel}_o={orientation}_group=global', as_type='pdf')
 		plt.close()
-		f2 = bgh.Heatmap(g1_regions, position=position, orientation=orientation, title=f'{title}: {group1_name}', atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=pair_plot_vmax, cmap=helpers.cmaps_group[1], annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+		f2 = bgh.Heatmap(g1_regions, position=position, orientation=orientation, title=f'{title}: {group1_name}', atlas_name=bt.atlas_name, format='2D', vmin=0, vmax=pair_plot_vmax, cmap=helpers.cmaps_group[1], annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 		plt.figure(f2)
 		btf.save(f'heatmap_means_{title}_ch={channel}_o={orientation}_group={group1_name}', as_type='pdf')
 		plt.close()
-		f3 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=f'{title}: {group2_name}', atlas_name='allen_mouse_10um', format='2D', vmin=0, vmax=pair_plot_vmax, cmap=helpers.cmaps_group[2], annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
+		f3 = bgh.Heatmap(g2_regions, position=position, orientation=orientation, title=f'{title}: {group2_name}', atlas_name=bt.atlas_name, format='2D', vmin=0, vmax=pair_plot_vmax, cmap=helpers.cmaps_group[2], annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 		plt.figure(f3)
 		btf.save(f'heatmap_means_{title}_ch={channel}_o={orientation}_group={group2_name}', as_type='pdf')
 		plt.close()
@@ -533,7 +533,7 @@ def generate_group_comparison_heatmaps(channel, fluorescence, areas, title, norm
 		bounds = np.abs(avgs).max()
 		regions = dict(zip(areas, avgs))
 		cbar_SI_label = f'{group2_name} - {group1_name} ({cbar_label})'
-		f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'{title}: SI', atlas_name='allen_mouse_10um', format='2D', vmin=-bounds, vmax=bounds, cmap=helpers.cmap_group1_to_group2, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_SI_label)
+		f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'{title}: SI', atlas_name=bt.atlas_name, format='2D', vmin=-bounds, vmax=bounds, cmap=helpers.cmap_group1_to_group2, annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_SI_label)
 		plt.figure(f)
 		btf.save(f'heatmap_SI_{title}_ch={channel}_o={orientation}', as_type='pdf')
 		plt.close()
