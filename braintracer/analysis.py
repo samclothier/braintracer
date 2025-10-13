@@ -588,7 +588,9 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 			axis_title = f'{data_type} / cerebellar-normalised labelling'
 			cells = list(map(lambda x: (x - (dataset.starter_pedestal_norm * x)) / dataset.starter_normaliser, cells))
 		elif normalisation == 'within_region':
-			cells = [cells_in_area / sum(cells) for cells_in_area in cells]
+			#cells = [cells_in_area / sum(cells) for cells_in_area in cells]
+			total_cells = sum(cells)
+			cells = list(map(lambda x: x / total_cells, cells))
 			axis_title = f'{data_type} / parent-normalised labelling'
 		else:
 			if debug:
@@ -599,7 +601,7 @@ def _cells_in_areas_in_datasets(areas, datasets, channels, normalisation='presyn
 				raise Exception('log option does not work for fluorescence=True datasets!')
 			cells = list(map(lambda x: np.log(x), cells))
 			axis_title = f'log({axis_title})'
-		if dataset.fluorescence:
+		if dataset.fluorescence and normalisation != 'within_region':
 			cells = list(map(lambda x: x * (resolution_total / 10**9), cells))
 			axis_title = f'{axis_title} (mm^3)'
 		cells_list.append(cells)

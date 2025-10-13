@@ -153,7 +153,7 @@ def probability_map(channel, fluorescence, area_num=None, binsize=200, axis=2, s
 		plot_binned_average(ax, channel, area_num, axis, binsize, sigma, g, cmap=helpers.cmaps_group[i])
 	btf.save(f'densitymap_{groups}_area={area_num}_subregions={subregions}_axis={axis}_log={log}', as_type='pdf')
 
-def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, sigma, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, region_labels=True, areas_to_combine=None):
+def heatmap_spatial_segregation(channel, fluorescence, title, areas, orientation, sigma, gradient=0.1, vmax=None, position=None, cmap='Reds', legend=True, region_labels=True, areas_to_combine=None):
 	# orientation: 'frontal', 'sagittal', 'horizontal' or a tuple (x,y,z)
 	correlations = helpers.get_corr_indexes(channel, fluorescence, areas, gradient, sigma)
 	if areas_to_combine is not None:
@@ -165,8 +165,7 @@ def heatmap_spatial_segregation(channel, fluorescence, areas, orientation, sigma
 	cbar_label = f'% signal in magenta/blue (gradient={gradient})'
 	f = bgh.Heatmap(regions, position=position, orientation=orientation, title=f'Within-region spatial segregation for Fl={fluorescence}', thickness=1000, atlas_name=bt.atlas.atlas_name, format='2D', vmin=0, vmax=vmax, cmap=cm.get_cmap(cmap), annotate_regions=region_labels).show(show_legend=legend, cbar_label=cbar_label)
 	plt.figure(f)
-	areas_savename = ''.join([string[0] for string in areas])
-	btf.save(f'heatmap_spatialseg_areas={areas_savename}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
+	btf.save(f'heatmap_spatialseg_{title}_ch={channel}_Fl={fluorescence}_o={orientation}', as_type='pdf')
 	plt.close()
 
 def project_cell_coords(channel, dataset, sum_rather_than_max=False, areas=None, vmin=None, vmax=None, axis=0, padding=None, cmap='Greys', logmax=False, ax=None):
@@ -315,7 +314,7 @@ def area_total_signal_bar(channel, area_func, value_norm='total', fluorescence=F
 	area_labels, dataset_cells, _, areas_title, _ = helpers.get_matrix_data(channel, area_func=area_func, postprocess_for_scatter=False, sort_matrix=False, fluorescence=fluorescence, value_norm=value_norm)
 	if areas_to_combine is not None:
 		area_labels, dataset_cells, _ = helpers.replace_areas_with_combined_area(areas_to_combine, area_labels, dataset_cells=dataset_cells)
-	_, num_g1 = helpers.fetch_groups(fluorescence) # get sum across each group
+	_, num_g1 = helpers.fetch_groups(fluorescence)
 	ste1 = bt.ste(dataset_cells[0:num_g1,:], axis=0)
 	ste2 = bt.ste(dataset_cells[num_g1:,:], axis=0)
 
@@ -540,7 +539,7 @@ def generate_group_comparison_heatmaps(channel, fluorescence, areas, title, norm
 
 	make_paired_plots(area_labels, cells_g1, cells_g2, title, pair_plot_vmax)
 	make_SI_plot(area_labels, cells_g1, cells_g2, title)
-	heatmap_spatial_segregation('r', fluorescence, area_labels, orientation, sigma=dmap_sigma, gradient=0.1, vmax=spatialseg_vmax, position=position, cmap='Greys', legend=False, areas_to_combine=areas_to_combine)
+	heatmap_spatial_segregation('r', fluorescence, title, area_labels, orientation, sigma=dmap_sigma, gradient=0.1, vmax=spatialseg_vmax, position=position, cmap='Greys', legend=False, areas_to_combine=areas_to_combine)
 
 
 
