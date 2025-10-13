@@ -1,5 +1,5 @@
 """
-Copyright (C) 2021-2023  Sam Clothier
+Copyright (C) 2021-2025  Sam Clothier
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,39 +20,37 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from matplotlib.backends.backend_pdf import PdfPages
-from bg_atlasapi.bg_atlas import BrainGlobeAtlas
 from bs4 import BeautifulSoup
 from PIL import Image
 
 script_dir = os.getcwd() #<-- dir of the notebook file
 package_dir = os.path.dirname(os.path.realpath(__file__)) #<-- dir of the package itself
-atlas = BrainGlobeAtlas('allen_mouse_10um')
 
 def _get_path(file_name, vID=None):
 	if file_name.startswith('cells_'):
-		child_dir = 'braintracer\\cellfinder'
+		child_dir = 'braintracer' + os.sep + 'cellfinder'
 	elif file_name.startswith('reg_'):
-		child_dir = 'braintracer\\downsampled_data'
+		child_dir = 'braintracer' + os.sep + 'downsampled_data'
 	elif file_name.startswith('groundtruth_'):
-		child_dir = 'braintracer\\ground_truth'
+		child_dir = 'braintracer' + os.sep + 'ground_truth'
 	elif file_name.startswith('structures'):
 		child_dir = None # local file, now part of the package
 	elif file_name.startswith('atlas'):
-		child_dir = 'braintracer\\registered_atlases'
+		child_dir = 'braintracer' + os.sep + 'registered_atlases'
 	elif file_name.startswith('binary_'):
-		child_dir = 'braintracer\\fluorescence'
+		child_dir = 'braintracer' + os.sep + 'fluorescence'
 	elif file_name.startswith('injection_'):
-		child_dir = 'braintracer\\TRIO'
+		child_dir = 'braintracer' + os.sep + 'TRIO'
 	elif file_name.startswith('video_'):
 		assert vID is not None, 'video ID variable must be supplied for saving video frames'
-		child_dir = f'braintracer\\videos\\{file_name.split("_")[1]}_{vID}'
+		child_dir = f'braintracer' + os.sep + 'videos' + os.sep + f'{file_name.split("_")[1]}_{vID}'
 	else:
 		raise ValueError('Unexpected file name. Braintracer accepts files with the following format:\ncells_[].xml/csv\nreg_[]_[].tiff\ngroundtruth_[].xml\nstructures.csv')
 
 	if child_dir is not None:
 		if not os.path.isdir(child_dir):
 			os.makedirs(child_dir)
-		path = os.path.join(script_dir, child_dir+'\\'+file_name)
+		path = os.path.join(script_dir, child_dir + os.sep + file_name)
 	else:
 		path = os.path.join(package_dir, file_name)
 	return path
@@ -98,27 +96,29 @@ def open_file(name, atlas_25=False): # open files
 		return images
 	elif ext == 'csv':
 		if name.startswith('cells_'):
-			cell_df = pd.read_csv(file_path)
-			z_coords = cell_df['coordinate_atlas_axis_0'].to_list()
-			y_coords = cell_df['coordinate_atlas_axis_1'].to_list()
-			x_coords = cell_df['coordinate_atlas_axis_2'].to_list()
-			hemisphere = cell_df['hemisphere'].to_list()
+			cell_df = pd.read_csv(file_path, usecols=['coordinate_atlas_axis_0','coordinate_atlas_axis_1','coordinate_atlas_axis_2','hemisphere'])
+			# Convert coordinate columns to a NumPy array directly (shape: (N, 3)) with flipped order
+			coords = cell_df[[
+				'coordinate_atlas_axis_2',  # x
+				'coordinate_atlas_axis_1',  # y
+				'coordinate_atlas_axis_0'   # z
+			]].to_numpy(dtype=np.int32)
+
 			if atlas_25:
-				z_coords = list(np.floor(np.array(z_coords) * 2.5).astype(int)) # convert coords in 25um atlas space to 10um
-				y_coords = list(np.floor(np.array(y_coords) * 2.5).astype(int))
-				x_coords = list(np.floor(np.array(x_coords) * 2.5).astype(int))
-			return [x_coords, y_coords, z_coords, hemisphere] # flip to x, y, z
-		elif name.startswith('structures'):
-			area_indexes = pd.read_csv(file_path)
-			area_indexes = area_indexes.set_index('id')
-			return area_indexes
+				coords = np.floor(coords * 2.5).astype(np.int32)
+
+			mapping = {'left': 1, 'right': 0} # convert hemisphere labels into 0, 1, 2 to save memory with np.array
+			hemisphere_int = cell_df['hemisphere'].map(mapping).fillna(2).astype(np.int32).to_numpy()
+
+			coords_and_hemisphere_array = np.hstack((coords, hemisphere_int.reshape(-1, 1))).T
+			return coords_and_hemisphere_array
 		else:
 			print(f'Cannot load CSV with name {name}')
 	elif ext == 'npy':
 		coordinates = np.load(file_path)
-		coordinates = np.c_[ np.repeat(None, coordinates.shape[0]), coordinates ] # Add an extra column for hemisphere = None
+		coordinates = np.c_[ np.repeat(np.int32(2), coordinates.shape[0]), coordinates ] # Add an extra column for hemisphere = 2 (no hemisphere specified)
 		coordinates = np.flip(coordinates.T, axis=0) # flip to x, y, z
-		return coordinates.tolist()
+		return coordinates
 	elif ext == 'pkl':
 		return pickle.load(open(f'{file_path}', 'rb'))
 	else:
@@ -127,41 +127,37 @@ def open_file(name, atlas_25=False): # open files
 
 def open_transformed_brain(dataset):
 	name = dataset.name
-	path = os.path.join(script_dir, name+'\\'+'transform\\*')
+	path = os.path.join(script_dir, name + os.sep + 'transform' + os.sep + '*')
 	assert os.path.isdir(path), f'Please provide transformed stack at {path}'
 	files = glob.glob(path)
 	return files
 
-def open_registered_stack(dataset):
+def open_cell_coordinates(dataset, channel, network_name):
+	filename = ''
 	if dataset.fluorescence:
 		if dataset.skimmed:
-			name = f'binary_registered_stack_skimmed_{dataset.name}_{dataset.channels[0]}.npy'
+			filename = f'binary_registered_skimmed_{dataset.name}_{channel}.npy'
 		else:
-			name = f'binary_registered_stack_{dataset.name}_{dataset.channels[0]}.npy'
-		path = _get_path(name)
-		return np.load(path)
+			filename = f'binary_registered_{dataset.name}_{channel}.npy'
 	else:
-		stack = np.array(open_file(f'reg_{dataset.name}_{dataset.channels[0]}.tiff'))[0]
-		return stack
+		filename = f'cells_{dataset.name}_{network_name}_{channel}.csv'
+	cell_coords = open_file(filename, atlas_25=dataset.atlas_25)
+	return cell_coords
 
-def get_atlas():
-	global atlas
-	return np.array(atlas.annotation)
+def open_atlas_registered_stack(dataset, channel):
+	stack = np.array(open_file(f'reg_{dataset.name}_{channel}.tiff'))[0]
+	return stack
 
-def get_reference():
-	global atlas
-	return np.array(atlas.reference)
-
-def get_lookup_df():
-	df = atlas.lookup_df
-	df = df.set_index('id')
-	return df
+def open_structures_csv(path):
+	area_indexes = pd.read_csv(str(path) + os.sep + 'structures.csv')
+	area_indexes = area_indexes.set_index('id')
+	return area_indexes
 
 def save(file_name, as_type, dpi=600, vID=None, file=None):
 	if vID is not None:
 		dir_path = _get_path(file_name, vID)
 	else:
-		dir_path =  os.path.join(script_dir, 'braintracer/figures/', file_name)
+		dir_path =  os.path.join(script_dir, 'braintracer' + os.sep + 'figures' + os.sep, file_name)
 
 	if as_type == 'png':
 		if vID is None:
@@ -179,7 +175,7 @@ def save(file_name, as_type, dpi=600, vID=None, file=None):
 		pickle.dump(file, open(f'{dir_path}.pkl', 'wb'))
 
 def create_video(dataset_name, vID, fps=30):
-	dir_name = f'braintracer/videos/{dataset_name}_{vID}/'
+	dir_name = 'braintracer' + os.sep + 'videos' + os.sep + f'{dataset_name}_{vID}' + os.sep
 	dir_path = os.path.join(script_dir, dir_name)
 	video_name = f'video_{dataset_name}_{vID}_{fps}fps.avi'
 
@@ -187,7 +183,7 @@ def create_video(dataset_name, vID, fps=30):
 	frame = cv2.imread(os.path.join(dir_path, images[0]))
 	height, width, layers = frame.shape
 
-	video = cv2.VideoWriter(f'braintracer/videos/{video_name}', 0, fps, (width,height))
+	video = cv2.VideoWriter('braintracer' + os.sep + 'videos' + os.sep + video_name, 0, fps, (width,height))
 
 	for image in images:
 		video.write(cv2.imread(os.path.join(dir_path, image)))

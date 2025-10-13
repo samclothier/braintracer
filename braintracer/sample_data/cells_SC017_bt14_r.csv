@@ -1,0 +1,67 @@
+coordinate_raw_axis_0,coordinate_raw_axis_1,coordinate_raw_axis_2,coordinate_atlas_axis_0,coordinate_atlas_axis_1,coordinate_atlas_axis_2,structure_name,hemisphere
+189,1237,2723,1314,288,567,Folium-tuber vermis (VII),right
+194,2613,1966,1269,633,402,"Spinal nucleus of the trigeminal, caudal part",right
+198,1349,3130,1312,309,662,Pyramus (VIII),left
+227,1344,3284,1307,305,694,Paramedian lobule,left
+243,1346,3695,1298,301,775,Paramedian lobule,left
+260,1617,3967,1288,379,840,Paramedian lobule,left
+281,1478,3932,1285,339,826,Paramedian lobule,left
+294,1812,3065,1256,410,647,arbor vitae,left
+350,3067,2765,1193,698,574,Inferior olivary complex,left
+353,1519,3122,1240,335,654,Pyramus (VIII),left
+384,2268,1652,1204,532,335,lateral recess,right
+420,2979,2745,1159,671,570,Nucleus raphe obscurus,right
+445,2270,1667,1175,524,338,lateral recess,right
+534,2306,1436,1138,523,288,Paraflocculus,right
+597,2552,1419,1091,580,284,Ventral cochlear nucleus,right
+618,823,3575,1149,119,726,Simple lobule,left
+610,818,3602,1153,119,731,Simple lobule,left
+612,823,3582,1152,120,727,Simple lobule,left
+708,1092,2855,1095,178,581,Lobule III,left
+711,2590,1371,1032,577,264,root,right
+722,2548,3549,1031,544,738,Motor nucleus of trigeminal,left
+726,1392,3697,1078,248,765,Lobules IV-V,left
+731,1388,3693,1075,248,765,Lobules IV-V,left
+739,1389,3698,1071,248,766,Simple lobule,left
+848,2492,1569,985,535,308,Cerebellum,right
+868,1384,4265,1035,247,898,Parasubiculum,left
+876,1417,4196,1026,255,881,Parasubiculum,left
+883,1385,4212,1026,249,883,Parasubiculum,left
+891,1388,4089,1015,251,853,Parasubiculum,left
+983,2168,4404,946,442,932,Subiculum,left
+1012,2327,5043,920,470,1062,"Entorhinal area, lateral part, layer 1",left
+1020,2696,3765,897,563,779,Cerebellum,left
+1070,2815,2921,862,581,599,Midbrain,left
+1123,2720,3671,841,554,765,cerebal peduncle,left
+1141,2717,3661,833,552,764,cerebal peduncle,left
+1146,2714,3657,830,552,763,cerebal peduncle,left
+1188,2267,1345,843,465,245,Field CA3,right
+1308,2316,5151,764,430,1070,"Temporal association areas, layer 1",left
+1332,3143,4880,726,631,1009,Piriform area,left
+1348,3196,4844,716,641,1001,Piriform area,left
+1509,2322,3937,678,426,821,Reticular nucleus of the thalamus,left
+1530,2796,4867,648,529,1002,"Agranular insular area, posterior part, layer 2/3",left
+1682,3116,4700,567,587,974,Piriform area,left
+1747,2120,5038,571,358,1046,"Supplemental somatosensory area, layer 1",left
+1798,2638,4809,526,466,1000,"Gustatory areas, layer 4",left
+1908,2072,4639,492,335,961,"Primary somatosensory area, mouth, layer 4",left
+2028,1048,3549,476,104,722,"Primary motor area, Layer 1",left
+2061,3064,2755,381,578,569,Striatum,right
+2100,1673,4364,419,239,906,"Primary somatosensory area, mouth, layer 2/3",left
+2099,1197,2876,446,135,579,"Secondary motor area, layer 1",left
+2117,1573,1175,435,239,215,"Primary somatosensory area, mouth, layer 1",right
+2127,1716,1412,412,272,273,"Primary motor area, Layer 2/3",right
+2139,2034,4468,383,304,938,"Primary somatosensory area, mouth, layer 1",left
+2145,1813,4356,387,260,913,"Primary somatosensory area, mouth, layer 1",left
+2260,3111,3695,292,553,766,"lateral olfactory tract, body",left
+2269,2469,2934,308,415,607,"Orbital area, medial part, layer 5",left
+2297,2654,4059,294,438,846,"Agranular insular area, dorsal part, layer 1",left
+2307,1793,2797,313,258,570,"Prelimbic area, layer 1",right
+2343,1305,3231,334,137,649,"Secondary motor area, layer 1",left
+2353,2516,2849,257,415,586,"Orbital area, medial part, layer 1",left
+2450,2648,3440,217,442,713,Anterior olfactory nucleus,left
+2466,1655,1753,239,249,354,"Secondary motor area, layer 2/3",right
+2469,1771,1670,242,279,334,"Secondary motor area, layer 2/3",right
+2489,1770,1662,230,279,329,"Secondary motor area, layer 1",right
+2537,2068,3193,188,282,663,"Frontal pole, layer 1",left
+2618,2467,3696,140,365,768,Main olfactory bulb,left
