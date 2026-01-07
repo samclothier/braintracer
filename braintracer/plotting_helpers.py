@@ -96,12 +96,13 @@ def draw_plot(ax, datasets, areas, values, axis_title, fig_title, horizontal=Fal
 	return df
 
 # other helpers
-def map_for_data(ax1_data, ax2_data, lower_lim, saturation_multiplier):
+def map_for_data(ax1_data, ax2_data, lower_lim, saturation_multiplier, colour_set="magenta-cyan"):
 	if lower_lim is not None:
 		ax1_data[ax1_data < lower_lim] = 0
 		ax2_data[ax2_data < lower_lim] = 0
-	gradabs = np.add(ax1_data, ax2_data) / 2
+	gradabs = np.add(ax1_data, ax2_data) / 2 # average to get labelling magnitude
 	
+	# enable saturation scaling
 	max_abs = np.max(gradabs)
 	print(f'Upper limit: {max_abs}')
 	gradabs = gradabs * saturation_multiplier
@@ -123,7 +124,12 @@ def map_for_data(ax1_data, ax2_data, lower_lim, saturation_multiplier):
 		if angle < 0:
 			angle += 2 * np.pi
 
-		angle = angle * 1.5 + np.pi
+		# angle * x - controls the range on hsv colour wheel. lower is tighter. x=2 is opposites on colour wheel.
+		# np.pi * x - controls the offset of the range on hsv colour wheel. [-pi,+pi]
+		if colour_set == "magenta-cyan":
+			angle = angle * 1.5 + np.pi
+		else:
+			angle = angle * 2 + np.pi * 0.7
 		rgb_space = clrs.hsv_to_rgb((angle / 2 / np.pi, 
 									absolute / max_abs, 
 									1)) #absolute / max_abs))
