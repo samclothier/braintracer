@@ -1,0 +1,1 @@
+{"name": "allen_mouse_io", "citation": "None", "atlas_link": "None", "species": "Mus musculus", "symmetric": true, "resolution": [10.0, 10.0, 10.0], "orientation": "asr", "version": "1.0", "shape": [1320, 800, 1140], "trasform_to_bg": [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]], "additional_references": []}
