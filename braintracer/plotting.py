@@ -392,7 +392,7 @@ def area_selectivity_with_errors(channel, area_func, value_norm='total', fluores
 	ax.axvline(x=0, c='k')
 	btf.save(f'areaSelectivity_errors_{areas_title}', as_type='pdf')
 
-def probability_map_overlap(channel, fluorescence, area_num=None, areas_mask_out=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=0, lower_lim=0, saturation_multiplier=1):
+def probability_map_overlap(channel, fluorescence, area_num=None, areas_mask_out=None, binsize=200, axis=2, sigma=None, subregions=None, subregion_depth=None, projcol='k', padding=0, lower_lim=0, saturation_multiplier=1, colour_set="magenta-cyan"):
 	atlas_res = 10
 	assert binsize % atlas_res == 0, f'Binsize must be a multiple of atlas resolution ({atlas_res}um) to display correctly.'
 	assert axis in [0, 1, 2], 'Must provide a valid axis number 0-2.'
@@ -425,7 +425,7 @@ def probability_map_overlap(channel, fluorescence, area_num=None, areas_mask_out
 	group1_name = helpers.get_bt_groups()[0]
 	group2_name = helpers.get_bt_groups()[1]
 	
-	im = helpers.map_for_data(group1_data, group2_data, lower_lim=lower_lim, saturation_multiplier=saturation_multiplier)
+	im = helpers.map_for_data(group1_data, group2_data, lower_lim=lower_lim, saturation_multiplier=saturation_multiplier, colour_set=colour_set)
 
 	divider = make_axes_locatable(ax)
 	cax = divider.append_axes("right", size="5%", pad=0.05)
