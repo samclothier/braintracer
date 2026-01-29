@@ -134,7 +134,7 @@ def map_for_data(ax1_data, ax2_data, lower_lim, saturation_multiplier, colour_se
 		if colour_set == "magenta-cyan":
 			angle = angle * 1.5 + np.pi
 		else: # magenta-green
-			angle = -angle * 2 + np.pi * 0.85
+			angle = -angle * 1.5 + np.pi * 0.6 # a little cyan but close: -angle * 2 + np.pi * 0.85
 		rgb_space = clrs.hsv_to_rgb((angle / 2 / np.pi, 
 									absolute / max_abs, 
 									1)) #absolute / max_abs))
