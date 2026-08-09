@@ -19,6 +19,7 @@ import importlib # import other braintracer files using relative path, agnostic 
 bt_path = '.'.join(__name__.split('.')[:-1]) # get module path (folder containing this file)
 btf = importlib.import_module(bt_path+'.file_management')
 btp = importlib.import_module(bt_path+'.plotting')
+helpers = importlib.import_module(bt_path+'.plotting_helpers')
 
 import matplotlib.pyplot as plt
 import shortuuid as uid
@@ -665,10 +666,13 @@ def mwu(channel, fluorescence, area, norm=None):
 	LV_group = df.loc[df['Dataset']=='LV', 'Cells'].tolist()
 	return stats.mannwhitneyu(LS_group, LV_group)
 
-def get_stats_df(channel, fluorescence, areas, normalisation=None):
+def get_stats_df(channel, fluorescence, areas, normalisation=None, areas_to_combine=None):
 	dsets = [i for i in datasets if i.fluorescence == fluorescence]
 	dataset_cells, _ = _cells_in_areas_in_datasets(areas, dsets, channel, normalisation=normalisation)
 	dataset_groups = [i.group for i in dsets]
+
+	if areas_to_combine is not None:
+		areas, dataset_cells, _ = helpers.replace_areas_with_combined_area(areas_to_combine, areas, dataset_cells=dataset_cells)
 
 	num_datasets = len(dsets)
 	num_areas = len(areas)
