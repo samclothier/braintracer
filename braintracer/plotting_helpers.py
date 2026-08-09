@@ -41,16 +41,12 @@ class RGB(np.ndarray):
 		self = self.astype(np.uint8)
 		return '#' + ''.join(format(n, 'x') for n in self)
 
-def get_angle_for_cmap(g1, g2, default_cmap): # simpler version of the grad_to_rgb function for determining probability_map_overlap cbar
+def get_angle_for_cmap(g1, g2): # simpler version of the grad_to_rgb function for determining probability_map_overlap cbar
 	angle = np.arctan2(g1, g2)
 	angle = angle % (2 * np.pi)
 	if angle < 0:
 		angle += 2 * np.pi
 	angle = angle * 1.5 + np.pi
-	#if default_cmap:
-	#	angle = angle * 1.5 + np.pi
-	#else:
-	#	angle = -angle * 2 + np.pi * 0.85
 	rgb_space = clrs.hsv_to_rgb((angle / 2 / np.pi, 1, 1))
 	return rgb_space
 
@@ -70,7 +66,7 @@ def set_group_colours(group1='#ED008C', group2='#1E74BD', arbitrary='#08A045'):
 	cmap_group1_to_group2 = clrs.LinearSegmentedColormap.from_list(mix_name, [group1, '#FFFFFF', group2])
 	cmap_midpoint_of_both_groups = clrs.LinearSegmentedColormap.from_list('Global', ['#FFFFFF', str(group_midpoint)])
 	default_cmap = group2 == '#1E74BD' and group1 == '#ED008C'
-	cmap_groups_mixed_for_density_maps = clrs.LinearSegmentedColormap.from_list(mix_name, [get_angle_for_cmap(0, 1, default_cmap), get_angle_for_cmap(1, 1, default_cmap), get_angle_for_cmap(1, 0, default_cmap)])
+	cmap_groups_mixed_for_density_maps = clrs.LinearSegmentedColormap.from_list(mix_name, [get_angle_for_cmap(0, 1), get_angle_for_cmap(1, 1), get_angle_for_cmap(1, 0)])
 	csolid_group = [group1, group2]
 	cmaps_group = [cmap_arbtry, cmap_group1, cmap_group2] # the first of these will be used for plots with only one group
 
@@ -134,7 +130,12 @@ def map_for_data(ax1_data, ax2_data, lower_lim, saturation_multiplier, colour_se
 		if colour_set == "magenta-cyan":
 			angle = angle * 1.5 + np.pi
 		else: # magenta-green
-			angle = -angle * 2 + np.pi * 0.85
+			angle = angle * 1.5 + np.pi
+			cutoff = 1.55
+			if angle > cutoff * np.pi:
+				angle = 2 * np.pi - (angle - cutoff * np.pi)
+			else:
+				angle = cutoff * np.pi - angle
 		rgb_space = clrs.hsv_to_rgb((angle / 2 / np.pi, 
 									absolute / max_abs, 
 									1)) #absolute / max_abs))

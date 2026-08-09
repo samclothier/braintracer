@@ -253,7 +253,7 @@ def area_selectivity_scatter(channel, area_func, value_norm='total', custom_lim=
 	btf.save(f'areaSelectivityScatter_{areas_title}_log={log}', as_type='pdf')
 	
 # TODO: make the function work properly with the normalisation of _cells_in_areas_in_datasets
-def region_comparison_scatter(fluorescence, config=None, areas=None, labels=False, set_postsyn_values_to_line=False, exclude_dataset_idx_from_line_fit=[], swap_axes=False):
+def region_comparison_scatter(fluorescence, config=None, areas=None, labels=False, do_test=False, exclude_dataset_idx_from_line_fit=[], swap_axes=False):
 	datasets, _ = helpers.fetch_groups(fluorescence=fluorescence)
 	dataset_names = [i.name for i in datasets]
 	
@@ -263,18 +263,19 @@ def region_comparison_scatter(fluorescence, config=None, areas=None, labels=Fals
 		x_label = f'{bt.presyn_ch} - ({bt.postsyn_region} + {bt.presyn_regions_exclude})'
 		y_label = f'{bt.postsyn_region}'
 		
-		if set_postsyn_values_to_line:
+		if do_test:
 			presynaptics_to_fit = [ele for idx, ele in enumerate(x_axis) if idx not in exclude_dataset_idx_from_line_fit]
 			postsynaptics_to_fit = [ele for idx, ele in enumerate(y_axis) if idx not in exclude_dataset_idx_from_line_fit]
 			presynaptics_to_fit = np.pad(presynaptics_to_fit, [(0,100)]) # pad with (0,0) values to force fit through origin
 			postsynaptics_to_fit = np.pad(postsynaptics_to_fit, [(0,100)])
 			z = np.polyfit(presynaptics_to_fit, postsynaptics_to_fit, 1)
 			p = np.poly1d(z)
-			line_X = np.pad(x_axis, [(1,0)])
-			ax.plot(line_X, p(line_X), 'k')
-			for idx, cells in enumerate(x_axis):
-				datasets[idx].true_postsynaptics = p(cells) # set true presynaptics value
+			#line_X = np.pad(x_axis, [(1,0)])
+			#ax.plot(line_X, p(line_X), 'k')
+			#for idx, cells in enumerate(x_axis):
+			#	datasets[idx].true_postsynaptics = p(cells) # set true presynaptics value
 			print(f'{x_axis[0]/p(x_axis[0])} inputs per {bt.postsyn_region} neuron.')
+			return p
 	elif config == 'prePostAntero': # special case for anterogradely-labelled datasets. re-add the postsynaptics back because skimmed is set to True
 		print('Warning: When running this function, it is assumed that the cells of the postsynaptic region are not included in the dataset.')
 		x_axis = np.array([i.presynaptics() + i.postsynaptics() for i in datasets]) # add postsynaptics because presynaptics() subtracts them by default

@@ -1,0 +1,2654 @@
+coordinate_raw_axis_0,coordinate_raw_axis_1,coordinate_raw_axis_2,coordinate_atlas_axis_0,coordinate_atlas_axis_1,coordinate_atlas_axis_2,structure_name,hemisphere
+20,2523,2408,1307,673,658,"Medullary reticular nucleus, ventral part",left
+27,2565,2354,1308,682,646,"Medullary reticular nucleus, ventral part",left
+28,2483,2439,1299,662,664,"Medullary reticular nucleus, ventral part",left
+36,2611,2378,1306,692,651,"Medullary reticular nucleus, ventral part",left
+43,2552,2367,1300,676,647,"Medullary reticular nucleus, ventral part",left
+44,2618,2352,1305,694,644,"Medullary reticular nucleus, ventral part",left
+45,2065,2239,1314,555,612,Cuneate nucleus,left
+49,2096,2155,1314,562,590,Medulla,left
+50,2550,2405,1296,675,656,"Medullary reticular nucleus, ventral part",left
+53,2119,2012,1314,570,551,Dorsal motor nucleus of the vagus nerve,right
+53,2602,1784,1316,696,502,"Medullary reticular nucleus, ventral part",right
+58,2076,2023,1313,559,554,Nucleus of the solitary tract,right
+58,2100,2000,1312,565,547,Dorsal motor nucleus of the vagus nerve,right
+58,2060,2063,1313,555,565,Nucleus of the solitary tract,right
+56,2082,1904,1315,562,523,Cuneate nucleus,right
+57,2142,2185,1305,572,598,Medulla,left
+59,2634,1780,1315,704,501,Medulla,right
+61,2115,2015,1310,568,551,Dorsal motor nucleus of the vagus nerve,right
+61,2002,2033,1316,542,556,Gracile nucleus,right
+62,2016,2024,1315,545,553,Gracile nucleus,right
+62,2059,1998,1313,555,547,Nucleus of the solitary tract,right
+62,2092,2070,1309,561,566,Nucleus of the solitary tract,right
+63,2504,2367,1289,663,646,"Medullary reticular nucleus, ventral part",left
+65,2544,2384,1291,673,650,"Medullary reticular nucleus, ventral part",left
+67,2603,1852,1310,696,517,"Medullary reticular nucleus, ventral part",right
+66,2080,2038,1309,559,557,Dorsal motor nucleus of the vagus nerve,right
+66,2606,2350,1295,688,643,"Medullary reticular nucleus, ventral part",left
+68,2057,2026,1310,553,553,Nucleus of the solitary tract,right
+68,2601,1975,1310,695,549,Medulla,right
+69,2062,2014,1309,554,550,Nucleus of the solitary tract,right
+69,2045,2003,1311,551,547,Nucleus of the solitary tract,right
+70,2027,2008,1311,546,548,Nucleus of the solitary tract,right
+74,2410,1894,1296,643,524,"Medullary reticular nucleus, ventral part",right
+74,2112,1973,1304,566,539,Medulla,right
+73,2493,1973,1302,665,547,Medulla,right
+75,2033,2101,1305,547,572,Nucleus of the solitary tract,left
+75,2009,1901,1310,544,519,Cuneate nucleus,right
+75,2016,1997,1309,544,544,Nucleus of the solitary tract,right
+76,2032,1999,1308,547,545,Nucleus of the solitary tract,right
+76,2582,1782,1305,689,497,"Medullary reticular nucleus, ventral part",right
+77,2027,2045,1307,545,557,Nucleus of the solitary tract,right
+77,2044,2011,1307,550,548,Nucleus of the solitary tract,right
+78,2059,2014,1305,554,549,Nucleus of the solitary tract,right
+78,1919,2067,1310,524,563,Gracile nucleus,right
+78,2009,1991,1308,543,542,Nucleus of the solitary tract,right
+79,2059,1995,1304,554,543,Nucleus of the solitary tract,right
+79,2085,2222,1295,556,604,Dorsal motor nucleus of the vagus nerve,left
+79,2434,1874,1294,650,518,"Medullary reticular nucleus, ventral part",right
+80,2007,1954,1308,542,533,Cuneate nucleus,right
+82,2591,1750,1303,691,489,"Medullary reticular nucleus, ventral part",right
+82,2002,1969,1307,540,536,Cuneate nucleus,right
+81,2043,2114,1302,548,576,Nucleus of the solitary tract,left
+81,2017,2012,1306,543,547,Nucleus of the solitary tract,right
+81,2045,2191,1299,547,596,Nucleus of the solitary tract,left
+84,2042,2128,1300,547,580,Nucleus of the solitary tract,left
+84,2580,1770,1302,688,494,"Medullary reticular nucleus, ventral part",right
+85,2030,1999,1304,547,544,Nucleus of the solitary tract,right
+88,1983,1883,1307,537,514,Cuneate nucleus,right
+88,2007,1975,1304,541,537,Nucleus of the solitary tract,right
+88,1966,1993,1306,533,543,Gracile nucleus,right
+89,2060,2213,1294,550,602,Nucleus of the solitary tract,left
+91,1914,2027,1306,523,551,Gracile nucleus,right
+91,1956,1981,1305,531,538,Gracile nucleus,right
+92,1949,2030,1304,529,552,Gracile nucleus,right
+92,2480,1776,1290,663,492,"Medullary reticular nucleus, ventral part",right
+90,1992,1937,1305,538,527,Cuneate nucleus,right
+95,1898,1939,1307,520,528,Gracile nucleus,right
+96,2537,1763,1293,677,491,"Medullary reticular nucleus, ventral part",right
+100,1940,1998,1302,527,543,Gracile nucleus,right
+100,1981,1951,1301,535,530,Cuneate nucleus,right
+99,1947,2009,1302,528,546,Gracile nucleus,right
+98,1985,1947,1302,537,529,Cuneate nucleus,right
+98,1994,2034,1299,538,553,Nucleus of the solitary tract,right
+101,2015,1799,1299,545,492,Cuneate nucleus,right
+101,2261,2615,1265,603,693,"Medullary reticular nucleus, dorsal part",left
+101,2583,2369,1281,681,644,"Medullary reticular nucleus, ventral part",left
+102,2000,1987,1299,539,539,Nucleus of the solitary tract,right
+102,2024,2241,1290,541,607,solitary tract,left
+104,1972,1950,1301,533,530,Cuneate nucleus,right
+104,2035,1803,1296,549,493,Medulla,right
+106,1907,1943,1303,521,529,Gracile nucleus,right
+106,1997,1916,1299,539,520,Cuneate nucleus,right
+106,2350,1903,1283,627,523,"Medullary reticular nucleus, ventral part",right
+106,1975,1981,1299,534,537,Nucleus of the solitary tract,right
+106,2056,2349,1282,548,634,Nucleus of the solitary tract,left
+109,1972,2000,1298,533,542,Nucleus of the solitary tract,right
+109,1915,2080,1298,522,565,Medulla,right
+107,2483,2693,1268,656,707,"Medullary reticular nucleus, dorsal part",left
+107,1933,1772,1302,528,484,Cuneate nucleus,right
+108,2195,2109,1282,586,574,Hypoglossal nucleus,left
+111,2477,1721,1283,664,478,"Medullary reticular nucleus, ventral part",right
+111,2414,2665,1263,641,700,"Medullary reticular nucleus, dorsal part",left
+115,1848,1906,1304,511,519,Gracile nucleus,right
+115,2017,1953,1293,543,530,solitary tract,right
+115,1883,2040,1298,517,554,Gracile nucleus,right
+115,1957,1934,1297,530,525,Cuneate nucleus,right
+115,2027,1971,1293,545,534,Nucleus of the solitary tract,right
+114,2002,2147,1290,537,581,Nucleus of the solitary tract,left
+114,2024,1765,1292,548,483,Medulla,right
+116,1964,1892,1298,532,514,Cuneate nucleus,right
+116,1980,2528,1280,535,674,Medulla,left
+119,1977,1994,1294,534,540,Nucleus of the solitary tract,right
+119,1958,1979,1295,531,537,Nucleus of the solitary tract,right
+119,2591,1896,1291,691,523,Medulla,right
+118,2491,1708,1282,668,475,"Medullary reticular nucleus, ventral part",right
+118,2554,1852,1289,682,511,"Medullary reticular nucleus, ventral part",right
+122,2023,2442,1276,543,653,Medulla,left
+122,2003,1911,1293,541,518,Nucleus of the solitary tract,right
+121,1962,1913,1296,531,520,Cuneate nucleus,right
+121,1983,2275,1285,531,614,Nucleus of the solitary tract,left
+123,1966,1989,1293,532,539,Nucleus of the solitary tract,right
+124,2441,1800,1279,654,497,"Medullary reticular nucleus, ventral part",right
+125,1888,1936,1298,518,525,Cuneate nucleus,right
+125,2513,1758,1283,673,488,"Medullary reticular nucleus, ventral part",right
+126,1956,1800,1295,531,491,Cuneate nucleus,right
+126,2268,2019,1277,606,551,Medulla,right
+126,2296,1974,1277,613,540,"Medullary reticular nucleus, ventral part",right
+126,1998,2388,1278,536,641,Cuneate nucleus,left
+127,2282,1978,1276,609,541,"Medullary reticular nucleus, ventral part",right
+127,1965,1983,1292,532,537,Nucleus of the solitary tract,right
+130,2487,1809,1280,665,500,"Medullary reticular nucleus, ventral part",right
+130,1995,1959,1290,538,531,solitary tract,right
+130,2525,1739,1282,677,483,"Medullary reticular nucleus, ventral part",right
+130,1967,2338,1281,527,629,Cuneate nucleus,left
+131,1930,2033,1291,525,551,Nucleus of the solitary tract,right
+131,2022,1804,1288,546,493,Medulla,right
+131,1917,1975,1294,523,535,Gracile nucleus,right
+131,2358,2670,1256,628,699,"Medullary reticular nucleus, dorsal part",left
+129,2574,2371,1270,678,641,"Medullary reticular nucleus, ventral part",left
+132,2790,2369,1274,728,643,Medulla,left
+132,2755,2310,1276,722,629,Inferior olivary complex,left
+133,2485,2710,1260,657,707,"Medullary reticular nucleus, dorsal part",left
+133,2569,2728,1265,675,712,"Medullary reticular nucleus, dorsal part",left
+136,1929,1898,1293,526,516,Cuneate nucleus,right
+136,2433,2708,1257,645,706,"Medullary reticular nucleus, dorsal part",left
+134,2021,1788,1287,547,489,Medulla,right
+135,2505,2725,1260,661,710,"Medullary reticular nucleus, dorsal part",left
+138,2038,1832,1285,550,499,Medulla,right
+138,2658,2796,1266,697,728,rubrospinal tract,left
+137,1973,2355,1278,530,632,Nucleus of the solitary tract,left
+139,1924,2003,1290,525,542,Gracile nucleus,right
+139,2178,2594,1258,583,684,"Medullary reticular nucleus, dorsal part",left
+141,2036,1892,1285,548,513,Nucleus of the solitary tract,right
+141,2566,1879,1283,685,518,Medulla,right
+140,2759,2265,1274,726,617,Medulla,left
+142,2274,2756,1255,606,716,"Medullary reticular nucleus, dorsal part",left
+142,2817,2340,1271,735,636,Medulla,left
+142,2717,2317,1271,712,629,Medulla,left
+145,1835,1870,1296,509,509,Cuneate nucleus,right
+145,2037,1884,1284,549,512,Nucleus of the solitary tract,right
+145,2767,2285,1272,726,622,Medulla,left
+145,2767,2277,1272,726,620,Medulla,left
+146,2446,1710,1272,659,476,"Medullary reticular nucleus, ventral part",right
+146,2518,1864,1279,674,514,"Medullary reticular nucleus, ventral part",right
+148,2016,1895,1284,544,515,Nucleus of the solitary tract,right
+148,2401,2739,1253,637,711,"Medullary reticular nucleus, dorsal part",left
+148,2741,2313,1269,718,629,Inferior olivary complex,left
+148,1936,2351,1277,521,629,Cuneate nucleus,left
+149,1865,2036,1290,514,550,Gracile nucleus,right
+149,2717,2299,1269,713,625,Inferior olivary complex,left
+147,2601,2775,1260,682,720,"Medullary reticular nucleus, dorsal part",left
+147,2622,2349,1265,689,635,Medulla,left
+151,2634,2215,1270,698,603,Medulla,left
+151,1900,2336,1278,514,626,Cuneate nucleus,left
+151,2056,2521,1264,553,667,"Medullary reticular nucleus, dorsal part",left
+151,2267,1997,1269,606,544,"Medullary reticular nucleus, ventral part",right
+151,2792,2436,1264,725,656,Medulla,left
+152,2337,2654,1251,621,693,"Medullary reticular nucleus, dorsal part",left
+152,1948,2374,1274,525,634,Nucleus of the solitary tract,left
+152,2480,1939,1275,663,533,Medulla,right
+150,2492,2768,1255,657,717,"Medullary reticular nucleus, dorsal part",left
+150,2808,2430,1265,731,656,Medulla,left
+154,2024,1816,1281,548,496,Medulla,right
+154,2276,1970,1269,609,538,"Medullary reticular nucleus, ventral part",right
+154,1934,1982,1286,527,535,Nucleus of the solitary tract,right
+154,2797,2455,1263,726,661,Medulla,left
+155,2016,1787,1281,547,489,Medulla,right
+155,2598,2756,1258,683,715,Intermediate reticular nucleus,left
+155,2633,2841,1257,691,734,"Medullary reticular nucleus, dorsal part",left
+156,1978,1885,1284,537,512,Nucleus of the solitary tract,right
+156,2628,2693,1259,690,704,Intermediate reticular nucleus,left
+156,2125,2654,1258,571,694,"Medullary reticular nucleus, dorsal part",left
+156,2804,2326,1265,733,631,Medulla,left
+156,2833,2368,1264,738,642,Medulla,left
+157,2405,2180,1264,640,591,Medulla,left
+157,2541,2764,1255,669,716,"Medullary reticular nucleus, dorsal part",left
+157,2572,2762,1257,676,715,"Medullary reticular nucleus, dorsal part",left
+157,1907,2371,1276,515,633,Cuneate nucleus,left
+158,2788,2431,1262,725,655,Medulla,left
+158,1773,2793,1280,496,723,spinal tract of the trigeminal nerve,left
+161,2299,2614,1250,612,684,"Medullary reticular nucleus, dorsal part",left
+161,2532,1814,1275,678,501,"Medullary reticular nucleus, ventral part",right
+161,1970,1777,1283,537,486,Cuneate nucleus,right
+161,2009,1743,1279,548,479,Medulla,right
+160,1952,1821,1285,531,497,Cuneate nucleus,right
+162,2353,2712,1249,626,703,"Medullary reticular nucleus, dorsal part",left
+162,2835,2380,1261,738,644,Medulla,left
+162,2790,2411,1260,725,650,Medulla,left
+163,1916,2335,1274,518,624,Nucleus of the solitary tract,left
+163,2715,2322,1261,711,628,Medulla,left
+163,2773,2447,1259,721,657,Medulla,left
+164,1903,1926,1286,522,522,Medulla,right
+164,2650,2599,1257,695,685,"Lateral reticular nucleus, magnocellular part",left
+164,2007,1753,1279,546,482,Medulla,right
+165,1896,2339,1274,513,625,Nucleus of the solitary tract,left
+165,1979,1725,1280,542,475,Medulla,right
+165,1992,1853,1281,540,505,Nucleus of the solitary tract,right
+165,2439,2763,1249,646,714,"Medullary reticular nucleus, dorsal part",left
+165,2602,2666,1256,684,696,Intermediate reticular nucleus,left
+165,2633,2752,1256,691,714,Intermediate reticular nucleus,left
+165,2761,2091,1272,733,571,Medulla,left
+165,2015,2375,1266,540,633,Nucleus of the solitary tract,left
+165,2719,2102,1272,723,573,Nucleus raphe pallidus,left
+166,1964,1829,1282,535,499,Cuneate nucleus,right
+166,2012,1679,1277,551,464,"Medullary reticular nucleus, dorsal part",right
+166,2822,2379,1259,734,643,Inferior olivary complex,left
+167,1989,1779,1279,542,488,Medulla,right
+167,2697,2811,1254,705,728,"Lateral reticular nucleus, magnocellular part",left
+167,1945,2400,1269,524,638,Cuneate nucleus,left
+168,1888,2296,1275,513,614,Nucleus of the solitary tract,left
+168,2258,1620,1263,617,454,"Medullary reticular nucleus, dorsal part",right
+170,1985,1822,1280,540,497,Cuneate nucleus,right
+170,2537,2430,1253,669,647,"Medullary reticular nucleus, ventral part",left
+170,2808,2416,1257,730,651,Inferior olivary complex,left
+169,2285,2611,1248,608,682,"Medullary reticular nucleus, dorsal part",left
+169,2274,2737,1248,605,708,"Medullary reticular nucleus, dorsal part",left
+169,2483,1917,1270,666,527,Medulla,right
+169,2494,2782,1249,658,717,"Medullary reticular nucleus, dorsal part",left
+171,2003,2497,1262,540,658,Medulla,left
+171,2764,2099,1268,733,572,Medulla,left
+171,2589,2808,1251,679,724,"Medullary reticular nucleus, dorsal part",left
+171,2804,2436,1256,729,655,Medulla,left
+172,2707,2092,1269,719,570,Nucleus raphe pallidus,right
+172,2713,2145,1266,719,584,Medulla,left
+172,2818,2379,1256,733,643,Inferior olivary complex,left
+173,2805,2378,1257,730,643,Inferior olivary complex,left
+173,1999,2507,1262,539,660,Medulla,left
+173,2693,2150,1265,714,585,Medulla,left
+174,2660,2635,1254,697,691,"Lateral reticular nucleus, magnocellular part",left
+174,2837,2429,1255,737,654,Medulla,left
+174,2805,2344,1256,731,635,Inferior olivary complex,left
+174,2829,2445,1255,735,658,Medulla,left
+174,1930,2401,1268,521,637,Cuneate nucleus,left
+174,2757,2317,1257,720,627,Inferior olivary complex,left
+175,2015,1746,1275,550,481,Medulla,right
+175,2281,1575,1262,624,445,"Medullary reticular nucleus, dorsal part",right
+175,2827,2356,1255,735,637,Medulla,left
+176,1911,2390,1268,516,634,Cuneate nucleus,left
+176,1934,1848,1281,529,504,Cuneate nucleus,right
+176,2827,2378,1255,735,643,Medulla,left
+177,2025,1751,1274,552,482,"Medullary reticular nucleus, dorsal part",right
+177,2501,2838,1246,658,729,"Medullary reticular nucleus, dorsal part",left
+177,1869,2000,1283,515,540,Nucleus of the solitary tract,right
+177,2033,1719,1273,556,475,"Medullary reticular nucleus, dorsal part",right
+177,2513,1894,1269,674,521,Medulla,right
+177,2598,2794,1250,682,721,Intermediate reticular nucleus,left
+177,2802,2692,1253,731,707,"Lateral reticular nucleus, magnocellular part",left
+179,2020,2380,1261,542,632,Nucleus of the solitary tract,left
+179,2423,1944,1264,650,534,"Medullary reticular nucleus, ventral part",right
+179,1991,1804,1276,542,495,Nucleus of the solitary tract,right
+179,2799,2399,1253,728,647,Inferior olivary complex,left
+179,2811,2428,1253,730,654,Medulla,left
+179,2813,2347,1254,733,634,Medulla,left
+178,2143,2699,1251,575,700,"Medullary reticular nucleus, dorsal part",left
+178,2504,1851,1268,672,510,"Medullary reticular nucleus, ventral part",right
+180,2621,2220,1257,693,601,Medulla,left
+180,1987,1835,1277,540,501,Nucleus of the solitary tract,right
+180,2661,2124,1263,706,578,Inferior olivary complex,left
+180,2703,2089,1265,718,569,Nucleus raphe pallidus,right
+180,2786,2359,1254,725,637,Inferior olivary complex,left
+180,2809,2337,1254,732,632,Medulla,left
+181,2821,2345,1254,734,634,Medulla,left
+181,1989,2573,1259,538,673,Medulla,left
+181,2786,2349,1254,725,635,Inferior olivary complex,left
+183,1892,1926,1281,519,522,Nucleus of the solitary tract,right
+183,1902,1929,1281,521,523,Nucleus of the solitary tract,right
+183,1834,2291,1274,504,612,Gracile nucleus,left
+183,2656,2856,1246,694,734,"Lateral reticular nucleus, magnocellular part",left
+183,1908,2423,1265,516,641,Cuneate nucleus,left
+183,2723,2116,1262,721,575,Nucleus raphe pallidus,left
+183,2764,2111,1262,731,574,Nucleus raphe pallidus,left
+182,2540,2832,1245,667,727,"Medullary reticular nucleus, dorsal part",left
+182,2827,2376,1252,734,641,Inferior olivary complex,left
+182,2693,2154,1260,713,585,Medulla,left
+184,1925,1677,1280,533,464,Medulla,right
+184,2682,2245,1255,705,607,Inferior olivary complex,left
+185,2000,1805,1274,545,495,Nucleus of the solitary tract,right
+185,2823,2405,1251,734,648,Inferior olivary complex,left
+185,2714,2116,1262,719,575,Nucleus raphe pallidus,left
+185,2796,2320,1253,728,628,Inferior olivary complex,left
+185,2741,2135,1260,724,580,Medulla,left
+185,2807,2378,1251,729,642,Inferior olivary complex,left
+185,2835,2432,1250,736,654,Medulla,left
+187,1967,1773,1276,538,488,Cuneate nucleus,right
+187,2096,1674,1265,574,466,"Medullary reticular nucleus, dorsal part",right
+187,2736,2130,1259,722,579,Medulla,left
+187,2756,2125,1259,727,577,Medulla,left
+187,2824,2386,1249,734,643,Inferior olivary complex,left
+187,1851,2293,1271,506,612,Nucleus of the solitary tract,left
+187,2666,2183,1256,704,592,Inferior olivary complex,left
+187,2701,2167,1257,713,587,Medulla,left
+187,1963,2537,1259,531,663,Medulla,left
+187,2674,2091,1261,710,568,Nucleus raphe pallidus,right
+186,2724,2141,1259,720,581,Medulla,left
+186,2756,2085,1262,729,567,Nucleus raphe pallidus,right
+186,1962,2600,1259,531,677,Medulla,left
+186,2185,1627,1261,598,456,"Medullary reticular nucleus, dorsal part",right
+186,2557,2808,1245,671,722,"Medullary reticular nucleus, dorsal part",left
+186,2625,2247,1254,692,606,Medulla,left
+186,2649,2255,1254,698,609,Medulla,left
+186,2705,2255,1254,710,610,Inferior olivary complex,left
+186,2718,2119,1260,720,576,Medulla,left
+186,2685,2102,1262,712,571,Nucleus raphe pallidus,left
+189,1883,1670,1283,524,463,Cuneate nucleus,right
+189,2038,1803,1270,555,496,Medulla,right
+189,2683,2164,1257,709,587,Inferior olivary complex,left
+189,2690,2091,1261,714,568,Nucleus raphe pallidus,right
+189,2717,2112,1260,719,573,Nucleus raphe pallidus,left
+189,2731,2116,1260,722,575,Nucleus raphe pallidus,left
+189,2765,2304,1251,721,623,Inferior olivary complex,left
+188,2481,2811,1242,654,721,"Medullary reticular nucleus, dorsal part",left
+188,2092,2672,1251,562,692,"Medullary reticular nucleus, dorsal part",left
+188,2818,2365,1250,733,639,Inferior olivary complex,left
+188,1979,2595,1257,536,676,Medulla,left
+190,1943,2474,1260,525,650,Nucleus of the solitary tract,left
+190,1883,2394,1265,511,633,Cuneate nucleus,left
+190,1915,2449,1262,517,645,Cuneate nucleus,left
+190,1957,2502,1259,528,655,Nucleus of the solitary tract,left
+190,2741,2116,1259,724,574,Nucleus raphe pallidus,left
+190,2754,2089,1260,728,568,Nucleus raphe pallidus,right
+190,1968,2536,1258,532,663,Medulla,left
+190,2703,2097,1260,717,569,Nucleus raphe pallidus,right
+191,2530,1757,1265,680,488,"Medullary reticular nucleus, ventral part",right
+191,2666,2178,1254,703,590,Inferior olivary complex,left
+191,2381,2679,1241,631,694,"Medullary reticular nucleus, dorsal part",left
+192,2755,2320,1249,718,626,Inferior olivary complex,left
+192,2805,2392,1248,729,644,Inferior olivary complex,left
+192,1969,1788,1274,539,492,Cuneate nucleus,right
+192,1990,1776,1272,544,489,Medulla,right
+192,2702,2113,1258,714,574,Nucleus raphe pallidus,left
+192,2703,2154,1256,714,584,Medulla,left
+192,2807,2354,1248,729,636,Inferior olivary complex,left
+192,2802,2379,1248,728,641,Inferior olivary complex,left
+193,2462,2813,1240,649,722,Parvicellular reticular nucleus,left
+193,1933,2480,1260,522,651,Cuneate nucleus,left
+193,1974,1801,1274,540,494,Medulla,right
+193,2145,1617,1262,589,453,"Medullary reticular nucleus, dorsal part",right
+193,2651,2277,1250,696,613,Medulla,left
+193,2782,2351,1249,723,634,Inferior olivary complex,left
+193,2821,2456,1247,733,658,Medulla,left
+193,2810,2440,1247,730,655,Medulla,left
+193,2846,2361,1248,740,637,Medulla,left
+194,2715,2103,1258,718,571,Nucleus raphe pallidus,left
+194,1937,2501,1259,522,655,Cuneate nucleus,left
+194,2776,2354,1248,722,635,Inferior olivary complex,left
+196,2699,2104,1257,714,571,Nucleus raphe pallidus,left
+196,1963,1800,1273,538,494,Cuneate nucleus,right
+196,2395,1909,1259,643,525,"Medullary reticular nucleus, ventral part",right
+196,2641,2208,1251,696,597,Inferior olivary complex,left
+196,2803,2374,1246,729,640,Inferior olivary complex,left
+196,2369,2724,1239,628,703,Parvicellular reticular nucleus,left
+196,2731,2116,1256,721,574,Nucleus raphe pallidus,left
+196,2733,2108,1256,722,573,Nucleus raphe pallidus,left
+196,2822,2388,1246,732,644,Inferior olivary complex,left
+196,2782,2341,1247,723,631,Inferior olivary complex,left
+196,2799,2422,1246,727,650,Medulla,left
+195,2806,2404,1246,728,647,Inferior olivary complex,left
+195,2704,2164,1253,713,587,Inferior olivary complex,left
+195,2776,2307,1248,723,623,Medulla,left
+195,2788,2367,1247,725,638,Inferior olivary complex,left
+195,2819,2439,1246,732,655,Medulla,left
+197,2693,2089,1258,714,567,Nucleus raphe pallidus,right
+197,2798,2357,1247,728,635,Inferior olivary complex,left
+197,2814,2377,1246,731,640,Inferior olivary complex,left
+199,2217,1528,1260,609,436,"Medullary reticular nucleus, dorsal part",right
+199,2769,2122,1253,729,575,Nucleus raphe pallidus,left
+199,2130,1602,1261,586,451,"Medullary reticular nucleus, dorsal part",right
+199,2525,2801,1239,663,719,Parvicellular reticular nucleus,left
+199,2619,2153,1252,693,583,Inferior olivary complex,left
+199,2706,2174,1251,712,589,Inferior olivary complex,left
+199,2726,2120,1254,719,575,Medulla,left
+199,2772,2412,1245,720,647,Medulla,left
+198,2488,1639,1264,675,463,"Medullary reticular nucleus, ventral part",right
+198,2648,2217,1250,698,598,Inferior olivary complex,left
+198,1914,2473,1259,517,649,Parasolitary nucleus,left
+198,1984,1658,1271,548,462,"Medullary reticular nucleus, dorsal part",right
+198,1995,1731,1270,548,479,Medulla,right
+198,2714,2137,1254,716,579,Inferior olivary complex,left
+198,2717,2161,1253,715,585,Medulla,left
+198,2740,2329,1247,714,628,Inferior olivary complex,left
+198,2800,2380,1246,727,641,Inferior olivary complex,left
+198,2242,1562,1259,614,443,"Medullary reticular nucleus, dorsal part",right
+201,2677,2115,1254,707,573,Inferior olivary complex,left
+201,2725,2136,1253,718,579,Medulla,left
+201,2388,2752,1238,633,708,Parvicellular reticular nucleus,left
+201,2718,2125,1254,717,576,Medulla,left
+201,1886,2506,1259,510,654,Cuneate nucleus,left
+201,1906,2474,1259,515,648,Parasolitary nucleus,left
+201,2778,2340,1246,723,631,Inferior olivary complex,left
+201,1879,2470,1260,509,647,Cuneate nucleus,left
+201,2747,2174,1251,721,589,Medulla,left
+201,2756,2357,1246,717,634,Inferior olivary complex,left
+201,2803,2398,1245,728,646,Inferior olivary complex,left
+200,2690,2127,1254,710,576,Inferior olivary complex,left
+200,1885,1873,1278,519,511,Cuneate nucleus,right
+200,2696,2117,1254,712,573,Nucleus raphe pallidus,left
+200,2743,2117,1254,723,574,Nucleus raphe pallidus,left
+200,2195,2702,1242,585,697,"Medullary reticular nucleus, dorsal part",left
+200,2708,2108,1254,716,572,Nucleus raphe pallidus,left
+200,2721,2088,1255,719,567,Nucleus raphe pallidus,right
+200,2723,2100,1255,719,570,Nucleus raphe pallidus,right
+202,2732,2133,1252,719,578,Medulla,left
+202,2771,2356,1245,720,634,Inferior olivary complex,left
+202,1898,2477,1258,514,648,Parasolitary nucleus,left
+202,2568,2838,1238,673,727,Parvicellular reticular nucleus,left
+202,2723,2173,1250,716,589,Medulla,left
+202,2794,2330,1245,727,629,Inferior olivary complex,left
+202,2815,2377,1244,731,640,Inferior olivary complex,left
+202,1935,2525,1255,522,658,Parasolitary nucleus,left
+202,2229,1572,1258,611,446,"Medullary reticular nucleus, dorsal part",right
+202,2656,2719,1242,695,705,"Lateral reticular nucleus, magnocellular part",left
+203,2800,2378,1243,727,641,Inferior olivary complex,left
+203,1951,1747,1272,537,482,Cuneate nucleus,right
+203,2655,2741,1241,694,708,"Lateral reticular nucleus, magnocellular part",left
+203,2669,2131,1252,705,577,Inferior olivary complex,left
+203,2672,2122,1252,706,574,Inferior olivary complex,left
+203,1873,2470,1259,508,647,Cuneate nucleus,left
+204,1971,1674,1271,544,466,Medulla,right
+204,1971,1857,1271,538,507,Nucleus of the solitary tract,right
+204,2704,2114,1252,714,573,Nucleus raphe pallidus,left
+204,2748,2163,1249,722,586,Medulla,left
+204,2820,2408,1242,732,648,Inferior olivary complex,left
+204,1942,2559,1254,524,665,Parasolitary nucleus,left
+204,1972,1710,1270,543,474,Medulla,right
+204,2817,2370,1243,731,639,Inferior olivary complex,left
+205,1858,2492,1259,504,651,Cuneate nucleus,left
+205,1984,1644,1269,549,460,"Medullary reticular nucleus, dorsal part",right
+205,1988,1773,1269,545,489,Medulla,right
+205,2199,1523,1260,605,435,"Medullary reticular nucleus, dorsal part",right
+205,2710,2161,1250,713,585,Inferior olivary complex,left
+205,2757,2319,1244,717,625,Inferior olivary complex,left
+205,1874,2438,1260,508,641,Parasolitary nucleus,left
+205,1994,1761,1269,547,486,Medulla,right
+205,2533,2600,1240,669,678,Intermediate reticular nucleus,left
+205,2673,2742,1241,699,709,"Lateral reticular nucleus, magnocellular part",left
+205,2679,2179,1249,705,589,Inferior olivary complex,left
+207,2697,2120,1250,711,574,Inferior olivary complex,left
+207,1833,1911,1278,509,518,Gracile nucleus,right
+207,2545,2820,1236,667,722,Parvicellular reticular nucleus,left
+207,2708,2173,1247,711,588,Inferior olivary complex,left
+207,2755,2330,1243,716,627,Inferior olivary complex,left
+207,1916,2518,1254,517,656,Parasolitary nucleus,left
+208,2720,2092,1252,717,566,Nucleus raphe pallidus,right
+208,1887,1861,1275,519,508,Cuneate nucleus,right
+208,2713,2123,1250,715,575,Medulla,left
+208,2358,2770,1235,625,711,Parvicellular reticular nucleus,left
+208,2753,2492,1242,717,663,Medulla,left
+208,2514,2839,1235,660,726,Parvicellular reticular nucleus,left
+208,2791,2332,1242,725,628,Inferior olivary complex,left
+208,1837,1910,1278,509,518,Gracile nucleus,right
+208,1911,2507,1255,516,653,Parasolitary nucleus,left
+206,2252,1952,1256,604,533,"Medullary reticular nucleus, ventral part",right
+206,2734,2105,1252,720,570,Nucleus raphe pallidus,right
+206,2682,2184,1248,705,590,Inferior olivary complex,left
+206,2788,2405,1242,724,646,Medulla,left
+206,2799,2389,1242,727,643,Inferior olivary complex,left
+210,1890,2510,1255,511,654,Parasolitary nucleus,left
+210,2743,2164,1247,719,586,Medulla,left
+210,1880,2467,1257,509,645,Parasolitary nucleus,left
+210,2560,2865,1234,670,732,Parvicellular reticular nucleus,left
+210,2762,2319,1242,718,625,Inferior olivary complex,left
+210,2770,2362,1241,719,635,Inferior olivary complex,left
+210,2788,2337,1241,725,629,Inferior olivary complex,left
+210,2799,2399,1241,727,645,Inferior olivary complex,left
+210,2801,2383,1241,727,641,Inferior olivary complex,left
+210,2805,2392,1240,728,643,Inferior olivary complex,left
+210,1942,2576,1252,524,668,Medulla,left
+210,2807,2418,1240,728,649,Medulla,left
+209,2672,2136,1250,704,578,Inferior olivary complex,left
+209,1881,2454,1257,509,643,Parasolitary nucleus,left
+209,2593,2141,1249,687,578,Inferior olivary complex,left
+209,2707,2160,1248,711,584,Inferior olivary complex,left
+209,2708,2283,1244,707,615,Inferior olivary complex,left
+209,2778,2395,1242,722,643,Medulla,left
+209,2797,2359,1242,726,636,Inferior olivary complex,left
+209,2529,1903,1258,677,523,Medulla,right
+211,2735,2169,1246,717,587,Medulla,left
+211,2695,2141,1247,709,579,Inferior olivary complex,left
+211,1913,2519,1253,517,656,Parasolitary nucleus,left
+211,2652,2151,1247,699,581,Inferior olivary complex,left
+211,2715,2132,1248,714,576,Inferior olivary complex,left
+211,2767,2352,1241,718,632,Inferior olivary complex,left
+211,2798,2374,1240,727,639,Inferior olivary complex,left
+211,2788,2346,1240,724,632,Inferior olivary complex,left
+211,2814,2473,1239,732,661,Medulla,left
+212,1969,1700,1268,544,473,Medulla,right
+212,2250,1457,1260,618,422,"Medullary reticular nucleus, dorsal part",right
+212,2404,1457,1263,657,424,"Medullary reticular nucleus, dorsal part",right
+212,2680,2143,1247,705,580,Inferior olivary complex,left
+212,2699,2135,1248,710,577,Inferior olivary complex,left
+212,2769,2326,1241,720,626,Inferior olivary complex,left
+212,1868,2691,1253,505,691,Cuneate nucleus,left
+212,2819,2421,1239,732,649,Inferior olivary complex,left
+212,1850,2422,1259,503,636,Parasolitary nucleus,left
+212,2212,1562,1257,607,444,"Medullary reticular nucleus, dorsal part",right
+212,2707,2200,1245,709,594,Inferior olivary complex,left
+212,2715,2175,1246,712,588,Inferior olivary complex,left
+212,2721,2170,1246,713,587,Inferior olivary complex,left
+212,2824,2348,1240,733,633,Medulla,left
+213,2698,2110,1249,711,571,Nucleus raphe pallidus,left
+213,1892,2497,1255,511,650,Parasolitary nucleus,left
+213,1912,2596,1252,516,671,Cuneate nucleus,left
+213,2669,2132,1248,704,576,Inferior olivary complex,left
+213,2676,2139,1247,705,579,Inferior olivary complex,left
+216,1961,1859,1268,536,509,Nucleus of the solitary tract,right
+216,2648,2144,1245,698,579,Inferior olivary complex,left
+216,2680,2138,1246,705,578,Inferior olivary complex,left
+216,2718,2176,1244,712,587,Inferior olivary complex,left
+214,2519,2864,1233,660,731,Parvicellular reticular nucleus,left
+214,2637,2531,1239,691,666,"Lateral reticular nucleus, magnocellular part",left
+214,2681,2751,1237,699,710,"Lateral reticular nucleus, magnocellular part",left
+214,2710,2140,1246,712,579,Inferior olivary complex,left
+214,2780,2381,1239,722,639,Inferior olivary complex,left
+214,2814,2359,1239,731,635,Inferior olivary complex,left
+214,2830,2425,1238,735,651,Medulla,left
+214,1952,1764,1269,537,488,Cuneate nucleus,right
+214,2509,2848,1233,658,728,Parvicellular reticular nucleus,left
+214,2570,2632,1237,676,683,Intermediate reticular nucleus,left
+214,2712,2256,1242,707,608,Inferior olivary complex,left
+214,2732,2310,1241,711,621,Inferior olivary complex,left
+214,2745,2139,1246,720,579,Medulla,left
+215,2716,2115,1247,714,572,Nucleus raphe pallidus,left
+218,2797,2399,1237,725,644,Medulla,left
+218,1953,1758,1267,538,487,Medulla,right
+218,2717,2128,1245,713,576,Inferior olivary complex,left
+218,1952,2600,1248,526,672,Nucleus of the solitary tract,left
+218,2654,2155,1244,699,582,Inferior olivary complex,left
+218,2683,2130,1245,706,576,Inferior olivary complex,left
+218,2741,2115,1245,719,572,Nucleus raphe pallidus,left
+218,2794,2370,1238,725,637,Inferior olivary complex,left
+218,2844,2376,1236,738,639,Medulla,left
+220,2803,2391,1236,728,642,Inferior olivary complex,left
+220,2688,2134,1244,707,577,Inferior olivary complex,left
+220,2426,2834,1230,639,724,Parvicellular reticular nucleus,left
+220,1899,2554,1250,513,661,Parasolitary nucleus,left
+220,2123,1722,1257,581,480,"Medullary reticular nucleus, dorsal part",right
+220,1903,2569,1250,514,665,Parasolitary nucleus,left
+220,1911,2596,1249,516,670,Parasolitary nucleus,left
+220,2421,2102,1245,643,568,Nucleus raphe obscurus,right
+220,2682,2114,1245,705,572,Medulla,left
+220,2744,2140,1243,719,578,Medulla,left
+217,2752,2152,1245,720,581,Medulla,left
+217,2510,1912,1254,672,525,Medulla,right
+217,2611,2169,1244,688,585,Inferior olivary complex,left
+217,2609,2569,1238,686,673,"Lateral reticular nucleus, magnocellular part",left
+217,2638,2534,1238,692,667,"Lateral reticular nucleus, magnocellular part",left
+217,2658,2104,1247,702,569,Nucleus raphe pallidus,right
+217,2716,2160,1244,712,584,Inferior olivary complex,left
+217,2719,2110,1247,715,571,Nucleus raphe pallidus,left
+217,2828,2386,1237,734,641,Inferior olivary complex,left
+217,1863,2514,1254,505,654,Cuneate nucleus,left
+217,2212,1528,1257,607,438,"Medullary reticular nucleus, dorsal part",right
+217,2677,2253,1241,700,607,Inferior olivary complex,left
+219,2787,2363,1237,723,635,Inferior olivary complex,left
+219,1925,2565,1249,519,664,Parasolitary nucleus,left
+219,2697,2135,1244,708,577,Inferior olivary complex,left
+219,1936,2567,1248,522,664,Nucleus of the solitary tract,left
+221,2714,2108,1245,713,570,Nucleus raphe pallidus,right
+221,2739,2130,1244,718,576,Medulla,left
+221,2718,2140,1244,713,578,Inferior olivary complex,left
+221,2817,2395,1236,730,643,Inferior olivary complex,left
+221,2719,2215,1240,710,597,Inferior olivary complex,left
+222,2673,2119,1244,704,573,Inferior olivary complex,left
+222,2715,2153,1242,711,582,Inferior olivary complex,left
+222,2731,2117,1244,716,572,Nucleus raphe pallidus,left
+222,2645,2107,1245,698,569,Nucleus raphe pallidus,right
+222,2707,2196,1240,707,592,Inferior olivary complex,left
+222,2754,2095,1244,722,567,Nucleus raphe pallidus,right
+222,1864,2472,1253,505,644,Parasolitary nucleus,left
+222,1901,2591,1249,513,668,Parasolitary nucleus,left
+223,2628,2742,1233,687,706,Intermediate reticular nucleus,left
+223,2685,2154,1241,704,581,Inferior olivary complex,left
+224,2702,2128,1242,708,575,Inferior olivary complex,left
+224,2684,2140,1242,705,578,Inferior olivary complex,left
+225,2439,2734,1231,643,703,Parvicellular reticular nucleus,left
+225,2720,2159,1241,712,583,Inferior olivary complex,left
+225,1830,2549,1253,496,660,Cuneate nucleus,left
+225,1900,2548,1249,513,660,Parasolitary nucleus,left
+225,2736,2421,1236,711,646,Medulla,left
+225,2786,2462,1235,723,656,Medulla,left
+225,2797,2469,1235,726,659,Medulla,left
+225,2832,2353,1234,734,634,Medulla,left
+225,2728,2909,1226,708,744,rubrospinal tract,left
+226,2660,2136,1241,699,576,Inferior olivary complex,left
+226,2569,2579,1233,676,672,"Lateral reticular nucleus, magnocellular part",left
+226,2723,2173,1239,712,587,Inferior olivary complex,left
+226,2792,2521,1234,726,669,Medulla,left
+226,2684,2122,1242,705,572,Medulla,left
+227,2707,2418,1234,704,645,Medulla,left
+227,2324,2826,1229,614,721,Parvicellular reticular nucleus,left
+227,1886,2527,1248,509,654,Parasolitary nucleus,left
+227,2610,2861,1228,679,730,"Lateral reticular nucleus, magnocellular part",left
+227,2672,2290,1235,696,614,Medulla,left
+227,2675,2104,1242,704,569,Nucleus raphe pallidus,right
+228,2038,1561,1261,566,443,"Medullary reticular nucleus, dorsal part",right
+228,1881,2569,1248,508,663,Parasolitary nucleus,left
+228,2545,2847,1228,665,726,Parvicellular reticular nucleus,left
+228,2688,2151,1240,705,580,Inferior olivary complex,left
+228,2804,2481,1233,729,661,Medulla,left
+228,2772,2285,1235,719,615,Medulla,left
+230,2652,2145,1239,696,578,Inferior olivary complex,left
+230,1832,2558,1250,496,661,Cuneate nucleus,left
+230,1880,2523,1248,508,654,Parasolitary nucleus,left
+230,2681,2105,1241,704,568,Nucleus raphe pallidus,right
+230,1960,2631,1243,528,677,Nucleus of the solitary tract,left
+230,1999,1628,1262,554,459,"Medullary reticular nucleus, dorsal part",right
+230,2525,1876,1250,675,516,Medulla,right
+230,2749,2214,1236,715,597,Medulla,left
+230,2780,2325,1233,721,625,Inferior olivary complex,left
+229,2673,2149,1240,702,580,Inferior olivary complex,left
+229,1854,2463,1251,503,642,Parasolitary nucleus,left
+229,2630,2855,1228,684,730,"Lateral reticular nucleus, magnocellular part",left
+229,2697,2317,1235,701,620,Medulla,left
+229,1870,2566,1248,505,662,Cuneate nucleus,left
+229,2671,2119,1241,702,572,Inferior olivary complex,left
+232,2646,2168,1237,694,584,Inferior olivary complex,left
+232,1958,2609,1242,528,672,Nucleus of the solitary tract,left
+232,1963,1761,1262,541,488,Nucleus of the solitary tract,right
+233,1951,1695,1264,540,473,Medulla,right
+233,2686,2340,1233,699,626,Medulla,left
+233,2529,1876,1249,676,516,Medulla,right
+233,2605,2184,1236,684,587,Inferior olivary complex,left
+233,2686,2156,1238,703,581,Inferior olivary complex,left
+233,2712,2324,1233,704,623,Medulla,left
+233,2715,2387,1233,705,637,Medulla,left
+233,2730,2227,1235,710,599,Inferior olivary complex,left
+234,2452,1991,1244,653,543,Medulla,right
+234,2738,2416,1232,711,644,Medulla,left
+234,2739,2249,1233,712,605,Inferior olivary complex,left
+234,2802,2477,1230,727,659,Medulla,left
+234,1833,2545,1248,497,657,Cuneate nucleus,left
+234,1911,1667,1267,530,467,Medulla,right
+234,2776,2346,1232,719,629,Inferior olivary complex,left
+235,2688,2134,1237,704,575,Inferior olivary complex,left
+235,2431,1413,1260,663,418,"Medullary reticular nucleus, dorsal part",right
+235,2799,2531,1229,728,670,Medulla,left
+235,2747,2111,1237,717,569,Nucleus raphe pallidus,right
+235,2856,2364,1228,740,635,Medulla,left
+236,1682,1583,1284,485,453,External cuneate nucleus,right
+236,2785,2349,1231,721,631,Inferior olivary complex,left
+236,1844,2530,1247,499,654,Cuneate nucleus,left
+236,2670,2872,1223,692,733,"Lateral reticular nucleus, magnocellular part",left
+236,2818,2341,1230,730,629,Medulla,left
+236,2653,2151,1236,696,579,Inferior olivary complex,left
+237,1951,1755,1262,537,487,Nucleus of the solitary tract,right
+237,1823,2546,1248,495,657,Cuneate nucleus,left
+237,1871,2568,1245,505,662,Parasolitary nucleus,left
+237,2691,2064,1240,707,558,Inferior olivary complex,right
+237,2725,2514,1231,710,664,Medulla,left
+237,1863,1829,1268,515,502,Cuneate nucleus,right
+237,1994,1830,1259,546,503,Nucleus of the solitary tract,right
+237,2099,1531,1256,581,438,"Medullary reticular nucleus, dorsal part",right
+237,2734,2286,1232,710,614,Inferior olivary complex,left
+237,2762,2463,1231,717,655,Medulla,left
+237,1865,2506,1247,504,649,Parasolitary nucleus,left
+238,2425,1932,1245,648,530,"Medullary reticular nucleus, ventral part",right
+238,2659,2153,1235,697,580,Inferior olivary complex,left
+238,2676,2150,1235,700,579,Inferior olivary complex,left
+238,1870,2670,1243,504,684,Cuneate nucleus,left
+238,1918,2639,1241,517,677,Parasolitary nucleus,left
+238,2702,2117,1237,707,570,Nucleus raphe pallidus,right
+238,2771,2341,1230,718,628,Inferior olivary complex,left
+243,2671,2177,1232,697,585,Inferior olivary complex,left
+243,2784,2363,1227,721,633,Inferior olivary complex,left
+243,2712,2763,1223,703,712,"Lateral reticular nucleus, magnocellular part",left
+243,1874,2542,1242,506,655,Parasolitary nucleus,left
+243,1924,1605,1264,536,454,Medulla,right
+243,2777,2313,1228,718,621,Inferior olivary complex,left
+243,1889,2572,1241,509,661,Parasolitary nucleus,left
+243,2754,2323,1228,713,623,Inferior olivary complex,left
+243,2765,2304,1228,716,619,Inferior olivary complex,left
+239,2487,2119,1236,657,571,Nucleus raphe obscurus,left
+241,1817,2506,1248,494,649,Cuneate nucleus,left
+241,1830,2486,1248,497,645,Medulla,left
+241,1873,2666,1242,505,682,Cuneate nucleus,left
+241,1947,2662,1239,524,682,Nucleus of the solitary tract,left
+241,2101,1528,1255,581,438,"Medullary reticular nucleus, dorsal part",right
+241,2660,2149,1234,697,579,Inferior olivary complex,left
+241,2662,2280,1231,693,610,Medulla,left
+241,2677,2146,1235,700,578,Inferior olivary complex,left
+241,2702,2114,1236,706,570,Nucleus raphe pallidus,right
+241,2736,2262,1231,709,607,Inferior olivary complex,left
+241,1911,2652,1241,514,679,Cuneate nucleus,left
+241,2597,2903,1221,674,739,Parvicellular reticular nucleus,left
+241,2709,2248,1231,704,604,Inferior olivary complex,left
+241,2749,2315,1230,713,621,Inferior olivary complex,left
+241,2754,2175,1233,716,586,Medulla,left
+241,2762,2342,1229,715,627,Inferior olivary complex,left
+241,2789,2318,1229,722,623,Inferior olivary complex,left
+242,1950,1650,1262,541,464,Medulla,right
+242,2488,2114,1236,659,570,Nucleus raphe obscurus,right
+242,2681,2057,1238,705,555,Inferior olivary complex,right
+242,2243,2759,1227,594,706,Parvicellular reticular nucleus,left
+242,2406,1453,1256,657,427,"Medullary reticular nucleus, dorsal part",right
+242,2434,2120,1236,645,571,Nucleus raphe obscurus,left
+242,2641,2121,1235,693,571,Inferior olivary complex,left
+242,2666,2340,1229,693,624,Medulla,left
+242,2702,2330,1229,701,623,Medulla,left
+242,2714,2904,1219,702,741,"Lateral reticular nucleus, magnocellular part",left
+242,2766,2267,1229,716,609,Inferior olivary complex,left
+242,1816,2522,1247,493,652,Cuneate nucleus,left
+242,1822,2540,1246,494,655,Cuneate nucleus,left
+242,2758,2272,1229,715,610,Inferior olivary complex,left
+242,2804,2405,1227,727,643,Inferior olivary complex,left
+244,2797,2365,1227,723,634,Inferior olivary complex,left
+244,1902,2592,1240,512,666,Parasolitary nucleus,left
+244,2505,1896,1244,669,521,Medulla,right
+244,2772,2344,1228,717,628,Inferior olivary complex,left
+244,1843,2508,1245,500,649,Parasolitary nucleus,left
+244,1892,2679,1240,508,686,Cuneate nucleus,left
+244,2811,2568,1225,731,677,Medulla,left
+245,2055,1586,1255,569,450,"Medullary reticular nucleus, dorsal part",right
+245,2592,2435,1227,678,642,Gigantocellular reticular nucleus,left
+245,2828,2369,1226,733,635,Inferior olivary complex,left
+245,1814,2602,1245,491,668,Cuneate nucleus,left
+245,1875,2653,1241,505,680,Cuneate nucleus,left
+245,1935,1691,1261,536,473,Medulla,right
+245,2463,2101,1236,653,567,Nucleus raphe obscurus,right
+245,2658,2164,1232,695,582,Inferior olivary complex,left
+245,2736,2428,1228,710,646,Medulla,left
+245,2781,2320,1228,719,623,Inferior olivary complex,left
+245,2774,2336,1228,718,626,Inferior olivary complex,left
+246,2386,1954,1241,637,535,"Medullary reticular nucleus, ventral part",right
+246,2686,2093,1234,703,565,Inferior olivary complex,right
+246,2693,2123,1233,704,572,Medulla,left
+246,1864,2633,1241,502,675,Cuneate nucleus,left
+246,1910,1628,1264,531,460,Medulla,right
+246,1924,1661,1262,534,467,Medulla,right
+246,2785,2335,1227,720,626,Inferior olivary complex,left
+246,2432,2811,1222,639,717,Parvicellular reticular nucleus,left
+246,2700,2325,1228,701,621,Medulla,left
+248,1819,2586,1243,493,664,Cuneate nucleus,left
+248,1863,2636,1240,502,675,Cuneate nucleus,left
+248,2594,2429,1226,679,641,Gigantocellular reticular nucleus,left
+248,2654,2176,1230,693,584,Inferior olivary complex,left
+248,2723,2222,1228,707,596,Inferior olivary complex,left
+249,2663,2049,1236,701,554,Inferior olivary complex,right
+249,1879,1626,1266,524,459,Medulla,right
+249,1909,1606,1264,532,455,Medulla,right
+249,1939,1712,1259,536,478,Medulla,right
+249,2015,2419,1238,538,632,Nucleus of the solitary tract,left
+249,2462,2105,1234,651,567,Nucleus raphe obscurus,right
+249,2661,2155,1231,695,579,Inferior olivary complex,left
+249,2755,2310,1227,713,619,Inferior olivary complex,left
+249,2796,2324,1226,723,624,Inferior olivary complex,left
+251,1810,2573,1242,491,662,Cuneate nucleus,left
+251,2502,2871,1218,653,730,Parvicellular reticular nucleus,left
+251,2582,1531,1254,694,441,"Lateral reticular nucleus, magnocellular part",right
+251,2591,1398,1258,698,411,"Lateral reticular nucleus, magnocellular part",right
+250,2705,2177,1229,704,585,Inferior olivary complex,left
+250,2764,2292,1226,715,614,Inferior olivary complex,left
+250,2818,2351,1224,729,630,Inferior olivary complex,left
+250,2758,2280,1226,714,612,Inferior olivary complex,left
+250,2816,2332,1224,728,625,Medulla,left
+252,2283,1495,1250,626,435,"Medullary reticular nucleus, dorsal part",right
+252,2799,2395,1223,725,640,Inferior olivary complex,left
+252,1840,1787,1264,510,494,Cuneate nucleus,right
+252,1840,2627,1240,496,672,Cuneate nucleus,left
+252,2705,2891,1215,699,737,"Lateral reticular nucleus, magnocellular part",left
+253,2680,2152,1229,699,578,Inferior olivary complex,left
+253,1858,1576,1267,520,449,Medulla,right
+253,1880,2602,1238,506,667,Parasolitary nucleus,left
+253,2427,2730,1221,638,700,Intermediate reticular nucleus,left
+253,1874,2670,1237,504,682,Cuneate nucleus,left
+253,2664,2285,1226,693,610,Medulla,left
+253,2764,2316,1225,715,620,Inferior olivary complex,left
+255,2763,1615,1244,734,455,Medulla,right
+255,1885,1610,1263,525,456,Medulla,right
+254,1887,2712,1236,506,691,Cuneate nucleus,left
+254,1881,2631,1237,506,673,Parasolitary nucleus,left
+254,2785,2305,1223,719,618,Inferior olivary complex,left
+254,2823,2368,1222,731,634,Inferior olivary complex,left
+254,1818,2632,1240,491,673,Cuneate nucleus,left
+254,2386,2130,1232,631,572,Medulla,left
+254,2798,2359,1223,724,631,Inferior olivary complex,left
+254,2815,2328,1222,727,625,Medulla,left
+257,2688,2183,1226,699,586,Inferior olivary complex,left
+257,2673,2766,1218,694,710,"Paragigantocellular reticular nucleus, lateral part",left
+257,1806,2561,1242,490,658,Cuneate nucleus,left
+257,1839,1805,1262,510,498,Cuneate nucleus,right
+257,1914,1673,1259,531,471,Medulla,right
+257,2687,2302,1224,697,614,Medulla,left
+257,2781,2307,1223,718,618,Inferior olivary complex,left
+257,2812,2656,1218,730,693,Medulla,left
+257,2854,2550,1217,742,673,Medulla,left
+257,2811,2346,1222,726,628,Inferior olivary complex,left
+256,2704,2221,1225,702,595,Inferior olivary complex,left
+256,2423,2729,1220,638,700,Intermediate reticular nucleus,left
+258,1820,2624,1238,492,672,Cuneate nucleus,left
+258,2212,1522,1248,606,439,"Medullary reticular nucleus, dorsal part",right
+258,1888,2596,1235,508,665,Parasolitary nucleus,left
+258,2697,2938,1211,696,747,"Lateral reticular nucleus, magnocellular part",left
+259,2381,2129,1230,630,572,Medulla,left
+259,2044,2626,1229,547,674,Nucleus of the solitary tract,left
+259,2720,2761,1215,704,710,"Paragigantocellular reticular nucleus, lateral part",left
+259,1898,2621,1234,511,671,Parasolitary nucleus,left
+259,2392,2831,1217,628,720,Parvicellular reticular nucleus,left
+259,2656,2204,1224,691,590,Inferior olivary complex,left
+259,2667,2201,1224,693,589,Inferior olivary complex,left
+259,2682,2241,1223,696,599,Inferior olivary complex,left
+259,2702,2863,1212,698,731,"Lateral reticular nucleus, magnocellular part",left
+259,2714,2257,1223,703,604,Inferior olivary complex,left
+259,2790,2343,1221,721,627,Inferior olivary complex,left
+259,2726,2722,1217,707,702,"Lateral reticular nucleus, magnocellular part",left
+261,1873,2603,1235,505,667,Parasolitary nucleus,left
+261,1878,2615,1235,506,669,Parasolitary nucleus,left
+261,2623,2174,1225,686,583,Inferior olivary complex,left
+261,2648,2071,1230,695,558,Inferior olivary complex,right
+261,2741,2116,1227,712,569,Nucleus raphe pallidus,right
+261,2777,2336,1221,717,624,Inferior olivary complex,left
+261,1843,2549,1238,498,655,Parasolitary nucleus,left
+260,1924,1652,1257,534,465,Medulla,right
+260,2733,1612,1244,726,454,"Lateral reticular nucleus, magnocellular part",right
+260,1883,2662,1234,506,679,Cuneate nucleus,left
+263,2672,2159,1224,695,580,Inferior olivary complex,left
+263,1817,1844,1261,503,506,Parasolitary nucleus,right
+263,1887,1633,1259,524,462,Medulla,right
+263,1819,2577,1237,493,660,Cuneate nucleus,left
+263,2704,2953,1207,699,750,"Lateral reticular nucleus, parvicellular part",left
+263,2745,2259,1221,709,605,Inferior olivary complex,left
+263,1840,2527,1237,498,650,Parasolitary nucleus,left
+263,2655,2184,1223,691,585,Inferior olivary complex,left
+262,2686,2165,1225,698,581,Inferior olivary complex,left
+262,1861,2672,1234,500,681,Cuneate nucleus,left
+262,1884,2654,1233,506,678,Cuneate nucleus,left
+265,1885,2589,1233,507,664,Parasolitary nucleus,left
+265,1936,1680,1255,535,472,Medulla,right
+265,1840,2598,1235,496,666,Cuneate nucleus,left
+265,2606,2175,1223,681,583,Inferior olivary complex,left
+265,2607,2406,1220,679,634,Gigantocellular reticular nucleus,left
+265,2679,2302,1221,695,613,Medulla,left
+265,2705,2869,1210,699,732,rubrospinal tract,left
+265,2747,2259,1221,709,605,Inferior olivary complex,left
+265,1832,2652,1235,493,677,Cuneate nucleus,left
+264,1920,2619,1231,515,670,Nucleus of the solitary tract,left
+264,2026,1731,1248,556,483,"Medullary reticular nucleus, dorsal part",right
+264,2203,1435,1248,606,421,"Medullary reticular nucleus, dorsal part",right
+264,1808,2587,1238,490,663,Cuneate nucleus,left
+266,2655,2893,1209,686,736,"Lateral reticular nucleus, magnocellular part",left
+266,2657,2185,1222,691,585,Inferior olivary complex,left
+266,2686,2130,1224,699,572,Inferior olivary complex,left
+266,1844,2629,1234,497,672,Cuneate nucleus,left
+266,1884,2703,1231,506,689,Cuneate nucleus,left
+266,2662,2839,1211,688,725,"Lateral reticular nucleus, magnocellular part",left
+266,2701,2909,1208,697,740,"Lateral reticular nucleus, magnocellular part",left
+266,2712,2165,1223,703,581,Inferior olivary complex,left
+267,2409,1240,1253,657,380,"Spinal nucleus of the trigeminal, caudal part",right
+267,1906,2659,1230,511,679,Parasolitary nucleus,left
+267,2533,1378,1252,684,409,"Medullary reticular nucleus, dorsal part",right
+267,2657,2173,1222,691,583,Inferior olivary complex,left
+267,2687,2663,1215,698,689,"Lateral reticular nucleus, magnocellular part",left
+268,2682,2157,1222,697,578,Inferior olivary complex,left
+268,1997,2418,1232,532,630,Nucleus of the solitary tract,left
+268,2621,2877,1210,678,731,"Lateral reticular nucleus, magnocellular part",left
+268,1918,1690,1254,531,474,Nucleus of the solitary tract,right
+268,2233,2042,1235,596,551,Medulla,right
+268,2665,2168,1222,693,582,Inferior olivary complex,left
+268,2743,2352,1218,709,626,Inferior olivary complex,left
+271,1814,1842,1257,503,505,Parasolitary nucleus,right
+271,2726,2337,1217,704,622,Inferior olivary complex,left
+269,2587,2199,1221,676,588,crossed tectospinal pathway,left
+269,2699,2141,1223,702,575,Inferior olivary complex,left
+269,2758,1499,1243,735,429,ventral spinocerebellar tract,right
+269,2616,2195,1221,682,587,Inferior olivary complex,left
+269,2691,2180,1222,698,584,Inferior olivary complex,left
+269,1826,2533,1236,495,652,Parasolitary nucleus,left
+270,1843,2694,1231,496,687,Cuneate nucleus,left
+270,1877,2631,1231,504,672,Parasolitary nucleus,left
+270,2600,2656,1215,679,685,"Lateral reticular nucleus, magnocellular part",left
+270,2809,2351,1216,725,628,Inferior olivary complex,left
+270,1825,2533,1236,495,652,Parasolitary nucleus,left
+270,2136,1469,1247,589,428,"Medullary reticular nucleus, dorsal part",right
+270,2712,2145,1222,703,576,Inferior olivary complex,left
+270,2714,2237,1219,702,598,Inferior olivary complex,left
+270,2755,2696,1212,714,698,"Paragigantocellular reticular nucleus, lateral part",left
+273,1820,2537,1235,494,652,Parasolitary nucleus,left
+273,1840,1745,1257,510,486,Cuneate nucleus,right
+273,1874,2638,1230,504,674,Medulla,left
+273,1903,1649,1255,528,466,Medulla,right
+273,2367,2823,1213,621,718,Parvicellular reticular nucleus,left
+273,2655,2923,1206,686,742,"Lateral reticular nucleus, magnocellular part",left
+273,2726,2333,1217,704,622,Inferior olivary complex,left
+273,2745,2333,1217,709,622,Inferior olivary complex,left
+273,2711,2162,1220,702,580,Inferior olivary complex,left
+272,2134,1472,1246,589,428,"Medullary reticular nucleus, dorsal part",right
+274,1794,2694,1233,484,687,Cuneate nucleus,left
+274,1842,2506,1234,498,646,Parasolitary nucleus,left
+274,1846,2699,1229,495,688,Cuneate nucleus,left
+274,1894,1637,1255,525,463,Medulla,right
+274,2146,2654,1221,568,680,Parvicellular reticular nucleus,left
+274,2729,2343,1216,705,624,Inferior olivary complex,left
+274,1882,2701,1228,504,688,Cuneate nucleus,left
+275,1832,2639,1231,493,674,Spinal vestibular nucleus,left
+275,1936,1609,1252,537,457,Medulla,right
+275,2742,2355,1215,707,626,Inferior olivary complex,left
+275,2575,2154,1219,674,577,Inferior olivary complex,left
+275,2667,2167,1219,693,580,Inferior olivary complex,left
+275,2811,2315,1213,724,619,Medulla,left
+278,1844,2497,1233,499,644,Parasolitary nucleus,left
+278,1874,1595,1256,521,454,Medulla,right
+278,2699,2163,1218,700,580,Inferior olivary complex,left
+278,2721,2327,1215,702,618,Inferior olivary complex,left
+278,2744,2924,1200,708,744,"Lateral reticular nucleus, parvicellular part",left
+276,2501,2132,1221,658,572,Nucleus raphe obscurus,left
+276,2727,2252,1216,703,601,Inferior olivary complex,left
+276,2738,2364,1215,708,628,Inferior olivary complex,left
+276,2570,2130,1220,674,572,Inferior olivary complex,left
+276,2698,2177,1218,699,583,Inferior olivary complex,left
+276,1945,1612,1251,539,457,"Medullary reticular nucleus, dorsal part",right
+276,2740,2245,1216,707,600,Inferior olivary complex,left
+277,2684,2461,1215,697,647,Medulla,left
+277,2712,2305,1216,700,614,Inferior olivary complex,left
+277,2770,2312,1215,714,617,Inferior olivary complex,left
+277,2793,2316,1214,720,618,Inferior olivary complex,left
+279,1813,2465,1235,494,638,Parasolitary nucleus,left
+279,2691,2325,1214,696,617,Medulla,left
+279,2717,2202,1216,702,589,Inferior olivary complex,left
+280,1900,2642,1226,510,674,Medulla,left
+280,1903,1623,1252,528,460,Medulla,right
+280,1879,1648,1253,521,466,Medulla,right
+280,2529,2137,1219,664,573,Medulla,left
+281,2514,2120,1220,661,569,Nucleus raphe obscurus,right
+281,1802,2494,1235,491,644,Parasolitary nucleus,left
+281,2595,2299,1214,676,609,Gigantocellular reticular nucleus,left
+281,2622,2332,1214,681,617,Gigantocellular reticular nucleus,left
+281,2651,2167,1217,689,580,Inferior olivary complex,left
+281,2746,1828,1228,719,502,Medulla,right
+281,2740,2303,1214,706,614,Inferior olivary complex,left
+281,2810,2642,1206,728,688,Medulla,left
+282,1819,2442,1235,495,633,Nucleus of the solitary tract,left
+282,1844,2672,1227,496,680,Spinal vestibular nucleus,left
+282,2644,1645,1236,702,465,"Lateral reticular nucleus, magnocellular part",right
+282,2677,2405,1212,693,634,Medulla,left
+282,2682,2301,1213,693,611,Medulla,left
+282,2700,2159,1217,699,579,Inferior olivary complex,left
+282,2724,2347,1213,703,623,Inferior olivary complex,left
+283,2715,2238,1214,701,598,Inferior olivary complex,left
+283,2720,2354,1212,702,625,Inferior olivary complex,left
+283,2705,2329,1212,699,619,Inferior olivary complex,left
+283,2711,2897,1200,699,737,"Lateral reticular nucleus, parvicellular part",left
+283,2732,2232,1214,704,596,Inferior olivary complex,left
+284,1811,2658,1228,488,678,Spinal vestibular nucleus,left
+284,2701,2228,1214,698,595,Inferior olivary complex,left
+284,2831,2331,1209,728,622,Medulla,left
+285,2690,2174,1215,697,582,Inferior olivary complex,left
+285,1857,2661,1226,498,678,Spinal vestibular nucleus,left
+285,2561,2123,1217,671,570,Medulla,right
+285,1840,2716,1225,494,691,Spinal vestibular nucleus,left
+285,1921,1664,1248,530,469,Nucleus of the solitary tract,right
+285,2571,2142,1217,673,574,Inferior olivary complex,left
+285,2619,2193,1215,682,586,Inferior olivary complex,left
+285,2660,2935,1200,687,744,Medulla,left
+285,2698,1596,1235,715,453,"Lateral reticular nucleus, magnocellular part",right
+285,2721,2333,1212,702,620,Inferior olivary complex,left
+285,2724,2317,1212,703,616,Inferior olivary complex,left
+285,2746,2321,1212,707,617,Inferior olivary complex,left
+285,2747,2729,1204,709,704,"Paragigantocellular reticular nucleus, lateral part",left
+285,2785,2309,1211,717,616,Inferior olivary complex,left
+285,2689,2151,1216,697,576,Inferior olivary complex,left
+285,2727,2706,1206,705,698,"Paragigantocellular reticular nucleus, lateral part",left
+286,1846,2476,1230,499,639,Nucleus of the solitary tract,left
+286,2727,2940,1197,703,746,"Lateral reticular nucleus, parvicellular part",left
+286,2414,1385,1243,656,413,"Medullary reticular nucleus, dorsal part",right
+288,2738,2150,1214,707,577,Inferior olivary complex,left
+288,1921,1667,1247,530,469,Nucleus of the solitary tract,right
+290,1809,2466,1232,493,638,Parasolitary nucleus,left
+290,2703,2260,1211,698,602,Medulla,left
+290,2704,1595,1232,715,453,"Lateral reticular nucleus, magnocellular part",right
+290,2749,2383,1209,709,631,Inferior olivary complex,left
+289,1827,2602,1227,493,664,Spinal vestibular nucleus,left
+289,1841,2694,1224,494,686,Spinal vestibular nucleus,left
+289,2623,2192,1213,683,585,Inferior olivary complex,left
+289,2630,2146,1215,685,575,Inferior olivary complex,left
+289,2650,2168,1214,688,581,Inferior olivary complex,left
+289,2655,2164,1214,689,579,Inferior olivary complex,left
+289,2658,1414,1240,710,413,"Lateral reticular nucleus, magnocellular part",right
+289,2717,2975,1195,700,753,"Lateral reticular nucleus, parvicellular part",left
+289,2728,2347,1210,704,622,Inferior olivary complex,left
+289,2692,2193,1213,696,587,Inferior olivary complex,left
+289,2716,2365,1210,701,626,Medulla,left
+291,1876,1696,1248,517,476,Parasolitary nucleus,right
+291,2626,2929,1197,678,742,Parvicellular reticular nucleus,left
+291,2747,2246,1210,706,599,Inferior olivary complex,left
+291,2754,2214,1210,709,592,Inferior olivary complex,left
+291,1866,1747,1247,513,486,Parasolitary nucleus,right
+291,2675,2240,1210,692,597,Medulla,left
+291,2683,2433,1208,695,640,Medulla,left
+292,2647,2156,1213,687,577,Inferior olivary complex,left
+292,2709,2305,1209,699,612,Inferior olivary complex,left
+292,2710,2330,1209,699,618,Inferior olivary complex,left
+292,2502,2407,1209,654,629,Gigantocellular reticular nucleus,left
+292,2589,2152,1213,676,576,Inferior olivary complex,left
+292,2635,2155,1213,685,577,Inferior olivary complex,left
+292,2692,2319,1209,695,615,Inferior olivary complex,left
+292,2750,1504,1232,729,431,Medulla,right
+292,2718,2251,1210,701,600,Inferior olivary complex,left
+295,1858,2499,1225,502,644,Nucleus of the solitary tract,left
+293,2603,2191,1212,678,584,Inferior olivary complex,left
+293,2687,2111,1214,697,567,Inferior olivary complex,right
+293,1898,1651,1247,525,466,Nucleus of the solitary tract,right
+293,2647,1382,1240,707,405,"Lateral reticular nucleus, magnocellular part",right
+293,2673,2173,1212,693,582,Inferior olivary complex,left
+293,2732,2362,1208,704,625,Inferior olivary complex,left
+293,2763,2244,1209,711,599,Inferior olivary complex,left
+293,2670,2178,1212,692,583,Inferior olivary complex,left
+293,2742,2265,1210,705,604,Inferior olivary complex,left
+294,2634,2173,1211,685,581,Inferior olivary complex,left
+294,2678,2188,1211,693,585,Inferior olivary complex,left
+294,2431,2128,1215,640,571,Nucleus raphe obscurus,left
+294,2614,2159,1212,681,578,Inferior olivary complex,left
+294,2659,2157,1212,690,577,Inferior olivary complex,left
+294,2672,2249,1209,690,599,Medulla,left
+294,2697,2253,1209,695,600,Medulla,left
+294,2702,2353,1208,697,623,Medulla,left
+294,2709,2202,1211,699,588,Inferior olivary complex,left
+294,2638,2162,1212,686,578,Inferior olivary complex,left
+294,2654,2150,1212,689,576,Inferior olivary complex,left
+294,2681,2948,1194,691,747,"Lateral reticular nucleus, parvicellular part",left
+294,2693,2168,1211,697,581,Inferior olivary complex,left
+294,2705,2182,1211,699,583,Inferior olivary complex,left
+294,2746,2353,1207,707,624,Inferior olivary complex,left
+294,2752,2284,1208,707,608,Inferior olivary complex,left
+294,2757,2246,1209,708,599,Inferior olivary complex,left
+296,1870,2567,1223,503,656,Medulla,left
+297,2716,2130,1212,702,571,Nucleus raphe pallidus,left
+297,1796,1804,1249,498,498,Parasolitary nucleus,right
+297,2683,1680,1227,707,472,"Lateral reticular nucleus, magnocellular part",right
+297,2713,2325,1207,700,616,Inferior olivary complex,left
+297,2752,2349,1206,708,623,Inferior olivary complex,left
+297,2668,2400,1207,691,631,Gigantocellular reticular nucleus,left
+298,1781,1769,1250,495,491,Cuneate nucleus,right
+298,2659,2126,1212,691,570,Medulla,right
+298,2730,2325,1206,703,617,Inferior olivary complex,left
+298,2730,2900,1192,703,738,"Lateral reticular nucleus, parvicellular part",left
+298,2737,2388,1205,705,631,Medulla,left
+298,2631,2169,1210,683,580,Inferior olivary complex,left
+298,2694,2325,1207,695,616,Inferior olivary complex,left
+298,2759,2213,1208,709,592,Inferior olivary complex,left
+298,2767,2179,1208,711,583,Inferior olivary complex,left
+300,2707,2287,1206,697,607,Inferior olivary complex,left
+300,2739,2323,1205,705,617,Inferior olivary complex,left
+300,1769,2651,1225,481,676,Spinal vestibular nucleus,left
+300,2679,2198,1208,693,587,Inferior olivary complex,left
+300,1894,1662,1244,522,468,Nucleus of the solitary tract,right
+300,2597,2161,1210,676,577,Inferior olivary complex,left
+300,2620,2156,1210,682,576,Inferior olivary complex,left
+300,2726,2284,1206,701,607,Inferior olivary complex,left
+300,2761,2279,1206,709,607,Inferior olivary complex,left
+300,2785,2231,1206,715,596,Inferior olivary complex,left
+300,2760,2273,1206,709,606,Inferior olivary complex,left
+299,2584,2155,1210,674,576,Inferior olivary complex,left
+299,2670,2186,1209,691,583,Inferior olivary complex,left
+299,2724,2329,1205,702,617,Inferior olivary complex,left
+299,2725,2174,1209,702,582,Inferior olivary complex,left
+299,2729,2314,1206,703,614,Inferior olivary complex,left
+299,2732,2249,1207,702,599,Inferior olivary complex,left
+299,2871,2516,1196,741,661,Medulla,left
+299,2670,2199,1208,691,587,Inferior olivary complex,left
+299,2719,2215,1208,701,591,Inferior olivary complex,left
+299,2757,2227,1207,708,594,Inferior olivary complex,left
+299,2636,2248,1207,683,598,Medulla,left
+299,2733,2299,1206,704,611,Inferior olivary complex,left
+301,2651,2203,1208,687,588,Inferior olivary complex,left
+301,2744,2242,1207,706,597,Inferior olivary complex,left
+301,2763,2249,1206,710,600,Inferior olivary complex,left
+301,2635,2156,1210,685,577,Inferior olivary complex,left
+301,2651,2211,1208,686,589,Inferior olivary complex,left
+301,2686,2237,1207,693,595,Inferior olivary complex,left
+301,2727,2202,1208,702,588,Inferior olivary complex,left
+302,2672,2165,1209,691,579,Inferior olivary complex,left
+302,2627,2165,1209,682,579,Inferior olivary complex,left
+302,2651,2186,1208,687,583,Inferior olivary complex,left
+302,2656,2188,1208,688,584,Inferior olivary complex,left
+302,2677,2158,1209,693,578,Inferior olivary complex,left
+302,2693,2217,1207,695,590,Inferior olivary complex,left
+302,2712,2654,1199,700,685,"Paragigantocellular reticular nucleus, lateral part",left
+302,2723,2195,1207,702,586,Inferior olivary complex,left
+302,2715,2338,1205,699,619,Inferior olivary complex,left
+302,2777,2193,1206,713,587,Inferior olivary complex,left
+303,2645,2163,1208,686,579,Inferior olivary complex,left
+303,2799,2271,1203,718,605,Inferior olivary complex,left
+303,1792,2395,1231,491,624,Medulla,left
+303,1874,2590,1219,503,661,Medial vestibular nucleus,left
+305,2647,2154,1208,686,576,Inferior olivary complex,left
+305,2545,2140,1209,666,573,Medulla,left
+305,2612,2173,1207,679,581,Inferior olivary complex,left
+305,1806,1731,1246,500,483,Cuneate nucleus,right
+305,2625,2194,1207,681,585,Inferior olivary complex,left
+305,2634,2200,1207,683,586,Inferior olivary complex,left
+305,2677,2172,1208,692,580,Inferior olivary complex,left
+305,2702,2299,1204,696,610,Inferior olivary complex,left
+305,2738,2205,1206,705,589,Inferior olivary complex,left
+305,2744,1589,1224,723,451,"Lateral reticular nucleus, magnocellular part",right
+306,2690,2662,1197,695,685,"Paragigantocellular reticular nucleus, lateral part",left
+306,2718,2184,1206,701,584,Inferior olivary complex,left
+306,2676,2523,1201,692,657,"Lateral reticular nucleus, magnocellular part",left
+306,1827,2648,1219,492,675,Spinal vestibular nucleus,left
+306,2702,2171,1207,697,580,Inferior olivary complex,left
+306,2324,1434,1234,633,423,Parvicellular reticular nucleus,right
+304,2592,2166,1208,675,578,Inferior olivary complex,left
+304,2598,2175,1207,677,581,Inferior olivary complex,left
+304,1866,2550,1220,502,653,Medial vestibular nucleus,left
+304,2621,2161,1208,681,577,Inferior olivary complex,left
+304,2744,2171,1207,707,580,Inferior olivary complex,left
+304,2642,2159,1208,685,577,Inferior olivary complex,left
+304,2656,2172,1208,688,580,Inferior olivary complex,left
+307,2507,2130,1208,656,570,Nucleus raphe obscurus,right
+307,1811,1682,1245,501,473,Cuneate nucleus,right
+307,2579,2157,1207,673,576,Inferior olivary complex,left
+307,2617,2180,1206,679,582,Inferior olivary complex,left
+307,2683,2206,1205,693,588,Inferior olivary complex,left
+309,2253,2419,1209,593,629,Intermediate reticular nucleus,left
+309,2130,2883,1204,564,726,"Spinal nucleus of the trigeminal, interpolar part",left
+309,2439,1352,1235,660,405,Parvicellular reticular nucleus,right
+309,2617,2161,1206,680,577,Inferior olivary complex,left
+309,2650,2209,1205,686,588,Inferior olivary complex,left
+309,2695,2320,1203,695,614,Inferior olivary complex,left
+309,2758,2224,1203,709,593,Inferior olivary complex,left
+309,2795,2728,1190,719,704,Medulla,left
+309,2705,2169,1206,698,580,Inferior olivary complex,left
+308,2812,2248,1201,720,600,Inferior olivary complex,left
+308,1786,1720,1246,495,481,Cuneate nucleus,right
+308,1811,1670,1246,501,471,Cuneate nucleus,right
+308,2717,2489,1200,701,650,Medulla,left
+308,2720,2167,1206,701,579,Inferior olivary complex,left
+308,2733,2196,1205,704,586,Inferior olivary complex,left
+308,1822,2347,1230,496,613,Nucleus of the solitary tract,left
+310,2554,2931,1191,661,740,Parvicellular reticular nucleus,left
+310,2649,1645,1223,698,466,"Lateral reticular nucleus, magnocellular part",right
+310,2656,2153,1206,688,576,Inferior olivary complex,left
+310,2665,2180,1205,689,582,Inferior olivary complex,left
+310,2735,2182,1204,704,582,Inferior olivary complex,left
+310,2741,2156,1205,705,577,Inferior olivary complex,left
+310,1832,2335,1228,498,610,Nucleus of the solitary tract,left
+310,1840,2734,1215,494,694,Spinal vestibular nucleus,left
+310,2571,2123,1207,671,570,Medulla,right
+310,2582,2134,1206,673,572,Inferior olivary complex,left
+310,2636,2144,1206,684,574,Inferior olivary complex,left
+310,2635,2156,1206,684,576,Inferior olivary complex,left
+310,2678,2199,1204,692,586,Inferior olivary complex,left
+310,2692,2553,1198,695,663,"Paragigantocellular reticular nucleus, lateral part",left
+313,2616,2168,1204,679,579,Inferior olivary complex,left
+313,1770,1709,1246,492,479,Cuneate nucleus,right
+313,1830,2338,1227,498,611,Nucleus of the solitary tract,left
+313,1872,2619,1215,502,667,Spinal vestibular nucleus,left
+313,2135,2877,1203,565,724,"Spinal nucleus of the trigeminal, interpolar part",left
+313,2636,2151,1205,684,575,Inferior olivary complex,left
+313,2653,1642,1222,699,464,"Lateral reticular nucleus, magnocellular part",right
+313,2657,2149,1205,688,575,Inferior olivary complex,left
+313,2697,2317,1201,694,612,Inferior olivary complex,left
+313,2768,2208,1202,711,590,Inferior olivary complex,left
+313,2778,2219,1201,713,592,Inferior olivary complex,left
+313,2869,2524,1190,740,662,Medulla,left
+313,2761,2186,1203,709,584,Inferior olivary complex,left
+313,2832,2355,1196,726,624,Inferior olivary complex,left
+311,1774,1708,1245,493,479,Cuneate nucleus,right
+314,1827,2656,1216,492,675,Spinal vestibular nucleus,left
+314,2574,2119,1205,672,568,Medulla,right
+314,2593,2128,1205,676,571,Medulla,left
+314,2623,2184,1203,681,582,Inferior olivary complex,left
+314,2638,2140,1205,685,573,Inferior olivary complex,left
+314,2713,2214,1202,699,590,Inferior olivary complex,left
+314,2644,2167,1204,685,578,Inferior olivary complex,left
+314,2774,2193,1201,712,586,Inferior olivary complex,left
+316,2669,2174,1203,690,580,Inferior olivary complex,left
+316,2665,2207,1202,689,587,Inferior olivary complex,left
+316,1804,2697,1215,487,685,Spinal vestibular nucleus,left
+316,2791,2319,1197,715,615,Inferior olivary complex,left
+316,2838,2357,1194,728,624,Inferior olivary complex,left
+315,1867,1691,1238,512,474,Parasolitary nucleus,right
+315,2325,1428,1230,632,422,Parvicellular reticular nucleus,right
+315,2651,2180,1202,686,581,Inferior olivary complex,left
+315,2650,2208,1202,685,588,Inferior olivary complex,left
+315,2660,2189,1202,688,584,Inferior olivary complex,left
+315,2664,2138,1204,690,573,Inferior olivary complex,left
+315,2694,2209,1202,695,588,Inferior olivary complex,left
+315,2719,2258,1200,699,600,Medulla,left
+315,2830,2347,1195,725,621,Inferior olivary complex,left
+315,2685,2151,1203,694,575,Inferior olivary complex,left
+317,2648,2154,1203,687,576,Inferior olivary complex,left
+317,2659,2131,1204,689,570,Medulla,right
+317,2694,1743,1216,705,487,Medulla,right
+317,2741,2180,1202,704,582,Inferior olivary complex,left
+317,2542,1705,1221,672,481,"Lateral reticular nucleus, magnocellular part",right
+317,2542,2125,1205,664,569,Nucleus raphe obscurus,right
+317,2661,2195,1202,688,585,Inferior olivary complex,left
+317,2764,2215,1200,709,590,Inferior olivary complex,left
+318,1862,2417,1220,503,626,Nucleus of the solitary tract,left
+318,1880,2632,1212,504,669,Spinal vestibular nucleus,left
+318,2352,1463,1228,637,429,Parvicellular reticular nucleus,right
+318,2592,2166,1202,674,578,Inferior olivary complex,left
+318,2693,2151,1202,696,575,Inferior olivary complex,left
+318,2729,2248,1199,701,598,Inferior olivary complex,left
+319,2656,2150,1202,687,575,Inferior olivary complex,left
+319,2650,2167,1201,686,578,Inferior olivary complex,left
+319,2719,2223,1199,699,592,Inferior olivary complex,left
+320,1798,2612,1217,488,665,Spinal vestibular nucleus,left
+320,2380,1386,1229,645,412,Parvicellular reticular nucleus,right
+320,2655,2158,1201,687,577,Inferior olivary complex,left
+320,2695,2221,1200,694,590,Inferior olivary complex,left
+321,2767,2186,1199,710,583,Inferior olivary complex,left
+321,2627,2142,1202,682,572,Inferior olivary complex,left
+321,1892,2729,1208,505,692,Spinal vestibular nucleus,left
+321,2348,1463,1227,637,429,Parvicellular reticular nucleus,right
+321,2593,2169,1201,675,579,Inferior olivary complex,left
+321,2640,2135,1202,685,571,Inferior olivary complex,left
+321,2711,2328,1197,697,615,Inferior olivary complex,left
+321,2736,2688,1188,704,692,"Paragigantocellular reticular nucleus, lateral part",left
+321,2743,2188,1200,705,584,Inferior olivary complex,left
+321,2773,2220,1198,711,591,Inferior olivary complex,left
+321,2819,2269,1195,722,604,Medulla,left
+321,1867,2413,1219,503,626,Nucleus of the solitary tract,left
+321,2557,2234,1199,665,592,Gigantocellular reticular nucleus,left
+321,2740,2133,1201,705,571,Nucleus raphe pallidus,left
+321,2761,2211,1199,708,589,Inferior olivary complex,left
+321,2776,2191,1199,712,584,Inferior olivary complex,left
+322,1855,1715,1236,509,480,Parasolitary nucleus,right
+322,2560,2146,1201,668,573,Medulla,left
+322,2565,2132,1202,669,570,Nucleus raphe obscurus,right
+322,2729,2185,1199,702,583,Inferior olivary complex,left
+323,2696,2193,1199,694,585,Inferior olivary complex,left
+323,2767,2133,1199,711,571,Nucleus raphe pallidus,left
+323,2777,2448,1191,712,642,Medulla,left
+323,2815,2470,1189,722,647,Inferior olivary complex,left
+323,1806,2655,1213,487,675,Spinal vestibular nucleus,left
+323,1827,1711,1237,502,478,Parasolitary nucleus,right
+323,2366,2216,1202,622,587,Gigantocellular reticular nucleus,left
+323,2755,1588,1214,723,451,Medulla,right
+324,2670,2150,1200,690,575,Inferior olivary complex,left
+324,1872,2377,1219,505,618,Nucleus of the solitary tract,left
+324,2614,2476,1194,677,643,Gigantocellular reticular nucleus,left
+324,2640,2152,1200,684,574,Inferior olivary complex,left
+324,2660,2148,1200,688,575,Inferior olivary complex,left
+324,2719,2256,1197,699,598,Inferior olivary complex,left
+324,2790,2704,1183,717,697,"Paragigantocellular reticular nucleus, lateral part",left
+324,2806,2232,1195,718,594,Inferior olivary complex,left
+324,2816,2246,1194,720,597,Inferior olivary complex,left
+324,2817,2216,1195,720,590,Inferior olivary complex,left
+324,2827,2221,1194,723,592,Medulla,left
+325,2749,2177,1198,706,580,Inferior olivary complex,left
+325,2474,2142,1201,649,572,Nucleus raphe obscurus,left
+325,2622,2151,1200,680,574,Inferior olivary complex,left
+325,2681,2140,1200,693,572,Inferior olivary complex,left
+325,2742,2238,1197,703,595,Inferior olivary complex,left
+325,2786,2206,1196,713,588,Inferior olivary complex,left
+326,2837,2548,1185,728,665,Inferior olivary complex,left
+326,1858,2770,1206,498,701,Spinal vestibular nucleus,left
+326,2690,2136,1199,695,571,Nucleus raphe pallidus,left
+326,1947,2471,1211,519,636,Nucleus of the solitary tract,left
+326,2315,1387,1227,630,412,Parvicellular reticular nucleus,right
+326,2717,2166,1198,699,578,Inferior olivary complex,left
+326,2578,1869,1210,676,516,Gigantocellular reticular nucleus,right
+327,2133,1508,1226,584,436,Parvicellular reticular nucleus,right
+327,2687,2151,1198,693,574,Inferior olivary complex,left
+327,2902,2500,1180,746,656,Medulla,left
+328,2893,2516,1180,745,659,Medulla,left
+329,1796,1702,1237,496,476,Cuneate nucleus,right
+329,1909,2290,1218,514,599,Dorsal motor nucleus of the vagus nerve,left
+329,1956,2468,1209,521,636,Nucleus of the solitary tract,left
+329,2553,2212,1197,665,586,crossed tectospinal pathway,left
+329,2592,1222,1226,695,371,dorsal spinocerebellar tract,right
+329,2741,2188,1196,704,584,Inferior olivary complex,left
+329,2770,2204,1195,710,587,Inferior olivary complex,left
+329,2790,2223,1194,714,592,Inferior olivary complex,left
+329,2839,2325,1189,727,616,pyramid,left
+329,2575,1251,1225,691,378,Medulla,right
+330,1787,1691,1237,494,474,Cuneate nucleus,right
+330,2585,1866,1209,677,515,Gigantocellular reticular nucleus,right
+330,1802,1809,1234,495,497,Parasolitary nucleus,right
+330,1874,2373,1216,506,617,Nucleus of the solitary tract,left
+330,2817,2258,1191,720,600,Inferior olivary complex,left
+330,1948,2252,1216,523,591,Medulla,left
+330,2792,2610,1183,716,676,"Paragigantocellular reticular nucleus, lateral part",left
+331,1924,2802,1201,513,707,Spinal vestibular nucleus,left
+331,2620,2181,1196,679,580,Inferior olivary complex,left
+331,2823,2238,1190,722,596,Inferior olivary complex,left
+331,2669,2141,1197,690,572,Inferior olivary complex,left
+331,2693,2364,1191,693,621,Medulla,left
+331,2755,2202,1194,706,586,Inferior olivary complex,left
+331,2809,2258,1190,718,600,Inferior olivary complex,left
+331,2830,2542,1182,726,662,Inferior olivary complex,left
+331,2853,2505,1182,732,655,Medulla,left
+331,2878,2408,1182,738,635,Inferior olivary complex,left
+331,1779,1672,1237,493,470,Cuneate nucleus,right
+331,2665,2201,1195,688,585,Inferior olivary complex,left
+331,2817,2330,1189,720,616,Inferior olivary complex,left
+331,2866,2517,1181,735,657,Medulla,left
+332,2644,2139,1197,685,572,Inferior olivary complex,left
+332,2460,1413,1223,661,418,Parvicellular reticular nucleus,right
+332,2633,2345,1192,681,615,Magnocellular reticular nucleus,left
+332,2648,2206,1195,685,586,Inferior olivary complex,left
+332,2682,2157,1196,692,575,Inferior olivary complex,left
+332,2842,2500,1183,728,653,Inferior olivary complex,left
+332,2506,2233,1195,654,591,Gigantocellular reticular nucleus,left
+332,2742,2341,1191,702,616,Inferior olivary complex,left
+332,2838,2560,1181,729,666,Inferior olivary complex,left
+335,2631,2142,1195,682,572,Inferior olivary complex,left
+335,2690,2143,1195,694,573,Inferior olivary complex,left
+335,1787,1717,1235,493,479,Medulla,right
+334,2639,2158,1196,683,576,Inferior olivary complex,left
+334,2655,2138,1196,687,572,Inferior olivary complex,left
+334,1811,1678,1235,499,472,Cuneate nucleus,right
+334,2721,2295,1192,698,606,Inferior olivary complex,left
+334,2723,2804,1178,700,716,"Paragigantocellular reticular nucleus, lateral part",left
+334,2602,2271,1193,674,599,Gigantocellular reticular nucleus,left
+333,2704,2190,1195,696,583,Inferior olivary complex,left
+333,2784,2232,1192,713,593,Inferior olivary complex,left
+333,1807,1693,1235,497,475,Medulla,right
+333,1884,2736,1204,504,693,Spinal vestibular nucleus,left
+333,1943,2285,1214,521,598,Medulla,left
+333,2483,1379,1223,667,410,Parvicellular reticular nucleus,right
+333,2703,2153,1196,697,575,Inferior olivary complex,left
+333,2671,1477,1217,706,426,"Paragigantocellular reticular nucleus, lateral part",right
+336,2692,2756,1180,692,704,"Paragigantocellular reticular nucleus, lateral part",left
+336,2629,2179,1194,681,580,Inferior olivary complex,left
+336,2825,2221,1188,722,591,Medulla,left
+337,1827,1691,1233,501,474,Parasolitary nucleus,right
+337,2698,2439,1188,694,636,Gigantocellular reticular nucleus,left
+337,2826,2347,1186,722,619,Inferior olivary complex,left
+338,1779,1668,1235,492,470,Cuneate nucleus,right
+338,2655,2197,1193,685,583,Inferior olivary complex,left
+338,2675,2144,1194,691,573,Inferior olivary complex,left
+338,2682,1645,1209,701,465,"Lateral reticular nucleus, magnocellular part",right
+338,2734,2544,1184,702,659,Medulla,left
+338,2835,2266,1186,724,601,Medulla,left
+338,1771,2755,1207,478,698,Spinal vestibular nucleus,left
+339,1821,1662,1232,501,467,Medulla,right
+339,2666,2149,1193,688,574,Inferior olivary complex,left
+339,2447,1389,1220,658,412,Parvicellular reticular nucleus,right
+339,2660,2192,1192,686,582,Inferior olivary complex,left
+340,2614,2135,1194,678,571,Medulla,left
+340,2633,2777,1179,680,707,"Paragigantocellular reticular nucleus, lateral part",left
+340,2655,2165,1193,686,577,Inferior olivary complex,left
+340,2683,2142,1193,693,572,Medulla,left
+340,2815,2308,1185,719,611,Inferior olivary complex,left
+340,2673,2149,1193,690,574,Inferior olivary complex,left
+342,1863,1592,1230,513,452,Medulla,right
+342,2016,2269,1207,537,595,Medulla,left
+342,2715,2137,1192,699,570,Nucleus raphe pallidus,right
+342,1824,1969,1225,497,525,Nucleus of the solitary tract,right
+342,2797,2255,1187,714,598,Inferior olivary complex,left
+342,2539,2289,1189,661,602,Magnocellular reticular nucleus,left
+342,2687,2284,1189,690,603,Inferior olivary complex,left
+341,1981,2356,1207,527,613,Medulla,left
+341,2664,2202,1192,687,584,Inferior olivary complex,left
+341,2817,2258,1187,719,599,Inferior olivary complex,left
+341,1857,2324,1215,502,606,Nucleus of the solitary tract,left
+341,2780,2279,1188,711,603,Inferior olivary complex,left
+343,1816,1652,1231,499,465,Medulla,right
+345,2727,2135,1191,701,570,Nucleus raphe pallidus,right
+345,2576,2369,1187,667,618,Magnocellular reticular nucleus,left
+345,2623,2191,1190,679,582,Inferior olivary complex,left
+345,2655,2204,1190,685,585,Inferior olivary complex,left
+345,2700,2747,1176,694,702,"Paragigantocellular reticular nucleus, lateral part",left
+345,2774,2283,1186,709,604,Inferior olivary complex,left
+345,2784,2510,1180,712,653,Medulla,left
+345,2791,2258,1186,713,599,Medulla,left
+345,2836,2262,1183,724,599,Medulla,left
+346,1838,1597,1230,506,453,Cuneate nucleus,right
+346,2540,2292,1187,660,602,Magnocellular reticular nucleus,left
+346,2657,2179,1190,685,580,Inferior olivary complex,left
+346,2680,2149,1190,691,574,Inferior olivary complex,left
+346,1784,1637,1232,493,462,Cuneate nucleus,right
+346,2632,2178,1190,680,580,Inferior olivary complex,left
+347,2755,2135,1188,707,570,Nucleus raphe pallidus,right
+347,2699,2136,1190,695,570,Nucleus raphe pallidus,right
+347,1832,1576,1230,504,448,Cuneate nucleus,right
+347,2759,1681,1200,718,472,Medulla,right
+348,2651,2182,1189,684,580,Inferior olivary complex,left
+348,2652,2169,1189,684,578,Inferior olivary complex,left
+348,2736,2335,1184,700,614,Inferior olivary complex,left
+348,1749,1663,1233,486,468,Spinal vestibular nucleus,right
+349,2626,2198,1188,679,584,crossed tectospinal pathway,left
+349,2695,2240,1187,692,593,Medulla,left
+349,1824,1626,1229,502,459,Medulla,right
+349,2052,2359,1201,543,614,Medulla,left
+349,2674,2186,1189,689,581,Inferior olivary complex,left
+349,2710,1598,1204,709,455,"Paragigantocellular reticular nucleus, lateral part",right
+349,2791,2682,1172,714,689,"Paragigantocellular reticular nucleus, lateral part",left
+350,2694,2150,1188,694,573,Inferior olivary complex,left
+350,1896,1603,1225,519,455,Nucleus of the solitary tract,right
+350,2656,2154,1189,686,574,Inferior olivary complex,left
+350,2750,2248,1185,704,595,Inferior olivary complex,left
+350,2820,2264,1181,720,600,Inferior olivary complex,left
+352,2636,2143,1188,681,572,Inferior olivary complex,left
+352,2677,2776,1172,688,707,"Paragigantocellular reticular nucleus, lateral part",left
+351,2682,2139,1188,691,571,Medulla,left
+351,2697,1660,1202,703,469,"Paragigantocellular reticular nucleus, lateral part",right
+354,2872,2496,1170,733,651,Medulla,left
+354,2571,2311,1183,666,605,Magnocellular reticular nucleus,left
+354,2633,2186,1186,681,580,Inferior olivary complex,left
+354,2637,2134,1188,681,570,Medulla,right
+354,2657,2201,1186,685,584,Inferior olivary complex,left
+354,2589,2262,1184,671,595,Magnocellular reticular nucleus,left
+353,1871,1605,1225,513,455,Medulla,right
+353,2625,2168,1187,679,577,Inferior olivary complex,left
+353,2638,2164,1188,682,576,Inferior olivary complex,left
+353,2703,1656,1201,706,467,"Paragigantocellular reticular nucleus, lateral part",right
+353,2750,2138,1186,706,571,Nucleus raphe pallidus,left
+353,2758,2243,1184,706,594,Inferior olivary complex,left
+353,1863,2304,1211,504,601,Nucleus of the solitary tract,left
+355,1836,2803,1194,490,707,Spinal vestibular nucleus,left
+355,2575,2298,1183,667,603,Magnocellular reticular nucleus,left
+355,2575,2147,1187,669,572,Nucleus raphe obscurus,left
+355,2605,2146,1187,675,572,Medulla,left
+355,2542,1393,1210,677,411,"Lateral reticular nucleus, magnocellular part",right
+355,2664,2159,1186,687,575,Inferior olivary complex,left
+355,2726,2237,1183,698,591,Inferior olivary complex,left
+356,2652,2550,1177,682,656,"Paragigantocellular reticular nucleus, lateral part",left
+356,2678,2193,1185,690,583,Inferior olivary complex,left
+356,2644,1462,1206,698,423,"Paragigantocellular reticular nucleus, lateral part",right
+356,2700,2159,1185,694,575,Inferior olivary complex,left
+356,2487,1385,1211,665,410,Parvicellular reticular nucleus,right
+356,2793,2704,1167,715,694,"Paragigantocellular reticular nucleus, lateral part",left
+356,2846,2235,1177,726,593,Medulla,left
+356,2855,2486,1171,729,648,Inferior olivary complex,left
+356,2769,2142,1184,710,571,Nucleus raphe pallidus,left
+358,2606,2127,1186,675,568,Nucleus raphe obscurus,right
+358,2657,2180,1184,685,579,Inferior olivary complex,left
+358,2680,2138,1185,691,571,Medulla,left
+358,1821,1617,1226,500,457,Spinal vestibular nucleus,right
+358,1848,1922,1218,502,516,Nucleus of the solitary tract,right
+358,2544,2291,1182,661,601,Magnocellular reticular nucleus,left
+358,2650,2285,1182,682,601,Medulla,left
+358,2664,2171,1185,687,577,Inferior olivary complex,left
+358,2688,2158,1185,692,575,Inferior olivary complex,left
+358,2656,2340,1181,683,612,Magnocellular reticular nucleus,left
+357,2661,2368,1181,684,619,Magnocellular reticular nucleus,left
+357,2677,2176,1185,689,578,Inferior olivary complex,left
+357,2611,2149,1186,676,573,Medulla,left
+359,2534,2291,1182,659,601,Magnocellular reticular nucleus,left
+359,1773,1569,1228,491,446,Medulla,right
+359,2689,2190,1183,692,581,Inferior olivary complex,left
+359,2699,2222,1182,693,588,Inferior olivary complex,left
+359,2740,2157,1183,703,574,Medulla,left
+360,2658,2168,1184,686,577,Inferior olivary complex,left
+360,2770,2490,1174,707,646,Medulla,left
+360,2563,2137,1185,666,570,Nucleus raphe obscurus,right
+360,2662,2196,1183,685,582,Inferior olivary complex,left
+360,2683,2181,1183,691,579,Inferior olivary complex,left
+360,2739,2139,1183,703,571,Nucleus raphe pallidus,left
+360,2837,2258,1176,723,598,Inferior olivary complex,left
+362,2741,2149,1182,703,573,Nucleus raphe pallidus,left
+362,2701,2191,1182,694,581,Inferior olivary complex,left
+362,2758,2155,1181,707,574,Inferior olivary complex,left
+362,2603,1366,1206,692,403,"Lateral reticular nucleus, magnocellular part",right
+362,2604,2365,1179,672,616,Magnocellular reticular nucleus,left
+362,2713,2182,1182,697,579,Inferior olivary complex,left
+362,2759,2730,1165,706,699,"Paragigantocellular reticular nucleus, lateral part",left
+361,2473,2262,1183,646,594,Gigantocellular reticular nucleus,left
+361,2513,1409,1208,671,415,"Paragigantocellular reticular nucleus, lateral part",right
+361,2633,2323,1180,679,609,Magnocellular reticular nucleus,left
+361,2664,1725,1197,694,484,Medulla,right
+361,2665,2323,1180,685,609,Magnocellular reticular nucleus,left
+361,2667,2339,1180,685,612,Magnocellular reticular nucleus,left
+361,2681,2188,1183,690,581,Inferior olivary complex,left
+361,2698,2171,1183,694,577,Inferior olivary complex,left
+361,2746,2159,1182,704,575,Inferior olivary complex,left
+361,2766,2142,1182,709,571,Nucleus raphe pallidus,left
+363,2672,2205,1181,687,584,Inferior olivary complex,left
+363,2749,2510,1172,702,650,Medulla,left
+363,1820,1819,1219,496,498,Medial vestibular nucleus,right
+363,2601,2272,1180,672,597,Magnocellular reticular nucleus,left
+364,2680,2173,1182,690,578,Inferior olivary complex,left
+364,2728,1571,1197,714,447,"Paragigantocellular reticular nucleus, lateral part",right
+364,2749,2147,1181,705,571,Nucleus raphe pallidus,left
+364,1816,1694,1222,497,473,Spinal vestibular nucleus,right
+364,2547,2126,1184,662,568,Nucleus raphe obscurus,right
+364,1900,1983,1211,512,528,Dorsal motor nucleus of the vagus nerve,right
+365,2590,2139,1183,671,571,Nucleus raphe obscurus,left
+365,2690,2210,1181,691,585,Inferior olivary complex,left
+365,2696,2204,1181,692,584,Inferior olivary complex,left
+365,1882,1985,1212,508,528,Dorsal motor nucleus of the vagus nerve,right
+365,2705,2175,1181,695,578,Inferior olivary complex,left
+365,2755,2768,1163,706,707,"Paragigantocellular reticular nucleus, lateral part",left
+365,2825,2504,1168,720,651,Medulla,left
+366,2581,1567,1201,679,449,"Paragigantocellular reticular nucleus, lateral part",right
+366,2681,2193,1180,689,582,Inferior olivary complex,left
+366,2683,2205,1180,690,584,Inferior olivary complex,left
+366,2767,2142,1179,708,570,Nucleus raphe pallidus,right
+366,2695,2198,1180,692,583,Inferior olivary complex,left
+366,2720,2186,1180,698,580,Inferior olivary complex,left
+367,2678,2164,1180,690,576,Inferior olivary complex,left
+367,1822,2738,1192,486,693,Spinal vestibular nucleus,left
+367,2639,2132,1181,682,568,Medulla,right
+367,2685,2199,1179,690,583,Inferior olivary complex,left
+368,2670,2195,1179,687,582,Inferior olivary complex,left
+368,2761,2140,1178,707,570,Nucleus raphe pallidus,right
+368,2687,2207,1179,690,584,Inferior olivary complex,left
+369,2653,2130,1181,685,568,Medulla,right
+369,1945,2424,1196,519,625,Dorsal motor nucleus of the vagus nerve,left
+369,2340,2201,1185,615,581,Gigantocellular reticular nucleus,left
+369,2671,2348,1176,685,614,Magnocellular reticular nucleus,left
+369,2673,2208,1179,688,585,Inferior olivary complex,left
+369,2737,2149,1179,702,572,Nucleus raphe pallidus,left
+369,2746,2769,1162,703,707,"Paragigantocellular reticular nucleus, lateral part",left
+369,2783,2687,1162,711,689,"Paragigantocellular reticular nucleus, lateral part",left
+369,2854,2544,1163,728,660,Medulla,left
+372,2648,2188,1178,683,581,Inferior olivary complex,left
+372,2660,2143,1179,685,571,Medulla,left
+372,1862,1638,1217,508,461,Spinal vestibular nucleus,right
+372,2582,2303,1176,667,603,Magnocellular reticular nucleus,left
+372,2705,2159,1178,695,574,Medulla,left
+372,2735,2708,1162,699,693,"Paragigantocellular reticular nucleus, lateral part",left
+371,2670,2163,1178,687,575,Inferior olivary complex,left
+371,2487,2244,1178,648,591,Gigantocellular reticular nucleus,left
+371,2531,2330,1176,657,608,Magnocellular reticular nucleus,left
+371,2657,2183,1178,684,580,Inferior olivary complex,left
+371,2793,2475,1167,711,643,Medulla,left
+371,2838,2255,1170,724,596,Inferior olivary complex,left
+371,1743,2743,1195,470,695,Spinal vestibular nucleus,left
+371,2666,2206,1177,686,584,Inferior olivary complex,left
+370,2675,2201,1178,688,583,Inferior olivary complex,left
+370,2715,2541,1169,694,654,"Paragigantocellular reticular nucleus, lateral part",left
+370,2779,2142,1176,712,570,Nucleus raphe pallidus,right
+370,2528,2303,1177,657,603,Magnocellular reticular nucleus,left
+370,2760,2158,1177,707,574,Inferior olivary complex,left
+370,2580,1301,1203,687,389,Medulla,right
+373,2713,2189,1177,696,581,Inferior olivary complex,left
+373,1918,1840,1210,517,502,Nucleus of the solitary tract,right
+373,1836,2706,1191,489,684,Spinal vestibular nucleus,left
+373,1957,2142,1202,524,563,Nucleus prepositus,right
+373,2646,2178,1178,682,578,Inferior olivary complex,left
+373,2674,2196,1177,688,582,Inferior olivary complex,left
+373,1854,1589,1218,508,450,Spinal vestibular nucleus,right
+373,2759,2166,1176,707,575,Inferior olivary complex,left
+374,1997,2357,1192,531,610,Nucleus prepositus,left
+374,2568,2282,1175,665,598,Magnocellular reticular nucleus,left
+374,2647,2167,1178,682,575,Inferior olivary complex,left
+374,2658,2708,1164,683,691,"Paragigantocellular reticular nucleus, lateral part",left
+374,2485,2289,1176,647,599,Gigantocellular reticular nucleus,left
+374,2592,2232,1176,670,588,crossed tectospinal pathway,left
+374,2737,2144,1176,701,571,Nucleus raphe pallidus,left
+376,2578,2145,1178,668,571,Nucleus raphe obscurus,left
+376,1809,1618,1219,497,456,Spinal vestibular nucleus,right
+376,2780,2147,1173,711,571,Nucleus raphe pallidus,left
+375,2487,2197,1177,648,581,crossed tectospinal pathway,left
+377,1789,2701,1192,479,684,Spinal vestibular nucleus,left
+377,2438,2252,1177,637,591,Gigantocellular reticular nucleus,left
+377,2561,2255,1175,663,593,Magnocellular reticular nucleus,left
+377,2602,1238,1201,694,374,Medulla,right
+377,2611,2348,1173,673,612,Magnocellular reticular nucleus,left
+377,2818,2481,1164,717,644,Medulla,left
+377,1753,2662,1196,473,675,Spinal vestibular nucleus,left
+377,2637,1909,1185,683,523,Magnocellular reticular nucleus,right
+379,1827,1591,1217,500,450,Spinal vestibular nucleus,right
+379,1841,1607,1216,504,453,Spinal vestibular nucleus,right
+379,2909,2534,1153,742,658,Medulla,left
+379,2758,2157,1172,706,573,Nucleus raphe pallidus,left
+378,2703,2212,1174,694,584,Inferior olivary complex,left
+378,2729,2145,1174,700,571,Nucleus raphe pallidus,left
+378,1814,2677,1191,485,677,Spinal vestibular nucleus,left
+380,2625,2325,1172,676,607,Magnocellular reticular nucleus,left
+380,2641,2305,1172,679,603,Magnocellular reticular nucleus,left
+380,2736,2446,1167,697,634,Medulla,left
+380,2830,2778,1151,725,710,Medulla,left
+380,2832,2302,1166,720,605,Medulla,left
+381,2539,2284,1173,659,598,Magnocellular reticular nucleus,left
+381,2803,1703,1182,727,476,Inferior olivary complex,right
+381,2805,2660,1156,715,683,"Paragigantocellular reticular nucleus, lateral part",left
+381,1871,1612,1214,511,454,Spinal vestibular nucleus,right
+381,2565,2323,1172,663,606,Magnocellular reticular nucleus,left
+382,2720,2307,1170,695,604,Inferior olivary complex,left
+382,2469,2269,1174,644,595,Gigantocellular reticular nucleus,left
+382,2703,2140,1173,694,570,Nucleus raphe pallidus,right
+382,2748,2166,1171,704,575,Medulla,left
+384,2604,2368,1169,671,616,Magnocellular reticular nucleus,left
+384,2763,2275,1168,705,598,Inferior olivary complex,left
+386,1940,2439,1188,517,626,Medial vestibular nucleus,left
+386,2792,2340,1165,710,612,Inferior olivary complex,left
+386,2532,2295,1171,656,600,Magnocellular reticular nucleus,left
+386,2594,2271,1170,670,595,Magnocellular reticular nucleus,left
+386,2609,2163,1172,674,575,Medulla,left
+386,2899,2477,1153,738,644,Medulla,left
+386,2832,2288,1163,720,602,Medulla,left
+383,2530,2297,1171,656,600,Magnocellular reticular nucleus,left
+385,1909,2716,1182,506,685,Spinal vestibular nucleus,left
+385,2471,2266,1173,644,593,Gigantocellular reticular nucleus,left
+385,2716,2305,1169,694,604,Inferior olivary complex,left
+385,2717,1588,1187,708,452,"Paragigantocellular reticular nucleus, lateral part",right
+388,1966,2847,1173,519,713,Spinal vestibular nucleus,left
+388,2823,2466,1158,717,640,Inferior olivary complex,left
+388,2424,2233,1173,634,587,Gigantocellular reticular nucleus,left
+388,2504,2166,1173,652,574,crossed tectospinal pathway,left
+388,2624,2330,1168,675,608,Magnocellular reticular nucleus,left
+388,2769,2699,1153,706,690,"Paragigantocellular reticular nucleus, lateral part",left
+387,2521,2326,1169,654,605,Magnocellular reticular nucleus,left
+387,2577,2290,1169,665,599,Magnocellular reticular nucleus,left
+389,2823,2528,1156,717,654,Medulla,left
+389,2786,2724,1151,711,696,"Paragigantocellular reticular nucleus, lateral part",left
+390,1932,2501,1185,513,638,Medial vestibular nucleus,left
+390,2638,2380,1166,677,618,Magnocellular reticular nucleus,left
+390,2780,2712,1151,709,692,"Paragigantocellular reticular nucleus, lateral part",left
+390,2843,2503,1154,722,649,Medulla,left
+392,2730,2582,1157,695,662,"Paragigantocellular reticular nucleus, lateral part",left
+392,2540,2310,1168,658,602,Magnocellular reticular nucleus,left
+394,2625,2150,1169,677,571,Nucleus raphe obscurus,left
+394,2778,2727,1149,709,695,"Paragigantocellular reticular nucleus, lateral part",left
+394,2782,2741,1148,710,699,"Paragigantocellular reticular nucleus, lateral part",left
+395,2770,2715,1149,706,693,"Paragigantocellular reticular nucleus, lateral part",left
+395,2761,2164,1164,706,574,Nucleus raphe pallidus,left
+393,2805,2322,1161,713,608,Inferior olivary complex,left
+393,2827,2526,1154,717,652,Medulla,left
+393,2845,2499,1154,722,648,Inferior olivary complex,left
+396,2436,2527,1165,633,644,Gigantocellular reticular nucleus,left
+396,1825,2707,1182,485,683,Spinal vestibular nucleus,left
+396,2661,2150,1167,684,571,Medulla,left
+396,2705,1816,1175,698,501,Medulla,right
+396,2746,2179,1165,702,577,Medulla,left
+397,2844,2669,1146,725,684,Medulla,left
+398,2537,2155,1168,657,572,Nucleus raphe obscurus,left
+398,2746,2509,1156,697,646,Medulla,left
+398,2845,2517,1150,722,650,Medulla,left
+398,2857,2485,1150,724,644,Inferior olivary complex,left
+404,1784,1591,1209,490,448,Spinal vestibular nucleus,right
+404,2842,2435,1150,720,632,Inferior olivary complex,left
+399,1984,2409,1181,527,619,Medulla,left
+399,2659,2147,1166,684,570,Medulla,right
+400,2826,2524,1150,716,652,Medulla,left
+400,2777,2488,1154,704,643,Medulla,left
+400,2629,2140,1166,677,569,Nucleus raphe obscurus,right
+401,2519,2320,1164,653,603,Magnocellular reticular nucleus,left
+401,2538,2150,1168,658,571,Nucleus raphe obscurus,left
+401,1849,1486,1208,508,425,Medulla,right
+401,2563,2150,1167,664,571,Nucleus raphe obscurus,left
+403,2654,2281,1161,681,597,Magnocellular reticular nucleus,left
+403,1787,2653,1182,476,672,Spinal vestibular nucleus,left
+403,2059,1605,1196,556,453,Parvicellular reticular nucleus,right
+403,2522,2279,1163,653,595,Magnocellular reticular nucleus,left
+403,2619,2158,1164,675,573,Nucleus raphe obscurus,left
+403,2788,2163,1159,712,574,Nucleus raphe pallidus,left
+403,2790,2546,1150,707,655,Medulla,left
+403,2716,1815,1171,700,501,Medulla,right
+403,2792,2335,1156,708,610,Inferior olivary complex,left
+402,2656,2146,1165,682,570,Nucleus raphe obscurus,right
+402,2843,2465,1150,721,639,Inferior olivary complex,left
+402,2666,2607,1154,681,665,"Paragigantocellular reticular nucleus, lateral part",left
+405,2786,2514,1151,706,648,Medulla,left
+405,2617,2251,1162,673,590,Magnocellular reticular nucleus,left
+405,2864,2457,1148,726,637,Inferior olivary complex,left
+405,1809,1605,1207,495,451,Spinal vestibular nucleus,right
+405,2606,2369,1160,669,614,Magnocellular reticular nucleus,left
+405,2649,2144,1164,681,570,Nucleus raphe obscurus,right
+405,2773,2708,1145,707,691,"Paragigantocellular reticular nucleus, lateral part",left
+405,2793,2721,1143,712,694,"Paragigantocellular reticular nucleus, lateral part",left
+407,1777,1639,1207,487,458,Spinal vestibular nucleus,right
+406,2634,2143,1163,678,570,Nucleus raphe obscurus,right
+406,2597,2290,1161,668,598,Magnocellular reticular nucleus,left
+408,2850,2495,1146,722,645,Medulla,left
+408,2555,2322,1160,659,603,Magnocellular reticular nucleus,left
+408,2572,2264,1161,663,593,Magnocellular reticular nucleus,left
+410,2738,2417,1153,696,625,Magnocellular reticular nucleus,left
+410,2744,2682,1145,699,683,"Paragigantocellular reticular nucleus, lateral part",left
+410,2906,2472,1141,737,641,Medulla,left
+409,1675,1618,1213,468,452,Spinal vestibular nucleus,right
+409,1757,2655,1182,469,673,Spinal vestibular nucleus,left
+409,2655,2215,1161,681,583,Medulla,left
+411,2603,2332,1158,669,605,Magnocellular reticular nucleus,left
+411,1706,2666,1183,458,676,Spinal vestibular nucleus,left
+411,2800,2641,1142,711,675,"Paragigantocellular reticular nucleus, lateral part",left
+411,2876,2484,1142,729,643,Medulla,left
+412,2189,1497,1190,591,431,Parvicellular reticular nucleus,right
+412,2545,2321,1159,657,603,Magnocellular reticular nucleus,left
+412,1873,1473,1202,514,422,Medulla,right
+412,2793,2145,1155,713,569,Nucleus raphe pallidus,right
+414,2792,2124,1154,712,564,Nucleus raphe pallidus,right
+414,2629,2133,1160,676,567,Nucleus raphe obscurus,right
+413,1991,2045,1185,530,541,Nucleus prepositus,right
+416,2657,2159,1158,681,572,Nucleus raphe obscurus,left
+416,2575,2286,1157,663,596,Magnocellular reticular nucleus,left
+417,2812,2505,1144,711,646,Medulla,left
+417,2829,2487,1144,716,642,Medulla,left
+417,2886,2439,1141,731,634,Medulla,left
+419,2799,2441,1145,709,631,Medulla,left
+419,2883,2611,1133,733,670,Medulla,left
+419,2771,2403,1148,702,623,Magnocellular reticular nucleus,left
+418,1928,2479,1174,511,632,Medial vestibular nucleus,left
+420,2735,2561,1144,694,655,"Paragigantocellular reticular nucleus, lateral part",left
+420,2911,2508,1135,738,649,Medulla,left
+420,2816,2708,1135,716,691,Medulla,left
+421,2458,2280,1158,639,594,Gigantocellular reticular nucleus,left
+422,2787,2460,1144,705,635,Medulla,left
+422,2741,2607,1142,696,665,"Paragigantocellular reticular nucleus, lateral part",left
+423,2642,2348,1151,675,609,Magnocellular reticular nucleus,left
+426,1897,1485,1195,517,424,Medulla,right
+426,2365,2215,1159,618,580,Gigantocellular reticular nucleus,left
+426,2652,2347,1150,677,608,Magnocellular reticular nucleus,left
+426,2732,2605,1140,693,665,"Paragigantocellular reticular nucleus, lateral part",left
+426,1947,2486,1169,514,633,Medial vestibular nucleus,left
+426,2910,2495,1133,738,645,Medulla,left
+425,2741,2600,1141,695,664,"Paragigantocellular reticular nucleus, lateral part",left
+425,2746,2488,1144,696,640,Medulla,left
+425,2784,2141,1149,710,567,Nucleus raphe pallidus,right
+428,599,2586,1227,204,658,Declive (VI),left
+428,1827,2685,1168,482,678,Spinal vestibular nucleus,left
+428,2788,2545,1138,706,653,Medulla,left
+428,2841,2120,1144,724,563,Medulla,right
+427,2818,2467,1139,713,636,Medulla,left
+427,2827,2541,1136,715,653,Medulla,left
+429,1997,1244,1193,548,373,"Spinal nucleus of the trigeminal, interpolar part",right
+429,2654,2162,1152,680,571,Nucleus raphe obscurus,left
+430,2843,2417,1138,719,626,Inferior olivary complex,left
+433,2540,1868,1162,659,514,Gigantocellular reticular nucleus,right
+433,1972,2501,1165,519,636,Medial vestibular nucleus,left
+433,2650,2160,1151,679,571,Nucleus raphe obscurus,left
+433,1896,1445,1193,518,415,Medulla,right
+433,2815,2673,1130,715,682,"Paragigantocellular reticular nucleus, lateral part",left
+432,2843,2422,1137,719,627,Inferior olivary complex,left
+435,1929,1861,1183,515,503,Medial vestibular nucleus,right
+435,2642,2189,1149,676,577,Medulla,left
+435,2681,2578,1139,682,657,"Paragigantocellular reticular nucleus, lateral part",left
+435,2698,2145,1147,689,568,Nucleus raphe obscurus,right
+434,2858,2500,1132,723,644,Medulla,left
+437,2758,2511,1137,699,644,Medulla,left
+437,556,2054,1240,206,542,Declive (VI),right
+439,2789,2764,1125,710,700,Medulla,left
+442,2613,2162,1147,670,570,Nucleus raphe obscurus,right
+442,2242,1436,1175,602,417,Parvicellular reticular nucleus,right
+441,2800,2352,1138,709,610,Inferior olivary complex,left
+444,2649,2165,1145,677,571,Nucleus raphe obscurus,left
+444,2814,2600,1127,713,665,"Paragigantocellular reticular nucleus, lateral part",left
+444,2757,2142,1141,702,566,Nucleus raphe pallidus,right
+444,2873,2658,1121,730,679,Medulla,left
+440,2755,2424,1138,697,625,Magnocellular reticular nucleus,left
+443,2913,2507,1123,739,646,Medulla,left
+446,573,2586,1219,194,658,Declive (VI),left
+446,2772,2740,1124,704,694,"Paragigantocellular reticular nucleus, lateral part",left
+447,2669,2155,1143,681,569,Nucleus raphe obscurus,right
+452,2765,2139,1137,703,566,Nucleus raphe pallidus,right
+451,2785,2150,1136,708,568,Nucleus raphe pallidus,right
+449,2797,2734,1122,711,693,Medulla,left
+449,2826,2193,1135,718,578,Medulla,left
+450,2003,2523,1154,526,640,Medial vestibular nucleus,left
+453,2022,2554,1152,529,646,Medulla,left
+453,2913,2462,1121,738,636,Medulla,left
+453,1928,1790,1177,514,488,Nucleus of the solitary tract,right
+454,2824,1775,1141,725,488,Medulla,right
+455,2677,2467,1133,679,631,Gigantocellular reticular nucleus,left
+455,2007,2526,1151,525,640,Medial vestibular nucleus,left
+459,2796,2166,1131,710,571,Nucleus raphe pallidus,left
+459,2661,2490,1131,676,636,"Paragigantocellular reticular nucleus, lateral part",left
+459,2781,2441,1127,702,628,Magnocellular reticular nucleus,left
+459,2504,2219,1141,645,580,crossed tectospinal pathway,left
+458,2819,2531,1123,713,648,Parapyramidal nucleus,left
+460,623,2647,1210,206,668,Declive (VI),left
+462,2708,2170,1135,689,571,Nucleus raphe magnus,left
+464,2781,2171,1130,706,572,Nucleus raphe magnus,left
+464,629,2559,1209,208,651,Declive (VI),left
+465,2715,2170,1134,690,571,Nucleus raphe magnus,left
+468,2768,2419,1125,700,622,Magnocellular reticular nucleus,left
+468,2799,2709,1114,710,686,Facial motor nucleus,left
+470,2649,2173,1133,675,572,Nucleus raphe magnus,left
+470,1994,2591,1143,521,654,Medial vestibular nucleus,left
+472,1286,1840,1198,378,494,Fastigial nucleus,right
+472,2774,2506,1120,701,641,Parapyramidal nucleus,left
+471,2820,2455,1119,712,631,Parapyramidal nucleus,left
+473,2797,2222,1125,708,581,Medulla,left
+473,2813,2150,1125,714,567,Nucleus raphe pallidus,right
+473,1999,2590,1142,522,654,Medial vestibular nucleus,left
+473,2728,1667,1142,705,465,"Paragigantocellular reticular nucleus, lateral part",right
+474,2852,1827,1127,728,498,Medulla,right
+475,2752,2110,1127,698,559,medial lemniscus,right
+475,2133,1350,1162,575,394,"Spinal nucleus of the trigeminal, interpolar part",right
+476,2873,2571,1110,727,657,Medulla,left
+476,2865,2491,1113,723,639,Medulla,left
+478,2805,2182,1122,711,573,Nucleus raphe pallidus,left
+478,1891,1589,1170,508,444,Spinal vestibular nucleus,right
+477,2796,2501,1117,706,640,Parapyramidal nucleus,left
+480,2796,2162,1122,708,569,Nucleus raphe magnus,right
+480,2751,2189,1124,697,575,Medulla,left
+481,1894,1588,1168,509,444,Spinal vestibular nucleus,right
+484,1997,2574,1137,519,650,Medial vestibular nucleus,left
+484,2698,2188,1125,684,574,Nucleus raphe magnus,left
+483,2838,2493,1111,717,639,Parapyramidal nucleus,left
+485,1406,1582,1189,407,437,Nodulus (X),right
+485,1997,2612,1135,519,658,Medial vestibular nucleus,left
+486,2761,2267,1120,698,589,Medulla,left
+486,1766,2680,1143,464,676,Spinal vestibular nucleus,left
+486,1797,2816,1138,474,706,Spinal vestibular nucleus,left
+487,1960,2208,1146,516,572,Nucleus prepositus,left
+490,1334,1774,1187,387,478,Fastigial nucleus,right
+490,1339,1638,1189,391,449,arbor vitae,right
+490,2827,2688,1103,715,681,Facial motor nucleus,left
+491,2009,2605,1131,522,657,Medial vestibular nucleus,left
+492,2040,2564,1132,530,648,Medial vestibular nucleus,left
+493,2046,2462,1136,532,625,"Paragigantocellular reticular nucleus, dorsal part",left
+494,2042,2582,1131,530,651,Medial vestibular nucleus,left
+494,2022,2610,1130,525,658,Medial vestibular nucleus,left
+496,2717,2453,1114,686,627,Magnocellular reticular nucleus,left
+496,1376,1473,1188,400,414,Interposed nucleus,right
+497,2851,2524,1104,719,645,Parapyramidal nucleus,left
+498,1355,1602,1185,394,440,Interposed nucleus,right
+499,2797,2178,1113,707,572,Nucleus raphe magnus,left
+500,2823,2525,1104,712,645,Parapyramidal nucleus,left
+501,1376,1660,1182,397,453,arbor vitae,right
+502,2361,2202,1129,610,572,crossed tectospinal pathway,left
+502,1399,1667,1179,402,453,arbor vitae,right
+503,1851,1491,1161,501,421,Spinal vestibular nucleus,right
+504,2029,2616,1125,526,658,Medial vestibular nucleus,left
+506,2045,2569,1126,530,649,Medial vestibular nucleus,left
+506,2021,2591,1125,524,653,Medial vestibular nucleus,left
+505,2406,2204,1127,620,573,crossed tectospinal pathway,left
+505,1843,1476,1162,500,418,Spinal vestibular nucleus,right
+505,2027,2607,1126,525,656,Medial vestibular nucleus,left
+507,2660,2272,1115,673,587,Magnocellular reticular nucleus,left
+507,1419,1576,1177,407,434,Cerebellum,right
+508,2004,2576,1126,520,650,Medial vestibular nucleus,left
+511,2033,2570,1123,527,649,Medial vestibular nucleus,left
+513,2782,2369,1105,700,609,Magnocellular reticular nucleus,left
+513,1436,1637,1173,408,446,Nodulus (X),right
+513,2023,2587,1123,525,652,Medial vestibular nucleus,left
+514,1303,1726,1178,380,466,Fastigial nucleus,right
+514,1412,1640,1173,403,447,Cerebellum,right
+514,2017,2608,1121,522,657,Medial vestibular nucleus,left
+514,2033,2608,1121,527,657,Medial vestibular nucleus,left
+515,1430,1614,1171,407,441,Cerebellum,right
+516,1432,1627,1171,407,443,Cerebellum,right
+516,2003,2598,1121,519,655,Medial vestibular nucleus,left
+516,2018,2900,1108,524,720,Medial vestibular nucleus,left
+517,1436,1779,1168,404,476,Nodulus (X),right
+518,2053,2702,1114,531,677,Medulla,left
+518,1450,1557,1171,412,429,Cerebellum,right
+518,2507,1910,1125,646,518,Gigantocellular reticular nucleus,right
+521,2806,2199,1103,708,575,Nucleus raphe pallidus,left
+521,1355,1763,1171,388,473,Fastigial nucleus,right
+519,1462,1794,1163,408,478,Nodulus (X),right
+519,2016,2557,1121,522,645,Medial vestibular nucleus,left
+522,2608,2254,1112,661,583,Magnocellular reticular nucleus,left
+523,2672,2190,1110,674,571,Nucleus raphe magnus,left
+523,1933,2827,1111,504,705,Medial vestibular nucleus,left
+524,1448,1791,1162,406,477,Nodulus (X),right
+527,2039,2125,1129,532,553,"Paragigantocellular reticular nucleus, dorsal part",right
+527,2354,2380,1115,605,605,Gigantocellular reticular nucleus,left
+531,2806,2139,1099,707,562,Medulla,right
+530,1441,1791,1160,403,477,arbor vitae,right
+532,1965,2375,1122,511,606,Nucleus prepositus,left
+541,2811,1919,1098,713,516,Medulla,right
+540,1995,2540,1113,516,642,Medial vestibular nucleus,left
+542,2055,2570,1110,530,648,Medulla,left
+545,1356,1713,1160,387,461,Fastigial nucleus,right
+545,2063,2774,1099,532,692,Parvicellular reticular nucleus,left
+547,1258,1474,1175,368,409,Interposed nucleus,right
+547,2736,2507,1089,687,635,Magnocellular reticular nucleus,left
+547,2105,2670,1102,541,669,Intermediate reticular nucleus,left
+546,2034,2634,1106,525,662,Medial vestibular nucleus,left
+546,1399,1599,1160,397,436,Infracerebellar nucleus,right
+548,1946,2165,1121,508,559,Nucleus prepositus,right
+550,2716,2215,1096,683,575,Medulla,left
+550,2068,2703,1100,533,677,Parvicellular reticular nucleus,left
+554,2712,2355,1091,681,602,Magnocellular reticular nucleus,left
+553,2721,2213,1095,684,575,Medulla,left
+553,2730,2508,1087,686,636,Medulla,left
+553,2743,2509,1087,690,636,Magnocellular reticular nucleus,left
+556,1994,2744,1098,515,686,Medial vestibular nucleus,left
+558,2405,2216,1105,615,572,Gigantocellular reticular nucleus,left
+558,2040,2667,1099,525,669,Medial vestibular nucleus,left
+557,2552,2279,1100,645,585,Gigantocellular reticular nucleus,left
+561,2632,2266,1095,662,583,Magnocellular reticular nucleus,left
+561,2634,2282,1095,663,586,Magnocellular reticular nucleus,left
+562,1310,1678,1156,376,453,Cerebellum,right
+562,1389,1655,1152,393,446,Infracerebellar nucleus,right
+563,1801,1777,1128,478,475,Medial vestibular nucleus,right
+565,1461,2581,1124,396,652,Fastigial nucleus,left
+567,2067,2587,1097,531,651,Medulla,left
+570,1955,2613,1097,504,658,Medial vestibular nucleus,left
+570,2104,2706,1091,540,676,Parvicellular reticular nucleus,left
+573,1751,1628,1131,473,442,Lateral vestibular nucleus,right
+573,1994,2787,1089,514,694,Medial vestibular nucleus,left
+573,2594,2303,1091,653,590,Magnocellular reticular nucleus,left
+572,2076,2620,1094,533,658,Medulla,left
+572,2416,2208,1099,616,571,Gigantocellular reticular nucleus,left
+576,1860,1485,1127,501,413,Spinal vestibular nucleus,right
+578,1222,1695,1154,355,457,arbor vitae,right
+581,1916,2653,1093,494,667,Medial vestibular nucleus,left
+584,1321,1733,1143,376,464,Fastigial nucleus,right
+585,1611,1404,1139,440,394,Superior vestibular nucleus,right
+588,1938,2553,1091,499,644,Medial vestibular nucleus,left
+590,1853,2773,1088,481,693,Medial vestibular nucleus,left
+589,1970,2687,1086,507,673,Medial vestibular nucleus,left
+594,1834,3004,1081,477,741,Lateral vestibular nucleus,left
+594,2208,2596,1083,564,650,Intermediate reticular nucleus,left
+594,2360,2038,1095,603,538,Gigantocellular reticular nucleus,right
+595,1416,1625,1137,395,438,Infracerebellar nucleus,right
+596,1437,2789,1108,386,693,Cerebellum,left
+596,2173,2040,1098,559,534,Gigantocellular reticular nucleus,right
+602,2254,2680,1075,574,668,Intermediate reticular nucleus,left
+604,1939,2652,1081,498,664,Medial vestibular nucleus,left
+611,1441,1746,1124,397,465,Fastigial nucleus,right
+611,1994,2671,1075,511,668,Medial vestibular nucleus,left
+610,2345,2208,1084,596,569,Gigantocellular reticular nucleus,right
+610,1612,1647,1119,436,442,Superior vestibular nucleus,right
+610,1931,2570,1080,496,646,Medial vestibular nucleus,left
+614,2682,2584,1061,671,648,Gigantocellular reticular nucleus,left
+614,2228,2549,1075,568,639,Gigantocellular reticular nucleus,left
+615,2252,1947,1090,576,515,Gigantocellular reticular nucleus,right
+619,1407,1764,1122,389,470,Fastigial nucleus,right
+619,2259,1858,1090,579,497,Gigantocellular reticular nucleus,right
+617,2224,2553,1074,567,640,Gigantocellular reticular nucleus,left
+621,2564,2669,1060,646,664,Intermediate reticular nucleus,left
+620,1987,2699,1070,508,674,Medial vestibular nucleus,left
+623,1566,1666,1114,424,446,Superior vestibular nucleus,right
+625,1620,1521,1115,440,414,Superior vestibular nucleus,right
+625,1864,2634,1075,480,659,Medial vestibular nucleus,left
+626,1934,2752,1068,497,685,Medial vestibular nucleus,left
+629,2241,1958,1085,573,517,Gigantocellular reticular nucleus,right
+629,2296,2692,1062,582,668,Intermediate reticular nucleus,left
+629,1956,2638,1069,501,661,Medial vestibular nucleus,left
+629,2343,1986,1082,598,525,Gigantocellular reticular nucleus,right
+629,2251,2139,1079,573,554,crossed tectospinal pathway,right
+630,1853,2627,1073,477,657,Medial vestibular nucleus,left
+630,2189,2137,1078,559,552,Gigantocellular reticular nucleus,right
+631,1859,2581,1073,478,646,Sublaterodorsal nucleus,left
+634,2712,2240,1058,674,576,Medulla,left
+634,1900,2574,1070,487,645,Sublaterodorsal nucleus,left
+639,1942,2728,1062,497,680,Medial vestibular nucleus,left
+639,2158,2415,1066,550,608,Gigantocellular reticular nucleus,left
+643,1985,2666,1060,507,665,Pons,left
+646,2312,2106,1071,587,547,Gigantocellular reticular nucleus,right
+648,2278,1731,1080,586,466,Intermediate reticular nucleus,right
+648,2522,1964,1069,638,520,Gigantocellular reticular nucleus,right
+650,1878,2638,1062,482,659,Subceruleus nucleus,left
+651,1728,2574,1070,447,643,Barrington's nucleus,left
+660,2333,2124,1064,591,551,crossed tectospinal pathway,right
+662,2537,2424,1050,634,610,"Pontine reticular nucleus, caudal part",left
+667,2165,2069,1063,552,536,Gigantocellular reticular nucleus,right
+669,2287,2066,1063,580,537,Gigantocellular reticular nucleus,right
+669,1550,1382,1106,421,382,superior cerebelar peduncles,right
+670,1664,1509,1092,447,409,Superior vestibular nucleus,right
+672,1764,2633,1058,455,655,Pontine central gray,left
+671,2768,2650,1024,692,661,"Superior olivary complex, medial part",left
+673,2285,1907,1066,582,502,Gigantocellular reticular nucleus,right
+678,1812,2636,1053,465,655,Sublaterodorsal nucleus,left
+679,2335,1805,1064,596,481,Intermediate reticular nucleus,right
+683,1746,2594,1055,449,645,Pontine central gray,left
+684,2122,1935,1060,541,505,"Pontine reticular nucleus, caudal part",right
+685,2148,1882,1062,548,493,"Pontine reticular nucleus, caudal part",right
+690,2647,1942,1043,664,511,"Pontine reticular nucleus, caudal part",right
+693,2188,2134,1049,556,549,crossed tectospinal pathway,right
+694,2206,2052,1051,560,531,"Pontine reticular nucleus, caudal part",right
+698,2201,1909,1054,559,500,"Pontine reticular nucleus, caudal part",right
+702,1929,2089,1051,493,536,Nucleus incertus,right
+713,1814,1390,1066,483,383,Pons,right
+713,2286,2075,1042,578,537,"Pontine reticular nucleus, caudal part",right
+719,2422,2530,1022,606,629,"Pontine reticular nucleus, caudal part",left
+722,2437,1815,1042,619,482,"Pontine reticular nucleus, caudal part",right
+729,1739,1440,1064,463,391,Parabrachial nucleus,right
+734,2466,2281,1023,613,578,Pons,left
+751,1994,2755,1009,501,677,"Pontine reticular nucleus, caudal part",left
+777,1419,2648,1032,368,650,Periaqueductal gray,left
+785,2285,2702,989,568,661,"Pontine reticular nucleus, caudal part",left
+794,1903,2352,1004,479,586,Superior central nucleus raphe,left
+797,2428,2174,997,605,553,Pons,right
+819,2314,2714,972,573,662,Pontine reticular nucleus,left
+823,1842,1732,1010,469,449,Pons,right
+830,2578,2727,954,637,666,Pontine reticular nucleus,left
+833,1255,2610,1015,328,640,Periaqueductal gray,left
+836,2136,2384,979,529,591,Superior central nucleus raphe,left
+844,1937,2747,971,478,666,Pontine reticular nucleus,left
+859,923,2774,1014,244,669,"Inferior colliculus, dorsal nucleus",left
+864,1100,2696,1004,287,657,Periaqueductal gray,left
+868,1221,2693,996,315,657,Periaqueductal gray,left
+869,1274,2655,995,329,648,Periaqueductal gray,left
+872,1391,2689,988,355,652,Periaqueductal gray,left
+874,1219,2567,995,316,629,Periaqueductal gray,left
+877,1220,2698,992,315,657,Periaqueductal gray,left
+877,1217,2677,993,314,652,Periaqueductal gray,left
+879,2428,2894,934,598,695,Pons,left
+883,1241,2618,989,320,640,Periaqueductal gray,left
+882,1296,2641,987,333,643,Periaqueductal gray,left
+885,1234,2613,989,318,639,Periaqueductal gray,left
+888,1270,2696,985,326,654,Periaqueductal gray,left
+887,1399,2680,980,356,649,Periaqueductal gray,left
+891,1299,2652,982,333,644,Periaqueductal gray,left
+893,1350,2647,981,345,642,Periaqueductal gray,left
+893,1374,2693,979,351,652,Periaqueductal gray,left
+894,1399,2680,977,356,648,Periaqueductal gray,left
+897,1320,2634,980,337,641,Periaqueductal gray,left
+897,1398,2677,977,356,647,Periaqueductal gray,left
+899,1301,2602,979,332,634,Periaqueductal gray,left
+901,2376,1971,953,589,504,Pontine reticular nucleus,right
+902,1301,2659,977,332,646,Periaqueductal gray,left
+906,1372,2590,974,347,630,Periaqueductal gray,left
+907,1326,2599,974,337,632,Periaqueductal gray,left
+908,1321,2620,974,336,637,Periaqueductal gray,left
+910,1399,2647,971,354,640,Periaqueductal gray,left
+919,1245,2719,970,318,657,Periaqueductal gray,left
+919,1324,2593,969,336,630,Periaqueductal gray,left
+920,1341,2583,969,340,628,Periaqueductal gray,left
+920,1320,2591,969,335,629,Periaqueductal gray,left
+918,1362,2617,969,345,634,Periaqueductal gray,left
+921,1724,1942,969,430,488,superior cerebelar peduncles,right
+925,1331,2585,967,337,628,Periaqueductal gray,left
+925,1399,2642,965,353,638,Periaqueductal gray,left
+926,1278,2038,984,332,503,Periaqueductal gray,right
+927,1315,2593,965,334,630,Periaqueductal gray,left
+930,1459,2502,962,363,608,Periaqueductal gray,left
+935,1394,2615,960,351,632,Periaqueductal gray,left
+938,1405,2636,958,353,636,Periaqueductal gray,left
+939,1373,2531,959,345,615,Periaqueductal gray,left
+939,1306,2574,960,330,625,Periaqueductal gray,left
+941,1370,2613,959,345,632,Periaqueductal gray,left
+941,1343,2548,960,339,619,Periaqueductal gray,left
+942,1402,2584,957,351,625,Periaqueductal gray,left
+946,1350,2518,957,339,612,Periaqueductal gray,left
+946,1388,2635,955,349,635,Periaqueductal gray,left
+953,1353,2574,954,340,623,Periaqueductal gray,left
+953,1416,2566,952,353,620,Periaqueductal gray,left
+953,2246,1970,935,552,498,Pontine reticular nucleus,right
+953,1317,2647,954,332,638,Periaqueductal gray,left
+951,1426,2489,953,355,605,Periaqueductal gray,left
+949,1473,2512,953,365,609,Periaqueductal gray,left
+954,1328,2596,953,335,627,Periaqueductal gray,left
+957,914,2427,972,238,587,Periaqueductal gray,left
+955,1380,2624,951,346,633,Periaqueductal gray,left
+958,1464,2443,951,362,595,Periaqueductal gray,left
+958,1320,2033,969,339,502,Periaqueductal gray,right
+960,1473,2491,948,364,604,Periaqueductal gray,left
+964,1449,2406,950,359,585,Periaqueductal gray,left
+966,1438,2565,946,357,619,Periaqueductal gray,left
+968,1375,2499,947,343,606,Periaqueductal gray,left
+968,1395,2625,945,348,632,Periaqueductal gray,left
+968,1559,2551,940,381,615,Midbrain reticular nucleus,left
+972,1380,2534,945,344,613,Periaqueductal gray,left
+973,1496,2531,942,368,611,Periaqueductal gray,left
+976,1375,2539,943,343,614,Periaqueductal gray,left
+980,856,2958,956,217,701,"Superior colliculus, motor related, intermediate white layer",left
+980,2244,1920,924,550,486,Pontine reticular nucleus,right
+979,1363,2602,941,340,626,Periaqueductal gray,left
+982,1305,2633,941,327,634,Periaqueductal gray,left
+986,1680,2728,924,408,651,Midbrain reticular nucleus,left
+986,1355,2613,939,338,629,Periaqueductal gray,left
+993,1433,2447,936,354,592,Supraoculomotor periaqueductal gray,left
+989,1008,3005,944,254,714,"Superior colliculus, motor related, intermediate white layer",left
+990,1201,2877,939,300,686,"Superior colliculus, motor related, deep gray layer",left
+1000,1356,2626,932,337,630,Periaqueductal gray,left
+1007,1467,3214,918,346,762,Midbrain reticular nucleus,left
+1021,1283,2823,924,318,673,Midbrain reticular nucleus,left
+1024,1755,1632,932,437,419,Pedunculopontine nucleus,right
+1034,1126,1769,954,291,439,Midbrain,right
+1033,1662,2765,906,400,656,Red nucleus,left
+1037,1485,2384,917,362,576,Midbrain,left
+1045,1718,2776,897,412,657,Red nucleus,left
+1045,1739,2794,895,417,662,Red nucleus,left
+1051,1788,2675,891,427,636,Red nucleus,left
+1059,2128,1849,892,516,463,Midbrain,right
+1064,1403,2731,904,342,648,Midbrain reticular nucleus,left
+1068,1546,2383,901,373,574,Edinger-Westphal nucleus,left
+1080,936,2454,914,237,584,Periaqueductal gray,left
+1080,1751,2708,881,416,642,Red nucleus,left
+1079,1353,2564,899,330,611,Periaqueductal gray,left
+1087,894,1669,939,235,411,"Superior colliculus, motor related, intermediate white layer",right
+1089,1516,2612,891,364,620,Midbrain reticular nucleus,left
+1092,949,1625,937,248,401,"Superior colliculus, motor related, intermediate white layer",right
+1092,1544,2541,889,370,605,Midbrain,left
+1095,963,2433,907,243,579,Periaqueductal gray,left
+1097,1699,2565,880,404,610,Midbrain reticular nucleus,left
+1107,869,1789,926,225,438,"Superior colliculus, motor related, intermediate white layer",right
+1105,1543,3153,877,361,747,Midbrain reticular nucleus,left
+1106,1726,3150,862,404,744,Midbrain reticular nucleus,left
+1108,948,1656,929,247,408,"Superior colliculus, motor related, intermediate white layer",right
+1114,1018,1616,926,263,399,"Superior colliculus, motor related, intermediate white layer",right
+1112,1634,3094,868,384,732,Midbrain reticular nucleus,left
+1115,961,1629,926,249,402,"Superior colliculus, motor related, intermediate white layer",right
+1115,1639,2566,875,389,609,Midbrain reticular nucleus,left
+1115,1724,3039,859,406,718,Midbrain reticular nucleus,left
+1119,1074,1720,918,273,422,"Superior colliculus, motor related, intermediate white layer",right
+1118,1583,2589,876,377,614,Midbrain reticular nucleus,left
+1121,946,1697,922,244,416,"Superior colliculus, motor related, intermediate white layer",right
+1124,994,1572,923,257,388,"Superior colliculus, motor related, intermediate gray layer",right
+1124,1053,1578,922,270,391,"Superior colliculus, motor related, intermediate white layer",right
+1122,1650,2557,872,391,606,Midbrain reticular nucleus,left
+1123,1641,2261,877,390,543,Midbrain reticular nucleus,right
+1125,1448,2640,877,347,625,Midbrain reticular nucleus,left
+1126,962,1637,921,248,403,"Superior colliculus, motor related, intermediate white layer",right
+1130,1059,1578,919,271,390,"Superior colliculus, motor related, intermediate white layer",right
+1130,1553,3021,865,367,714,Midbrain reticular nucleus,left
+1130,2011,2641,848,473,624,Ventral tegmental area,left
+1128,1737,3055,853,408,721,Midbrain reticular nucleus,left
+1128,1738,3056,852,409,721,Midbrain reticular nucleus,left
+1129,2048,2899,837,482,680,medial lemniscus,left
+1136,2006,2652,845,472,626,Ventral tegmental area,left
+1138,1395,3090,866,327,731,"Superior colliculus, motor related, intermediate white layer",left
+1135,1498,3055,865,353,722,Midbrain,left
+1137,2023,2641,845,476,624,Ventral tegmental area,left
+1139,2151,2930,828,504,686,Midbrain,left
+1139,1876,3047,836,440,716,Midbrain reticular nucleus,left
+1143,1047,1592,912,267,392,"Superior colliculus, motor related, intermediate white layer",right
+1143,1702,2447,861,401,581,Medial accesory oculomotor nucleus,left
+1141,1072,1558,914,273,386,"Superior colliculus, motor related, intermediate gray layer",right
+1147,996,1588,912,256,392,"Superior colliculus, motor related, intermediate gray layer",right
+1147,1719,2459,858,405,584,Midbrain,left
+1147,1797,2458,854,422,584,Midbrain,left
+1145,1681,2428,862,396,578,Periaqueductal gray,left
+1146,1890,2517,850,445,596,Midbrain,left
+1144,1936,2897,836,455,679,Red nucleus,left
+1148,1709,2462,858,402,584,Medial accesory oculomotor nucleus,left
+1148,1851,2587,849,435,611,Midbrain reticular nucleus,left
+1150,1665,2437,860,392,578,Periaqueductal gray,left
+1150,1913,2509,847,450,595,Midbrain,left
+1150,1712,2458,857,402,584,Medial accesory oculomotor nucleus,left
+1149,1668,2467,860,393,585,Nucleus of Darkschewitsch,left
+1151,1084,1678,904,274,412,"Superior colliculus, motor related, intermediate white layer",right
+1153,1682,2467,858,395,585,Midbrain,left
+1153,1876,2521,848,441,597,Midbrain reticular nucleus,left
+1153,1705,2530,856,401,599,Interstitial nucleus of Cajal,left
+1152,1910,2555,845,449,604,Midbrain reticular nucleus,left
+1154,1768,2468,852,416,585,Midbrain,left
+1154,1793,2461,852,421,583,Midbrain,left
+1157,1760,2431,853,413,577,Medial accesory oculomotor nucleus,left
+1158,1108,1640,902,280,403,"Superior colliculus, motor related, intermediate white layer",right
+1158,1693,2439,855,398,579,Periaqueductal gray,left
+1156,1901,2600,843,446,614,Midbrain reticular nucleus,left
+1160,1163,1612,900,293,396,"Superior colliculus, motor related, intermediate white layer",right
+1162,1383,3052,856,323,720,"Superior colliculus, motor related, intermediate white layer",left
+1162,1816,2941,834,427,691,Midbrain reticular nucleus,left
+1161,1939,2545,841,456,602,Midbrain,left
+1164,1735,2466,850,407,584,Medial accesory oculomotor nucleus,left
+1164,1729,2467,850,406,584,Medial accesory oculomotor nucleus,left
+1163,1744,2425,850,409,575,Edinger-Westphal nucleus,left
+1166,1971,2544,836,462,602,Midbrain,left
+1166,1270,1703,890,315,418,"Superior colliculus, motor related, intermediate white layer",right
+1167,1819,2479,844,426,587,Midbrain,left
+1168,1845,2442,844,432,578,Midbrain,left
+1169,1867,2438,843,437,579,Midbrain,left
+1169,1968,2491,837,462,590,Midbrain,left
+1172,1008,1722,896,255,419,"Superior colliculus, motor related, intermediate white layer",right
+1172,1903,2539,837,447,600,Midbrain reticular nucleus,left
+1172,2060,2654,826,482,625,Ventral tegmental area,left
+1172,1948,2578,834,457,609,Midbrain reticular nucleus,left
+1173,1954,2521,835,458,596,Midbrain,left
+1173,1155,1695,893,289,414,"Superior colliculus, motor related, intermediate white layer",right
+1175,1787,2469,842,418,584,Medial accesory oculomotor nucleus,left
+1174,1057,1614,898,267,396,"Superior colliculus, motor related, intermediate white layer",right
+1174,1889,2522,837,443,595,Midbrain,left
+1177,2047,2593,827,479,612,Midbrain,left
+1177,1423,3022,849,333,711,Midbrain,left
+1177,1918,2529,835,450,598,Midbrain,left
+1177,1930,2477,836,452,586,Midbrain,left
+1178,1817,2476,840,424,585,Midbrain,left
+1178,1834,2492,839,429,588,Midbrain,left
+1178,1921,2547,833,450,601,Midbrain reticular nucleus,left
+1179,1846,2514,837,432,594,Midbrain reticular nucleus,left
+1180,1842,2448,839,430,580,Medial accesory oculomotor nucleus,left
+1180,1852,2472,838,433,584,Midbrain,left
+1180,1738,2454,843,407,580,Periaqueductal gray,left
+1182,1769,2438,841,414,577,Medial accesory oculomotor nucleus,left
+1183,1968,2526,829,461,596,Midbrain,left
+1184,1865,2486,835,436,587,Midbrain,left
+1185,1661,2435,845,388,576,Nucleus of Darkschewitsch,left
+1187,1829,2453,835,428,580,Medial accesory oculomotor nucleus,left
+1187,1962,2563,826,459,605,Midbrain,left
+1187,1854,2460,834,434,581,Medial accesory oculomotor nucleus,left
+1186,1875,2477,834,438,585,Midbrain,left
+1186,2055,2646,821,480,623,Midbrain,left
+1188,1927,2505,830,450,591,Midbrain,left
+1188,1946,2534,828,455,598,Midbrain,left
+1189,1815,2471,836,424,583,Medial accesory oculomotor nucleus,left
+1189,2020,2547,824,473,601,Midbrain,left
+1190,1874,2502,832,438,590,Midbrain,left
+1190,1952,2510,828,456,593,Midbrain,left
+1192,1988,2502,825,466,591,Midbrain,left
+1192,1890,2503,830,442,591,Midbrain,left
+1193,1784,2460,836,417,581,Medial accesory oculomotor nucleus,left
+1193,1853,2452,833,433,579,Medial accesory oculomotor nucleus,left
+1193,1758,2448,837,411,579,Periaqueductal gray,left
+1193,1999,2521,824,468,595,Midbrain,left
+1193,2043,2549,821,478,602,Midbrain,left
+1191,1966,2534,825,460,598,Midbrain,left
+1195,2002,2508,823,468,593,Midbrain,left
+1196,1968,2556,823,461,602,Midbrain,left
+1196,1837,2486,831,428,586,Midbrain,left
+1196,2005,2543,821,469,600,Midbrain,left
+1196,2019,2547,821,472,600,Midbrain,left
+1197,1996,2592,820,467,610,Midbrain,left
+1197,2014,2527,822,471,596,Midbrain,left
+1198,2004,2740,815,468,642,Midbrain reticular nucleus,left
+1198,1886,2494,828,440,588,Midbrain,left
+1200,1849,2547,827,432,599,Midbrain reticular nucleus,left
+1200,1962,2493,824,458,589,Midbrain,left
+1200,2003,2560,819,469,603,Midbrain,left
+1200,2008,2547,819,470,600,Midbrain,left
+1201,1845,2485,829,431,586,Midbrain,left
+1199,1832,2445,831,427,577,Medial accesory oculomotor nucleus,left
+1202,1393,2940,838,325,690,Midbrain,left
+1202,1829,2441,830,427,576,Medial accesory oculomotor nucleus,left
+1202,1936,2535,823,452,597,Midbrain,left
+1202,1947,2532,822,455,596,Midbrain,left
+1202,2005,2579,818,469,607,Midbrain,left
+1202,2023,2618,816,473,616,Midbrain,left
+1202,2030,2672,814,474,627,Midbrain,left
+1202,1956,2573,820,457,606,Midbrain reticular nucleus,left
+1204,1983,2576,818,464,606,Midbrain,left
+1204,2049,2662,812,478,625,Midbrain,left
+1203,1841,2441,829,429,576,Medial accesory oculomotor nucleus,left
+1207,1469,1900,857,355,462,Midbrain reticular nucleus,right
+1207,1949,2607,817,456,612,Midbrain reticular nucleus,left
+1207,1903,2464,824,445,581,Medial accesory oculomotor nucleus,left
+1205,2025,2510,818,473,592,Midbrain,left
+1206,1969,2606,817,461,612,Midbrain reticular nucleus,left
+1208,1965,2569,817,459,604,Midbrain,left
+1209,1834,2453,827,428,579,Medial accesory oculomotor nucleus,left
+1209,1923,2513,821,450,592,Midbrain,left
+1209,2049,2714,809,477,636,Midbrain,left
+1210,1962,2607,816,458,612,Midbrain reticular nucleus,left
+1210,1983,3343,797,458,780,Zona incerta,left
+1210,1936,2656,816,452,623,Midbrain reticular nucleus,left
+1211,1844,2480,824,430,584,Medial accesory oculomotor nucleus,left
+1213,1881,2452,823,439,578,Medial accesory oculomotor nucleus,left
+1213,1857,2462,824,433,580,Medial accesory oculomotor nucleus,left
+1213,2010,2509,816,469,592,Midbrain,left
+1213,2093,2751,805,486,644,Midbrain,left
+1213,1864,2490,823,435,586,Medial accesory oculomotor nucleus,left
+1214,1977,2549,815,461,600,Midbrain,left
+1214,2002,2601,812,467,611,Midbrain,left
+1214,2000,2647,811,467,621,Midbrain,left
+1215,2003,2533,813,468,597,Midbrain,left
+1215,1167,1661,874,289,404,"Superior colliculus, motor related, intermediate white layer",right
+1215,1814,2469,824,423,582,Periaqueductal gray,left
+1215,2034,2670,808,474,626,Midbrain,left
+1215,2067,2762,804,479,646,Midbrain,left
+1217,1194,1632,874,296,397,"Superior colliculus, motor related, intermediate white layer",right
+1216,1980,2688,810,462,630,Midbrain reticular nucleus,left
+1218,1911,2468,819,446,582,Medial accesory oculomotor nucleus,left
+1218,1913,2457,819,447,579,Medial accesory oculomotor nucleus,left
+1218,1798,2464,824,419,580,Nucleus of Darkschewitsch,left
+1218,1946,2666,812,454,625,Midbrain reticular nucleus,left
+1218,2196,2737,798,507,641,Midbrain,left
+1220,2038,2527,810,476,595,Midbrain,left
+1220,2177,2721,798,503,638,Midbrain,left
+1220,1979,2644,809,462,620,Midbrain reticular nucleus,left
+1219,2219,2717,797,513,637,Midbrain,left
+1221,1925,2457,818,449,579,Midbrain,left
+1221,2190,2757,797,506,645,Midbrain,left
+1222,1974,2526,813,461,594,Midbrain,left
+1222,1979,2535,812,462,596,Midbrain,left
+1222,2023,2519,811,472,593,Midbrain,left
+1223,1838,2448,820,429,577,Periaqueductal gray,left
+1223,1995,2614,808,466,614,Midbrain,left
+1223,2200,2853,792,508,667,Midbrain,left
+1223,1973,2469,814,461,582,Midbrain,left
+1223,2013,2563,809,470,603,Midbrain,left
+1223,2017,2504,811,470,590,Midbrain,left
+1226,1857,2463,818,432,580,Medial accesory oculomotor nucleus,left
+1226,1906,2512,815,445,590,Midbrain,left
+1226,1834,2844,810,429,666,Midbrain reticular nucleus,left
+1226,2118,2703,799,491,634,Midbrain,left
+1226,2153,2746,796,498,643,Midbrain,left
+1225,2008,2532,810,469,595,Midbrain,left
+1225,2079,2667,802,483,625,Midbrain,left
+1225,1959,2515,813,458,592,Midbrain,left
+1227,1933,2540,812,452,597,Midbrain,left
+1227,1820,2456,819,424,578,Periaqueductal gray,left
+1227,1897,2756,808,442,645,Midbrain reticular nucleus,left
+1227,2026,2527,808,472,594,Midbrain,left
+1227,2033,2531,807,475,595,Midbrain,left
+1227,1959,2526,811,458,593,Midbrain,left
+1228,1902,2521,814,443,592,Midbrain,left
+1228,1915,2487,815,447,585,Midbrain,left
+1228,1875,2526,815,437,593,Midbrain,left
+1229,2070,2676,801,481,627,Midbrain,left
+1229,1871,2520,815,436,592,Midbrain,left
+1229,1845,2471,818,430,581,Periaqueductal gray,left
+1229,1928,2476,814,450,582,Midbrain,left
+1230,1880,2565,813,439,602,Midbrain reticular nucleus,left
+1230,2092,2764,796,484,647,Midbrain,left
+1230,2159,2899,789,499,677,Fields of Forel,left
+1231,1965,2578,807,459,605,Midbrain,left
+1231,1981,2563,807,462,602,Midbrain,left
+1231,2171,2712,793,501,635,Midbrain,left
+1233,1988,3438,785,456,798,Zona incerta,left
+1233,1908,2463,814,446,580,Midbrain,left
+1233,1981,2515,809,462,591,Midbrain,left
+1233,2106,2723,796,487,638,Midbrain,left
+1233,2190,2728,792,506,639,Midbrain,left
+1233,2172,2719,793,501,637,Midbrain,left
+1232,2143,2703,795,496,634,Midbrain,left
+1237,1932,2472,811,450,581,Midbrain,left
+1237,1919,2464,812,448,580,Midbrain,left
+1237,1901,2789,803,443,652,Midbrain reticular nucleus,left
+1237,1941,2477,811,453,582,Midbrain,left
+1237,2035,2787,796,472,651,Midbrain,left
+1237,2109,2644,796,489,620,Midbrain,left
+1237,2195,2690,791,507,631,Midbrain,left
+1235,1961,2507,809,458,589,Midbrain,left
+1235,2125,2721,793,492,637,Midbrain,left
+1234,1935,2487,811,452,584,Midbrain,left
+1236,1914,2478,812,447,583,Midbrain,left
+1236,1999,2523,806,467,593,Midbrain,left
+1236,2031,2527,805,473,593,Midbrain,left
+1236,2111,2539,800,490,598,fasciculus retroflexus,left
+1236,2174,2721,791,502,637,Midbrain,left
+1236,2197,2706,791,507,634,Midbrain,left
+1238,1849,2816,805,432,658,Midbrain reticular nucleus,left
+1238,2075,2700,796,481,632,Midbrain,left
+1238,1888,2561,809,441,600,Midbrain,left
+1238,2110,2676,795,489,627,Midbrain,left
+1238,2178,2704,790,503,634,Midbrain,left
+1239,1863,2695,806,435,631,Midbrain reticular nucleus,left
+1239,1875,2469,812,437,580,Periaqueductal gray,left
+1239,2160,2689,791,499,630,Midbrain,left
+1239,2041,2667,798,474,624,Midbrain,left
+1240,2016,2507,805,470,589,Midbrain,left
+1241,2161,2741,789,499,641,Midbrain,left
+1241,1955,2548,806,456,598,Midbrain,left
+1241,1975,2497,807,461,586,Midbrain,left
+1241,1880,2798,803,439,655,Midbrain reticular nucleus,left
+1241,1890,2756,803,441,644,Midbrain reticular nucleus,left
+1243,1874,2481,810,437,582,Periaqueductal gray,left
+1243,1969,2500,805,460,587,Midbrain,left
+1243,1992,2487,805,464,584,Midbrain,left
+1243,2194,2708,787,506,634,Midbrain,left
+1243,1887,2558,807,440,600,Midbrain,left
+1242,1915,2457,810,447,577,Periaqueductal gray,left
+1242,1878,2735,804,439,640,Midbrain reticular nucleus,left
+1242,1881,2547,808,438,597,Midbrain,left
+1244,1872,2795,802,436,653,Midbrain reticular nucleus,left
+1244,1886,2471,810,440,580,Periaqueductal gray,left
+1244,2102,2619,794,487,614,Midbrain,left
+1244,1887,2432,811,440,572,Periaqueductal gray,left
+1245,2031,2521,802,473,592,Midbrain,left
+1245,2113,2640,793,490,619,Midbrain,left
+1245,1928,2536,806,450,595,Midbrain,left
+1245,2114,2548,797,491,599,Midbrain,left
+1246,1887,2538,807,440,595,Midbrain,left
+1246,1857,2788,802,433,652,Midbrain reticular nucleus,left
+1247,2075,2524,798,483,593,Midbrain,left
+1247,2021,3147,781,466,732,Zona incerta,left
+1248,2087,2783,788,482,650,Midbrain,left
+1248,1827,2464,811,425,579,Periaqueductal gray,left
+1248,1837,2527,808,427,592,Periaqueductal gray,left
+1248,2039,2485,801,475,584,Midbrain,left
+1249,1385,2150,835,326,510,Midbrain,right
+1249,2000,2541,801,467,596,Midbrain,left
+1250,1838,2520,808,429,591,Periaqueductal gray,left
+1250,1899,2559,804,443,600,Midbrain,left
+1250,1909,2600,802,446,609,Midbrain,left
+1250,1924,2568,802,449,602,Midbrain,left
+1250,1959,2482,804,457,582,Midbrain,left
+1250,2049,2506,799,477,588,Midbrain,left
+1251,1970,2462,804,460,578,Midbrain,left
+1251,2020,2494,800,471,586,Midbrain,left
+1253,1083,2764,828,247,642,"Superior colliculus, motor related, intermediate gray layer",left
+1253,1975,2499,802,461,587,Midbrain,left
+1253,1995,2492,802,465,585,Midbrain,left
+1253,1995,2748,793,463,642,Midbrain,left
+1252,1684,3608,786,385,828,Intergeniculate leaflet of the lateral geniculate complex,left
+1252,1921,2560,802,448,600,Midbrain,left
+1252,1927,2550,802,449,597,Midbrain,left
+1252,1982,2458,804,462,578,Midbrain,left
+1256,2064,2486,797,481,584,Midbrain,left
+1256,1573,2559,815,364,600,Periaqueductal gray,left
+1256,2050,2511,797,477,589,Midbrain,left
+1256,2177,2732,782,501,638,Midbrain,left
+1256,2010,2479,800,469,582,Midbrain,left
+1254,2188,2675,784,505,626,Midbrain,left
+1254,1855,2474,807,432,581,Periaqueductal gray,left
+1254,1881,2501,805,438,586,Periaqueductal gray,left
+1254,1937,2488,803,452,584,Periaqueductal gray,left
+1254,2119,2562,792,492,601,Midbrain,left
+1254,2173,2685,784,502,628,Midbrain,left
+1254,2000,2540,799,466,595,Midbrain,left
+1257,1984,2492,801,463,584,Midbrain,left
+1257,1918,2806,794,447,655,Midbrain reticular nucleus,left
+1257,1946,3035,785,450,707,medial lemniscus,left
+1257,1978,2699,793,461,631,Midbrain,left
+1255,2055,2488,798,479,585,Midbrain,left
+1255,2165,2653,785,500,622,Midbrain,left
+1258,1794,2648,803,418,620,Midbrain reticular nucleus,left
+1258,1963,2688,793,457,628,Midbrain,left
+1258,1828,2461,806,426,577,Periaqueductal gray,left
+1258,1978,2464,801,462,579,Midbrain,left
+1258,2043,2508,796,476,589,Midbrain,left
+1259,1918,2554,799,448,598,Midbrain,left
+1259,2163,2647,784,500,619,Midbrain,left
+1260,2004,2502,798,468,586,Midbrain,left
+1260,2158,2626,785,499,615,Midbrain,left
+1260,2164,2656,783,500,621,Midbrain,left
+1260,2157,2664,783,498,624,Midbrain,left
+1261,1962,2910,787,454,678,Midbrain,left
+1261,2038,2499,796,475,587,Midbrain,left
+1261,1940,2555,798,453,598,Midbrain,left
+1263,1790,2572,802,416,602,Midbrain,left
+1263,1871,2490,802,436,583,Periaqueductal gray,left
+1263,1889,2707,795,440,632,Midbrain reticular nucleus,left
+1262,1915,2755,793,446,643,Midbrain reticular nucleus,left
+1264,1973,2492,798,461,584,Midbrain,left
+1264,1992,2468,798,464,579,Midbrain,left
+1264,2029,2488,796,473,584,Midbrain,left
+1264,1907,2515,800,444,589,Periaqueductal gray,left
+1264,1951,2769,790,453,646,Midbrain reticular nucleus,left
+1266,1761,2803,799,410,656,Midbrain reticular nucleus,left
+1266,1790,2657,800,416,621,Midbrain reticular nucleus,left
+1266,1815,2471,803,422,579,Periaqueductal gray,left
+1266,1858,2582,798,433,603,Midbrain,left
+1265,1958,2827,788,455,659,Midbrain,left
+1265,2039,2538,793,475,595,Midbrain,left
+1265,2055,2486,795,478,583,Midbrain,left
+1265,2061,2832,781,475,660,Midbrain,left
+1267,2096,2532,789,487,593,Posterior hypothalamic nucleus,left
+1269,2066,2556,790,480,598,Midbrain,left
+1269,1793,2634,799,418,616,Midbrain reticular nucleus,left
+1269,2170,2663,779,501,623,Midbrain,left
+1269,1140,3018,815,258,700,Nucleus of the optic tract,left
+1269,2110,2505,790,490,588,Posterior hypothalamic nucleus,left
+1269,2163,2502,787,501,587,Posterior hypothalamic nucleus,left
+1268,1788,2626,800,416,614,Midbrain reticular nucleus,left
+1268,2029,2502,794,473,586,Midbrain,left
+1268,2066,2505,792,480,587,Midbrain,left
+1268,1951,2751,789,453,642,Midbrain reticular nucleus,left
+1270,2072,2571,788,481,601,Midbrain,left
+1270,1882,2469,800,438,579,Periaqueductal gray,left
+1271,1877,2481,799,437,581,Periaqueductal gray,left
+1271,1794,2681,797,418,626,Midbrain reticular nucleus,left
+1271,2194,2678,776,506,626,Midbrain,left
+1272,1895,3408,772,433,789,Zona incerta,left
+1272,1863,2621,794,434,612,Midbrain,left
+1272,2011,2500,793,469,586,Midbrain,left
+1272,2161,2693,777,498,630,Midbrain,left
+1272,1806,2589,798,420,606,Midbrain,left
+1272,2152,2689,777,496,628,Midbrain,left
+1274,1927,3340,771,441,773,Zona incerta,left
+1273,2080,2580,786,483,604,Midbrain,left
+1275,1821,2508,798,423,587,Periaqueductal gray,left
+1275,1965,2504,793,458,586,Periaqueductal gray,left
+1275,2146,2551,783,497,597,Posterior hypothalamic nucleus,left
+1276,2006,2553,789,467,597,Midbrain,left
+1276,2156,2683,776,497,627,Midbrain,left
+1277,1870,2581,794,435,603,Midbrain,left
+1277,2042,2626,784,474,613,Midbrain,left
+1277,1870,2550,795,435,596,Periaqueductal gray,left
+1277,1931,2710,788,449,632,Midbrain reticular nucleus,left
+1280,1756,2634,796,407,616,Midbrain reticular nucleus,left
+1280,1966,2529,790,458,592,Midbrain,left
+1280,1941,2523,791,452,590,Periaqueductal gray,left
+1279,1779,2628,795,413,615,Midbrain,left
+1279,1940,2516,792,452,588,Periaqueductal gray,left
+1278,2063,2704,779,478,631,Midbrain,left
+1282,1682,2612,799,389,610,Midbrain,left
+1282,1915,2562,790,446,598,Midbrain,left
+1284,2070,2660,778,479,621,Midbrain,left
+1284,1736,2652,795,402,619,Midbrain reticular nucleus,left
+1284,2141,2676,774,493,624,Midbrain,left
+1284,2165,2574,777,500,603,Posterior hypothalamic nucleus,left
+1281,2078,3068,766,479,712,Fields of Forel,left
+1281,1928,2796,784,448,652,Midbrain,left
+1283,2117,2538,782,490,595,Posterior hypothalamic nucleus,left
+1283,1995,2699,781,463,630,Midbrain,left
+1283,2072,2635,779,480,615,Midbrain,left
+1283,2152,2668,773,496,623,Midbrain,left
+1285,1739,2104,805,407,499,Midbrain reticular nucleus,right
+1285,2123,2580,779,492,603,Posterior hypothalamic nucleus,left
+1285,2184,2708,770,502,632,Midbrain,left
+1286,1953,2528,788,456,591,Periaqueductal gray,left
+1287,2074,2529,782,482,592,Posterior hypothalamic nucleus,left
+1287,1745,2623,793,404,613,Midbrain,left
+1287,1762,2636,792,408,616,Midbrain,left
+1287,2018,2569,783,470,600,Midbrain,left
+1287,2073,2684,775,480,626,Midbrain,left
+1288,2062,2530,783,479,592,Posterior hypothalamic nucleus,left
+1288,1756,2689,792,407,628,Midbrain reticular nucleus,left
+1288,2118,2568,778,491,601,Posterior hypothalamic nucleus,left
+1289,1751,2628,793,406,614,Midbrain,left
+1289,1822,2614,790,423,611,Midbrain,left
+1289,2000,2524,786,466,590,Midbrain,left
+1289,2113,2548,780,490,596,Posterior hypothalamic nucleus,left
+1289,1935,2551,787,451,596,Midbrain,left
+1290,1778,2626,790,413,613,Midbrain,left
+1290,1712,2761,792,397,645,Midbrain reticular nucleus,left
+1290,1725,2528,794,399,591,Periaqueductal gray,left
+1290,2097,3037,761,482,703,Fields of Forel,left
+1290,1968,2524,786,459,590,Periaqueductal gray,left
+1291,1738,2639,791,403,617,Midbrain,left
+1291,2068,2614,777,479,610,Midbrain,left
+1291,2075,2542,780,482,594,Posterior hypothalamic nucleus,left
+1292,2108,2549,778,489,596,Posterior hypothalamic nucleus,left
+1292,1939,2565,785,452,599,fasciculus retroflexus,left
+1292,1720,2640,792,398,617,Midbrain,left
+1293,2178,2604,772,503,609,Posterior hypothalamic nucleus,left
+1293,2061,2535,781,478,593,Posterior hypothalamic nucleus,left
+1294,2085,2544,779,483,595,Posterior hypothalamic nucleus,left
+1295,1989,2532,783,463,591,Midbrain,left
+1295,1779,2672,787,413,623,Midbrain reticular nucleus,left
+1296,2052,2564,779,476,599,Midbrain,left
+1301,1782,2618,786,413,612,Midbrain,left
+1301,1752,2729,786,406,637,Midbrain reticular nucleus,left
+1301,1909,2537,784,444,592,Periaqueductal gray,left
+1301,1717,2673,788,397,624,Midbrain,left
+1301,2196,2684,763,504,626,Midbrain,left
+1297,1795,2569,788,416,600,Periaqueductal gray,left
+1297,1842,2312,792,428,542,Periaqueductal gray,right
+1297,1943,2709,779,451,632,Midbrain,left
+1297,2108,2540,777,489,594,Posterior hypothalamic nucleus,left
+1298,2078,2547,777,482,595,Posterior hypothalamic nucleus,left
+1300,1755,2639,787,406,616,Midbrain,left
+1300,1972,2736,775,456,637,Midbrain,left
+1300,1991,2734,774,460,637,Midbrain,left
+1299,1863,2569,784,433,600,Midbrain,left
+1299,2097,2620,772,484,611,Midbrain,left
+1302,2101,2649,769,485,618,Midbrain,left
+1302,1744,2538,788,404,593,Periaqueductal gray,left
+1302,1983,2596,778,461,605,Midbrain,left
+1303,1796,2575,784,416,601,Periaqueductal gray,left
+1304,1995,2616,775,463,609,Midbrain,left
+1304,2012,2608,775,466,608,Midbrain,left
+1304,2073,2551,775,481,595,Posterior hypothalamic nucleus,left
+1304,2153,2699,763,495,629,Midbrain,left
+1304,2110,2600,771,487,607,Posterior hypothalamic nucleus,left
+1305,2106,2596,771,486,605,Posterior hypothalamic nucleus,left
+1305,2119,2593,770,490,606,Posterior hypothalamic nucleus,left
+1306,2155,2694,762,495,628,Midbrain,left
+1306,1973,2583,777,459,603,Midbrain,left
+1306,1987,2600,776,461,606,Midbrain,left
+1306,2128,2575,770,492,601,Posterior hypothalamic nucleus,left
+1306,2111,2496,775,489,584,Posterior hypothalamic nucleus,left
+1308,1820,2496,784,422,582,Periaqueductal gray,left
+1308,1999,2623,773,464,612,Midbrain,left
+1309,2063,2558,773,478,597,Posterior hypothalamic nucleus,left
+1309,2097,2598,770,484,606,Midbrain,left
+1309,2040,2634,771,472,614,Midbrain,left
+1309,2053,2612,771,476,608,Midbrain,left
+1307,2155,2645,764,496,617,Midbrain,left
+1310,2083,2590,770,482,604,Midbrain,left
+1311,1976,2596,774,458,605,Midbrain,left
+1313,1967,2803,768,454,652,Midbrain,left
+1313,1969,2774,769,455,646,Midbrain,left
+1314,2026,2686,767,468,625,Midbrain,left
+1314,2018,2630,769,467,613,Midbrain,left
+1314,2084,2602,768,482,606,Midbrain,left
+1316,1969,2633,771,456,614,Midbrain,left
+1315,1983,2771,766,458,644,Midbrain,left
+1315,2001,2630,770,463,612,Midbrain,left
+1315,1990,2743,767,459,639,Midbrain,left
+1315,2007,2576,772,465,600,Midbrain,left
+1317,2139,1716,787,505,419,Zona incerta,right
+1317,2004,2657,768,464,618,Midbrain,left
+1320,2019,2738,763,465,637,Midbrain,left
+1321,2005,2672,766,463,621,Midbrain,left
+1324,2041,2672,763,470,621,Thalamus,left
+1323,2051,2656,763,473,618,"Subparafascicular nucleus, magnocellular part",left
+1322,2181,3097,742,500,713,Zona incerta,left
+1325,2029,2725,761,468,634,Midbrain,left
+1331,2195,3034,738,503,699,Zona incerta,left
+1333,2122,2723,752,486,633,Midbrain,left
+1345,2277,3041,730,521,699,Zona incerta,left
+1356,2215,3024,728,507,695,Ventral medial nucleus of the thalamus,left
+1359,2239,3022,725,512,694,Zona incerta,left
+1360,2281,2912,726,520,670,Ventral medial nucleus of the thalamus,left
+1361,2624,2044,737,612,486,Lateral hypothalamic area,right
+1365,2239,2971,725,512,683,Ventral medial nucleus of the thalamus,left
+1365,2211,3121,723,506,714,Zona incerta,left
+1368,2231,3046,722,510,698,Zona incerta,left
+1372,2312,2782,724,525,641,Ventral medial nucleus of the thalamus,left
+1378,2279,2866,720,519,660,Ventral medial nucleus of the thalamus,left
+1379,2610,3145,699,595,719,Lateral hypothalamic area,left
+1381,2265,2963,717,517,681,Ventral medial nucleus of the thalamus,left
+1384,2319,2954,714,529,678,Zona incerta,left
+1385,2276,2967,715,519,680,Ventral medial nucleus of the thalamus,left
+1386,2307,2909,715,525,668,Ventral medial nucleus of the thalamus,left
+1389,2613,2353,720,600,548,Posterior hypothalamic nucleus,right
+1394,2290,2932,711,521,672,Ventral medial nucleus of the thalamus,left
+1396,2317,2991,708,528,684,Zona incerta,left
+1396,2294,2973,709,523,681,Ventral medial nucleus of the thalamus,left
+1397,2332,2856,711,530,656,Ventral medial nucleus of the thalamus,left
+1405,2312,2934,706,526,672,Ventral medial nucleus of the thalamus,left
+1412,2292,2985,703,521,682,Ventral medial nucleus of the thalamus,left
+1543,3085,2486,620,697,568,Hypothalamus,right
+1586,542,3369,671,116,757,"Primary somatosensory area, trunk, layer 5",left
+1655,632,3490,632,137,771,"Primary somatosensory area, lower limb, layer 5",left
+1670,559,3267,632,118,720,"Primary somatosensory area, lower limb, layer 5",left
+1688,629,3416,619,136,751,"Primary somatosensory area, lower limb, layer 5",left
+1722,739,3438,601,159,749,"Primary somatosensory area, lower limb, layer 5",left
+1773,590,3134,584,118,680,"Primary motor area, Layer 5",left
+1781,789,3467,573,165,750,"Primary somatosensory area, lower limb, layer 5",left
+1832,2972,2693,495,655,595,Anteroventral periventricular nucleus,left
+1850,710,3248,550,140,699,"Primary motor area, Layer 5",left
+1890,998,3445,519,203,737,"Primary motor area, Layer 6a",left
+1930,973,3482,506,192,740,"Primary motor area, Layer 5",left
+2006,1078,3327,474,211,704,"Primary motor area, Layer 6a",left
+2011,1081,3323,472,210,703,"Primary motor area, Layer 6a",left
+2012,1073,3322,473,209,702,"Primary motor area, Layer 6a",left
+2111,1608,3935,370,320,818,"Primary motor area, Layer 6a",left
+2185,2148,3240,341,437,681,"Orbital area, lateral part, layer 5",left
+2245,2212,3006,320,452,629,Dorsal peduncular area,left
+2270,1885,3006,310,369,626,"Orbital area, medial part, layer 5",left
+2275,1673,3824,293,323,784,"Secondary motor area, layer 5",left
+2278,1886,3001,306,368,624,"Orbital area, medial part, layer 5",left
+2506,1774,3834,155,321,761,Main olfactory bulb,left
+2733,2702,3467,45,589,684,olfactory nerve layer of main olfactory bulb,left
+2733,2697,3482,44,587,687,olfactory nerve layer of main olfactory bulb,left
+2735,2695,3484,41,587,687,olfactory nerve layer of main olfactory bulb,left
+2741,2102,2952,114,432,566,olfactory nerve layer of main olfactory bulb,right
+2743,2685,3494,35,583,688,olfactory nerve layer of main olfactory bulb,left
+2749,2596,3482,38,556,680,olfactory nerve layer of main olfactory bulb,left
+2749,2678,3500,31,582,689,olfactory nerve layer of main olfactory bulb,left
+2754,2676,3476,30,580,682,olfactory nerve layer of main olfactory bulb,left
+2750,2692,3493,30,585,688,olfactory nerve layer of main olfactory bulb,left
+2753,2689,3499,28,584,689,olfactory nerve layer of main olfactory bulb,left
+2759,2689,3487,24,584,685,olfactory nerve layer of main olfactory bulb,left
+2758,2673,3481,26,580,683,olfactory nerve layer of main olfactory bulb,left
+2765,2673,3486,22,579,684,olfactory nerve layer of main olfactory bulb,left
+2765,2458,2918,77,540,560,olfactory nerve layer of main olfactory bulb,right
+2765,2679,3480,22,581,683,olfactory nerve layer of main olfactory bulb,left
+2762,2661,3507,22,574,688,olfactory nerve layer of main olfactory bulb,left
+2763,2462,2927,77,540,561,olfactory nerve layer of main olfactory bulb,right
+2774,2667,3498,13,575,686,olfactory nerve layer of main olfactory bulb,left
+2789,1352,3089,-32,194,599,Declive (VI),left
+2790,1401,3086,-29,206,597,Declive (VI),left
+2801,1444,3141,-39,212,607,Declive (VI),left
+2804,1444,3142,-41,212,606,Declive (VI),left
+2805,1553,4148,-68,234,815,Crus 2,left
+2806,1560,4148,-69,235,815,Crus 2,left
+2895,1428,3799,-88,201,740,Crus 1,left
+2903,1435,3797,-91,203,739,Crus 1,left
+2908,1440,3804,-92,204,741,Crus 1,left
+2905,1438,3797,-91,204,739,Crus 1,left
+2913,1448,3794,-94,206,739,Crus 1,left
+2910,1459,3790,-93,208,738,Crus 1,left
+2919,1468,3792,-96,211,737,Crus 1,left
+2912,1456,3791,-94,207,738,Crus 1,left
+2922,2318,2418,15,483,447,olfactory nerve layer of main olfactory bulb,right
+2922,1654,3095,-49,271,585,arbor vitae,left
+2929,1461,3785,-99,208,736,Crus 1,left
+2929,2313,2459,15,484,455,Olfactory areas,right
+2936,1502,3795,-102,218,737,Crus 1,left
+2933,1405,3612,-97,196,699,arbor vitae,left
+2933,1457,3791,-100,207,737,Crus 1,left
+2931,1689,3098,-49,282,585,Folium-tuber vermis (VII),left
+2934,1485,3797,-101,214,738,Crus 1,left
+2934,2307,2450,12,480,452,Olfactory areas,right
+2934,1465,3796,-100,210,738,Crus 1,left
+2935,1379,3472,-97,190,669,Declive (VI),left
+2935,1381,3489,-97,190,673,Declive (VI),left
+2937,1508,3799,-102,221,738,arbor vitae,left
+2939,1576,3182,-75,244,604,Declive (VI),left
+2939,1382,3500,-98,190,675,Declive (VI),left
+2939,1388,3470,-97,193,669,Declive (VI),left
+2940,1513,3805,-103,222,739,arbor vitae,left
+2946,1536,3831,-105,226,744,arbor vitae,left
+2948,1744,3465,-83,287,664,Declive (VI),left
+2943,1403,3489,-99,196,673,Declive (VI),left
+2945,1522,3827,-105,223,743,Crus 1,left
+2950,1538,3573,-100,230,690,Declive (VI),left
+2954,1801,2645,15,321,485,Olfactory areas,right
