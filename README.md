@@ -1,12 +1,15 @@
 # Braintracer
 Braintracer is a processing pipeline extension for the BrainGlobe API. It enables high-throughput processing with cellfinder, quantifies cell positions and produces figures for visualising cell distributions across datasets.
 
+NOTE:  
+Braintracer has been tested on Windows 10 Enterprise (22H2) only. It should also work on macOS and Linux using bt.sh instead of bt.bat, although the shell script has not been maintained recently. Python 3.11 is required.
+
 ---
 ## Installation
 First, install Anaconda or Miniconda on your machine.  
 Open Anaconda Prompt.  
 Create a Python environment and install braintracer:  
-`conda create -n env_name python=3.10.6`  
+`conda create -n env_name python=3.11.13`  
 `conda activate env_name`  
 `pip install braintracer`  
 
@@ -26,7 +29,7 @@ Add your data into your working directory as follows:
 │   ├── DatasetName2
 ```
 
-As you can see, for now `bt.bat` and `bt_visualiser.py` must be copied into the working directory.  
+`bt.bat` and `bt_visualiser.py` must be copied into the working directory.  
 On Windows, these files are found here:  
 `Users/USERNAME/miniconda3/envs/ENV_NAME/Lib/site-packages/braintracer/braintracer`  
 
@@ -41,7 +44,7 @@ To generate the braintracer directory structure inside `WorkingDirectory`:
 • Open Anaconda Prompt  
 • Activate your environment: `conda activate env_name`  
 • Navigate to `WorkingDirectory`  
-• Run the braintracer pre-processing tool: `bt.bat`  
+• Run the braintracer pre-processing tool: `bt.bat` (or `sh bt.sh` on macOS/Linux - not maintained)  
 • The tool can then be closed - the directories are generated immediately  
 
 ---
@@ -52,7 +55,7 @@ braintracer has two main workflows - pre-processing and visualisation.
 • Open Anaconda Prompt  
 • Activate your environment: `conda activate env_name`  
 • Navigate to `WorkingDirectory`  
-• Run the braintracer pre-processing tool: `bt.bat`  
+• Run the braintracer pre-processing tool: `bt.bat` (or `sh bt.sh` on macOS/Linux - not maintained)  
 • Follow the instructions in the terminal  
 
 If you already have a .csv from cellfinder containing cell coordinates, follow the above steps but answer `y` when asked `Do results already exist ready for copying?`  
