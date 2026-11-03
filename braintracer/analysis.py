@@ -33,7 +33,7 @@ from matplotlib import colors
 from itertools import chain
 
 # editable values
-atlas_name				= 'allen_mouse_io_10um' # alt: allen_mouse_io_10um allen_mouse_10um
+atlas_name				= 'allen_mouse_10um' # alt: allen_mouse_io_10um allen_mouse_10um
 postsyn_region			= None # You must set a starter region to use some features
 postsyn_ch				= '' # You must set the channel(s) containing starter cells (postsynaptics)
 presyn_ch				= '' # And the channel(s) containing input cells (presynaptics)
